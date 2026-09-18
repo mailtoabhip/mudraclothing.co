@@ -1,0 +1,1277 @@
+{
+  "currency": "INR",
+  "products": [
+    {
+      "id": "face-card",
+      "name": "Face Card",
+      "series": "y2k",
+      "seriesLabel": "Y2K",
+      "colour": "black bone blue sage",
+      "print": "back",
+      "price": 1199,
+      "badge": null,
+      "sizes": [
+        {
+          "size": "S",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "M",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "L",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XXL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        }
+      ],
+      "media": [
+        {
+          "type": "img",
+          "src": "assets/img/products/face-card-snooker.jpg",
+          "alt": "Face Card tee, full back print in a snooker parlour"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/face-card-doorway.jpg",
+          "alt": "Face Card tee, chest print in an old club doorway"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/face-card-back.jpg",
+          "alt": "Face Card back print artwork"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/face-card-front.jpg",
+          "alt": "Face Card chest print artwork"
+        }
+      ],
+      "colours": [
+        {
+          "key": "black",
+          "name": "Black",
+          "hex": "#1A1A1A"
+        },
+        {
+          "key": "bone",
+          "name": "Bone",
+          "hex": "#EDE9E0"
+        },
+        {
+          "key": "blue",
+          "name": "Electric Blue",
+          "hex": "#2B3AFF"
+        },
+        {
+          "key": "sage",
+          "name": "Sage",
+          "hex": "#C3D3C0"
+        }
+      ]
+    },
+    {
+      "id": "neo-bombay",
+      "name": "Neo Bombay",
+      "series": "y2k",
+      "seriesLabel": "Y2K",
+      "colour": "black bone magenta sky",
+      "print": "back",
+      "price": 1199,
+      "badge": {
+        "type": "new",
+        "label": "New"
+      },
+      "sizes": [
+        {
+          "size": "S",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "M",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "L",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XXL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        }
+      ],
+      "media": [
+        {
+          "type": "img",
+          "src": "assets/img/products/neo-back.jpg",
+          "alt": "Neo Bombay tee, full back print at Marine Drive"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/neo-front.jpg",
+          "alt": "Neo Bombay tee, chest print, Bombay street at dusk"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/neo-seated.jpg",
+          "alt": "Neo Bombay tee worn seated by the sea wall"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/neo-flat.jpg",
+          "alt": "Neo Bombay tee, front and back laid flat"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/neo-bombay-back.jpg",
+          "alt": "Neo Bombay back print artwork"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/neo-bombay-front.jpg",
+          "alt": "Neo Bombay chest print artwork"
+        }
+      ],
+      "colours": [
+        {
+          "key": "black",
+          "name": "Black",
+          "hex": "#1A1A1A"
+        },
+        {
+          "key": "bone",
+          "name": "Bone",
+          "hex": "#EDE9E0"
+        },
+        {
+          "key": "magenta",
+          "name": "Fluoro Magenta",
+          "hex": "#FF2D78"
+        },
+        {
+          "key": "sky",
+          "name": "Sky",
+          "hex": "#BBD4E8"
+        }
+      ]
+    },
+    {
+      "id": "dilli-belly",
+      "name": "Dilli Belly",
+      "series": "food",
+      "seriesLabel": "Food",
+      "colour": "black bone lime butter",
+      "print": "back",
+      "price": 1199,
+      "badge": null,
+      "sizes": [
+        {
+          "size": "S",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "M",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "L",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XXL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        }
+      ],
+      "media": [
+        {
+          "type": "img",
+          "src": "assets/img/products/dilli-belly-lane.jpg",
+          "alt": "Dilli Belly tee, full back print in an Old Delhi lane"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/dilli-belly-stall.jpg",
+          "alt": "Dilli Belly tee, chest print outside a paratha stall"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/dilli-belly-seated.jpg",
+          "alt": "Dilli Belly tee worn seated on haveli steps"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/dilli-belly-hanger-back.jpg",
+          "alt": "Dilli Belly tee on a hanger, back print"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/dilli-belly-hanger-front.jpg",
+          "alt": "Dilli Belly tee on a hanger, chest print"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/dilli-belly-back.jpg",
+          "alt": "Dilli Belly back print artwork"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/dilli-belly-front.jpg",
+          "alt": "Dilli Belly chest print artwork"
+        }
+      ],
+      "colours": [
+        {
+          "key": "black",
+          "name": "Black",
+          "hex": "#1A1A1A"
+        },
+        {
+          "key": "bone",
+          "name": "Bone",
+          "hex": "#EDE9E0"
+        },
+        {
+          "key": "lime",
+          "name": "Fluoro Lime",
+          "hex": "#CCFF00"
+        },
+        {
+          "key": "butter",
+          "name": "Butter",
+          "hex": "#F2E3B0"
+        }
+      ]
+    },
+    {
+      "id": "bombay-bhook",
+      "name": "Bombay Bhook",
+      "series": "food",
+      "seriesLabel": "Food",
+      "colour": "black bone blue peach",
+      "print": "back",
+      "price": 1199,
+      "badge": null,
+      "sizes": [
+        {
+          "size": "S",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "M",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "L",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XXL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        }
+      ],
+      "media": [
+        {
+          "type": "img",
+          "src": "assets/img/products/bombay-bhook-cart.jpg",
+          "alt": "Bombay Bhook tee, full back print beside a vada pav cart"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/bombay-bhook-platform.jpg",
+          "alt": "Bombay Bhook tee, chest print on a Mumbai local platform"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/bombay-bhook-rooftop.jpg",
+          "alt": "Bombay Bhook tee worn seated above the city"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/bombay-bhook-chair.jpg",
+          "alt": "Bombay Bhook tee draped on a white chair, back print"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/bombay-bhook-back.jpg",
+          "alt": "Bombay Bhook back print artwork"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/bombay-bhook-front.jpg",
+          "alt": "Bombay Bhook chest print artwork"
+        }
+      ],
+      "colours": [
+        {
+          "key": "black",
+          "name": "Black",
+          "hex": "#1A1A1A"
+        },
+        {
+          "key": "bone",
+          "name": "Bone",
+          "hex": "#EDE9E0"
+        },
+        {
+          "key": "blue",
+          "name": "Electric Blue",
+          "hex": "#2B3AFF"
+        },
+        {
+          "key": "peach",
+          "name": "Peach",
+          "hex": "#F5CDB6"
+        }
+      ]
+    },
+    {
+      "id": "namma-hotte",
+      "name": "Namma Hotte",
+      "series": "food",
+      "seriesLabel": "Food",
+      "colour": "black bone lime mint",
+      "print": "back",
+      "price": 1199,
+      "badge": null,
+      "sizes": [
+        {
+          "size": "S",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "M",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "L",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XXL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        }
+      ],
+      "media": [
+        {
+          "type": "img",
+          "src": "assets/img/products/namma-hotte-avenue.jpg",
+          "alt": "Namma Hotte tee, full back print on a rain tree avenue"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/namma-hotte-darshini.jpg",
+          "alt": "Namma Hotte tee, chest print outside a darshini"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/namma-hotte-park.jpg",
+          "alt": "Namma Hotte tee worn seated on a Cubbon Park bench"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/namma-hotte-hanger-back.jpg",
+          "alt": "Namma Hotte tee on a hanger, back print"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/namma-hotte-hanger-front.jpg",
+          "alt": "Namma Hotte tee on a hanger, chest print"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/namma-hotte-back.jpg",
+          "alt": "Namma Hotte back print artwork"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/namma-hotte-front.jpg",
+          "alt": "Namma Hotte chest print artwork"
+        }
+      ],
+      "colours": [
+        {
+          "key": "black",
+          "name": "Black",
+          "hex": "#1A1A1A"
+        },
+        {
+          "key": "bone",
+          "name": "Bone",
+          "hex": "#EDE9E0"
+        },
+        {
+          "key": "lime",
+          "name": "Fluoro Lime",
+          "hex": "#CCFF00"
+        },
+        {
+          "key": "mint",
+          "name": "Mint",
+          "hex": "#B8E0D2"
+        }
+      ]
+    },
+    {
+      "id": "pet-pujo",
+      "name": "Pet Pujo",
+      "series": "food",
+      "seriesLabel": "Food",
+      "colour": "black bone magenta rose",
+      "print": "back",
+      "price": 1199,
+      "badge": {
+        "type": "low",
+        "label": "Last few"
+      },
+      "sizes": [
+        {
+          "size": "S",
+          "available": false,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "M",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "L",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XXL",
+          "available": false,
+          "variantId": "REPLACE_ME"
+        }
+      ],
+      "media": [
+        {
+          "type": "img",
+          "src": "assets/img/products/pet-pujo-lane.jpg",
+          "alt": "Pet Pujo tee, full back print in a North Kolkata lane"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/pet-pujo-taxi.jpg",
+          "alt": "Pet Pujo tee, chest print beside a yellow Ambassador taxi"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/pet-pujo-ghat.jpg",
+          "alt": "Pet Pujo tee worn crouched at Prinsep Ghat"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/pet-pujo-hanger-back.jpg",
+          "alt": "Pet Pujo tee on a hanger, back print"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/pet-pujo-hanger-front.jpg",
+          "alt": "Pet Pujo tee on a hanger, chest print"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/pet-pujo-back.jpg",
+          "alt": "Pet Pujo back print artwork"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/pet-pujo-front.jpg",
+          "alt": "Pet Pujo chest print artwork"
+        }
+      ],
+      "colours": [
+        {
+          "key": "black",
+          "name": "Black",
+          "hex": "#1A1A1A"
+        },
+        {
+          "key": "bone",
+          "name": "Bone",
+          "hex": "#EDE9E0"
+        },
+        {
+          "key": "magenta",
+          "name": "Fluoro Magenta",
+          "hex": "#FF2D78"
+        },
+        {
+          "key": "rose",
+          "name": "Rose",
+          "hex": "#E8C4CC"
+        }
+      ]
+    },
+    {
+      "id": "calcutta-wb02",
+      "name": "Calcutta WB 02",
+      "series": "city",
+      "seriesLabel": "City",
+      "colour": "black bone blue clay",
+      "print": "back",
+      "price": 1199,
+      "badge": null,
+      "sizes": [
+        {
+          "size": "S",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "M",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "L",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XXL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        }
+      ],
+      "media": [
+        {
+          "type": "img",
+          "src": "assets/img/products/calcutta-wb02-back.jpg",
+          "alt": "Calcutta WB 02 \u2014 Calcutta plate and skyline, full back print"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/calcutta-wb02-front.jpg",
+          "alt": "Calcutta WB 02 \u2014 WB 02 plate chest print"
+        }
+      ],
+      "colours": [
+        {
+          "key": "black",
+          "name": "Black",
+          "hex": "#1A1A1A"
+        },
+        {
+          "key": "bone",
+          "name": "Bone",
+          "hex": "#EDE9E0"
+        },
+        {
+          "key": "blue",
+          "name": "Electric Blue",
+          "hex": "#2B3AFF"
+        },
+        {
+          "key": "clay",
+          "name": "Clay",
+          "hex": "#E0C3B4"
+        }
+      ]
+    },
+    {
+      "id": "delhi-dl01",
+      "name": "Delhi DL 01",
+      "series": "city",
+      "seriesLabel": "City",
+      "colour": "black bone magenta sand",
+      "print": "back",
+      "price": 1199,
+      "badge": null,
+      "sizes": [
+        {
+          "size": "S",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "M",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "L",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XXL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        }
+      ],
+      "media": [
+        {
+          "type": "img",
+          "src": "assets/img/products/delhi-dl01-back.jpg",
+          "alt": "Delhi DL 01 \u2014 Delhi plate and skyline, full back print"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/delhi-dl01-front.jpg",
+          "alt": "Delhi DL 01 \u2014 DL 01 plate chest print"
+        }
+      ],
+      "colours": [
+        {
+          "key": "black",
+          "name": "Black",
+          "hex": "#1A1A1A"
+        },
+        {
+          "key": "bone",
+          "name": "Bone",
+          "hex": "#EDE9E0"
+        },
+        {
+          "key": "magenta",
+          "name": "Fluoro Magenta",
+          "hex": "#FF2D78"
+        },
+        {
+          "key": "sand",
+          "name": "Sand",
+          "hex": "#E4D5B7"
+        }
+      ]
+    },
+    {
+      "id": "bengaluru-ka01",
+      "name": "Bengaluru KA 01",
+      "series": "city",
+      "seriesLabel": "City",
+      "colour": "black bone lime stone",
+      "print": "back",
+      "price": 1199,
+      "badge": null,
+      "sizes": [
+        {
+          "size": "S",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "M",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "L",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XXL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        }
+      ],
+      "media": [
+        {
+          "type": "img",
+          "src": "assets/img/products/bengaluru-ka01-back.jpg",
+          "alt": "Bengaluru KA 01 \u2014 Bengaluru plate and skyline, full back print"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/bengaluru-ka01-front.jpg",
+          "alt": "Bengaluru KA 01 \u2014 KA 01 plate chest print"
+        }
+      ],
+      "colours": [
+        {
+          "key": "black",
+          "name": "Black",
+          "hex": "#1A1A1A"
+        },
+        {
+          "key": "bone",
+          "name": "Bone",
+          "hex": "#EDE9E0"
+        },
+        {
+          "key": "lime",
+          "name": "Fluoro Lime",
+          "hex": "#CCFF00"
+        },
+        {
+          "key": "stone",
+          "name": "Stone",
+          "hex": "#D5D2CB"
+        }
+      ]
+    },
+    {
+      "id": "not-responding",
+      "name": "Not Responding",
+      "series": "y2k",
+      "seriesLabel": "Y2K",
+      "colour": "black bone blue periwinkle",
+      "print": "back",
+      "price": 1199,
+      "badge": null,
+      "sizes": [
+        {
+          "size": "S",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "M",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "L",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XXL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        }
+      ],
+      "media": [
+        {
+          "type": "img",
+          "src": "assets/img/products/not-responding-back.jpg",
+          "alt": "Not Responding \u2014 Crashed dialog boxes, full back print"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/not-responding-front.jpg",
+          "alt": "Not Responding \u2014 brb dialog chest print"
+        }
+      ],
+      "colours": [
+        {
+          "key": "black",
+          "name": "Black",
+          "hex": "#1A1A1A"
+        },
+        {
+          "key": "bone",
+          "name": "Bone",
+          "hex": "#EDE9E0"
+        },
+        {
+          "key": "blue",
+          "name": "Electric Blue",
+          "hex": "#2B3AFF"
+        },
+        {
+          "key": "periwinkle",
+          "name": "Periwinkle",
+          "hex": "#C5CAE9"
+        }
+      ]
+    },
+    {
+      "id": "on-repeat",
+      "name": "On Repeat",
+      "series": "music",
+      "seriesLabel": "Music",
+      "colour": "black bone blue lilac",
+      "print": "back",
+      "price": 1199,
+      "badge": null,
+      "sizes": [
+        {
+          "size": "S",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "M",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "L",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XXL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        }
+      ],
+      "media": [
+        {
+          "type": "img",
+          "src": "assets/img/products/on-repeat-back.jpg",
+          "alt": "On Repeat \u2014 Retro media player and playlist, full back print"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/on-repeat-front.jpg",
+          "alt": "On Repeat \u2014 Transport bar chest print"
+        }
+      ],
+      "colours": [
+        {
+          "key": "black",
+          "name": "Black",
+          "hex": "#1A1A1A"
+        },
+        {
+          "key": "bone",
+          "name": "Bone",
+          "hex": "#EDE9E0"
+        },
+        {
+          "key": "blue",
+          "name": "Electric Blue",
+          "hex": "#2B3AFF"
+        },
+        {
+          "key": "lilac",
+          "name": "Lilac",
+          "hex": "#C9BEE3"
+        }
+      ]
+    },
+    {
+      "id": "set-03",
+      "name": "Set 03",
+      "series": "gym",
+      "seriesLabel": "Gym",
+      "colour": "black bone magenta aqua",
+      "print": "back",
+      "price": 1199,
+      "badge": null,
+      "sizes": [
+        {
+          "size": "S",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "M",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "L",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XXL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        }
+      ],
+      "media": [
+        {
+          "type": "img",
+          "src": "assets/img/products/set-03-back.jpg",
+          "alt": "Set 03 \u2014 Training log and barbell, full back print"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/set-03-front.jpg",
+          "alt": "Set 03 \u2014 Checkbox stack and dumbbell chest print"
+        }
+      ],
+      "colours": [
+        {
+          "key": "black",
+          "name": "Black",
+          "hex": "#1A1A1A"
+        },
+        {
+          "key": "bone",
+          "name": "Bone",
+          "hex": "#EDE9E0"
+        },
+        {
+          "key": "magenta",
+          "name": "Fluoro Magenta",
+          "hex": "#FF2D78"
+        },
+        {
+          "key": "aqua",
+          "name": "Aqua",
+          "hex": "#BCE3E0"
+        }
+      ]
+    },
+    {
+      "id": "atlas",
+      "name": "Atlas",
+      "series": "gym",
+      "seriesLabel": "Gym",
+      "colour": "black bone blue stone sage",
+      "print": "back",
+      "price": 1199,
+      "badge": null,
+      "sizes": [
+        {
+          "size": "S",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "M",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "L",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XXL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        }
+      ],
+      "media": [
+        {
+          "type": "img",
+          "src": "assets/img/products/atlas-back.jpg",
+          "alt": "Atlas \u2014 Atlas specimen card, full back print"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/atlas-front.jpg",
+          "alt": "Atlas \u2014 Atlas card chest print"
+        }
+      ],
+      "colours": [
+        {
+          "key": "black",
+          "name": "Black",
+          "hex": "#1A1A1A"
+        },
+        {
+          "key": "bone",
+          "name": "Bone",
+          "hex": "#EDE9E0"
+        },
+        {
+          "key": "blue",
+          "name": "Electric Blue",
+          "hex": "#2B3AFF"
+        },
+        {
+          "key": "stone",
+          "name": "Stone",
+          "hex": "#D5D2CB"
+        },
+        {
+          "key": "sage",
+          "name": "Sage",
+          "hex": "#C3D3C0"
+        }
+      ]
+    },
+    {
+      "id": "one-way",
+      "name": "One Way",
+      "series": "travel",
+      "seriesLabel": "Travel",
+      "colour": "black bone magenta sky",
+      "print": "back",
+      "price": 1199,
+      "badge": null,
+      "sizes": [
+        {
+          "size": "S",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "M",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "L",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XXL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        }
+      ],
+      "media": [
+        {
+          "type": "img",
+          "src": "assets/img/products/one-way-back.jpg",
+          "alt": "One Way \u2014 Home to Away boarding pass, full back print"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/one-way-front.jpg",
+          "alt": "One Way \u2014 Seat 00A stub chest print"
+        }
+      ],
+      "colours": [
+        {
+          "key": "black",
+          "name": "Black",
+          "hex": "#1A1A1A"
+        },
+        {
+          "key": "bone",
+          "name": "Bone",
+          "hex": "#EDE9E0"
+        },
+        {
+          "key": "magenta",
+          "name": "Fluoro Magenta",
+          "hex": "#FF2D78"
+        },
+        {
+          "key": "sky",
+          "name": "Sky",
+          "hex": "#BBD4E8"
+        }
+      ]
+    },
+    {
+      "id": "out-of-office",
+      "name": "Out of Office",
+      "series": "travel",
+      "seriesLabel": "Travel",
+      "colour": "black bone lime aqua",
+      "print": "back",
+      "price": 1199,
+      "badge": null,
+      "sizes": [
+        {
+          "size": "S",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "M",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "L",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XXL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        }
+      ],
+      "media": [
+        {
+          "type": "img",
+          "src": "assets/img/products/out-of-office-back.jpg",
+          "alt": "Out of Office \u2014 Out of office luggage tag, full back print"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/out-of-office-front.jpg",
+          "alt": "Out of Office \u2014 AWAY status tag chest print"
+        }
+      ],
+      "colours": [
+        {
+          "key": "black",
+          "name": "Black",
+          "hex": "#1A1A1A"
+        },
+        {
+          "key": "bone",
+          "name": "Bone",
+          "hex": "#EDE9E0"
+        },
+        {
+          "key": "lime",
+          "name": "Fluoro Lime",
+          "hex": "#CCFF00"
+        },
+        {
+          "key": "aqua",
+          "name": "Aqua",
+          "hex": "#BCE3E0"
+        }
+      ]
+    },
+    {
+      "id": "the-overthinker",
+      "name": "The Overthinker",
+      "series": "tarot",
+      "seriesLabel": "Tarot",
+      "colour": "black bone blue lavender",
+      "print": "back",
+      "price": 1199,
+      "badge": null,
+      "sizes": [
+        {
+          "size": "S",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "M",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "L",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        },
+        {
+          "size": "XXL",
+          "available": true,
+          "variantId": "REPLACE_ME"
+        }
+      ],
+      "media": [
+        {
+          "type": "img",
+          "src": "assets/img/products/the-overthinker-back.jpg",
+          "alt": "The Overthinker \u2014 The Overthinker tarot card IX, full back print"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/the-overthinker-front.jpg",
+          "alt": "The Overthinker \u2014 Card IX chest print"
+        }
+      ],
+      "colours": [
+        {
+          "key": "black",
+          "name": "Black",
+          "hex": "#1A1A1A"
+        },
+        {
+          "key": "bone",
+          "name": "Bone",
+          "hex": "#EDE9E0"
+        },
+        {
+          "key": "blue",
+          "name": "Electric Blue",
+          "hex": "#2B3AFF"
+        },
+        {
+          "key": "lavender",
+          "name": "Lavender",
+          "hex": "#D6C9E8"
+        }
+      ]
+    }
+  ]
+}
