@@ -810,6 +810,21 @@
       "media": [
         {
           "type": "img",
+          "src": "assets/img/products/not-responding-hero.jpg",
+          "alt": "Not Responding tee, full back print of stacked error windows, standing by a concrete stairwell"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/not-responding-chest.jpg",
+          "alt": "Not Responding tee, small brb dialog-box chest print, in an open parking structure"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/not-responding-seated.jpg",
+          "alt": "Not Responding tee, back print, seated on the edge of a bed beside a closed laptop"
+        },
+        {
+          "type": "img",
           "src": "assets/img/products/not-responding-back.jpg",
           "alt": "Not Responding \u2014 Crashed dialog boxes, full back print"
         },
@@ -1021,6 +1036,16 @@
         }
       ],
       "media": [
+        {
+          "type": "img",
+          "src": "assets/img/products/atlas-hero.jpg",
+          "alt": "Atlas tee, full back print, hanging from pull-up bars at an outdoor calisthenics park"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/atlas-chest.jpg",
+          "alt": "Atlas tee, small checklist-and-barbell chest print, walking past a sports ground with a towel over the shoulder"
+        },
         {
           "type": "img",
           "src": "assets/img/products/atlas-back.jpg",
