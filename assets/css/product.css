@@ -227,9 +227,12 @@ dialog::backdrop{background:rgba(26,26,26,.6);backdrop-filter:blur(2px)}
 .buy__err{margin:-12px 0 0;padding:10px 12px;border:1px solid var(--magenta);background:rgba(255,45,120,.08);color:var(--fg);letter-spacing:.08em;line-height:1.5}
 .buy__atc:disabled[aria-busy="true"]{cursor:wait}
 
-/* pre-order promise under the main button */
+/* pre-order details under the main button: information, not a promo */
 .buy__atc{white-space:nowrap}
-.buy__po{display:flex;flex-direction:column;gap:6px;margin-top:-10px}
-.buy__when{margin:0;font-size:10.5px;letter-spacing:.12em;line-height:1.6;color:var(--fg)}
-.buy__why{margin:0;font-size:13.5px;line-height:1.5;color:var(--ash);max-width:46ch}
+.preorder{display:grid;gap:8px;padding:14px 16px;border:1px solid var(--line);background:transparent}
+.preorder__head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 16px}
+.preorder__tag{color:var(--blue)}
+.preorder__date{color:var(--fg)}
+.preorder__note{margin:0;font-family:var(--body);font-size:13.5px;line-height:1.5;color:var(--ash);max-width:48ch}
+@media(max-width:760px){.preorder__head{flex-direction:column;align-items:flex-start}}
 @media(max-width:340px){.atc__price{display:none}}

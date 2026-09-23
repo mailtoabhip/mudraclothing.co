@@ -232,10 +232,13 @@ function renderBuy(p) {
 
     <button class="buy__atc" id="atc" ${anyStock ? '' : 'disabled'}>${anyStock ? 'Pick a size' : 'Sold out'}</button>
     ${M.isPreorder() ? `
-    <div class="buy__po">
-      <p class="mono buy__when">Pre-order · Printed for you · Arrives ${esc(M.arrivalRange().text)}</p>
-      <p class="buy__why">We're new, so we print to order instead of guessing and bulk-printing. Once we know what you like, we'll keep stock and this gets faster.</p>
-    </div>` : ''}
+    <aside class="preorder" role="note" aria-label="Pre-order details">
+      <div class="preorder__head">
+        <span class="mono preorder__tag">Pre-order</span>
+        <span class="mono preorder__date">Arrives ${esc(M.arrivalRange().text)}</span>
+      </div>
+      <p class="preorder__note">Printed for you after you order. We're new, so we print to order instead of guessing and bulk-printing. Once we know what you like, we'll keep stock and this gets faster.</p>
+    </aside>` : ''}
     <p class="buy__err mono" id="atcErr" role="alert" hidden></p>
 
     <div class="twoside">
