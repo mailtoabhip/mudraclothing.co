@@ -23,7 +23,7 @@ const view = {
 async function init() {
   M.wireHeader({ solid: true });
   const [, data] = await Promise.all([M.loadSprite(), M.loadCatalogue()]);
-  M.renderBag();
+  M.initBag();
 
   const id = M.productIdFromUrl();
   const list = data.products;
@@ -40,7 +40,10 @@ async function init() {
   const photos = view.shots.filter(m => !view.art.includes(m));
   if (view.art.length === 2 && photos.length >= 2) view.shots = photos; else view.art = [];
   const wanted = new URLSearchParams(location.search).get('c');
-  view.colour = (p.colours || []).find(c => c.key === wanted) || (p.colours || [])[0] || null;
+  view.colours = M.sellableColours(p);
+  view.colour = view.colours.find(c => c.key === wanted) || view.colours[0] || null;
+  view.price = p.price;
+  view.variants = null;   // live Shopify variants by size, once loaded
 
   setMeta(p);
   renderCrumb(p);
@@ -51,7 +54,56 @@ async function init() {
   wireSizeSheet();
   wireZoom();
   wireStickyBar();
-  M.loadShopify();
+  if (M.SHOPIFY.enabled) loadLive(p);
+}
+
+/* ---------- live price + availability from Shopify -------------------- */
+
+async function loadLive(p) {
+  const atc = $('#atc');
+  atc.disabled = true;
+  atc.textContent = 'Checking stock';
+  let live;
+  try {
+    live = await M.liveProduct(p.id);
+  } catch (err) {
+    showError(err.message);
+    atc.textContent = 'Unavailable';
+    return;
+  }
+  if (!live) return comingSoon();
+  view.variants = live.variants;
+  if (live.price != null) {
+    view.price = live.price;
+    $('#price').textContent = money(view.price);
+  }
+  document.querySelectorAll('.szbtn').forEach(b => {
+    const ok = !!live.variants[b.dataset.size]?.available;
+    b.disabled = !ok;
+    b.toggleAttribute('aria-disabled', !ok);
+  });
+  if (view.size && !live.variants[view.size]?.available) view.size = null;
+  const any = Object.values(live.variants).some(v => v.available);
+  atc.disabled = !any;
+  atc.textContent = !any ? 'Sold out' : view.size ? `Add to bag — ${money(view.price)}` : 'Pick a size';
+  syncSticky();
+}
+
+// Shopify doesn't know this handle yet
+function comingSoon() {
+  view.variants = {};
+  document.querySelectorAll('.szbtn').forEach(b => { b.disabled = true; b.setAttribute('aria-disabled', 'true'); });
+  const atc = $('#atc');
+  atc.disabled = true;
+  atc.textContent = 'Coming soon';
+  $('#sbBtn').textContent = 'Coming soon';
+  $('#sbBtn').disabled = true;
+}
+
+function showError(msg) {
+  const el = $('#atcErr');
+  el.textContent = msg || '';
+  el.hidden = !msg;
 }
 
 /* ---------- head ------------------------------------------------------ */
@@ -132,7 +184,7 @@ function renderBuy(p) {
   const sizes = p.sizes.map(s => `
     <button class="szbtn" data-size="${s.size}" ${s.available ? '' : 'disabled aria-disabled="true"'}
             aria-pressed="false">${s.size}</button>`).join('');
-  const swatches = (p.colours || []).map(c => `
+  const swatches = view.colours.map(c => `
     <button class="cswatch${view.colour && c.key === view.colour.key ? ' on' : ''}" data-colour="${c.key}"
             style="--sw:${c.hex}" aria-label="${esc(c.name)}" title="${esc(c.name)}"
             aria-pressed="${view.colour && c.key === view.colour.key}"></button>`).join('');
@@ -151,7 +203,7 @@ function renderBuy(p) {
     <h1 class="buy__name">${esc(p.name)}</h1>
 
     <div class="buy__price">
-      <span class="price">${money(p.price)}</span>
+      <span class="price" id="price">${money(view.price)}</span>
       <span class="mono tax">Incl. of all taxes</span>
     </div>
 
@@ -173,6 +225,7 @@ function renderBuy(p) {
     </div>
 
     <button class="buy__atc" id="atc" ${anyStock ? '' : 'disabled'}>${anyStock ? 'Pick a size' : 'Sold out'}</button>
+    <p class="buy__err mono" id="atcErr" role="alert" hidden></p>
 
     <div class="twoside">
       <div><span class="mono">Front</span><p>Small stamp, left chest.</p></div>
@@ -219,7 +272,7 @@ function renderBuy(p) {
     document.querySelectorAll('.cswatch').forEach(x => { x.classList.remove('on'); x.setAttribute('aria-pressed', 'false'); });
     b.classList.add('on');
     b.setAttribute('aria-pressed', 'true');
-    view.colour = p.colours.find(c => c.key === b.dataset.colour);
+    view.colour = view.colours.find(c => c.key === b.dataset.colour);
     $('#colourName').textContent = view.colour.name;
     syncSticky();
   });
@@ -236,20 +289,39 @@ function selectSize(size) {
   });
   $('#sizeOpt').classList.remove('need');
   const atc = $('#atc');
-  atc.textContent = `Add to bag — ${money(view.product.price)}`;
+  atc.textContent = `Add to bag — ${money(view.price)}`;
+  showError('');
   atc.classList.add('ready');
   syncSticky();
 }
 
-function addCurrent(btn) {
+async function addCurrent(btn) {
   if (!view.size) {
     const opt = $('#sizeOpt');
     opt.classList.remove('need'); void opt.offsetWidth; opt.classList.add('need');
     opt.scrollIntoView({ behavior: 'smooth', block: 'center' });
     return;
   }
-  const s = view.product.sizes.find(x => x.size === view.size);
-  M.addToBag(s?.variantId, btn);
+  const p = view.product;
+  const busy = [$('#atc'), $('#sbBtn')];
+  busy.forEach(b => { b.disabled = true; });
+  btn.setAttribute('aria-busy', 'true');
+  showError('');
+  try {
+    await M.addToBag({
+      variantId: view.variants?.[view.size]?.id,
+      name: p.name,
+      size: view.size,
+      colour: view.colour?.name,
+      image: view.shots[0] ? '/' + view.shots[0].src : null,
+      price: view.price,
+    }, btn);
+  } catch (err) {
+    showError(err.message || "Couldn't add that. Try again.");
+  } finally {
+    busy.forEach(b => { b.disabled = false; });
+    btn.removeAttribute('aria-busy');
+  }
 }
 
 /* ---------- size guide ------------------------------------------------ */
@@ -376,7 +448,7 @@ function renderRelated(p, list) {
 function syncSticky() {
   const p = view.product;
   $('#sbName').textContent = p.name;
-  $('#sbMeta').textContent = [money(p.price), view.colour?.name, view.size].filter(Boolean).join(' · ');
+  $('#sbMeta').textContent = [money(view.price), view.colour?.name, view.size].filter(Boolean).join(' · ');
   $('#sbBtn').textContent = view.size ? 'Add to bag' : 'Pick a size';
 }
 

@@ -316,3 +316,29 @@ a.atc{display:block;text-align:center}
 .rcard:hover h3{color:var(--blue)}
 @media(max-width:1000px){.rgrid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:760px){.rgrid{gap:10px}.rcard__meta h3{font-size:13px}}
+
+/* bag drawer: slides in after "Add to bag" (every page) */
+.drawer{position:fixed;top:0;right:0;z-index:80;height:100%;height:100dvh;width:min(400px,100vw);
+  background:var(--paper);border-left:1px solid var(--fg);display:flex;flex-direction:column;
+  transform:translateX(100%);transition:transform .22s ease-out;box-shadow:-24px 0 48px rgba(26,26,26,.12)}
+.drawer.on{transform:none}
+.drawer[hidden]{display:none}
+.drawer__head{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line)}
+.drawer__title{font-family:var(--display);font-weight:400;font-size:26px;letter-spacing:.03em;margin:0}
+.drawer__x{color:var(--ash);padding:6px 0}
+.drawer__x:hover{color:var(--fg)}
+.drawer__body{padding:20px;flex:1;overflow:auto}
+.dline{display:grid;grid-template-columns:80px 1fr;gap:16px;align-items:start}
+.dline img,.dline__ph{width:80px;aspect-ratio:4/5;object-fit:cover;background:var(--shirt)}
+.dline p{margin:0}
+.dline__name{font-family:var(--display);text-transform:uppercase;font-size:20px;line-height:1.05;letter-spacing:.02em;margin-bottom:6px!important}
+.dline__meta{color:var(--ash)}
+.dline__price{margin-top:8px!important;font-size:13px}
+.drawer__count{color:var(--ash);margin:22px 0 0;padding-top:14px;border-top:1px dashed var(--line)}
+.drawer__foot{display:grid;gap:8px;padding:20px;border-top:1px solid var(--line)}
+.drawer__view{display:flex;align-items:center;justify-content:center;height:54px;background:var(--fg);color:var(--paper);
+  font-size:12px;letter-spacing:.18em;transition:background .2s ease-out}
+.drawer__view:hover{background:var(--blue);color:var(--on-blue)}
+.drawer__keep{height:46px;border:1px solid var(--line-strong);font-size:11px}
+.drawer__keep:hover{border-color:var(--fg)}
+@media (prefers-reduced-motion:reduce){.drawer{transition:none}}

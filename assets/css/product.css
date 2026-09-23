@@ -222,3 +222,7 @@ dialog::backdrop{background:rgba(26,26,26,.6);backdrop-filter:blur(2px)}
   .stickybar__btn.done{background:var(--magenta)}
   footer{padding-bottom:110px}
 }
+
+/* add-to-bag error, inline */
+.buy__err{margin:-12px 0 0;padding:10px 12px;border:1px solid var(--magenta);background:rgba(255,45,120,.08);color:var(--fg);letter-spacing:.08em;line-height:1.5}
+.buy__atc:disabled[aria-busy="true"]{cursor:wait}

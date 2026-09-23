@@ -12,7 +12,7 @@ async function init() {
   wireToc();
   const needsData = document.getElementById('sgChart') || document.getElementById('picks');
   const [, data] = await Promise.all([M.loadSprite(), needsData ? M.loadCatalogue() : null]);
-  M.renderBag();
+  M.initBag();
   if (data) {
     renderSizeChart(data.garment || {});
     renderPicks(data.products || []);

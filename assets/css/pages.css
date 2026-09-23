@@ -107,7 +107,7 @@ body.review .tbd{background:#CCFF00;color:var(--fg);box-shadow:0 0 0 2px #CCFF00
 .ccard>span.mono{color:var(--blue);margin-bottom:4px}
 .ccard p{margin:0;font-size:15px;line-height:1.45}
 .ccard p.small{font-size:10px;color:var(--ash);line-height:1.6}
-.clinks{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.clinks{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
 .contact .clinks a{
   text-decoration:none;display:flex;flex-direction:column;gap:18px;border:1px solid var(--line-strong);
   padding:16px;font-family:var(--display);text-transform:uppercase;font-size:clamp(17px,1.8vw,22px);letter-spacing:.02em;
@@ -202,3 +202,4 @@ body.review .tbd{background:#CCFF00;color:var(--fg);box-shadow:0 0 0 2px #CCFF00
   .cgrid{grid-template-columns:1fr}
   .sgt th,.sgt td{padding:12px 6px}
 }
+.doc__body a.btn{text-decoration:none;margin-top:6px}

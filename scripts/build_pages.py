@@ -26,11 +26,13 @@ import html, pathlib, re
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / "_src" / "pages"
 
-NAV = [("/#shop", "Shop all"), ("/size-guide", "Size guide"), ("/about", "About")]
+ACCOUNT = "https://shopify.com/73593618511/account"
+
+NAV = [("/#shop", "Shop all"), ("/size-guide", "Size guide"), ("/about", "About"), (ACCOUNT, "Account")]
 
 FOOTER_COLS = [
-    ("Shop", [("/#shop", "All tees"), ("/size-guide", "Size guide"), ("/track", "Track order")]),
-    ("Help", [("/shipping", "Shipping"), ("/returns", "Returns &amp; refunds"), ("/contact", "Contact")]),
+    ("Shop", [("/#shop", "All tees"), ("/size-guide", "Size guide"), ("/track", "Track order"), (ACCOUNT, "Account")]),
+    ("Help", [("/shipping", "Shipping"), ("/returns", "Returns &amp; refunds"), ("/payment-help", "Payment help"), ("/contact", "Contact")]),
     ("Company", [("/about", "About"), ("/terms", "Terms"), ("/privacy", "Privacy")]),
 ]
 
@@ -91,7 +93,7 @@ SHELL = """<!DOCTYPE html>
       <svg class="logo" viewBox="0 0 2906 825" preserveAspectRatio="xMinYMid meet" role="img" aria-label="Mudra Studios"><use href="#logo"/></svg>
     </a>
     <nav class="mainnav">{nav}</nav>
-    <button class="cart">Bag (0)</button>
+    <a class="cart" href="/cart">Bag (0)</a>
   </div>
 </header>
 
@@ -108,7 +110,6 @@ SHELL = """<!DOCTYPE html>
 
 {footer}
 
-<div id="shopify-cart"></div>
 <script src="/assets/js/shop.js?v=0" defer></script>
 <script src="/assets/js/pages.js?v=0" defer></script>
 </body>
@@ -190,7 +191,7 @@ def build():
         out.write_text(page, encoding="utf-8")
         built.append(out.name)
 
-    for name in ("index.html", "product.html"):
+    for name in ("index.html", "product.html", "cart.html"):
         f = ROOT / name
         s = f.read_text(encoding="utf-8")
         s2 = re.sub(r"<!-- footer:start -->.*?<!-- footer:end -->", lambda _: footer, s, flags=re.S)

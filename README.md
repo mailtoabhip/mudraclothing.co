@@ -1,7 +1,7 @@
 # Mudra Studios
 
 Static storefront. Design and browsing live here; cart, checkout, inventory and
-orders live in Shopify via the Buy Button SDK.
+orders live in Shopify (Storefront API, no SDK).
 
 ## Structure
 
@@ -17,6 +17,7 @@ assets/css/styles.css
 assets/js/shop.js       shared: Shopify config, bag, header, urls (load first)
 assets/js/main.js       home: grid, carousel, filters, sort
 assets/js/product.js    product page: gallery, size/colour, size guide, related
+cart.html               /cart: the bag (assets/js/cart.js, assets/css/cart.css)
 assets/css/product.css  product page styles
 scripts/fingerprint.py  regenerates every ?v= cache-buster
 scripts/build_pages.py  builds content pages + the shared footer
@@ -40,7 +41,7 @@ Add an object to `data/products.json`. Nothing else to touch.
   "price": 1199,
   "badge": null,
   "sizes": [
-    { "size": "S", "available": true, "variantId": "gid://shopify/ProductVariant/123" }
+    { "size": "S", "available": true }
   ],
   "media": [
     { "type": "img", "src": "assets/img/products/bhook-front.jpg", "alt": "…" }
@@ -53,17 +54,25 @@ Add an object to `data/products.json`. Nothing else to touch.
 
 Photos: crop to 4:5, 760×950, JPEG q82.
 
-## Wiring Shopify
+## Shopify (cart + checkout)
 
-1. Shopify admin → Sales channels → add **Buy Button**.
-2. Settings → Apps and sales channels → Develop apps → create an app, enable the
-   Storefront API, copy the access token.
-3. In `assets/js/main.js`, set `SHOPIFY.domain`, `SHOPIFY.storefrontAccessToken`,
-   and flip `enabled` to `true`.
-4. Replace every `REPLACE_ME` variantId in `data/products.json` with the real
-   variant GID from Shopify.
+No SDK. `assets/js/shop.js` talks to the Storefront API (`SHOPIFY.apiVersion`)
+with `fetch`: live price/availability per product (handle = products.json `id`),
+and the Cart API (`cartCreate` / `cartLinesAdd` / `cartLinesUpdate` / `cartLinesRemove`).
+The cart id lives in localStorage; checkout is Shopify's, via `cart.checkoutUrl`.
 
-Until step 3, Add to cart just increments a local counter so the UI is testable.
+Config is the `SHOPIFY` block at the top of `shop.js`:
+
+- `storefrontAccessToken`: the **public** token from the Headless channel. Public
+  by design, fine to commit. Never put an Admin token (`shpat_…`) or the Headless
+  private token anywhere in this repo.
+- `enabled: false` keeps checkout closed: Add to bag is a local counter and /cart
+  says checkout isn't open yet.
+- `cod`: shows the cash-on-delivery line on /cart.
+
+A handle Shopify doesn't know shows "Coming soon". Colours are passed to the order
+as a line attribute (`Colour`); only colours with `"sellable": true` in
+products.json are offered.
 
 ## Local dev
 

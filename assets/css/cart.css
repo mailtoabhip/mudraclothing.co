@@ -1,0 +1,76 @@
+/* ==========================================================================
+   Mudra Studios — /cart
+   Builds on styles.css tokens. Loaded only by cart.html.
+   ========================================================================== */
+
+header.solid{position:sticky;background:rgba(237,233,224,.96)}
+
+.bagpg{padding-block:clamp(28px,5vw,64px) clamp(56px,8vw,110px);min-height:60vh}
+.bagpg__head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+  padding-bottom:clamp(14px,2vw,22px);border-bottom:1px solid var(--fg)}
+.bagpg__title{font-family:var(--display);font-weight:400;margin:0;line-height:.86;
+  font-size:clamp(64px,13vw,168px);letter-spacing:.01em}
+.bagpg__count{color:var(--ash)}
+
+.bag__err{margin:18px 0 0;padding:12px 14px;border:1px solid var(--magenta);color:var(--fg);background:rgba(255,45,120,.08)}
+.bag__loading{color:var(--ash);padding-top:28px}
+
+.bagpg__body{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,380px);gap:clamp(24px,5vw,72px);align-items:start}
+.bagpg__body[aria-busy="true"]{opacity:.85}
+
+/* lines */
+.blines{list-style:none;margin:0;padding:0}
+.bline{display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:18px;padding:20px 0;border-bottom:1px solid var(--line);
+  transition:opacity .15s ease-out}
+.bline.is-busy{opacity:.45}
+.bline__img{display:block;width:96px;aspect-ratio:4/5;background:var(--shirt);overflow:hidden}
+.bline__img img{width:100%;height:100%;object-fit:cover}
+.bline__info{display:flex;flex-direction:column;gap:6px;min-width:0}
+.bline__name{font-family:var(--display);text-transform:uppercase;font-size:clamp(18px,2vw,24px);line-height:1.05;letter-spacing:.02em}
+.bline__name:hover{color:var(--blue)}
+.bline__meta{color:var(--ash);margin:0}
+.bline__ctl{display:flex;align-items:center;gap:18px;margin-top:auto;padding-top:10px}
+.bline__price{font-size:14px;letter-spacing:.04em;white-space:nowrap}
+
+.qty{display:inline-flex;align-items:center;border:1px solid var(--line-strong)}
+.qty__btn{width:38px;height:38px;font-family:var(--mono);font-size:16px;line-height:1;transition:background .15s ease-out,color .15s ease-out}
+.qty__btn:hover:not(:disabled){background:var(--fg);color:var(--paper)}
+.qty__btn:disabled{color:var(--ash);cursor:wait}
+.qty__n{min-width:34px;text-align:center;font-size:13px;letter-spacing:.04em}
+.bline__rm{color:var(--ash);text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--line-strong);padding:6px 0}
+.bline__rm:hover{color:var(--magenta);text-decoration-color:var(--magenta)}
+
+/* summary */
+.bsum{position:sticky;top:calc(var(--navh) + 20px);margin-top:20px;border:1px solid var(--fg);padding:clamp(18px,2.4vw,26px);
+  display:flex;flex-direction:column;gap:16px;background:var(--paper)}
+.bsum__rows{margin:0}
+.bsum__rows>div{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-top:1px dashed var(--line)}
+.bsum__rows>div:first-child{border-top:0;padding-top:0}
+.bsum__rows dt{color:var(--ash)}
+.bsum__rows dd{margin:0;font-size:13px;letter-spacing:.04em}
+.bsum__rows>div:first-child dd{font-size:18px}
+.bsum__note{margin:0;color:var(--ash);font-size:10px}
+.bsum__checkout{display:flex;align-items:center;justify-content:center;height:58px;background:var(--fg);color:var(--paper);
+  font-size:12px;letter-spacing:.18em;transition:background .2s ease-out}
+.bsum__checkout:hover{background:var(--blue);color:var(--on-blue)}
+.bsum__help{margin:0;font-size:13px;line-height:1.5;color:var(--ash)}
+.bsum__help a{color:var(--fg);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line-strong)}
+.bsum__help a:hover{color:var(--blue);text-decoration-color:var(--blue)}
+
+/* empty / closed */
+.bag__empty{grid-column:1/-1;padding-block:clamp(36px,7vw,90px);display:flex;flex-direction:column;align-items:flex-start;gap:16px}
+.bag__empty p{margin:0;color:var(--ash);max-width:44ch}
+.bag__empty .bag__emptytitle{font-family:var(--display);text-transform:uppercase;color:var(--fg);
+  font-size:clamp(30px,5vw,60px);line-height:.95}
+
+@media(max-width:900px){
+  .bagpg__body{grid-template-columns:1fr}
+  .bsum{position:static;margin-top:4px}
+}
+@media(max-width:520px){
+  .bline{grid-template-columns:76px minmax(0,1fr);gap:14px}
+  .bline__img{width:76px}
+  .bline__price{grid-column:2;grid-row:1;justify-self:end;align-self:start}
+  .bline__info{grid-column:2;grid-row:1}
+  .bline__name{padding-right:84px}
+}

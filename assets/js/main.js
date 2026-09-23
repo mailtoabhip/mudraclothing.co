@@ -3,7 +3,7 @@
    Renders the grid from data/products.json. Shared plumbing lives in shop.js.
    ========================================================================== */
 
-const { productUrl, loadCatalogue, loadSprite, money, esc, wireHeader, renderBag, loadShopify } = window.Mudra;
+const { productUrl, loadCatalogue, loadSprite, money, esc, wireHeader, initBag, sellableColours } = window.Mudra;
 
 const state = {
   products: [],
@@ -20,8 +20,7 @@ async function init() {
   wireFilters();
   wireSort();
   wireHeader();
-  renderBag();
-  loadShopify();
+  initBag();
 }
 
 /* ---------- rendering ------------------------------------------------ */
@@ -46,7 +45,7 @@ function cardHTML(p) {
   const badge = p.badge ? `<span class="pbadge ${p.badge.type}">${esc(p.badge.label)}</span>` : '';
   const slides = p.media.map(mediaHTML).join('');
   const dots = p.media.map((_, i) => (i === 0 ? '<i class="is-on"></i>' : '<i></i>')).join('');
-  const swatches = (p.colours || []).map((c, i) =>
+  const swatches = sellableColours(p).map((c, i) =>
     `<button class="pswatch${i === 0 ? ' on' : ''}" data-colour="${c.key}"
        style="--sw:${c.hex}" title="${esc(c.name)}" aria-label="${esc(c.name)}"></button>`).join('');
 

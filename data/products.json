@@ -48,28 +48,23 @@
       "sizes": [
         {
           "size": "S",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "M",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "L",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XXL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         }
       ],
       "media": [
@@ -98,22 +93,26 @@
         {
           "key": "black",
           "name": "Black",
-          "hex": "#1A1A1A"
+          "hex": "#1A1A1A",
+          "sellable": true
         },
         {
           "key": "bone",
           "name": "Bone",
-          "hex": "#EDE9E0"
+          "hex": "#EDE9E0",
+          "sellable": true
         },
         {
           "key": "blue",
           "name": "Electric Blue",
-          "hex": "#2B3AFF"
+          "hex": "#2B3AFF",
+          "sellable": false
         },
         {
           "key": "sage",
           "name": "Sage",
-          "hex": "#C3D3C0"
+          "hex": "#C3D3C0",
+          "sellable": false
         }
       ]
     },
@@ -133,28 +132,23 @@
       "sizes": [
         {
           "size": "S",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "M",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "L",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XXL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         }
       ],
       "media": [
@@ -193,22 +187,26 @@
         {
           "key": "black",
           "name": "Black",
-          "hex": "#1A1A1A"
+          "hex": "#1A1A1A",
+          "sellable": true
         },
         {
           "key": "bone",
           "name": "Bone",
-          "hex": "#EDE9E0"
+          "hex": "#EDE9E0",
+          "sellable": false
         },
         {
           "key": "magenta",
           "name": "Fluoro Magenta",
-          "hex": "#FF2D78"
+          "hex": "#FF2D78",
+          "sellable": false
         },
         {
           "key": "sky",
           "name": "Sky",
-          "hex": "#BBD4E8"
+          "hex": "#BBD4E8",
+          "sellable": false
         }
       ]
     },
@@ -225,28 +223,23 @@
       "sizes": [
         {
           "size": "S",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "M",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "L",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XXL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         }
       ],
       "media": [
@@ -290,22 +283,26 @@
         {
           "key": "black",
           "name": "Black",
-          "hex": "#1A1A1A"
+          "hex": "#1A1A1A",
+          "sellable": true
         },
         {
           "key": "bone",
           "name": "Bone",
-          "hex": "#EDE9E0"
+          "hex": "#EDE9E0",
+          "sellable": false
         },
         {
           "key": "lime",
           "name": "Fluoro Lime",
-          "hex": "#CCFF00"
+          "hex": "#CCFF00",
+          "sellable": false
         },
         {
           "key": "butter",
           "name": "Butter",
-          "hex": "#F2E3B0"
+          "hex": "#F2E3B0",
+          "sellable": false
         }
       ]
     },
@@ -322,28 +319,23 @@
       "sizes": [
         {
           "size": "S",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "M",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "L",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XXL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         }
       ],
       "media": [
@@ -382,22 +374,26 @@
         {
           "key": "black",
           "name": "Black",
-          "hex": "#1A1A1A"
+          "hex": "#1A1A1A",
+          "sellable": true
         },
         {
           "key": "bone",
           "name": "Bone",
-          "hex": "#EDE9E0"
+          "hex": "#EDE9E0",
+          "sellable": false
         },
         {
           "key": "blue",
           "name": "Electric Blue",
-          "hex": "#2B3AFF"
+          "hex": "#2B3AFF",
+          "sellable": false
         },
         {
           "key": "peach",
           "name": "Peach",
-          "hex": "#F5CDB6"
+          "hex": "#F5CDB6",
+          "sellable": false
         }
       ]
     },
@@ -414,28 +410,23 @@
       "sizes": [
         {
           "size": "S",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "M",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "L",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XXL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         }
       ],
       "media": [
@@ -479,22 +470,26 @@
         {
           "key": "black",
           "name": "Black",
-          "hex": "#1A1A1A"
+          "hex": "#1A1A1A",
+          "sellable": true
         },
         {
           "key": "bone",
           "name": "Bone",
-          "hex": "#EDE9E0"
+          "hex": "#EDE9E0",
+          "sellable": false
         },
         {
           "key": "lime",
           "name": "Fluoro Lime",
-          "hex": "#CCFF00"
+          "hex": "#CCFF00",
+          "sellable": false
         },
         {
           "key": "mint",
           "name": "Mint",
-          "hex": "#B8E0D2"
+          "hex": "#B8E0D2",
+          "sellable": false
         }
       ]
     },
@@ -514,28 +509,23 @@
       "sizes": [
         {
           "size": "S",
-          "available": false,
-          "variantId": "REPLACE_ME"
+          "available": false
         },
         {
           "size": "M",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "L",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XXL",
-          "available": false,
-          "variantId": "REPLACE_ME"
+          "available": false
         }
       ],
       "media": [
@@ -579,22 +569,26 @@
         {
           "key": "black",
           "name": "Black",
-          "hex": "#1A1A1A"
+          "hex": "#1A1A1A",
+          "sellable": true
         },
         {
           "key": "bone",
           "name": "Bone",
-          "hex": "#EDE9E0"
+          "hex": "#EDE9E0",
+          "sellable": false
         },
         {
           "key": "magenta",
           "name": "Fluoro Magenta",
-          "hex": "#FF2D78"
+          "hex": "#FF2D78",
+          "sellable": false
         },
         {
           "key": "rose",
           "name": "Rose",
-          "hex": "#E8C4CC"
+          "hex": "#E8C4CC",
+          "sellable": false
         }
       ]
     },
@@ -611,28 +605,23 @@
       "sizes": [
         {
           "size": "S",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "M",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "L",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XXL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         }
       ],
       "media": [
@@ -651,22 +640,26 @@
         {
           "key": "black",
           "name": "Black",
-          "hex": "#1A1A1A"
+          "hex": "#1A1A1A",
+          "sellable": true
         },
         {
           "key": "bone",
           "name": "Bone",
-          "hex": "#EDE9E0"
+          "hex": "#EDE9E0",
+          "sellable": false
         },
         {
           "key": "blue",
           "name": "Electric Blue",
-          "hex": "#2B3AFF"
+          "hex": "#2B3AFF",
+          "sellable": false
         },
         {
           "key": "clay",
           "name": "Clay",
-          "hex": "#E0C3B4"
+          "hex": "#E0C3B4",
+          "sellable": false
         }
       ]
     },
@@ -683,28 +676,23 @@
       "sizes": [
         {
           "size": "S",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "M",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "L",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XXL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         }
       ],
       "media": [
@@ -723,22 +711,26 @@
         {
           "key": "black",
           "name": "Black",
-          "hex": "#1A1A1A"
+          "hex": "#1A1A1A",
+          "sellable": true
         },
         {
           "key": "bone",
           "name": "Bone",
-          "hex": "#EDE9E0"
+          "hex": "#EDE9E0",
+          "sellable": false
         },
         {
           "key": "magenta",
           "name": "Fluoro Magenta",
-          "hex": "#FF2D78"
+          "hex": "#FF2D78",
+          "sellable": false
         },
         {
           "key": "sand",
           "name": "Sand",
-          "hex": "#E4D5B7"
+          "hex": "#E4D5B7",
+          "sellable": false
         }
       ]
     },
@@ -755,28 +747,23 @@
       "sizes": [
         {
           "size": "S",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "M",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "L",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XXL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         }
       ],
       "media": [
@@ -795,22 +782,26 @@
         {
           "key": "black",
           "name": "Black",
-          "hex": "#1A1A1A"
+          "hex": "#1A1A1A",
+          "sellable": true
         },
         {
           "key": "bone",
           "name": "Bone",
-          "hex": "#EDE9E0"
+          "hex": "#EDE9E0",
+          "sellable": false
         },
         {
           "key": "lime",
           "name": "Fluoro Lime",
-          "hex": "#CCFF00"
+          "hex": "#CCFF00",
+          "sellable": false
         },
         {
           "key": "stone",
           "name": "Stone",
-          "hex": "#D5D2CB"
+          "hex": "#D5D2CB",
+          "sellable": false
         }
       ]
     },
@@ -827,28 +818,23 @@
       "sizes": [
         {
           "size": "S",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "M",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "L",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XXL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         }
       ],
       "media": [
@@ -882,22 +868,26 @@
         {
           "key": "black",
           "name": "Black",
-          "hex": "#1A1A1A"
+          "hex": "#1A1A1A",
+          "sellable": true
         },
         {
           "key": "bone",
           "name": "Bone",
-          "hex": "#EDE9E0"
+          "hex": "#EDE9E0",
+          "sellable": false
         },
         {
           "key": "blue",
           "name": "Electric Blue",
-          "hex": "#2B3AFF"
+          "hex": "#2B3AFF",
+          "sellable": false
         },
         {
           "key": "periwinkle",
           "name": "Periwinkle",
-          "hex": "#C5CAE9"
+          "hex": "#C5CAE9",
+          "sellable": false
         }
       ]
     },
@@ -914,28 +904,23 @@
       "sizes": [
         {
           "size": "S",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "M",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "L",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XXL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         }
       ],
       "media": [
@@ -954,22 +939,26 @@
         {
           "key": "black",
           "name": "Black",
-          "hex": "#1A1A1A"
+          "hex": "#1A1A1A",
+          "sellable": true
         },
         {
           "key": "bone",
           "name": "Bone",
-          "hex": "#EDE9E0"
+          "hex": "#EDE9E0",
+          "sellable": false
         },
         {
           "key": "blue",
           "name": "Electric Blue",
-          "hex": "#2B3AFF"
+          "hex": "#2B3AFF",
+          "sellable": false
         },
         {
           "key": "lilac",
           "name": "Lilac",
-          "hex": "#C9BEE3"
+          "hex": "#C9BEE3",
+          "sellable": false
         }
       ]
     },
@@ -986,28 +975,23 @@
       "sizes": [
         {
           "size": "S",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "M",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "L",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XXL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         }
       ],
       "media": [
@@ -1026,22 +1010,26 @@
         {
           "key": "black",
           "name": "Black",
-          "hex": "#1A1A1A"
+          "hex": "#1A1A1A",
+          "sellable": true
         },
         {
           "key": "bone",
           "name": "Bone",
-          "hex": "#EDE9E0"
+          "hex": "#EDE9E0",
+          "sellable": false
         },
         {
           "key": "magenta",
           "name": "Fluoro Magenta",
-          "hex": "#FF2D78"
+          "hex": "#FF2D78",
+          "sellable": false
         },
         {
           "key": "aqua",
           "name": "Aqua",
-          "hex": "#BCE3E0"
+          "hex": "#BCE3E0",
+          "sellable": false
         }
       ]
     },
@@ -1058,28 +1046,23 @@
       "sizes": [
         {
           "size": "S",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "M",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "L",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XXL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         }
       ],
       "media": [
@@ -1108,27 +1091,32 @@
         {
           "key": "black",
           "name": "Black",
-          "hex": "#1A1A1A"
+          "hex": "#1A1A1A",
+          "sellable": true
         },
         {
           "key": "bone",
           "name": "Bone",
-          "hex": "#EDE9E0"
+          "hex": "#EDE9E0",
+          "sellable": false
         },
         {
           "key": "blue",
           "name": "Electric Blue",
-          "hex": "#2B3AFF"
+          "hex": "#2B3AFF",
+          "sellable": false
         },
         {
           "key": "stone",
           "name": "Stone",
-          "hex": "#D5D2CB"
+          "hex": "#D5D2CB",
+          "sellable": false
         },
         {
           "key": "sage",
           "name": "Sage",
-          "hex": "#C3D3C0"
+          "hex": "#C3D3C0",
+          "sellable": false
         }
       ]
     },
@@ -1145,28 +1133,23 @@
       "sizes": [
         {
           "size": "S",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "M",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "L",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XXL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         }
       ],
       "media": [
@@ -1185,22 +1168,26 @@
         {
           "key": "black",
           "name": "Black",
-          "hex": "#1A1A1A"
+          "hex": "#1A1A1A",
+          "sellable": true
         },
         {
           "key": "bone",
           "name": "Bone",
-          "hex": "#EDE9E0"
+          "hex": "#EDE9E0",
+          "sellable": false
         },
         {
           "key": "magenta",
           "name": "Fluoro Magenta",
-          "hex": "#FF2D78"
+          "hex": "#FF2D78",
+          "sellable": false
         },
         {
           "key": "sky",
           "name": "Sky",
-          "hex": "#BBD4E8"
+          "hex": "#BBD4E8",
+          "sellable": false
         }
       ]
     },
@@ -1217,28 +1204,23 @@
       "sizes": [
         {
           "size": "S",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "M",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "L",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XXL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         }
       ],
       "media": [
@@ -1257,22 +1239,26 @@
         {
           "key": "black",
           "name": "Black",
-          "hex": "#1A1A1A"
+          "hex": "#1A1A1A",
+          "sellable": true
         },
         {
           "key": "bone",
           "name": "Bone",
-          "hex": "#EDE9E0"
+          "hex": "#EDE9E0",
+          "sellable": false
         },
         {
           "key": "lime",
           "name": "Fluoro Lime",
-          "hex": "#CCFF00"
+          "hex": "#CCFF00",
+          "sellable": false
         },
         {
           "key": "aqua",
           "name": "Aqua",
-          "hex": "#BCE3E0"
+          "hex": "#BCE3E0",
+          "sellable": false
         }
       ]
     },
@@ -1289,28 +1275,23 @@
       "sizes": [
         {
           "size": "S",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "M",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "L",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         },
         {
           "size": "XXL",
-          "available": true,
-          "variantId": "REPLACE_ME"
+          "available": true
         }
       ],
       "media": [
@@ -1329,22 +1310,26 @@
         {
           "key": "black",
           "name": "Black",
-          "hex": "#1A1A1A"
+          "hex": "#1A1A1A",
+          "sellable": true
         },
         {
           "key": "bone",
           "name": "Bone",
-          "hex": "#EDE9E0"
+          "hex": "#EDE9E0",
+          "sellable": false
         },
         {
           "key": "blue",
           "name": "Electric Blue",
-          "hex": "#2B3AFF"
+          "hex": "#2B3AFF",
+          "sellable": false
         },
         {
           "key": "lavender",
           "name": "Lavender",
-          "hex": "#D6C9E8"
+          "hex": "#D6C9E8",
+          "sellable": false
         }
       ]
     }
