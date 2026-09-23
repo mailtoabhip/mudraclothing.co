@@ -65,6 +65,7 @@ function render(c) {
         <div><dt class="mono">Shipping</dt><dd class="mono">Free</dd></div>
         ${M.SHOPIFY.cod ? `<div><dt class="mono">Cash on delivery</dt><dd class="mono">Available</dd></div>` : ''}
       </dl>
+      ${M.isPreorder() ? `<p class="bsum__po">Pre-order items arrive in ${M.ORDERING.minDays}–${M.ORDERING.maxDays} days.</p>` : ''}
       <p class="mono bsum__note">Taxes included. Final total at checkout.</p>
       <a class="bsum__checkout mono" href="${esc(c.checkoutUrl)}">Checkout</a>
       <p class="bsum__help">Payment failed, or money gone and no order? <a href="/payment-help">Read this first</a>.</p>
@@ -87,6 +88,7 @@ function lineHTML(l) {
       <div class="bline__info">
         <a class="bline__name" href="${url}">${esc(name)}</a>
         <p class="mono bline__meta">${['Size ' + esc(size), colour && esc(colour)].filter(Boolean).join(' · ')}</p>
+        ${M.isPreorder() ? `<p class="mono bline__po">Pre-order · Arrives ${esc(M.arrivalRange().text)}</p>` : ''}
         <div class="bline__ctl">
           <div class="qty" role="group" aria-label="Quantity for ${esc(name)}, size ${esc(size)}">
             <button class="qty__btn" data-act="dec" aria-label="One less">−</button>

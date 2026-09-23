@@ -21,7 +21,8 @@ Product/Offer price data is only emitted while checkout is switched on
 """
 import datetime, html, json, pathlib, re, subprocess
 
-from site_config import SITE_URL, SITE_NAME, CONTACT_EMAIL, INSTAGRAM_URL, OG_IMAGE
+from site_config import (SITE_URL, SITE_NAME, CONTACT_EMAIL, INSTAGRAM_URL, OG_IMAGE,
+                         PREORDER_MIN_DAYS, PREORDER_MAX_DAYS)
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 TODAY = datetime.date.today().isoformat()
@@ -54,6 +55,16 @@ def offers_live():
     js = (ROOT / "assets/js/shop.js").read_text(encoding="utf-8")
     m = re.search(r"\benabled:\s*(true|false)", js)
     return bool(m and m.group(1) == "true")
+
+
+def preorder():
+    # ORDERING.mode in assets/js/shop.js is the one switch
+    js = (ROOT / "assets/js/shop.js").read_text(encoding="utf-8")
+    m = re.search(r"ORDERING\s*=\s*\{\s*mode:\s*'(\w+)'", js)
+    return bool(m and m.group(1) == "preorder")
+
+
+DAYS = f"{PREORDER_MIN_DAYS}–{PREORDER_MAX_DAYS} days"
 
 
 def blurb(p):
@@ -166,6 +177,12 @@ def product_ld(p, offers):
                 "@type": "OfferShippingDetails",
                 "shippingRate": {"@type": "MonetaryAmount", "value": "0", "currency": "INR"},
                 "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "IN"},
+                # printed to order: 3–5 days to print + 4–5 days in transit = 7–10 days
+                "deliveryTime": {
+                    "@type": "ShippingDeliveryTime",
+                    "handlingTime": {"@type": "QuantitativeValue", "minValue": 3, "maxValue": 5, "unitCode": "DAY"},
+                    "transitTime": {"@type": "QuantitativeValue", "minValue": 4, "maxValue": 5, "unitCode": "DAY"},
+                },
             },
             "hasMerchantReturnPolicy": {
                 "@type": "MerchantReturnPolicy",
@@ -243,7 +260,7 @@ def card_html(p):
         f'<button class="pswatch{" on" if i == 0 else ""}" data-colour="{c["key"]}" '
         f'style="--sw:{c["hex"]}" title="{e(c["name"])}" aria-label="{e(c["name"])}"></button>'
         for i, c in enumerate(sw))
-    atc = (f'<a class="atc" href="{href}">Choose size</a>' if avail
+    atc = (f'<a class="atc" href="{href}">{"Pre-order" if preorder() else "Choose size"}</a>' if avail
            else '<button class="atc" disabled>Sold out</button>')
     kind = "Back print" if p["print"] == "back" else "Chest only"
     return (f'<article class="pcard" data-id="{p["id"]}" data-series="{p["series"]}" '
@@ -257,7 +274,8 @@ def card_html(p):
             f'<div class="pcard__info"><div class="ptag mono">{e(p["seriesLabel"])} · {kind}</div>'
             f'<h3><a href="{href}">{e(p["name"])}</a></h3>'
             f'<div class="pprice">{money(p["price"])}</div>'
-            f'<div class="pswatches">{swatches}</div>{atc}</div></article>')
+            + (f'<div class="ptag mono pcard__po">Pre-order · {DAYS}</div>' if preorder() else "")
+            + f'<div class="pswatches">{swatches}</div>{atc}</div></article>')
 
 
 def build_home(products):
@@ -292,7 +310,8 @@ def build_products(products, offers):
     for p in products:
         shots = gallery_shots(p)
         title = f"{p['name']} Oversized T-Shirt — {p['seriesLabel']} series | {SITE_NAME}"
-        desc = f"{blurb(p)} {money(p['price'])}. Free shipping across India, cash on delivery."
+        promise = f"Pre-order, arrives in {DAYS}. " if preorder() else ""
+        desc = f"{blurb(p)} {money(p['price'])}. {promise}Free shipping across India, cash on delivery."
         extra = jsonld(product_ld(p, offers)) + "\n" + jsonld(breadcrumb_ld(p))
         s = put_head(template, head_tags(title, desc, f"/p/{p['id']}",
                                          "/" + shots[0]["src"] if shots else OG_IMAGE,

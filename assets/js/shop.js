@@ -17,6 +17,12 @@ const SHOPIFY = {
   enabled: true,    // false: the bag is a local counter and checkout stays closed
 };
 
+// How tees are sold. 'preorder': printed after the order, arrives in minDays–maxDays
+// calendar days. 'instock': plain "Add to bag", no arrival promise.
+// minDays/maxDays MUST match PREORDER_MIN_DAYS/PREORDER_MAX_DAYS in scripts/site_config.py.
+const ORDERING = { mode: 'preorder', minDays: 7, maxDays: 10 };
+const isPreorder = () => ORDERING.mode === 'preorder';
+
 const ACCOUNT_URL = `https://shopify.com/${SHOPIFY.shopId}/account`;
 const API_URL = `https://${SHOPIFY.domain}/api/${SHOPIFY.apiVersion}/graphql.json`;
 
@@ -57,6 +63,28 @@ async function loadSprite() {
   holder.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden';
   holder.innerHTML = svg;
   document.body.prepend(holder);
+}
+
+/* ---------- pre-order arrival window (IST, calendar days) ------------- */
+
+const DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+// today's date in India, whatever the visitor's own timezone
+function todayIST(now = new Date()) {
+  const parts = Object.fromEntries(new Intl.DateTimeFormat('en-US', {
+    timeZone: 'Asia/Kolkata', year: 'numeric', month: 'numeric', day: 'numeric',
+  }).formatToParts(now).map(x => [x.type, x.value]));
+  return Date.UTC(Number(parts.year), Number(parts.month) - 1, Number(parts.day));
+}
+const fmtDay = t => { const d = new Date(t); return `${DOW[d.getUTCDay()]}, ${d.getUTCDate()} ${MON[d.getUTCMonth()]}`; };
+
+// → { from: "Tue, 30 Sep", to: "Fri, 3 Oct", text: "Tue, 30 Sep – Fri, 3 Oct" } for an order placed now
+function arrivalRange(now = new Date()) {
+  const t0 = todayIST(now), day = 864e5;
+  const from = fmtDay(t0 + ORDERING.minDays * day);
+  const to = fmtDay(t0 + ORDERING.maxDays * day);
+  return { from, to, text: `${from} – ${to}` };
 }
 
 const money = n => `₹${Number(n).toLocaleString('en-IN', { maximumFractionDigits: 2 })}`;
@@ -118,6 +146,7 @@ function liveProduct(handle) {
 
 const CART_FIELDS = `
   id checkoutUrl totalQuantity
+  attributes { key value }
   cost { subtotalAmount { amount currencyCode } }
   lines(first: 50) { nodes {
     id quantity
@@ -133,7 +162,8 @@ const CART_FIELDS = `
 
 const Q = {
   get: `query C($id: ID!) { cart(id: $id) { ${CART_FIELDS} } }`,
-  create: `mutation C($lines: [CartLineInput!]) { cartCreate(input: { lines: $lines }) { cart { ${CART_FIELDS} } userErrors { message } } }`,
+  create: `mutation C($lines: [CartLineInput!], $attributes: [AttributeInput!]) { cartCreate(input: { lines: $lines, attributes: $attributes }) { cart { ${CART_FIELDS} } userErrors { message } } }`,
+  attrs: `mutation C($id: ID!, $attributes: [AttributeInput!]!) { cartAttributesUpdate(cartId: $id, attributes: $attributes) { cart { ${CART_FIELDS} } userErrors { message } } }`,
   add: `mutation C($id: ID!, $lines: [CartLineInput!]!) { cartLinesAdd(cartId: $id, lines: $lines) { cart { ${CART_FIELDS} } userErrors { message } } }`,
   update: `mutation C($id: ID!, $lines: [CartLineUpdateInput!]!) { cartLinesUpdate(cartId: $id, lines: $lines) { cart { ${CART_FIELDS} } userErrors { message } } }`,
   remove: `mutation C($id: ID!, $ids: [ID!]!) { cartLinesRemove(cartId: $id, lineIds: $ids) { cart { ${CART_FIELDS} } userErrors { message } } }`,
@@ -160,6 +190,15 @@ function unwrap(payload) {
   return payload.cart;
 }
 
+// shows on the order in Shopify admin
+function orderAttributes() {
+  if (!isPreorder()) return [];
+  return [
+    { key: 'Order type', value: 'Pre-order' },
+    { key: 'Promised arrival', value: arrivalRange().text },
+  ];
+}
+
 const cart = {
   get state() { return cartState; },
   onChange(fn) { listeners.add(fn); return () => listeners.delete(fn); },
@@ -183,9 +222,15 @@ const cart = {
     if (id) {
       const d = await sf(Q.add, { id, lines });
       // no cart back means the saved one expired: fall through and start fresh
-      if (d.cartLinesAdd.cart) return setCart(unwrap(d.cartLinesAdd));
+      if (d.cartLinesAdd.cart) {
+        const c = unwrap(d.cartLinesAdd);
+        if (!isPreorder()) return setCart(c);
+        // keep the promised window current for carts started on an earlier day
+        const u = await sf(Q.attrs, { id: c.id, attributes: orderAttributes() });
+        return setCart(unwrap(u.cartAttributesUpdate));
+      }
     }
-    const d = await sf(Q.create, { lines });
+    const d = await sf(Q.create, { lines, attributes: orderAttributes() });
     return setCart(unwrap(d.cartCreate));
   },
 
@@ -238,10 +283,10 @@ function renderBag() {
 }
 
 function flash(btn, msg, ms = 1400) {
-  const was = btn.textContent;
+  const was = btn.innerHTML;
   btn.textContent = msg;
   btn.classList.add('done');
-  setTimeout(() => { btn.textContent = was; btn.classList.remove('done'); }, ms);
+  setTimeout(() => { btn.innerHTML = was; btn.classList.remove('done'); }, ms);
 }
 
 /* ---------- drawer: opens after "Add to bag" --------------------------- */
@@ -279,6 +324,7 @@ function openDrawer({ name, size, colour, image, price }, returnTo) {
         <p class="dline__name">${esc(name)}</p>
         <p class="mono dline__meta">${[size, colour].filter(Boolean).map(esc).join(' · ')}</p>
         <p class="mono dline__price">${money(price)}</p>
+        ${isPreorder() ? `<p class="mono dline__po">Pre-order · Arrives ${arrivalRange().text}</p>` : ''}
       </div>
     </div>
     <p class="mono drawer__count">${n} item${n === 1 ? '' : 's'} in the bag</p>`;
@@ -303,13 +349,13 @@ async function addToBag(item, btn) {
   if (!SHOPIFY.enabled) {
     writeLocalBag(readLocalBag() + 1);
     renderBag();
-    if (btn) flash(btn, 'Added');
+    if (btn) flash(btn, isPreorder() ? 'Pre-ordered' : 'Added');
     return true;
   }
   if (!item.variantId) throw new ShopError("That size isn't on sale yet.");
   const attributes = item.colour ? [{ key: 'Colour', value: item.colour }] : [];
   await cart.add(item.variantId, 1, attributes);
-  if (btn) flash(btn, 'Added');
+  if (btn) flash(btn, isPreorder() ? 'Pre-ordered' : 'Added');
   openDrawer(item, btn);
   return true;
 }
@@ -322,7 +368,7 @@ function initBag() {
 }
 
 window.Mudra = {
-  SHOPIFY, SIZES, ACCOUNT_URL, CART_URL, ShopError,
+  SHOPIFY, SIZES, ACCOUNT_URL, CART_URL, ShopError, ORDERING, isPreorder, arrivalRange,
   productUrl, productIdFromUrl, loadCatalogue, loadSprite, sellableColours,
   money, esc, wireHeader, renderBag, initBag, addToBag, flash,
   liveProduct, cart, sf,

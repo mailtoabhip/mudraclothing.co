@@ -62,7 +62,7 @@ async function init() {
 async function loadLive(p) {
   const atc = $('#atc');
   atc.disabled = true;
-  atc.textContent = 'Checking stock';
+  atc.textContent = 'One moment';
   let live;
   try {
     live = await M.liveProduct(p.id);
@@ -85,7 +85,10 @@ async function loadLive(p) {
   if (view.size && !live.variants[view.size]?.available) view.size = null;
   const any = Object.values(live.variants).some(v => v.available);
   atc.disabled = !any;
-  atc.textContent = !any ? 'Sold out' : view.size ? `Add to bag — ${money(view.price)}` : 'Pick a size';
+  // "Sold out" only when Shopify itself reports no size available
+  if (!any) atc.textContent = 'Sold out';
+  else if (view.size) atc.innerHTML = ctaHTML();
+  else atc.textContent = 'Pick a size';
   syncSticky();
 }
 
@@ -228,6 +231,11 @@ function renderBuy(p) {
     </div>
 
     <button class="buy__atc" id="atc" ${anyStock ? '' : 'disabled'}>${anyStock ? 'Pick a size' : 'Sold out'}</button>
+    ${M.isPreorder() ? `
+    <div class="buy__po">
+      <p class="mono buy__when">Pre-order · Printed for you · Arrives ${esc(M.arrivalRange().text)}</p>
+      <p class="buy__why">We're new, so we print to order instead of guessing and bulk-printing. Once we know what you like, we'll keep stock and this gets faster.</p>
+    </div>` : ''}
     <p class="buy__err mono" id="atcErr" role="alert" hidden></p>
 
     <div class="twoside">
@@ -283,6 +291,13 @@ function renderBuy(p) {
   $('#atc').addEventListener('click', e => addCurrent(e.currentTarget));
 }
 
+// main button once a size is picked; the price part drops on very narrow phones (product.css)
+function ctaHTML() {
+  return M.isPreorder()
+    ? `Pre-order<span class="atc__price"> — ${money(view.price)}</span>`
+    : `Add to bag — ${money(view.price)}`;
+}
+
 function selectSize(size) {
   view.size = size;
   document.querySelectorAll('.szbtn').forEach(b => {
@@ -292,7 +307,7 @@ function selectSize(size) {
   });
   $('#sizeOpt').classList.remove('need');
   const atc = $('#atc');
-  atc.textContent = `Add to bag — ${money(view.price)}`;
+  atc.innerHTML = ctaHTML();
   showError('');
   atc.classList.add('ready');
   syncSticky();
@@ -452,7 +467,7 @@ function syncSticky() {
   const p = view.product;
   $('#sbName').textContent = p.name;
   $('#sbMeta').textContent = [money(view.price), view.colour?.name, view.size].filter(Boolean).join(' · ');
-  $('#sbBtn').textContent = view.size ? 'Add to bag' : 'Pick a size';
+  $('#sbBtn').textContent = view.size ? (M.isPreorder() ? 'Pre-order' : 'Add to bag') : 'Pick a size';
 }
 
 function wireStickyBar() {

@@ -334,6 +334,7 @@ a.atc{display:block;text-align:center}
 .dline__name{font-family:var(--display);text-transform:uppercase;font-size:20px;line-height:1.05;letter-spacing:.02em;margin-bottom:6px!important}
 .dline__meta{color:var(--ash)}
 .dline__price{margin-top:8px!important;font-size:13px}
+.dline__po{margin-top:8px!important;font-size:10px;letter-spacing:.1em;line-height:1.5}
 .drawer__count{color:var(--ash);margin:22px 0 0;padding-top:14px;border-top:1px dashed var(--line)}
 .drawer__foot{display:grid;gap:8px;padding:20px;border-top:1px solid var(--line)}
 .drawer__view{display:flex;align-items:center;justify-content:center;height:54px;background:var(--fg);color:var(--paper);
@@ -342,3 +343,6 @@ a.atc{display:block;text-align:center}
 .drawer__keep{height:46px;border:1px solid var(--line-strong);font-size:11px}
 .drawer__keep:hover{border-color:var(--fg)}
 @media (prefers-reduced-motion:reduce){.drawer{transition:none}}
+
+/* pre-order tag on product cards */
+.pcard__po{color:var(--fg);font-size:10px}

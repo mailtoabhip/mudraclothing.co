@@ -31,7 +31,7 @@
       "Don't iron over the print.",
       "Line dry. The dryer isn't your friend here."
     ],
-    "shipping": "Ships across India. Timelines go here once we've actually shipped something.",
+    "shipping": "Pre-order. Printed after you order, at your door in 7–10 days. Free shipping across India. Cash on delivery available.",
     "returns": "The full returns policy goes up before checkout opens. It'll be short and readable."
   },
   "products": [
@@ -502,14 +502,11 @@
       "colour": "black bone magenta rose",
       "print": "back",
       "price": 1199,
-      "badge": {
-        "type": "low",
-        "label": "Last few"
-      },
+      "badge": null,
       "sizes": [
         {
           "size": "S",
-          "available": false
+          "available": true
         },
         {
           "size": "M",
@@ -525,7 +522,7 @@
         },
         {
           "size": "XXL",
-          "available": false
+          "available": true
         }
       ],
       "media": [

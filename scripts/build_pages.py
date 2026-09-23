@@ -45,7 +45,7 @@ FOOTER = """<!-- footer:start -->
     <div class="fgrid">
       <div class="fbrand">
         <svg class="seal" viewBox="0 0 825 825" preserveAspectRatio="xMinYMid meet" aria-hidden="true"><use href="#seal"/></svg>
-        <p>Oversized tees, designed in-house and dropped in small numbers. Printed in India.</p>
+        <p>Oversized tees, designed in-house and printed to order in India.</p>
       </div>
 {cols}
     </div>

@@ -226,3 +226,10 @@ dialog::backdrop{background:rgba(26,26,26,.6);backdrop-filter:blur(2px)}
 /* add-to-bag error, inline */
 .buy__err{margin:-12px 0 0;padding:10px 12px;border:1px solid var(--magenta);background:rgba(255,45,120,.08);color:var(--fg);letter-spacing:.08em;line-height:1.5}
 .buy__atc:disabled[aria-busy="true"]{cursor:wait}
+
+/* pre-order promise under the main button */
+.buy__atc{white-space:nowrap}
+.buy__po{display:flex;flex-direction:column;gap:6px;margin-top:-10px}
+.buy__when{margin:0;font-size:10.5px;letter-spacing:.12em;line-height:1.6;color:var(--fg)}
+.buy__why{margin:0;font-size:13.5px;line-height:1.5;color:var(--ash);max-width:46ch}
+@media(max-width:340px){.atc__price{display:none}}

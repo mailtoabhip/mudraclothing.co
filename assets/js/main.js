@@ -3,7 +3,7 @@
    Renders the grid from data/products.json. Shared plumbing lives in shop.js.
    ========================================================================== */
 
-const { productUrl, loadCatalogue, loadSprite, money, esc, wireHeader, initBag, sellableColours } = window.Mudra;
+const { productUrl, loadCatalogue, loadSprite, money, esc, wireHeader, initBag, sellableColours, ORDERING, isPreorder } = window.Mudra;
 
 const state = {
   products: [],
@@ -65,9 +65,10 @@ function cardHTML(p) {
       <div class="ptag mono">${esc(p.seriesLabel)} · ${p.print === 'back' ? 'Back print' : 'Chest only'}</div>
       <h3><a href="${url}">${esc(p.name)}</a></h3>
       <div class="pprice">${money(p.price)}</div>
+      ${isPreorder() ? `<div class="ptag mono pcard__po">Pre-order · ${ORDERING.minDays}–${ORDERING.maxDays} days</div>` : ''}
       <div class="pswatches">${swatches}</div>
       ${inStock
-        ? `<a class="atc" href="${url}">Choose size</a>`
+        ? `<a class="atc" href="${url}">${isPreorder() ? 'Pre-order' : 'Choose size'}</a>`
         : `<button class="atc" disabled>Sold out</button>`}
     </div>
   </article>`;
