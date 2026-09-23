@@ -82,6 +82,13 @@ def drop_dates():
             "closes_short": _short(c), "ships_long": _long(sb), "ships_short": _short(sb)}
 
 
+def before_launch(now=None):
+    # `launch` only changes ticker/hero wording; pre-orders stay open either way
+    if not DROP or not DROP.get("launch"):
+        return False
+    return (now or datetime.datetime.now(IST)) < datetime.datetime.fromisoformat(DROP["launch"])
+
+
 # mirrors tickerItems() / heroTag() in assets/js/shop.js
 def ticker_items():
     ph, d = drop_phase(), drop_dates()
@@ -90,7 +97,11 @@ def ticker_items():
     if ph == "teaser":
         return [f"{d['name']} · pre-orders open {d['opens_short']}", "Designed in-house", "Free shipping across India"]
     if ph == "open":
-        return [f"{d['name']} · pre-orders close {d['closes_short']}", f"Ships by {d['ships_short']}", "Free shipping across India"]
+        if before_launch():
+            return [f"{d['name']} · early pre-orders open", f"Closes {d['closes_short']}",
+                    f"Ships by {d['ships_short']}", "Free shipping across India"]
+        return [f"{d['name']} is live", f"Pre-orders close {d['closes_short']}",
+                f"Ships by {d['ships_short']}", "Free shipping across India"]
     return [f"{d['name']} · printing now", f"Ships by {d['ships_short']}"]
 
 
@@ -100,7 +111,7 @@ def hero_tag():
     if not d:
         return launched
     return {"teaser": f"{d['name']} · pre-orders open {d['opens_short']}",
-            "open": f"{d['name']} · pre-orders open now",
+            "open": f"{d['name']} · early pre-orders open" if before_launch() else f"{d['name']} is live",
             "closed": f"{d['name']} · printing now"}.get(ph, launched)
 
 
@@ -335,7 +346,7 @@ def card_cta(p, href, in_stock):
     if st == "teaser":
         return "", f'<a class="atc" href="{href}">Opens {d["opens_short"]}</a>'
     if st == "open":
-        return f"Closes {d['closes_short']}", f'<a class="atc" href="{href}">Pre-order</a>'
+        return f"Closes {d['closes_short']}", f'<a class="atc" href="{href}">Pre-order now</a>'
     if st == "closed":
         return "", f'<a class="atc" href="{href}">Closed</a>'
     if st == "notInDrop":

@@ -344,7 +344,7 @@ function infoBoxHTML(p) {
   const prepaid = M.drop && M.drop.prepaidOnly ? ' Prepaid only for pre-orders.' : '';
   if (st === 'teaser') return box(d.name, `Opens ${d.opensLong}`,
     `Pre-orders run ${d.opensShort} to ${d.closesShort}. ${d.name} is made in one run after they close, and ships by ${d.shipsShort}.${prepaid}`);
-  if (st === 'open') return box('Pre-order', `Ships by ${d.shipsLong}`,
+  if (st === 'open') return box('Pre-orders open', `Ships by ${d.shipsLong}`,
     `${d.name} is made in one run after pre-orders close on ${d.closesShort}. We print what you order, nothing more.${prepaid}`, M.closesIn());
   if (st === 'closed') return box(d.name, `Ships by ${d.shipsLong}`,
     `Printing ${d.name} now. Pre-orders ship by ${d.shipsShort}. Missed it? This design comes back after launch.`);
@@ -367,6 +367,8 @@ function shippingText(p) {
 
 // main button once a size is picked; the price part drops on very narrow phones (product.css)
 function ctaHTML() {
+  // drop window: "Pre-order now · ₹1,199"; narrow phones keep just "Pre-order"
+  if (M.saleState(view.product.id) === 'open') return `Pre-order<span class="atc__price"> now · ${money(view.price)}</span>`;
   return M.isPreorder()
     ? `Pre-order<span class="atc__price"> · ${money(view.price)}</span>`
     : `Add to bag · ${money(view.price)}`;
@@ -544,7 +546,8 @@ function syncSticky() {
   $('#sbName').textContent = p.name;
   $('#sbMeta').textContent = [money(view.price), view.colour?.name, view.size].filter(Boolean).join(' · ');
   if (locked()) { $('#sbBtn').textContent = lockedLabel(); return; }
-  $('#sbBtn').textContent = view.size ? (M.isPreorder() ? 'Pre-order' : 'Add to bag') : 'Pick a size';
+  const verb = M.saleState(p.id) === 'open' ? 'Pre-order now' : M.isPreorder() ? 'Pre-order' : 'Add to bag';
+  $('#sbBtn').textContent = view.size ? verb : 'Pick a size';
 }
 
 function wireStickyBar() {

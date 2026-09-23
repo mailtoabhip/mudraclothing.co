@@ -104,6 +104,8 @@ comments). `window.Mudra.dropPhase()` gives `teaser` (before `opens`), `open`,
 `closed` (after `closes`) or `launched` (from the day after `shipsBy`), in IST. After
 launch the site falls back to `ORDERING` in shop.js (print-to-order, 7–10 days).
 
+- `launch` (optional): public launch day inside the open window. Before it, the
+  ticker and hero say "early pre-orders open"; after it, "Drop 01 is live".
 - `products`: `"all"` or a list of ids; the rest show "Not in Drop 01" until launch.
 - `prepaidOnly`: the site hides COD and says "prepaid only" while the drop runs. It
   can't switch COD off at Shopify's checkout: turn off the COD payment method in
@@ -118,9 +120,9 @@ the pre-built HTML, structured data and meta descriptions are fixed at build tim
 
     python3 scripts/build_pages.py && python3 scripts/fingerprint.py
 
-- after 10:00 IST on 8 Oct 2026 (opens)
-- after 23:59 IST on 22 Oct 2026, i.e. on 23 Oct (closes)
-- on 6 Nov 2026, the day after shipsBy (launch)
+- after 10:00 IST on 8 Oct 2026 (`launch`: "Drop 01 is live" copy)
+- after 23:59 IST on 15 Oct 2026, i.e. on 16 Oct (`closes`)
+- on 30 Oct 2026, the day after `shipsBy` 29 Oct (back to print-to-order)
 
 ## Cache-busting
 

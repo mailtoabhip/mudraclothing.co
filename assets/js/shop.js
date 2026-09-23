@@ -190,12 +190,20 @@ function downloadIcs(productName) {
   setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
 }
 
+// `launch` (optional) is the public launch day inside the open window; it only
+// changes the ticker and hero wording, pre-orders stay open either way
+const beforeLaunch = (now = Date.now()) => !!(DROP && DROP.launch) && now < Date.parse(DROP.launch);
+
 // ticker lines per phase; launched falls back to print-to-order
 function tickerItems() {
   const ph = dropPhase(), d = dropDates();
   if (!d || ph === 'launched') return [`Printed to order · ${ORDERING.minDays}–${ORDERING.maxDays} days`, 'Designed in-house', 'Free shipping across India'];
   if (ph === 'teaser') return [`${d.name} · pre-orders open ${d.opensShort}`, 'Designed in-house', 'Free shipping across India'];
-  if (ph === 'open') return [`${d.name} · pre-orders close ${d.closesShort}`, `Ships by ${d.shipsShort}`, 'Free shipping across India'];
+  if (ph === 'open') {
+    return beforeLaunch()
+      ? [`${d.name} · early pre-orders open`, `Closes ${d.closesShort}`, `Ships by ${d.shipsShort}`, 'Free shipping across India']
+      : [`${d.name} is live`, `Pre-orders close ${d.closesShort}`, `Ships by ${d.shipsShort}`, 'Free shipping across India'];
+  }
   return [`${d.name} · printing now`, `Ships by ${d.shipsShort}`];
 }
 
@@ -204,7 +212,7 @@ function heroTag() {
   const ph = dropPhase(), d = dropDates();
   if (!d) return `Printed to order · ${ORDERING.minDays}–${ORDERING.maxDays} days`;
   if (ph === 'teaser') return `${d.name} · pre-orders open ${d.opensShort}`;
-  if (ph === 'open') return `${d.name} · pre-orders open now`;
+  if (ph === 'open') return beforeLaunch() ? `${d.name} · early pre-orders open` : `${d.name} is live`;
   if (ph === 'closed') return `${d.name} · printing now`;
   return `Printed to order · ${ORDERING.minDays}–${ORDERING.maxDays} days`;   // after launch: nothing drop-specific
 }
