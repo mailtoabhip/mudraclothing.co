@@ -1,16 +1,9 @@
 /* ==========================================================================
-   Mudra Studios — storefront
-   Renders the catalogue from data/products.json and hands checkout to Shopify.
+   Mudra Studios — catalogue (home page)
+   Renders the grid from data/products.json. Shared plumbing lives in shop.js.
    ========================================================================== */
 
-const SHOPIFY = {
-  // Fill these in from Shopify admin → Sales channels → Buy Button
-  domain: 'your-store.myshopify.com',
-  storefrontAccessToken: 'REPLACE_ME',
-  enabled: false, // flip to true once the two values above are real
-};
-
-const SIZES = ['S', 'M', 'L', 'XL', 'XXL'];
+const { productUrl, loadCatalogue, loadSprite, money, esc, wireHeader, renderBag, loadShopify } = window.Mudra;
 
 const state = {
   products: [],
@@ -21,23 +14,14 @@ const state = {
 /* ---------- boot ---------------------------------------------------- */
 
 async function init() {
-  const [sprite, data] = await Promise.all([
-    fetch('assets/svg/sprite.svg?v=351f9262').then(r => r.text()),
-    fetch('data/products.json', { cache: 'no-cache' }).then(r => r.json()),
-  ]);
-
-  // inject the svg symbol sprite so <use> works
-  const holder = document.createElement('div');
-  holder.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden';
-  holder.innerHTML = sprite;
-  document.body.prepend(holder);
-
+  const [, data] = await Promise.all([loadSprite(), loadCatalogue()]);
   state.products = data.products;
   renderGrid();
   wireFilters();
   wireSort();
   wireHeader();
-  if (SHOPIFY.enabled) loadShopify();
+  renderBag();
+  loadShopify();
 }
 
 /* ---------- rendering ------------------------------------------------ */
@@ -45,11 +29,11 @@ async function init() {
 function mediaHTML(m, i) {
   const on = i === 0 ? ' is-on' : '';
   if (m.type === 'img') {
-    return `<img class="slide${on}" src="${m.src}" alt="${m.alt}"
+    return `<img class="slide${on}" src="/${m.src}" alt="${esc(m.alt)}"
       loading="${i === 0 ? 'eager' : 'lazy'}" decoding="async" width="800" height="1000">`;
   }
   const vb = m.viewBox || '0 0 300 375';
-  return `<svg class="slide${on}" viewBox="${vb}" role="img" aria-label="${m.alt}"><use href="${m.ref}"/></svg>`;
+  return `<svg class="slide${on}" viewBox="${vb}" role="img" aria-label="${esc(m.alt)}"><use href="${m.ref}"/></svg>`;
 }
 
 function cardHTML(p) {
@@ -57,20 +41,21 @@ function cardHTML(p) {
   const inStock = available.length > 0;
   const stockTags = [inStock ? 'in' : 'out'];
   if (p.badge && p.badge.type === 'low') stockTags.push('low');
+  const url = productUrl(p.id);
 
-  const badge = p.badge ? `<span class="pbadge ${p.badge.type}">${p.badge.label}</span>` : '';
+  const badge = p.badge ? `<span class="pbadge ${p.badge.type}">${esc(p.badge.label)}</span>` : '';
   const slides = p.media.map(mediaHTML).join('');
   const dots = p.media.map((_, i) => (i === 0 ? '<i class="is-on"></i>' : '<i></i>')).join('');
   const swatches = (p.colours || []).map((c, i) =>
     `<button class="pswatch${i === 0 ? ' on' : ''}" data-colour="${c.key}"
-       style="--sw:${c.hex}" title="${c.name}" aria-label="${c.name}"></button>`).join('');
+       style="--sw:${c.hex}" title="${esc(c.name)}" aria-label="${esc(c.name)}"></button>`).join('');
 
   return `
   <article class="pcard" data-id="${p.id}" data-series="${p.series}" data-colour="${p.colour}"
            data-print="${p.print}" data-stock="${stockTags.join(' ')}"
            data-sizes="${available.map(s => s.size).join(' ')}"
-           data-price="${p.price}" data-name="${p.name}">
-    <div class="pcard__media" tabindex="0">
+           data-price="${p.price}" data-name="${esc(p.name)}" data-url="${url}">
+    <div class="pcard__media" tabindex="0" aria-label="${esc(p.name)} — view product">
       ${badge}
       <div class="slides">${slides}</div>
       <button class="navbtn prev" aria-label="Previous image">&#8249;</button>
@@ -78,11 +63,13 @@ function cardHTML(p) {
       <div class="dots">${dots}</div>
     </div>
     <div class="pcard__info">
-      <div class="ptag mono">${p.seriesLabel} · ${p.print === 'back' ? 'Back print' : 'Chest only'}</div>
-      <h3>${p.name}</h3>
-      <div class="pprice">₹${p.price.toLocaleString('en-IN')}</div>
+      <div class="ptag mono">${esc(p.seriesLabel)} · ${p.print === 'back' ? 'Back print' : 'Chest only'}</div>
+      <h3><a href="${url}">${esc(p.name)}</a></h3>
+      <div class="pprice">${money(p.price)}</div>
       <div class="pswatches">${swatches}</div>
-      <button class="atc" ${inStock ? '' : 'disabled'}>${inStock ? 'Add to cart' : 'Sold out'}</button>
+      ${inStock
+        ? `<a class="atc" href="${url}">Choose size</a>`
+        : `<button class="atc" disabled>Sold out</button>`}
     </div>
   </article>`;
 }
@@ -92,7 +79,7 @@ function renderGrid() {
   grid.replaceChildren();                       // never append onto a previous render
   grid.innerHTML = state.products.map(cardHTML).join('');
   grid.querySelectorAll('.pcard').forEach(wireCarousel);
-  wireCart(grid);
+  wireCards(grid);
   applyFilters();
 }
 
@@ -102,9 +89,18 @@ function wireCarousel(card) {
   const media = card.querySelector('.pcard__media');
   const slides = media.querySelectorAll('.slide');
   const dots = media.querySelectorAll('.dots i');
-  if (slides.length < 2) return;
 
-  let base = 0, cur = 0;
+  // clicking the picture (not an arrow) opens the product
+  media.addEventListener('click', e => {
+    if (e.target.closest('.navbtn')) return;
+    location.href = card.dataset.url;
+  });
+  media.addEventListener('keydown', e => {
+    if (e.key === 'Enter') location.href = card.dataset.url;
+  });
+
+  if (slides.length < 2) return;
+  let cur = 0;
 
   const show = i => {
     if (i === cur) return;
@@ -114,10 +110,7 @@ function wireCarousel(card) {
     dots[i]?.classList.add('is-on');
     cur = i;
   };
-  const step = dir => {
-    base = (cur + dir + slides.length) % slides.length;
-    show(base);
-  };
+  const step = dir => show((cur + dir + slides.length) % slides.length);
 
   media.addEventListener('mouseenter', () => step(1));
   media.addEventListener('click', e => {
@@ -132,46 +125,20 @@ function wireCarousel(card) {
   });
 }
 
-/* ---------- size selection + cart ------------------------------------ */
+/* ---------- colour swatches (size is picked on the product page) ----- */
 
-function wireCart(grid) {
+function wireCards(grid) {
   grid.addEventListener('click', e => {
     const sw = e.target.closest('.pswatch');
-    if (sw) {
-      sw.closest('.pswatches').querySelectorAll('.pswatch').forEach(b => b.classList.remove('on'));
-      sw.classList.add('on');
-      return;
-    }
-
-    const btn = e.target.closest('.atc');
-    if (!btn || btn.disabled) return;
-
-    const card = btn.closest('.pcard');
-    const colour = card.querySelector('.pswatch.on');
-    // size is chosen on the product page; the card only picks a colourway
-    addToCart(colour ? colour.dataset.colour : null, btn);
+    if (!sw) return;
+    sw.closest('.pswatches').querySelectorAll('.pswatch').forEach(b => b.classList.remove('on'));
+    sw.classList.add('on');
+    // carry the chosen colour through to the product page
+    const card = sw.closest('.pcard');
+    const url = `${productUrl(card.dataset.id)}${productUrl('x').includes('?') ? '&' : '?'}c=${sw.dataset.colour}`;
+    card.dataset.url = url;
+    card.querySelectorAll('h3 a, a.atc').forEach(a => { a.href = url; });
   });
-}
-
-function flash(btn, msg) {
-  const was = btn.textContent;
-  btn.textContent = msg;
-  btn.classList.add('done');
-  setTimeout(() => { btn.textContent = was; btn.classList.remove('done'); }, 1400);
-}
-
-let localCount = 0;
-
-function addToCart(_selection, btn) {
-  if (SHOPIFY.enabled && window.mudraCart) {
-    window.mudraCart.addVariantToCart({ id: _selection, quantity: 1 });
-    flash(btn, 'Added');
-    return;
-  }
-  // fallback while Shopify isn't wired up yet
-  localCount++;
-  document.querySelector('.cart').textContent = `Bag (${localCount})`;
-  flash(btn, 'Added');
 }
 
 /* ---------- filters + sort ------------------------------------------- */
@@ -237,56 +204,6 @@ function wireSort() {
     if (v === 'new') list.reverse();
     list.forEach(c => grid.appendChild(c));
   });
-}
-
-/* ---------- header ---------------------------------------------------- */
-
-function wireHeader() {
-  const h = document.querySelector('header');
-  let ticking = false;
-  const sync = () => { h.classList.toggle('scrolled', window.scrollY > 12); ticking = false; };
-  addEventListener('scroll', () => {
-    if (!ticking) { ticking = true; requestAnimationFrame(sync); }
-  }, { passive: true });
-  sync();
-}
-
-/* ---------- Shopify Buy Button --------------------------------------- */
-
-function loadShopify() {
-  const src = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
-  const s = document.createElement('script');
-  s.async = true;
-  s.src = src;
-  s.onload = () => {
-    const client = ShopifyBuy.buildClient({
-      domain: SHOPIFY.domain,
-      storefrontAccessToken: SHOPIFY.storefrontAccessToken,
-    });
-    ShopifyBuy.UI.onReady(client).then(ui => {
-      ui.createComponent('cart', {
-        node: document.getElementById('shopify-cart'),
-        options: {
-          cart: {
-            startOpen: false,
-            popup: false,
-            text: { title: 'Bag', total: 'Subtotal', button: 'Checkout' },
-            styles: {
-              button: {
-                'background-color': '#2B3AFF',
-                'font-family': 'Space Mono, monospace',
-                'font-size': '12px',
-                'letter-spacing': '0.16em',
-                'text-transform': 'uppercase',
-                'border-radius': '0',
-              },
-            },
-          },
-        },
-      }).then(cart => { window.mudraCart = cart; });
-    });
-  };
-  document.head.appendChild(s);
 }
 
 init();

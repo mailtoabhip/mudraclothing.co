@@ -1,9 +1,44 @@
 {
   "currency": "INR",
+  "garment": {
+    "_note": "Shared product-page copy. Everything under 'details' is the SUPPLIER spec (Merch Factory listing), not yet checked on a physical sample. Re-verify once samples arrive. sizeChart stays null until measured on a real sample: never paste guessed numbers.",
+    "details": [
+      [
+        "Fabric",
+        "240 GSM loopknit cotton (supplier spec)"
+      ],
+      [
+        "Cut",
+        "Oversized, drop shoulder, boxy"
+      ],
+      [
+        "Neck",
+        "Ribbed crew"
+      ],
+      [
+        "Sleeve",
+        "Half sleeve"
+      ],
+      [
+        "Print",
+        "DTF. Small stamp on the chest, full graphic on the back"
+      ]
+    ],
+    "sizeChart": null,
+    "sizeChartUnit": "in",
+    "care": [
+      "Wash inside out, cold.",
+      "Don't iron over the print.",
+      "Line dry. The dryer isn't your friend here."
+    ],
+    "shipping": "Ships across India. Timelines go here once we've actually shipped something.",
+    "returns": "The full returns policy goes up before checkout opens. It'll be short and readable."
+  },
   "products": [
     {
       "id": "face-card",
       "name": "Face Card",
+      "no": 5,
       "series": "y2k",
       "seriesLabel": "Y2K",
       "colour": "black bone blue sage",
@@ -85,6 +120,7 @@
     {
       "id": "neo-bombay",
       "name": "Neo Bombay",
+      "no": 8,
       "series": "y2k",
       "seriesLabel": "Y2K",
       "colour": "black bone magenta sky",
@@ -179,6 +215,7 @@
     {
       "id": "dilli-belly",
       "name": "Dilli Belly",
+      "no": 1,
       "series": "food",
       "seriesLabel": "Food",
       "colour": "black bone lime butter",
@@ -275,6 +312,7 @@
     {
       "id": "bombay-bhook",
       "name": "Bombay Bhook",
+      "no": 2,
       "series": "food",
       "seriesLabel": "Food",
       "colour": "black bone blue peach",
@@ -366,6 +404,7 @@
     {
       "id": "namma-hotte",
       "name": "Namma Hotte",
+      "no": 3,
       "series": "food",
       "seriesLabel": "Food",
       "colour": "black bone lime mint",
@@ -462,6 +501,7 @@
     {
       "id": "pet-pujo",
       "name": "Pet Pujo",
+      "no": 4,
       "series": "food",
       "seriesLabel": "Food",
       "colour": "black bone magenta rose",
@@ -561,6 +601,7 @@
     {
       "id": "calcutta-wb02",
       "name": "Calcutta WB 02",
+      "no": 9,
       "series": "city",
       "seriesLabel": "City",
       "colour": "black bone blue clay",
@@ -598,12 +639,12 @@
         {
           "type": "img",
           "src": "assets/img/products/calcutta-wb02-back.jpg",
-          "alt": "Calcutta WB 02 \u2014 Calcutta plate and skyline, full back print"
+          "alt": "Calcutta WB 02 — Calcutta plate and skyline, full back print"
         },
         {
           "type": "img",
           "src": "assets/img/products/calcutta-wb02-front.jpg",
-          "alt": "Calcutta WB 02 \u2014 WB 02 plate chest print"
+          "alt": "Calcutta WB 02 — WB 02 plate chest print"
         }
       ],
       "colours": [
@@ -632,6 +673,7 @@
     {
       "id": "delhi-dl01",
       "name": "Delhi DL 01",
+      "no": 10,
       "series": "city",
       "seriesLabel": "City",
       "colour": "black bone magenta sand",
@@ -669,12 +711,12 @@
         {
           "type": "img",
           "src": "assets/img/products/delhi-dl01-back.jpg",
-          "alt": "Delhi DL 01 \u2014 Delhi plate and skyline, full back print"
+          "alt": "Delhi DL 01 — Delhi plate and skyline, full back print"
         },
         {
           "type": "img",
           "src": "assets/img/products/delhi-dl01-front.jpg",
-          "alt": "Delhi DL 01 \u2014 DL 01 plate chest print"
+          "alt": "Delhi DL 01 — DL 01 plate chest print"
         }
       ],
       "colours": [
@@ -703,6 +745,7 @@
     {
       "id": "bengaluru-ka01",
       "name": "Bengaluru KA 01",
+      "no": 11,
       "series": "city",
       "seriesLabel": "City",
       "colour": "black bone lime stone",
@@ -740,12 +783,12 @@
         {
           "type": "img",
           "src": "assets/img/products/bengaluru-ka01-back.jpg",
-          "alt": "Bengaluru KA 01 \u2014 Bengaluru plate and skyline, full back print"
+          "alt": "Bengaluru KA 01 — Bengaluru plate and skyline, full back print"
         },
         {
           "type": "img",
           "src": "assets/img/products/bengaluru-ka01-front.jpg",
-          "alt": "Bengaluru KA 01 \u2014 KA 01 plate chest print"
+          "alt": "Bengaluru KA 01 — KA 01 plate chest print"
         }
       ],
       "colours": [
@@ -774,6 +817,7 @@
     {
       "id": "not-responding",
       "name": "Not Responding",
+      "no": 15,
       "series": "y2k",
       "seriesLabel": "Y2K",
       "colour": "black bone blue periwinkle",
@@ -826,12 +870,12 @@
         {
           "type": "img",
           "src": "assets/img/products/not-responding-back.jpg",
-          "alt": "Not Responding \u2014 Crashed dialog boxes, full back print"
+          "alt": "Not Responding — Crashed dialog boxes, full back print"
         },
         {
           "type": "img",
           "src": "assets/img/products/not-responding-front.jpg",
-          "alt": "Not Responding \u2014 brb dialog chest print"
+          "alt": "Not Responding — brb dialog chest print"
         }
       ],
       "colours": [
@@ -860,6 +904,7 @@
     {
       "id": "on-repeat",
       "name": "On Repeat",
+      "no": 13,
       "series": "music",
       "seriesLabel": "Music",
       "colour": "black bone blue lilac",
@@ -897,12 +942,12 @@
         {
           "type": "img",
           "src": "assets/img/products/on-repeat-back.jpg",
-          "alt": "On Repeat \u2014 Retro media player and playlist, full back print"
+          "alt": "On Repeat — Retro media player and playlist, full back print"
         },
         {
           "type": "img",
           "src": "assets/img/products/on-repeat-front.jpg",
-          "alt": "On Repeat \u2014 Transport bar chest print"
+          "alt": "On Repeat — Transport bar chest print"
         }
       ],
       "colours": [
@@ -931,6 +976,7 @@
     {
       "id": "set-03",
       "name": "Set 03",
+      "no": 6,
       "series": "gym",
       "seriesLabel": "Gym",
       "colour": "black bone magenta aqua",
@@ -968,12 +1014,12 @@
         {
           "type": "img",
           "src": "assets/img/products/set-03-back.jpg",
-          "alt": "Set 03 \u2014 Training log and barbell, full back print"
+          "alt": "Set 03 — Training log and barbell, full back print"
         },
         {
           "type": "img",
           "src": "assets/img/products/set-03-front.jpg",
-          "alt": "Set 03 \u2014 Checkbox stack and dumbbell chest print"
+          "alt": "Set 03 — Checkbox stack and dumbbell chest print"
         }
       ],
       "colours": [
@@ -1002,6 +1048,7 @@
     {
       "id": "atlas",
       "name": "Atlas",
+      "no": 7,
       "series": "gym",
       "seriesLabel": "Gym",
       "colour": "black bone blue stone sage",
@@ -1049,12 +1096,12 @@
         {
           "type": "img",
           "src": "assets/img/products/atlas-back.jpg",
-          "alt": "Atlas \u2014 Atlas specimen card, full back print"
+          "alt": "Atlas — Atlas specimen card, full back print"
         },
         {
           "type": "img",
           "src": "assets/img/products/atlas-front.jpg",
-          "alt": "Atlas \u2014 Atlas card chest print"
+          "alt": "Atlas — Atlas card chest print"
         }
       ],
       "colours": [
@@ -1088,6 +1135,7 @@
     {
       "id": "one-way",
       "name": "One Way",
+      "no": 12,
       "series": "travel",
       "seriesLabel": "Travel",
       "colour": "black bone magenta sky",
@@ -1125,12 +1173,12 @@
         {
           "type": "img",
           "src": "assets/img/products/one-way-back.jpg",
-          "alt": "One Way \u2014 Home to Away boarding pass, full back print"
+          "alt": "One Way — Home to Away boarding pass, full back print"
         },
         {
           "type": "img",
           "src": "assets/img/products/one-way-front.jpg",
-          "alt": "One Way \u2014 Seat 00A stub chest print"
+          "alt": "One Way — Seat 00A stub chest print"
         }
       ],
       "colours": [
@@ -1159,6 +1207,7 @@
     {
       "id": "out-of-office",
       "name": "Out of Office",
+      "no": 14,
       "series": "travel",
       "seriesLabel": "Travel",
       "colour": "black bone lime aqua",
@@ -1196,12 +1245,12 @@
         {
           "type": "img",
           "src": "assets/img/products/out-of-office-back.jpg",
-          "alt": "Out of Office \u2014 Out of office luggage tag, full back print"
+          "alt": "Out of Office — Out of office luggage tag, full back print"
         },
         {
           "type": "img",
           "src": "assets/img/products/out-of-office-front.jpg",
-          "alt": "Out of Office \u2014 AWAY status tag chest print"
+          "alt": "Out of Office — AWAY status tag chest print"
         }
       ],
       "colours": [
@@ -1230,6 +1279,7 @@
     {
       "id": "the-overthinker",
       "name": "The Overthinker",
+      "no": 16,
       "series": "tarot",
       "seriesLabel": "Tarot",
       "colour": "black bone blue lavender",
@@ -1267,12 +1317,12 @@
         {
           "type": "img",
           "src": "assets/img/products/the-overthinker-back.jpg",
-          "alt": "The Overthinker \u2014 The Overthinker tarot card IX, full back print"
+          "alt": "The Overthinker — The Overthinker tarot card IX, full back print"
         },
         {
           "type": "img",
           "src": "assets/img/products/the-overthinker-front.jpg",
-          "alt": "The Overthinker \u2014 Card IX chest print"
+          "alt": "The Overthinker — Card IX chest print"
         }
       ],
       "colours": [

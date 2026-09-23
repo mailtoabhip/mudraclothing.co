@@ -7,9 +7,14 @@ orders live in Shopify via the Buy Button SDK.
 
 ```
 index.html              page shell — hero, filters, spec band, footer
+product.html            product page template (one page renders every product)
 data/products.json      single source of truth for the catalogue
 assets/css/styles.css
-assets/js/main.js       renders the grid, carousel, filters, sort, cart
+assets/js/shop.js       shared: Shopify config, bag, header, urls (load first)
+assets/js/main.js       home: grid, carousel, filters, sort
+assets/js/product.js    product page: gallery, size/colour, size guide, related
+assets/css/product.css  product page styles
+scripts/fingerprint.py  regenerates every ?v= cache-buster
 assets/svg/sprite.svg   logo + placeholder artwork symbols
 assets/img/products/    product photography
 assets/video/hero.mp4
@@ -66,3 +71,18 @@ python3 -m http.server 8000
 ## Deploy
 
 Push to GitHub, import the repo in Vercel, add the domain. Every push deploys.
+
+## Product pages
+
+One template, every product. `/p/{id}` is rewritten to `product.html` in
+`vercel.json`; locally use `/product.html?id={id}` (python's server can't rewrite).
+Cards link there automatically. Shared page copy (details, care, shipping,
+returns, size chart) lives in the `garment` block of `data/products.json`.
+Optional per-product copy: add `"blurb"` to a product.
+
+`garment.sizeChart` stays `null` until a real sample is measured. Format:
+`{"columns":["Chest","Length","Shoulder"],"rows":[{"size":"S","values":["…","…","…"]}]}`
+
+## Cache-busting
+
+After changing any CSS, JS or the sprite: `python3 scripts/fingerprint.py`

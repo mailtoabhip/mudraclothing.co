@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mudra Studios</title>
+<meta name="description" content="Oversized tees, designed in-house. Clean front, loud back.">
+<meta property="og:type" content="product">
+<meta property="og:site_name" content="Mudra Studios">
+<link rel="icon" href="/assets/favicon/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/icon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/icon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon/icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#EDE9E0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Saira:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/styles.css?v=0e73d53e">
+<link rel="stylesheet" href="/assets/css/product.css?v=275663af">
+</head>
+<body class="is-pdp">
+
+<header class="scrolled solid">
+  <div class="wrap bar">
+    <a class="brand" href="/">
+      <svg class="logo" viewBox="0 0 2906 825" preserveAspectRatio="xMinYMid meet" role="img" aria-label="Mudra Studios"><use href="#logo"/></svg>
+    </a>
+    <nav>
+      <a href="/#drop">Drop 02</a>
+      <a href="/#shop">Shop all</a>
+      <a href="/#archive">Archive</a>
+      <a href="/#about">About</a>
+    </nav>
+    <button class="cart">Bag (0)</button>
+  </div>
+</header>
+
+<main class="pdp" id="pdp">
+  <div class="wrap">
+    <nav class="crumb mono" aria-label="Breadcrumb" id="crumb">
+      <a href="/">Home</a> <span>/</span> <a href="/#shop">Tees</a>
+    </nav>
+
+    <div class="pdp-grid">
+      <section class="gallery" id="gallery" aria-label="Product images">
+        <div class="gallery__track" id="track"><div class="gshot is-skel"></div><div class="gshot is-skel"></div></div>
+        <div class="gallery__count mono" id="gcount" aria-hidden="true"></div>
+      </section>
+
+      <aside class="buy" id="buy" aria-live="polite"></aside>
+    </div>
+  </div>
+
+  <section class="sides wrap" id="sides" hidden></section>
+
+  <section class="wrap related" id="related" hidden>
+    <div class="shead">
+      <h2 id="relatedTitle">KEEP LOOKING</h2>
+      <a class="mono" href="/#shop">All tees →</a>
+    </div>
+    <div class="rgrid" id="rgrid"></div>
+  </section>
+</main>
+
+<div class="stickybar" id="stickybar" aria-hidden="true">
+  <div class="stickybar__meta">
+    <span class="stickybar__name" id="sbName"></span>
+    <span class="mono" id="sbMeta"></span>
+  </div>
+  <button class="stickybar__btn" id="sbBtn" tabindex="-1">Pick a size</button>
+</div>
+
+<dialog class="sheet" id="sizeSheet" aria-labelledby="sizeSheetTitle">
+  <div class="sheet__head">
+    <h2 id="sizeSheetTitle">SIZE GUIDE</h2>
+    <button class="sheet__x mono" data-close>Close</button>
+  </div>
+  <div class="sheet__body" id="sizeSheetBody"></div>
+</dialog>
+
+<dialog class="zoom" id="zoom" aria-label="Image viewer">
+  <img id="zoomImg" alt="">
+  <button class="zoom__nav prev" data-dir="-1" aria-label="Previous image">&#8249;</button>
+  <button class="zoom__nav next" data-dir="1" aria-label="Next image">&#8250;</button>
+  <button class="zoom__x mono" data-close>Close</button>
+  <span class="zoom__count mono" id="zoomCount"></span>
+</dialog>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div class="fbrand">
+        <svg class="seal" viewBox="0 0 825 825" preserveAspectRatio="xMinYMid meet" aria-hidden="true"><use href="#seal"/></svg>
+        <p>Oversized tees, designed in-house and dropped in small numbers. Made in India.</p>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <ul><li><a href="/#shop">All tees</a></li><li><a href="/#archive">Archive</a></li><li><a href="#" data-size-guide>Size guide</a></li></ul>
+      </div>
+      <div>
+        <h4>Help</h4>
+        <ul><li><a href="#">Shipping</a></li><li><a href="#">Returns</a></li><li><a href="#">Contact</a></li></ul>
+      </div>
+      <div>
+        <h4>Elsewhere</h4>
+        <ul><li><a href="#">Instagram</a></li><li><a href="/#about">About</a></li></ul>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>© 2026 Mudra Studios</span>
+      <span>The rest is between you and your mirror.</span>
+    </div>
+  </div>
+</footer>
+
+<div id="shopify-cart"></div>
+<script src="/assets/js/shop.js?v=0e011fa9" defer></script>
+<script src="/assets/js/product.js?v=af2b90d8" defer></script>
+</body>
+</html>
