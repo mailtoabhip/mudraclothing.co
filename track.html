@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mudra Studios</title>
-<meta name="description" content="Oversized tees, designed in-house. Clean front, loud back.">
-<meta property="og:type" content="product">
+<title>Track an order · Mudra Studios</title>
+<meta name="description" content="How to track your Mudra Studios order.">
+<meta property="og:title" content="Track an order · Mudra Studios">
+<meta property="og:description" content="How to track your Mudra Studios order.">
 <meta property="og:site_name" content="Mudra Studios">
 <link rel="icon" href="/assets/favicon/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/icon-16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/icon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon/icon-192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
@@ -18,75 +18,48 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Saira:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/styles.css?v=13dd2fc8">
-<link rel="stylesheet" href="/assets/css/product.css?v=4ce40b19">
+<link rel="stylesheet" href="/assets/css/pages.css?v=01d0564a">
 </head>
-<body class="is-pdp">
+<body class="is-page page-track">
 
 <header class="scrolled solid">
   <div class="wrap bar">
     <a class="brand" href="/">
       <svg class="logo" viewBox="0 0 2906 825" preserveAspectRatio="xMinYMid meet" role="img" aria-label="Mudra Studios"><use href="#logo"/></svg>
     </a>
-    <nav>
-      <a href="/#drop">Drop 02</a>
-      <a href="/#shop">Shop all</a>
-      <a href="/#archive">Archive</a>
-      <a href="/about">About</a>
-    </nav>
+    <nav class="mainnav"><a href="/#shop">Shop all</a><a href="/size-guide">Size guide</a><a href="/about">About</a></nav>
     <button class="cart">Bag (0)</button>
   </div>
 </header>
 
-<main class="pdp" id="pdp">
-  <div class="wrap">
-    <nav class="crumb mono" aria-label="Breadcrumb" id="crumb">
-      <a href="/">Home</a> <span>/</span> <a href="/#shop">Tees</a>
-    </nav>
-
-    <div class="pdp-grid">
-      <section class="gallery" id="gallery" aria-label="Product images">
-        <div class="gallery__track" id="track"><div class="gshot is-skel"></div><div class="gshot is-skel"></div></div>
-        <div class="gallery__count mono" id="gcount" aria-hidden="true"></div>
-      </section>
-
-      <aside class="buy" id="buy" aria-live="polite"></aside>
+<main>
+  <section class="pblock pblock--blue">
+    <div class="wrap pblock__inner">
+      <div class="pblock__meta mono"><span>Help · Tracking</span></div>
+      <h1 class="pblock__title">Track an order</h1>
     </div>
-  </div>
-
-  <section class="sides wrap" id="sides" hidden></section>
-
-  <section class="wrap related" id="related" hidden>
-    <div class="shead">
-      <h2 id="relatedTitle">KEEP LOOKING</h2>
-      <a class="mono" href="/#shop">All tees →</a>
-    </div>
-    <div class="rgrid" id="rgrid"></div>
   </section>
+
+<div class="wrap track">
+    <ol class="track__steps">
+      <li><span class="mono">01</span><h3>We print it</h3><p>Your tee is printed after you order. This takes <span class="tbd">3–5 working days</span>.</p></li>
+      <li><span class="mono">02</span><h3>We ship it</h3><p>You get an email <span class="tbd">and SMS</span> with a tracking link the moment it leaves.</p></li>
+      <li><span class="mono">03</span><h3>You track it</h3><p>That link is the tracker. It shows every scan, live, from the courier.</p></li>
+    </ol>
+
+    <div class="track__box">
+      <div>
+        <span class="mono">Can't find the email?</span>
+        <p>Check spam and promotions first. Still nothing? Write to us with your order number and the phone number you ordered with, and we'll send the link again.</p>
+      </div>
+      <div class="track__actions">
+        <button class="btn btn--solid" disabled title="Available once checkout is live">Look up an order</button>
+        <a class="btn" href="mailto:abhijeet.designmail@gmail.com?subject=Tracking%20%E2%80%94%20order%20%23">Email us</a>
+      </div>
+      <p class="mono small">Order lookup goes live with checkout.</p>
+    </div>
+  </div>
 </main>
-
-<div class="stickybar" id="stickybar" aria-hidden="true">
-  <div class="stickybar__meta">
-    <span class="stickybar__name" id="sbName"></span>
-    <span class="mono" id="sbMeta"></span>
-  </div>
-  <button class="stickybar__btn" id="sbBtn" tabindex="-1">Pick a size</button>
-</div>
-
-<dialog class="sheet" id="sizeSheet" aria-labelledby="sizeSheetTitle">
-  <div class="sheet__head">
-    <h2 id="sizeSheetTitle">SIZE GUIDE</h2>
-    <button class="sheet__x mono" data-close>Close</button>
-  </div>
-  <div class="sheet__body" id="sizeSheetBody"></div>
-</dialog>
-
-<dialog class="zoom" id="zoom" aria-label="Image viewer">
-  <img id="zoomImg" alt="">
-  <button class="zoom__nav prev" data-dir="-1" aria-label="Previous image">&#8249;</button>
-  <button class="zoom__nav next" data-dir="1" aria-label="Next image">&#8250;</button>
-  <button class="zoom__x mono" data-close>Close</button>
-  <span class="zoom__count mono" id="zoomCount"></span>
-</dialog>
 
 <!-- footer:start -->
 <footer>
@@ -119,6 +92,6 @@
 
 <div id="shopify-cart"></div>
 <script src="/assets/js/shop.js?v=0e011fa9" defer></script>
-<script src="/assets/js/product.js?v=af2b90d8" defer></script>
+<script src="/assets/js/pages.js?v=c557380a" defer></script>
 </body>
 </html>

@@ -3,17 +3,17 @@
 
 Run from the repo root after ANY change to CSS, JS or the SVG sprite:
     python3 scripts/fingerprint.py
-Updates index.html, product.html and the sprite URL inside shop.js.
+Updates every root *.html page and the sprite URL inside shop.js.
 """
 import hashlib, pathlib, re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 ASSETS = [
-    "assets/css/styles.css", "assets/css/product.css",
-    "assets/js/shop.js", "assets/js/main.js", "assets/js/product.js",
+    "assets/css/styles.css", "assets/css/product.css", "assets/css/pages.css",
+    "assets/js/shop.js", "assets/js/main.js", "assets/js/product.js", "assets/js/pages.js",
     "assets/svg/sprite.svg",
 ]
-PAGES = ["index.html", "product.html", "assets/js/shop.js", "assets/js/main.js"]
+PAGES = sorted(p.name for p in ROOT.glob("*.html")) + ["assets/js/shop.js"]
 
 def h(p): return hashlib.md5((ROOT / p).read_bytes()).hexdigest()[:8]
 

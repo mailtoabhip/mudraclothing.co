@@ -144,15 +144,6 @@ body.is-pdp{padding-bottom:0}
 .related{padding-bottom:clamp(44px,7vw,90px)}
 .related .shead a{color:var(--ash)}
 .related .shead a:hover{color:var(--blue)}
-.rgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,2vw,24px)}
-.rcard{display:flex;flex-direction:column;gap:11px}
-.rcard__img{aspect-ratio:4/5;background:var(--shirt);overflow:hidden}
-.rcard__img img{width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
-.rcard:hover .rcard__img img{transform:scale(1.04)}
-.rcard__meta{display:flex;flex-direction:column;gap:4px}
-.rcard__meta .mono{color:var(--ash);font-size:10px}
-.rcard__meta h3{font-family:var(--display);text-transform:uppercase;letter-spacing:.04em;margin:0;font-size:clamp(14px,1.5vw,18px);line-height:1.1}
-.rcard:hover h3{color:var(--blue)}
 
 /* ── sticky bar (phones) ─────────────────── */
 .stickybar{display:none}
