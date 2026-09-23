@@ -83,7 +83,7 @@ header.scrolled .cart:hover{color:var(--on-blue)}
 .hero__tag{color:rgba(237,233,224,.72)}
 .hero h1{font-family:var(--display);font-size:clamp(28px,5vw,66px);line-height:.94;margin:0;
   letter-spacing:.01em;text-transform:uppercase;color:var(--paper)}
-.hero h1 em{font-style:normal;color:var(--blue-lt);display:block}
+.hero h1 em{font-style:normal;color:var(--paper);display:block}
 .hero__copy p{max-width:34ch;margin:0;color:rgba(237,233,224,.76);font-size:clamp(14px,1.6vh,15.5px)}
 .hero__cap{position:absolute;right:var(--gut);bottom:16px;z-index:2;color:rgba(237,233,224,.5)}
 @media(max-width:700px){.hero__cap{display:none}}
