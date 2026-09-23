@@ -10,7 +10,7 @@ const SHOPIFY = {
   domain: 'q0xhyi-ac.myshopify.com',
   // Public Storefront token from the Headless channel. Public by design.
   // Never put an Admin token (shpat_) or the Headless PRIVATE token here.
-  storefrontAccessToken: '',
+  storefrontAccessToken: 'f2b9739c85384e64300f6b3c806ae959',
   apiVersion: '2026-07',
   shopId: '73593618511',
   cod: true,        // cash on delivery offered at checkout
