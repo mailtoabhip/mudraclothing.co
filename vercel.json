@@ -74,7 +74,7 @@
       ]
     },
     {
-      "source": "/product.html",
+      "source": "/product",
       "headers": [
         {
           "key": "Cache-Control",
@@ -95,7 +95,7 @@
   "rewrites": [
     {
       "source": "/p/:id",
-      "destination": "/product.html"
+      "destination": "/product"
     }
   ]
 }
