@@ -12,7 +12,7 @@ let names = {};   // handle → our product name, from products.json
 
 async function init() {
   M.wireHeader({ solid: true });
-  const [, data] = await Promise.all([M.loadSprite(), M.loadCatalogue().catch(() => ({ products: [] }))]);
+  const [, data] = await Promise.all([M.loadSprite(), M.loadCatalogue().catch(() => ({ products: [] })), M.loadDrop()]);
   (data.products || []).forEach(p => { names[p.id] = p.name; });
 
   if (!M.SHOPIFY.enabled) return renderClosed();
@@ -57,19 +57,31 @@ function render(c) {
   }
 
   const sub = c.cost.subtotalAmount;
+  const block = M.checkoutBlock();   // outside the pre-order window, no checkout
   $('#bagBody').innerHTML = `
     <ul class="blines" aria-label="Items in your bag">${lines.map(lineHTML).join('')}</ul>
     <aside class="bsum" aria-label="Order summary">
       <dl class="bsum__rows">
         <div><dt class="mono">Subtotal</dt><dd class="mono">${money(sub.amount)}</dd></div>
         <div><dt class="mono">Shipping</dt><dd class="mono">Free</dd></div>
-        ${M.SHOPIFY.cod ? `<div><dt class="mono">Cash on delivery</dt><dd class="mono">Available</dd></div>` : ''}
+        ${M.codNow() ? `<div><dt class="mono">Cash on delivery</dt><dd class="mono">Available</dd></div>` : ''}
       </dl>
-      ${M.isPreorder() ? `<p class="bsum__po">Pre-order items arrive in ${M.ORDERING.minDays}–${M.ORDERING.maxDays} days.</p>` : ''}
+      ${summaryNote() ? `<p class="bsum__po">${esc(summaryNote())}</p>` : ''}
       <p class="mono bsum__note">Taxes included. Final total at checkout.</p>
-      <a class="bsum__checkout mono" href="${esc(c.checkoutUrl)}">Checkout</a>
+      ${block
+        ? `<button class="bsum__checkout mono" type="button" disabled>${esc(block)}</button>`
+        : `<a class="bsum__checkout mono" href="${esc(c.checkoutUrl)}">Checkout</a>`}
       <p class="bsum__help">Payment failed, or money gone and no order? <a href="/payment-help">Read this first</a>.</p>
     </aside>`;
+}
+
+// one line under the totals: drop terms while it runs, the print-to-order window after
+function summaryNote() {
+  const ph = M.dropPhase();
+  if (M.drop && ph !== 'launched') {
+    return M.drop.prepaidOnly ? 'Prepaid only for pre-orders. COD comes back when we have stock.' : '';
+  }
+  return M.isPreorder() ? `Pre-order items arrive in ${M.ORDERING.minDays}–${M.ORDERING.maxDays} days.` : '';
 }
 
 function lineHTML(l) {
@@ -88,7 +100,7 @@ function lineHTML(l) {
       <div class="bline__info">
         <a class="bline__name" href="${url}">${esc(name)}</a>
         <p class="mono bline__meta">${['Size ' + esc(size), colour && esc(colour)].filter(Boolean).join(' · ')}</p>
-        ${M.isPreorder() ? `<p class="mono bline__po">Pre-order · Arrives ${esc(M.arrivalRange().text)}</p>` : ''}
+        ${M.lineNote() ? `<p class="mono bline__po">${esc(M.lineNote())}</p>` : ''}
         <div class="bline__ctl">
           <div class="qty" role="group" aria-label="Quantity for ${esc(name)}, size ${esc(size)}">
             <button class="qty__btn" data-act="dec" aria-label="One less">−</button>

@@ -19,13 +19,90 @@ What it writes:
 Product/Offer price data is only emitted while checkout is switched on
 (SHOPIFY.enabled: true in assets/js/shop.js).
 """
-import datetime, html, json, pathlib, re, subprocess
+import datetime, html, json, os, pathlib, re, subprocess
 
 from site_config import (SITE_URL, SITE_NAME, CONTACT_EMAIL, INSTAGRAM_URL, OG_IMAGE,
                          PREORDER_MIN_DAYS, PREORDER_MAX_DAYS)
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 TODAY = datetime.date.today().isoformat()
+
+# ── Drop 01 (data/drop.json) ──────────────────────────────────────────────
+# The phase is worked out at BUILD time, so the site must be rebuilt and pushed on
+# the opening day, the day after closing, and the day after shipsBy (see README).
+# DROP_PHASE=teaser|open|closed|launched overrides it, for testing builds only.
+IST = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
+_drop_file = ROOT / "data/drop.json"
+DROP = json.loads(_drop_file.read_text(encoding="utf-8")) if _drop_file.exists() else None
+
+
+def drop_phase(now=None):
+    forced = os.environ.get("DROP_PHASE")
+    if forced in ("teaser", "open", "closed", "launched"):
+        return forced
+    if not DROP:
+        return "launched"
+    now = now or datetime.datetime.now(IST)
+    opens = datetime.datetime.fromisoformat(DROP["opens"])
+    closes = datetime.datetime.fromisoformat(DROP["closes"])
+    launch = datetime.datetime.fromisoformat(DROP["shipsBy"] + "T00:00:00+05:30") + datetime.timedelta(days=1)
+    if now < opens:
+        return "teaser"
+    if now <= closes:
+        return "open"
+    return "closed" if now < launch else "launched"
+
+
+def in_drop(pid):
+    return bool(DROP) and (DROP["products"] == "all" or pid in DROP["products"])
+
+
+def sale_state(pid):
+    ph = drop_phase()
+    if ph == "launched":
+        return "launched"
+    return ph if in_drop(pid) else "notInDrop"
+
+
+def _long(d):
+    return f"{d:%a}, {d.day} {d:%b}"
+
+
+def _short(d):
+    return f"{d.day} {d:%b}"
+
+
+def drop_dates():
+    if not DROP:
+        return None
+    o = datetime.datetime.fromisoformat(DROP["opens"]).astimezone(IST)
+    c = datetime.datetime.fromisoformat(DROP["closes"]).astimezone(IST)
+    sb = datetime.date.fromisoformat(DROP["shipsBy"])
+    return {"name": DROP["name"], "opens_long": _long(o), "opens_short": _short(o),
+            "closes_short": _short(c), "ships_long": _long(sb), "ships_short": _short(sb)}
+
+
+# mirrors tickerItems() / heroTag() in assets/js/shop.js
+def ticker_items():
+    ph, d = drop_phase(), drop_dates()
+    if not d or ph == "launched":
+        return [f"Printed to order · {PREORDER_MIN_DAYS}–{PREORDER_MAX_DAYS} days", "Designed in-house", "Free shipping across India"]
+    if ph == "teaser":
+        return [f"{d['name']} · pre-orders open {d['opens_short']}", "Designed in-house", "Free shipping across India"]
+    if ph == "open":
+        return [f"{d['name']} · pre-orders close {d['closes_short']}", f"Ships by {d['ships_short']}", "Free shipping across India"]
+    return [f"{d['name']} · printing now", f"Ships by {d['ships_short']}"]
+
+
+def hero_tag():
+    ph, d = drop_phase(), drop_dates()
+    launched = f"Printed to order · {PREORDER_MIN_DAYS}–{PREORDER_MAX_DAYS} days"   # nothing drop-specific
+    if not d:
+        return launched
+    return {"teaser": f"{d['name']} · pre-orders open {d['opens_short']}",
+            "open": f"{d['name']} · pre-orders open now",
+            "closed": f"{d['name']} · printing now"}.get(ph, launched)
+
 
 HOME_TITLE = "Mudra Studios | Oversized graphic t-shirts, designed in India"
 HOME_DESC = ("Oversized graphic tees with a clean front and a loud back. Food, city, Y2K, "
@@ -163,7 +240,8 @@ def product_ld(p, offers):
         "productID": p["id"],
         "size": [s["size"] for s in p["sizes"]],
     }
-    if offers:
+    st = sale_state(p["id"])
+    if offers and st != "teaser":
         in_stock = any(s.get("available") for s in p["sizes"])
         ld["offers"] = {
             "@type": "Offer",
@@ -193,6 +271,15 @@ def product_ld(p, offers):
                 "returnFees": "https://schema.org/FreeReturn",
             },
         }
+        if st == "open":
+            # Drop 01: a real pre-order window, fixed ship-by date instead of 7–10 days
+            ld["offers"]["availability"] = "https://schema.org/PreOrder"
+            ld["offers"]["availabilityStarts"] = DROP["opens"]
+            ld["offers"]["availabilityEnds"] = DROP["closes"]
+            ld["offers"]["shippingDetails"].pop("deliveryTime", None)
+        elif st in ("closed", "notInDrop"):
+            ld["offers"]["availability"] = "https://schema.org/OutOfStock"
+            ld["offers"]["shippingDetails"].pop("deliveryTime", None)
     return ld
 
 
@@ -242,6 +329,23 @@ def put_head(s, block):
 
 # ── home ──────────────────────────────────────────────────────────────────
 
+def card_cta(p, href, in_stock):
+    # mirrors cardCta() in assets/js/main.js
+    st, d = sale_state(p["id"]), drop_dates()
+    if st == "teaser":
+        return "", f'<a class="atc" href="{href}">Opens {d["opens_short"]}</a>'
+    if st == "open":
+        return f"Closes {d['closes_short']}", f'<a class="atc" href="{href}">Pre-order</a>'
+    if st == "closed":
+        return "", f'<a class="atc" href="{href}">Closed</a>'
+    if st == "notInDrop":
+        return "", f'<button class="atc" disabled>Not in {e(d["name"])}</button>'
+    tag = f"Pre-order · {DAYS}" if preorder() else ""
+    btn = (f'<a class="atc" href="{href}">{"Pre-order" if preorder() else "Choose size"}</a>' if in_stock
+           else '<button class="atc" disabled>Sold out</button>')
+    return tag, btn
+
+
 def card_html(p):
     # mirrors cardHTML() in assets/js/main.js; main.js re-renders over it
     href = f"/p/{p['id']}"
@@ -260,8 +364,7 @@ def card_html(p):
         f'<button class="pswatch{" on" if i == 0 else ""}" data-colour="{c["key"]}" '
         f'style="--sw:{c["hex"]}" title="{e(c["name"])}" aria-label="{e(c["name"])}"></button>'
         for i, c in enumerate(sw))
-    atc = (f'<a class="atc" href="{href}">{"Pre-order" if preorder() else "Choose size"}</a>' if avail
-           else '<button class="atc" disabled>Sold out</button>')
+    tag, atc = card_cta(p, href, bool(avail))
     kind = "Back print" if p["print"] == "back" else "Chest only"
     return (f'<article class="pcard" data-id="{p["id"]}" data-series="{p["series"]}" '
             f'data-colour="{e(p["colour"])}" data-print="{p["print"]}" data-stock="{" ".join(stock)}" '
@@ -274,8 +377,35 @@ def card_html(p):
             f'<div class="pcard__info"><div class="ptag mono">{e(p["seriesLabel"])} · {kind}</div>'
             f'<h3><a href="{href}">{e(p["name"])}</a></h3>'
             f'<div class="pprice">{money(p["price"])}</div>'
-            + (f'<div class="ptag mono pcard__po">Pre-order · {DAYS}</div>' if preorder() else "")
+            + (f'<div class="ptag mono pcard__po">{tag}</div>' if tag else "")
             + f'<div class="pswatches">{swatches}</div>{atc}</div></article>')
+
+
+def home_desc():
+    ph, d = drop_phase(), drop_dates()
+    if not d or ph == "launched":
+        return HOME_DESC
+    base = ("Oversized graphic tees with a clean front and a loud back. Food, city, Y2K, "
+            "gym, travel and tarot designs, printed in India. ")
+    if ph == "closed":
+        return base + f"{d['name']} is printing now and ships by {d['ships_short']}. Free shipping across India."
+    return base + (f"{d['name']} pre-orders {d['opens_short']} to {d['closes_short']}, ships by "
+                   f"{d['ships_short']}. Free shipping across India.")
+
+
+def product_desc(p):
+    st, d = sale_state(p["id"]), drop_dates()
+    lead = f"{blurb(p)} {money(p['price'])}."
+    if st == "teaser":
+        return f"{lead} {d['name']} pre-orders open {d['opens_short']}, ship by {d['ships_short']}. Free shipping across India."
+    if st == "open":
+        return f"{lead} Pre-order until {d['closes_short']}, ships by {d['ships_short']}. Free shipping across India."
+    if st == "closed":
+        return f"{lead} {d['name']} is printing now and ships by {d['ships_short']}. Free shipping across India."
+    if st == "notInDrop":
+        return f"{lead} Back after {d['name']} launches. Free shipping across India."
+    promise = f"Pre-order, arrives in {DAYS}. " if preorder() else ""
+    return f"{lead} {promise}Free shipping across India, cash on delivery."
 
 
 def build_home(products):
@@ -289,7 +419,12 @@ def build_home(products):
          "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": url(f"/p/{p['id']}"),
                               "name": p["name"]} for i, p in enumerate(products)]},
     ]}
-    s = put_head(s, head_tags(HOME_TITLE, HOME_DESC, "/", OG_IMAGE, extra=jsonld(graph)))
+    s = put_head(s, head_tags(HOME_TITLE, home_desc(), "/", OG_IMAGE, extra=jsonld(graph)))
+    # ticker + hero tag for the phase at build time (main.js re-renders them live)
+    row = "".join(f"<span>{e(t)}</span><span>✳</span>" for t in ticker_items())
+    s = re.sub(r'(<div class="ticker__track">\n).*?(\n  </div>)',
+               lambda m: m.group(1) + "    " + row + "\n    " + row + m.group(2), s, count=1, flags=re.S)
+    s = re.sub(r'(<div class="mono hero__tag">).*?(</div>)', lambda m: m.group(1) + e(hero_tag()) + m.group(2), s, count=1)
     grid = "<!-- grid:start -->" + "".join(card_html(p) for p in products) + "<!-- grid:end -->"
     if "<!-- grid:start -->" in s:
         s = re.sub(r"<!-- grid:start -->.*?<!-- grid:end -->", lambda _: grid, s, flags=re.S)
@@ -310,13 +445,12 @@ def build_products(products, offers):
     for p in products:
         shots = gallery_shots(p)
         title = f"{p['name']} Oversized T-Shirt | {p['seriesLabel']} series | {SITE_NAME}"
-        promise = f"Pre-order, arrives in {DAYS}. " if preorder() else ""
-        desc = f"{blurb(p)} {money(p['price'])}. {promise}Free shipping across India, cash on delivery."
+        desc = product_desc(p)
         extra = jsonld(product_ld(p, offers)) + "\n" + jsonld(breadcrumb_ld(p))
         s = put_head(template, head_tags(title, desc, f"/p/{p['id']}",
                                          "/" + shots[0]["src"] if shots else OG_IMAGE,
                                          og_type="product", extra=extra))
-        if offers:
+        if offers and sale_state(p["id"]) != "teaser":
             s = s.replace("<!-- seo:end -->",
                           f'<meta property="product:price:amount" content="{float(p["price"]):.2f}">\n'
                           '<meta property="product:price:currency" content="INR">\n<!-- seo:end -->', 1)
@@ -363,13 +497,15 @@ def build():
     data = json.loads((ROOT / "data/products.json").read_text(encoding="utf-8"))
     products = data["products"]
     offers = offers_live()
+    # the one public setting product.js needs from site_config (Instagram link)
+    (ROOT / "data/site.json").write_text(json.dumps({"instagram": INSTAGRAM_URL}) + "\n", encoding="utf-8")
     make_og_image()
     make_hero_poster()
     build_home(products)
     build_products(products, offers)
     build_sitemap(products)
     print(f"seo: home, {len(products)} product pages, sitemap, robots "
-          f"(offers {'on' if offers else 'off'}, site {SITE_URL})")
+          f"(offers {'on' if offers else 'off'}, drop phase {drop_phase()}, site {SITE_URL})")
 
 
 if __name__ == "__main__":

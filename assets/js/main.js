@@ -3,7 +3,8 @@
    Renders the grid from data/products.json. Shared plumbing lives in shop.js.
    ========================================================================== */
 
-const { productUrl, loadCatalogue, loadSprite, money, esc, wireHeader, initBag, sellableColours, ORDERING, isPreorder } = window.Mudra;
+const { productUrl, loadCatalogue, loadSprite, money, esc, wireHeader, initBag, sellableColours, ORDERING, isPreorder,
+  loadDrop, saleState, dropDates, tickerItems, heroTag } = window.Mudra;
 
 const state = {
   products: [],
@@ -14,13 +15,41 @@ const state = {
 /* ---------- boot ---------------------------------------------------- */
 
 async function init() {
-  const [, data] = await Promise.all([loadSprite(), loadCatalogue()]);
+  const [, data] = await Promise.all([loadSprite(), loadCatalogue(), loadDrop()]);
   state.products = data.products;
+  renderDropCopy();
   renderGrid();
   wireFilters();
   wireSort();
   wireHeader();
   initBag();
+}
+
+/* ---------- Drop 01 copy: ticker + hero tag -------------------------- */
+
+function renderDropCopy() {
+  const track = document.querySelector('.ticker__track');
+  if (track) {
+    const row = tickerItems().map(t => `<span>${esc(t)}</span><span>✳</span>`).join('');
+    track.innerHTML = row + row;   // twice, for the seamless loop
+  }
+  const tag = document.querySelector('.hero__tag');
+  if (tag) tag.textContent = heroTag();
+}
+
+// card tag + button per phase. Keep identical to card_html() in scripts/build_seo.py
+function cardCta(p, url, inStock) {
+  const st = saleState(p.id), d = dropDates();
+  if (st === 'teaser') return { tag: '', btn: `<a class="atc" href="${url}">Opens ${d.opensShort}</a>` };
+  if (st === 'open') return { tag: `Closes ${d.closesShort}`, btn: `<a class="atc" href="${url}">Pre-order</a>` };
+  if (st === 'closed') return { tag: '', btn: `<a class="atc" href="${url}">Closed</a>` };
+  if (st === 'notInDrop') return { tag: '', btn: `<button class="atc" disabled>Not in ${esc(d.name)}</button>` };
+  return {
+    tag: isPreorder() ? `Pre-order · ${ORDERING.minDays}–${ORDERING.maxDays} days` : '',
+    btn: inStock
+      ? `<a class="atc" href="${url}">${isPreorder() ? 'Pre-order' : 'Choose size'}</a>`
+      : '<button class="atc" disabled>Sold out</button>',
+  };
 }
 
 /* ---------- rendering ------------------------------------------------ */
@@ -41,6 +70,7 @@ function cardHTML(p) {
   const stockTags = [inStock ? 'in' : 'out'];
   if (p.badge && p.badge.type === 'low') stockTags.push('low');
   const url = productUrl(p.id);
+  const cta = cardCta(p, url, inStock);
 
   const badge = p.badge ? `<span class="pbadge ${p.badge.type}">${esc(p.badge.label)}</span>` : '';
   const slides = p.media.map(mediaHTML).join('');
@@ -65,11 +95,9 @@ function cardHTML(p) {
       <div class="ptag mono">${esc(p.seriesLabel)} · ${p.print === 'back' ? 'Back print' : 'Chest only'}</div>
       <h3><a href="${url}">${esc(p.name)}</a></h3>
       <div class="pprice">${money(p.price)}</div>
-      ${isPreorder() ? `<div class="ptag mono pcard__po">Pre-order · ${ORDERING.minDays}–${ORDERING.maxDays} days</div>` : ''}
+      ${cta.tag ? `<div class="ptag mono pcard__po">${cta.tag}</div>` : ''}
       <div class="pswatches">${swatches}</div>
-      ${inStock
-        ? `<a class="atc" href="${url}">${isPreorder() ? 'Pre-order' : 'Choose size'}</a>`
-        : `<button class="atc" disabled>Sold out</button>`}
+      ${cta.btn}
     </div>
   </article>`;
 }

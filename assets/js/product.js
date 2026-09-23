@@ -22,7 +22,11 @@ const view = {
 
 async function init() {
   M.wireHeader({ solid: true });
-  const [, data] = await Promise.all([M.loadSprite(), M.loadCatalogue()]);
+  const [, data, , site] = await Promise.all([
+    M.loadSprite(), M.loadCatalogue(), M.loadDrop(),
+    fetch('/data/site.json', { cache: 'no-cache' }).then(r => (r.ok ? r.json() : {})).catch(() => ({})),
+  ]);
+  view.site = site || {};
   M.initBag();
 
   const id = M.productIdFromUrl();
@@ -85,6 +89,7 @@ async function loadLive(p) {
   if (view.size && !live.variants[view.size]?.available) view.size = null;
   const any = Object.values(live.variants).some(v => v.available);
   atc.disabled = !any;
+  if (locked()) return paintLocked();
   // "Sold out" only when Shopify itself reports no size available
   if (!any) atc.textContent = 'Sold out';
   else if (view.size) atc.innerHTML = ctaHTML();
@@ -231,14 +236,8 @@ function renderBuy(p) {
     </div>
 
     <button class="buy__atc" id="atc" ${anyStock ? '' : 'disabled'}>${anyStock ? 'Pick a size' : 'Sold out'}</button>
-    ${M.isPreorder() ? `
-    <aside class="preorder" role="note" aria-label="Pre-order details">
-      <div class="preorder__head">
-        <span class="mono preorder__tag">Pre-order</span>
-        <span class="mono preorder__date">Arrives ${esc(M.arrivalRange().text)}</span>
-      </div>
-      <p class="preorder__note">Printed for you after you order. We're new, so we print to order instead of guessing and bulk-printing. Once we know what you like, we'll keep stock and this gets faster.</p>
-    </aside>` : ''}
+    ${teaserActionsHTML(p)}
+    ${infoBoxHTML(p)}
     <p class="buy__err mono" id="atcErr" role="alert" hidden></p>
 
     <div class="twoside">
@@ -261,7 +260,7 @@ function renderBuy(p) {
       </details>
       <details>
         <summary class="mono">Shipping</summary>
-        <p class="acc__p">${esc(g.shipping || '')}</p>
+        <p class="acc__p">${esc(shippingText(p))}</p>
       </details>
       <details>
         <summary class="mono">Returns</summary>
@@ -292,6 +291,78 @@ function renderBuy(p) {
   });
 
   $('#atc').addEventListener('click', e => addCurrent(e.currentTarget));
+  $('#icsBtn')?.addEventListener('click', () => M.downloadIcs(p.name));
+  if (locked()) paintLocked();
+}
+
+/* ---------- Drop 01 phases (data/drop.json) ---------------------------- */
+
+const locked = () => !M.canBuy(view.product.id);
+
+// the disabled main button outside the pre-order window
+function lockedLabel() {
+  const st = M.saleState(view.product.id), d = M.dropDates();
+  if (st === 'teaser') return `Opens ${d.opensLong}`;
+  if (st === 'closed') return 'Pre-orders closed';
+  if (st === 'notInDrop') return `Not in ${d.name}`;
+  return '';
+}
+
+function paintLocked() {
+  const label = lockedLabel();
+  const atc = $('#atc'), sb = $('#sbBtn');
+  atc.disabled = true;
+  atc.classList.remove('ready');
+  atc.textContent = label;
+  sb.disabled = true;
+  sb.textContent = label;
+}
+
+// teaser only: calendar file + follow link
+function teaserActionsHTML(p) {
+  if (M.saleState(p.id) !== 'teaser') return '';
+  const ig = view.site.instagram;
+  return `
+    <div class="dropx">
+      <button class="dropx__cal mono" id="icsBtn" type="button">Add to calendar</button>
+      ${ig ? `<a class="linkish mono" href="${esc(ig)}" target="_blank" rel="noopener">Follow for the drop</a>` : ''}
+    </div>`;
+}
+
+// the quiet box under the button: drop facts, or the print-to-order window after launch
+function infoBoxHTML(p) {
+  const st = M.saleState(p.id), d = M.dropDates();
+  const box = (tag, right, note, extra = '') => `
+    <aside class="preorder" role="note" aria-label="${esc(tag)} details">
+      <div class="preorder__head">
+        <span class="mono preorder__tag">${esc(tag)}</span>
+        <span class="mono preorder__date">${esc(right)}</span>
+        ${extra ? `<span class="mono preorder__closes">${esc(extra)}</span>` : ''}
+      </div>
+      <p class="preorder__note">${esc(note)}</p>
+    </aside>`;
+  const prepaid = M.drop && M.drop.prepaidOnly ? ' Prepaid only for pre-orders.' : '';
+  if (st === 'teaser') return box(d.name, `Opens ${d.opensLong}`,
+    `Pre-orders run ${d.opensShort} to ${d.closesShort}. ${d.name} is made in one run after they close, and ships by ${d.shipsShort}.${prepaid}`);
+  if (st === 'open') return box('Pre-order', `Ships by ${d.shipsLong}`,
+    `${d.name} is made in one run after pre-orders close on ${d.closesShort}. We print what you order, nothing more.${prepaid}`, M.closesIn());
+  if (st === 'closed') return box(d.name, `Ships by ${d.shipsLong}`,
+    `Printing ${d.name} now. Pre-orders ship by ${d.shipsShort}. Missed it? This design comes back after launch.`);
+  if (st === 'notInDrop') return box(`Not in ${d.name}`, '',
+    `This design isn't part of ${d.name}. It comes back after launch.`);
+  if (!M.isPreorder()) return '';
+  return box('Pre-order', `Arrives ${M.arrivalRange().text}`,
+    "Printed for you after you order. We're new, so we print to order instead of guessing and bulk-printing. Once we know what you like, we'll keep stock and this gets faster.");
+}
+
+// Shipping accordion: drop dates while the drop runs, print-to-order after launch
+function shippingText(p) {
+  const st = M.saleState(p.id), d = M.dropDates();
+  if (['teaser', 'open', 'closed'].includes(st)) {
+    const prepaid = M.drop.prepaidOnly ? ' Prepaid only for pre-orders; cash on delivery comes back after launch.' : '';
+    return `${d.name} pre-orders run ${d.opensShort} to ${d.closesShort}, are made in one run after they close, and ship by ${d.shipsShort}. Free shipping across India.${prepaid}`;
+  }
+  return view.garment.shipping || '';
 }
 
 // main button once a size is picked; the price part drops on very narrow phones (product.css)
@@ -309,6 +380,7 @@ function selectSize(size) {
     b.setAttribute('aria-pressed', String(on));
   });
   $('#sizeOpt').classList.remove('need');
+  if (locked()) { syncSticky(); return; }
   const atc = $('#atc');
   atc.innerHTML = ctaHTML();
   showError('');
@@ -330,6 +402,7 @@ async function addCurrent(btn) {
   showError('');
   try {
     await M.addToBag({
+      id: p.id,
       variantId: view.variants?.[view.size]?.id,
       name: p.name,
       size: view.size,
@@ -470,6 +543,7 @@ function syncSticky() {
   const p = view.product;
   $('#sbName').textContent = p.name;
   $('#sbMeta').textContent = [money(view.price), view.colour?.name, view.size].filter(Boolean).join(' · ');
+  if (locked()) { $('#sbBtn').textContent = lockedLabel(); return; }
   $('#sbBtn').textContent = view.size ? (M.isPreorder() ? 'Pre-order' : 'Add to bag') : 'Pick a size';
 }
 

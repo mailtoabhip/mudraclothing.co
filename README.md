@@ -97,6 +97,31 @@ Optional per-product copy: add `"blurb"` to a product.
 `garment.sizeChart` stays `null` until a real sample is measured. Format:
 `{"columns":["Chest","Length","Shoulder"],"rows":[{"size":"S","values":["…","…","…"]}]}`
 
+## Drop 01 (fixed pre-order window)
+
+`data/drop.json` is the one config for every drop date customers see (plain JSON, no
+comments). `window.Mudra.dropPhase()` gives `teaser` (before `opens`), `open`,
+`closed` (after `closes`) or `launched` (from the day after `shipsBy`), in IST. After
+launch the site falls back to `ORDERING` in shop.js (print-to-order, 7–10 days).
+
+- `products`: `"all"` or a list of ids; the rest show "Not in Drop 01" until launch.
+- `prepaidOnly`: the site hides COD and says "prepaid only" while the drop runs. It
+  can't switch COD off at Shopify's checkout: turn off the COD payment method in
+  Shopify admin for the window, or the promise isn't enforced.
+- Testing: add `?phase=teaser|open|closed|launched` (localhost and Vercel preview
+  URLs only; ignored on the live site). For a build, `DROP_PHASE=open python3 ...`.
+- Policy pages use `{{drop_name}}`, `{{drop_opens}}`, `{{drop_closes}}`,
+  `{{drop_ships}}`, `{{drop_ships_long}}`, filled from drop.json by build_pages.py.
+
+**Rebuild and push on each phase change.** The pages switch live in the browser, but
+the pre-built HTML, structured data and meta descriptions are fixed at build time:
+
+    python3 scripts/build_pages.py && python3 scripts/fingerprint.py
+
+- after 10:00 IST on 8 Oct 2026 (opens)
+- after 23:59 IST on 22 Oct 2026, i.e. on 23 Oct (closes)
+- on 6 Nov 2026, the day after shipsBy (launch)
+
 ## Cache-busting
 
 After changing any CSS, JS or the sprite: `python3 scripts/fingerprint.py`

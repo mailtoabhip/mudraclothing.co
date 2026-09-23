@@ -236,3 +236,11 @@ dialog::backdrop{background:rgba(26,26,26,.6);backdrop-filter:blur(2px)}
 .preorder__note{margin:0;font-family:var(--body);font-size:13.5px;line-height:1.5;color:var(--ash);max-width:48ch}
 @media(max-width:760px){.preorder__head{flex-direction:column;align-items:flex-start}}
 @media(max-width:340px){.atc__price{display:none}}
+
+/* Drop 01: last-72-hours line and teaser actions */
+.preorder__closes{flex-basis:100%;color:var(--fg)}
+.dropx{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;margin-top:-10px}
+.dropx__cal{height:44px;padding:0 18px;border:1px solid var(--line-strong);font-size:11px;
+  transition:border-color .15s ease-out}
+.dropx__cal:hover{border-color:var(--fg)}
+.buy__atc:disabled{white-space:nowrap}

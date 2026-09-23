@@ -1,0 +1,9 @@
+{
+  "name": "Drop 01",
+  "opens": "2026-10-08T10:00:00+05:30",
+  "closes": "2026-10-22T23:59:00+05:30",
+  "shipsBy": "2026-11-05",
+  "prepaidOnly": true,
+  "products": "all",
+  "afterLaunch": "preorder"
+}

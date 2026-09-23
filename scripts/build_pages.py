@@ -126,8 +126,22 @@ SHELL = """<!DOCTYPE html>
 """
 
 
+def drop_tokens(text):
+    """Fill {{drop_name}}, {{drop_opens}}, {{drop_closes}}, {{drop_ships}}, {{drop_ships_long}}
+    from data/drop.json, so policy pages quote the same dates as the shop."""
+    if "{{drop_" not in text:
+        return text
+    from build_seo import drop_dates
+    d = drop_dates()
+    vals = {"drop_name": d["name"], "drop_opens": d["opens_short"], "drop_closes": d["closes_short"],
+            "drop_ships": d["ships_short"], "drop_ships_long": d["ships_long"]}
+    out = re.sub(r"\{\{(drop_\w+)\}\}", lambda m: vals[m.group(1)], text)
+    assert "{{" not in out, "unknown {{token}} in a page source"
+    return out
+
+
 def parse(path):
-    raw = path.read_text(encoding="utf-8")
+    raw = drop_tokens(path.read_text(encoding="utf-8"))
     m = re.match(r"\s*<!--(.*?)-->\s*", raw, re.S)
     meta = {}
     for line in m.group(1).strip().splitlines():
