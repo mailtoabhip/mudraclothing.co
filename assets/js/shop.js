@@ -39,7 +39,7 @@ const CART_URL = isLocal ? '/cart.html' : '/cart';
 function productIdFromUrl() {
   const q = new URLSearchParams(location.search).get('id');
   if (q) return q;
-  const m = location.pathname.match(/^\/p\/([^/?#]+)/);
+  const m = location.pathname.match(/^\/p\/([^/?#]+?)(?:\.html)?\/?$/);
   return m ? decodeURIComponent(m[1]) : null;
 }
 

@@ -1,0 +1,357 @@
+#!/usr/bin/env python3
+"""SEO build: everything search engines and link previews read.
+
+Called at the end of scripts/build_pages.py, so the normal command covers it:
+    python3 scripts/build_pages.py && python3 scripts/fingerprint.py
+
+What it writes:
+  p/<id>.html     one static page per product (served at /p/<id>): real title,
+                  description, canonical, share tags, Product + Breadcrumb JSON-LD,
+                  and the name/price/copy/images in the HTML itself. product.js
+                  still takes over in the browser exactly as before.
+  index.html      head block (title, canonical, share tags, Organization +
+                  WebSite JSON-LD) and the 16 product cards pre-rendered into the
+                  grid, so the catalogue is readable without JavaScript.
+  sitemap.xml, robots.txt
+  assets/img/og/mudra-og.jpg   default 1200x630 share image (only if missing)
+  assets/video/hero-poster.jpg first frame of the hero video (only if missing)
+
+Product/Offer price data is only emitted while checkout is switched on
+(SHOPIFY.enabled: true in assets/js/shop.js).
+"""
+import datetime, html, json, pathlib, re, subprocess
+
+from site_config import SITE_URL, SITE_NAME, CONTACT_EMAIL, INSTAGRAM_URL, OG_IMAGE
+
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+TODAY = datetime.date.today().isoformat()
+
+HOME_TITLE = "Mudra Studios — Oversized graphic t-shirts, designed in India"
+HOME_DESC = ("Oversized graphic tees with a clean front and a loud back. Food, city, Y2K, "
+             "gym, travel and tarot designs, printed to order in India. Free shipping, "
+             "cash on delivery.")
+
+# content pages that belong in the sitemap (404, cart and the bare template don't)
+SITEMAP_PAGES = ["about", "contact", "shipping", "returns", "payment-help", "size-guide",
+                 "track", "terms", "privacy"]
+
+e = lambda s: html.escape(str(s), quote=True)
+HIGH = ' fetchpriority="high"'
+
+
+def url(path):
+    return SITE_URL.rstrip("/") + path
+
+
+def jsonld(obj):
+    # "</" must never appear raw inside a <script> block
+    return ('<script type="application/ld+json">'
+            + json.dumps(obj, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+            + "</script>")
+
+
+def offers_live():
+    js = (ROOT / "assets/js/shop.js").read_text(encoding="utf-8")
+    m = re.search(r"\benabled:\s*(true|false)", js)
+    return bool(m and m.group(1) == "true")
+
+
+def blurb(p):
+    # keep in step with blurb() in assets/js/product.js
+    if p.get("blurb"):
+        return p["blurb"]
+    if p["print"] == "back":
+        return (f"{p['name']}, from the {p['seriesLabel']} series. "
+                "A small stamp on the chest, the whole graphic on the back.")
+    return f"{p['name']}, from the {p['seriesLabel']} series. Chest print only."
+
+
+def money(n):
+    n = float(n)
+    s = f"{int(n):,}" if n == int(n) else f"{n:,.2f}"
+    # Indian grouping is identical below 1 lakh, which every price here is
+    return "₹" + s
+
+
+def images(p):
+    return [m for m in p["media"] if m.get("type") == "img"]
+
+
+def artwork_pair(p):
+    imgs = [m for m in images(p) if "hanger" not in m["src"]]
+    back = next((m for m in imgs if m["src"].endswith("-back.jpg")), None)
+    front = next((m for m in imgs if m["src"].endswith("-front.jpg")), None)
+    return [back, front] if back and front else []
+
+
+def gallery_shots(p):
+    # same rule as product.js: with photography, artwork moves out of the gallery
+    shots, art = images(p), artwork_pair(p)
+    photos = [m for m in shots if m not in art]
+    return photos if len(art) == 2 and len(photos) >= 2 else shots
+
+
+# ── shared assets ─────────────────────────────────────────────────────────
+
+def make_og_image():
+    out = ROOT / OG_IMAGE.lstrip("/")
+    if out.exists():
+        return
+    from PIL import Image
+    src = ROOT / "assets/img/products/face-card-snooker.jpg"
+    if not src.exists():
+        return
+    out.parent.mkdir(parents=True, exist_ok=True)
+    im = Image.open(src).convert("RGB")
+    # fill 1200 wide, keep the upper-middle band where the back print sits
+    scale = 1200 / im.width
+    im = im.resize((1200, round(im.height * scale)), Image.LANCZOS)
+    top = max(0, min(im.height - 630, round(im.height * 0.22)))
+    im.crop((0, top, 1200, top + 630)).save(out, "JPEG", quality=84, optimize=True, progressive=True)
+
+
+def make_hero_poster():
+    video = ROOT / "assets/video/hero.mp4"
+    out = ROOT / "assets/video/hero-poster.jpg"
+    if out.exists() or not video.exists():
+        return
+    subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-ss", "0", "-i", str(video),
+                    "-frames:v", "1", "-q:v", "4", str(out)], check=False)
+
+
+# ── structured data ───────────────────────────────────────────────────────
+
+def organization():
+    org = {
+        "@type": "Organization",
+        "@id": url("/#org"),
+        "name": SITE_NAME,
+        "url": url("/"),
+        "logo": url("/assets/favicon/icon-512.png"),
+        "email": CONTACT_EMAIL,
+        "contactPoint": {"@type": "ContactPoint", "contactType": "customer support",
+                         "email": CONTACT_EMAIL, "areaServed": "IN",
+                         "availableLanguage": ["en"]},
+    }
+    if INSTAGRAM_URL:
+        org["sameAs"] = [INSTAGRAM_URL]
+    return org
+
+
+def product_ld(p, offers):
+    shots = images(p)
+    ld = {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": f"{p['name']} Oversized T-Shirt",
+        "description": blurb(p),
+        "url": url(f"/p/{p['id']}"),
+        "image": [url("/" + m["src"]) for m in shots],
+        "brand": {"@type": "Brand", "name": SITE_NAME},
+        "category": "Apparel & Accessories > Clothing > Shirts & Tops",
+        "productID": p["id"],
+        "size": [s["size"] for s in p["sizes"]],
+    }
+    if offers:
+        in_stock = any(s.get("available") for s in p["sizes"])
+        ld["offers"] = {
+            "@type": "Offer",
+            "url": url(f"/p/{p['id']}"),
+            "priceCurrency": "INR",
+            "price": f"{float(p['price']):.2f}",
+            "availability": "https://schema.org/" + ("InStock" if in_stock else "OutOfStock"),
+            "itemCondition": "https://schema.org/NewCondition",
+            "seller": {"@id": url("/#org")},
+            "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingRate": {"@type": "MonetaryAmount", "value": "0", "currency": "INR"},
+                "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "IN"},
+            },
+            "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "IN",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+                "merchantReturnDays": 7,
+                "returnMethod": "https://schema.org/ReturnByMail",
+                "returnFees": "https://schema.org/FreeReturn",
+            },
+        }
+    return ld
+
+
+def breadcrumb_ld(p):
+    return {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": url("/")},
+            {"@type": "ListItem", "position": 2, "name": p["name"], "item": url(f"/p/{p['id']}")},
+        ],
+    }
+
+
+def head_tags(title, desc, path, image, og_type="website", extra=""):
+    return "\n".join([
+        "<!-- seo:start -->",
+        f"<title>{e(title)}</title>",
+        f'<meta name="description" content="{e(desc)}">',
+        f'<link rel="canonical" href="{e(url(path))}">',
+        f'<meta property="og:type" content="{og_type}">',
+        f'<meta property="og:site_name" content="{SITE_NAME}">',
+        '<meta property="og:locale" content="en_IN">',
+        f'<meta property="og:title" content="{e(title)}">',
+        f'<meta property="og:description" content="{e(desc)}">',
+        f'<meta property="og:url" content="{e(url(path))}">',
+        f'<meta property="og:image" content="{e(url(image))}">',
+        '<meta name="twitter:card" content="summary_large_image">',
+        f'<meta name="twitter:title" content="{e(title)}">',
+        f'<meta name="twitter:description" content="{e(desc)}">',
+        f'<meta name="twitter:image" content="{e(url(image))}">',
+        extra,
+        "<!-- seo:end -->",
+    ]).replace("\n\n", "\n")
+
+
+def put_head(s, block):
+    """Replace the seo block, or on first run swap it in for <title> + description."""
+    if "<!-- seo:start -->" in s:
+        return re.sub(r"<!-- seo:start -->.*?<!-- seo:end -->", lambda _: block, s, flags=re.S)
+    s = re.sub(r"<title>.*?</title>\n", "", s, count=1, flags=re.S)
+    s = re.sub(r'<meta name="description"[^>]*>\n', "", s, count=1)
+    s = re.sub(r'<meta property="og:(type|site_name)"[^>]*>\n', "", s)
+    return s.replace('<meta name="viewport" content="width=device-width, initial-scale=1">\n',
+                     '<meta name="viewport" content="width=device-width, initial-scale=1">\n' + block + "\n", 1)
+
+
+# ── home ──────────────────────────────────────────────────────────────────
+
+def card_html(p):
+    # mirrors cardHTML() in assets/js/main.js; main.js re-renders over it
+    href = f"/p/{p['id']}"
+    avail = [s["size"] for s in p["sizes"] if s.get("available")]
+    stock = ["in" if avail else "out"] + (["low"] if (p.get("badge") or {}).get("type") == "low" else [])
+    badge = (f'<span class="pbadge {p["badge"]["type"]}">{e(p["badge"]["label"])}</span>'
+             if p.get("badge") else "")
+    imgs = images(p)
+    slides = "".join(
+        f'<img class="slide{" is-on" if i == 0 else ""}" src="/{m["src"]}" alt="{e(m["alt"])}" '
+        f'loading="{"eager" if i == 0 else "lazy"}" decoding="async" width="800" height="1000">'
+        for i, m in enumerate(imgs))
+    dots = "".join('<i class="is-on"></i>' if i == 0 else "<i></i>" for i in range(len(imgs)))
+    sw = [c for c in p.get("colours", []) if c.get("sellable")]
+    swatches = "".join(
+        f'<button class="pswatch{" on" if i == 0 else ""}" data-colour="{c["key"]}" '
+        f'style="--sw:{c["hex"]}" title="{e(c["name"])}" aria-label="{e(c["name"])}"></button>'
+        for i, c in enumerate(sw))
+    atc = (f'<a class="atc" href="{href}">Choose size</a>' if avail
+           else '<button class="atc" disabled>Sold out</button>')
+    kind = "Back print" if p["print"] == "back" else "Chest only"
+    return (f'<article class="pcard" data-id="{p["id"]}" data-series="{p["series"]}" '
+            f'data-colour="{e(p["colour"])}" data-print="{p["print"]}" data-stock="{" ".join(stock)}" '
+            f'data-sizes="{" ".join(avail)}" data-price="{p["price"]}" data-name="{e(p["name"])}" data-url="{href}">'
+            f'<div class="pcard__media" tabindex="0" aria-label="{e(p["name"])} — view product">{badge}'
+            f'<div class="slides">{slides}</div>'
+            '<button class="navbtn prev" aria-label="Previous image">&#8249;</button>'
+            '<button class="navbtn next" aria-label="Next image">&#8250;</button>'
+            f'<div class="dots">{dots}</div></div>'
+            f'<div class="pcard__info"><div class="ptag mono">{e(p["seriesLabel"])} · {kind}</div>'
+            f'<h3><a href="{href}">{e(p["name"])}</a></h3>'
+            f'<div class="pprice">{money(p["price"])}</div>'
+            f'<div class="pswatches">{swatches}</div>{atc}</div></article>')
+
+
+def build_home(products):
+    f = ROOT / "index.html"
+    s = f.read_text(encoding="utf-8")
+    graph = {"@context": "https://schema.org", "@graph": [
+        organization(),
+        {"@type": "WebSite", "@id": url("/#site"), "name": SITE_NAME, "url": url("/"),
+         "inLanguage": "en-IN", "publisher": {"@id": url("/#org")}},
+        {"@type": "ItemList", "name": "The drops", "numberOfItems": len(products),
+         "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": url(f"/p/{p['id']}"),
+                              "name": p["name"]} for i, p in enumerate(products)]},
+    ]}
+    s = put_head(s, head_tags(HOME_TITLE, HOME_DESC, "/", OG_IMAGE, extra=jsonld(graph)))
+    grid = "<!-- grid:start -->" + "".join(card_html(p) for p in products) + "<!-- grid:end -->"
+    if "<!-- grid:start -->" in s:
+        s = re.sub(r"<!-- grid:start -->.*?<!-- grid:end -->", lambda _: grid, s, flags=re.S)
+    else:
+        s = s.replace('<div class="pgrid" id="pgrid"></div>', f'<div class="pgrid" id="pgrid">{grid}</div>', 1)
+    s = s.replace('<html lang="en">', '<html lang="en-IN">', 1)
+    f.write_text(s, encoding="utf-8")
+
+
+# ── product pages ─────────────────────────────────────────────────────────
+
+def build_products(products, offers):
+    template = (ROOT / "product.html").read_text(encoding="utf-8")
+    template = template.replace('<meta name="robots" content="noindex">\n', "")
+    outdir = ROOT / "p"
+    outdir.mkdir(exist_ok=True)
+    keep = set()
+    for p in products:
+        shots = gallery_shots(p)
+        title = f"{p['name']} Oversized T-Shirt — {p['seriesLabel']} series | {SITE_NAME}"
+        desc = f"{blurb(p)} {money(p['price'])}. Free shipping across India, cash on delivery."
+        extra = jsonld(product_ld(p, offers)) + "\n" + jsonld(breadcrumb_ld(p))
+        s = put_head(template, head_tags(title, desc, f"/p/{p['id']}",
+                                         "/" + shots[0]["src"] if shots else OG_IMAGE,
+                                         og_type="product", extra=extra))
+        if offers:
+            s = s.replace("<!-- seo:end -->",
+                          f'<meta property="product:price:amount" content="{float(p["price"]):.2f}">\n'
+                          '<meta property="product:price:currency" content="INR">\n<!-- seo:end -->', 1)
+        s = s.replace('<html lang="en">', '<html lang="en-IN">', 1)
+        gallery = "".join(
+            f'<button class="gshot" data-i="{i}" aria-label="Enlarge image {i + 1} of {len(shots)}">'
+            f'<img src="/{m["src"]}" alt="{e(m["alt"])}" width="800" height="1000" '
+            f'loading="{"eager" if i < 2 else "lazy"}" decoding="async"{HIGH if i == 0 else ""}></button>'
+            for i, m in enumerate(shots))
+        s = re.sub(r'(<div class="gallery__track" id="track">).*?(</div>\n)',
+                   lambda m: m.group(1) + gallery + m.group(2), s, count=1, flags=re.S)
+        buy = (f'<div class="buy__top"><span class="mono buy__series">{e(p["seriesLabel"])} series</span></div>'
+               f'<h1 class="buy__name">{e(p["name"])}</h1>'
+               f'<div class="buy__price"><span class="price">{money(p["price"])}</span>'
+               '<span class="mono tax">Incl. of all taxes</span></div>'
+               f'<p class="buy__blurb">{e(blurb(p))}</p>')
+        s = s.replace('<aside class="buy" id="buy" aria-live="polite"></aside>',
+                      f'<aside class="buy" id="buy" aria-live="polite">{buy}</aside>', 1)
+        out = outdir / f"{p['id']}.html"
+        out.write_text(s, encoding="utf-8")
+        keep.add(out.name)
+    for old in outdir.glob("*.html"):          # products removed from the catalogue
+        if old.name not in keep:
+            old.unlink()
+
+
+# ── sitemap + robots ──────────────────────────────────────────────────────
+
+def build_sitemap(products):
+    rows = [("/", "1.0")] + [(f"/p/{p['id']}", "0.8") for p in products] + \
+           [(f"/{s}", "0.4") for s in SITEMAP_PAGES if (ROOT / f"{s}.html").exists()]
+    body = "".join(f"<url><loc>{e(url(path))}</loc><lastmod>{TODAY}</lastmod>"
+                   f"<priority>{pr}</priority></url>" for path, pr in rows)
+    (ROOT / "sitemap.xml").write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + body + "</urlset>\n",
+        encoding="utf-8")
+    (ROOT / "robots.txt").write_text(
+        "User-agent: *\nAllow: /\nDisallow: /cart\nDisallow: /product$\nDisallow: /product.html\n\n"
+        f"Sitemap: {url('/sitemap.xml')}\n", encoding="utf-8")
+
+
+def build():
+    data = json.loads((ROOT / "data/products.json").read_text(encoding="utf-8"))
+    products = data["products"]
+    offers = offers_live()
+    make_og_image()
+    make_hero_poster()
+    build_home(products)
+    build_products(products, offers)
+    build_sitemap(products)
+    print(f"seo: home, {len(products)} product pages, sitemap, robots "
+          f"(offers {'on' if offers else 'off'}, site {SITE_URL})")
+
+
+if __name__ == "__main__":
+    build()

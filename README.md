@@ -114,3 +114,18 @@ footer inside index.html and product.html. Footer links live in
 Anything unconfirmed is wrapped in `<span class="tbd">…</span>`. Open any page
 with `?review=1` (e.g. /returns?review=1) to see every placeholder highlighted.
 Locally, pages are at /about.html etc. On Vercel, cleanUrls serves /about.
+
+## SEO
+
+`python3 scripts/build_pages.py` also runs `scripts/build_seo.py`, which writes:
+one static page per product in `p/<id>.html` (served at `/p/<id>`), the home
+page head + pre-rendered grid, `sitemap.xml`, `robots.txt`, the default share
+image and the hero poster. Re-run it after any change to `data/products.json`.
+
+- Site address: `SITE_URL` in `scripts/site_config.py`. It's the vercel.app
+  address until wearmudra.in resolves. When the domain is live, change that
+  one line and rebuild. Every canonical, sitemap entry and share tag follows.
+- Instagram: set `INSTAGRAM_URL` in the same file; it goes into the
+  Organization structured data.
+- Price/stock structured data is only emitted while `SHOPIFY.enabled` is true.
+- `product.html` is now only the fallback template (noindex).

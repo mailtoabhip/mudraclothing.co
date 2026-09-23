@@ -13,7 +13,7 @@ ASSETS = [
     "assets/js/shop.js", "assets/js/main.js", "assets/js/product.js", "assets/js/pages.js", "assets/js/cart.js",
     "assets/svg/sprite.svg",
 ]
-PAGES = sorted(p.name for p in ROOT.glob("*.html")) + ["assets/js/shop.js"]
+PAGES = sorted(p.name for p in ROOT.glob("*.html")) + sorted(f"p/{p.name}" for p in ROOT.glob("p/*.html")) + ["assets/js/shop.js"]
 
 def h(p): return hashlib.md5((ROOT / p).read_bytes()).hexdigest()[:8]
 

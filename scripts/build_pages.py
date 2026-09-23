@@ -21,7 +21,10 @@ with ?review=1 to see every placeholder highlighted.
 The shared footer is also written into index.html and product.html between
 <!-- footer:start --> and <!-- footer:end -->.
 """
-import html, pathlib, re
+import html, pathlib, re, sys
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+from site_config import SITE_URL, OG_IMAGE
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / "_src" / "pages"
@@ -64,15 +67,21 @@ def footer_html():
 
 
 SHELL = """<!DOCTYPE html>
-<html lang="en">
+<html lang="en-IN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title_tag}</title>
 <meta name="description" content="{description}">
+<link rel="canonical" href="{canonical}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mudra Studios">
+<meta property="og:locale" content="en_IN">
 <meta property="og:title" content="{title_tag}">
 <meta property="og:description" content="{description}">
-<meta property="og:site_name" content="Mudra Studios">
+<meta property="og:url" content="{canonical}">
+<meta property="og:image" content="{og_image}">
+<meta name="twitter:card" content="summary_large_image">
 {robots}<link rel="icon" href="/assets/favicon/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/icon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon/icon-192.png">
@@ -81,7 +90,7 @@ SHELL = """<!DOCTYPE html>
 <meta name="theme-color" content="#EDE9E0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Saira:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Saira:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/styles.css?v=0">
 <link rel="stylesheet" href="/assets/css/pages.css?v=0">
 </head>
@@ -181,6 +190,8 @@ def build():
             slug=slug, nav=nav, accent=meta.get("accent", "blue"),
             kicker=meta.get("kicker", ""), updated=updated, title=title,
             body=body, footer=footer,
+            canonical=SITE_URL.rstrip("/") + ("/" if slug == "404" else f"/{slug}"),
+            og_image=SITE_URL.rstrip("/") + OG_IMAGE,
         )
         out = ROOT / meta.get("out", f"{slug}.html")
         # keep existing ?v= hashes stable; fingerprint.py rewrites them
@@ -203,3 +214,5 @@ def build():
 
 if __name__ == "__main__":
     build()
+    import build_seo
+    build_seo.build()

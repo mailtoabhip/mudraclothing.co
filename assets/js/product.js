@@ -109,6 +109,7 @@ function showError(msg) {
 /* ---------- head ------------------------------------------------------ */
 
 function setMeta(p) {
+  if (document.querySelector('link[rel="canonical"]')) return;   // pre-built page
   const title = `${p.name} — ${p.seriesLabel} series · Mudra Studios`;
   const desc = blurb(p);
   document.title = title;
@@ -121,6 +122,8 @@ function setMeta(p) {
   og('og:title', title);
   og('og:description', desc);
   if (view.shots[0]) og('og:image', new URL('/' + view.shots[0].src, location.origin).href);
+  // pre-built /p/<id> pages already carry the right canonical + share tags
+  if (document.querySelector('link[rel="canonical"]')) return;
   const canon = document.createElement('link');
   canon.rel = 'canonical';
   canon.href = new URL(`/p/${p.id}`, location.origin).href;
