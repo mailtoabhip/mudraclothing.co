@@ -27,7 +27,7 @@ from site_config import (SITE_URL, SITE_NAME, CONTACT_EMAIL, INSTAGRAM_URL, OG_I
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 TODAY = datetime.date.today().isoformat()
 
-HOME_TITLE = "Mudra Studios — Oversized graphic t-shirts, designed in India"
+HOME_TITLE = "Mudra Studios | Oversized graphic t-shirts, designed in India"
 HOME_DESC = ("Oversized graphic tees with a clean front and a loud back. Food, city, Y2K, "
              "gym, travel and tarot designs, printed to order in India. Free shipping, "
              "cash on delivery.")
@@ -266,7 +266,7 @@ def card_html(p):
     return (f'<article class="pcard" data-id="{p["id"]}" data-series="{p["series"]}" '
             f'data-colour="{e(p["colour"])}" data-print="{p["print"]}" data-stock="{" ".join(stock)}" '
             f'data-sizes="{" ".join(avail)}" data-price="{p["price"]}" data-name="{e(p["name"])}" data-url="{href}">'
-            f'<div class="pcard__media" tabindex="0" aria-label="{e(p["name"])} — view product">{badge}'
+            f'<div class="pcard__media" tabindex="0" aria-label="{e(p["name"])}, view product">{badge}'
             f'<div class="slides">{slides}</div>'
             '<button class="navbtn prev" aria-label="Previous image">&#8249;</button>'
             '<button class="navbtn next" aria-label="Next image">&#8250;</button>'
@@ -309,7 +309,7 @@ def build_products(products, offers):
     keep = set()
     for p in products:
         shots = gallery_shots(p)
-        title = f"{p['name']} Oversized T-Shirt — {p['seriesLabel']} series | {SITE_NAME}"
+        title = f"{p['name']} Oversized T-Shirt | {p['seriesLabel']} series | {SITE_NAME}"
         promise = f"Pre-order, arrives in {DAYS}. " if preorder() else ""
         desc = f"{blurb(p)} {money(p['price'])}. {promise}Free shipping across India, cash on delivery."
         extra = jsonld(product_ld(p, offers)) + "\n" + jsonld(breadcrumb_ld(p))

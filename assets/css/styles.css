@@ -223,7 +223,7 @@ footer{border-top:1px solid var(--line);padding-block:40px 60px}
 @media(max-width:1100px){.pgrid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){
   .pgrid{grid-template-columns:repeat(2,1fr);gap:10px;padding-top:16px}
-  /* two-up on a phone means less room per card — scale the contents down */
+  /* two-up on a phone means less room per card, so scale the contents down */
   .pcard{gap:9px}
   .pcard__info{gap:6px}
   .pcard__info h3{font-size:13px;letter-spacing:.02em;line-height:1.15}

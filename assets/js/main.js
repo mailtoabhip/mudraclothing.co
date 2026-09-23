@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Mudra Studios — catalogue (home page)
+   Mudra Studios: catalogue (home page)
    Renders the grid from data/products.json. Shared plumbing lives in shop.js.
    ========================================================================== */
 
@@ -54,7 +54,7 @@ function cardHTML(p) {
            data-print="${p.print}" data-stock="${stockTags.join(' ')}"
            data-sizes="${available.map(s => s.size).join(' ')}"
            data-price="${p.price}" data-name="${esc(p.name)}" data-url="${url}">
-    <div class="pcard__media" tabindex="0" aria-label="${esc(p.name)} — view product">
+    <div class="pcard__media" tabindex="0" aria-label="${esc(p.name)}, view product">
       ${badge}
       <div class="slides">${slides}</div>
       <button class="navbtn prev" aria-label="Previous image">&#8249;</button>

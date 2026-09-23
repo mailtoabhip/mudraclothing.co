@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Mudra Studios — product page
+   Mudra Studios: product page
    One template for every product: /p/{id} (Vercel rewrite) or
    /product.html?id={id} locally. Data comes from data/products.json.
    ========================================================================== */
@@ -113,7 +113,7 @@ function showError(msg) {
 
 function setMeta(p) {
   if (document.querySelector('link[rel="canonical"]')) return;   // pre-built page
-  const title = `${p.name} — ${p.seriesLabel} series · Mudra Studios`;
+  const title = `${p.name} · ${p.seriesLabel} series · Mudra Studios`;
   const desc = blurb(p);
   document.title = title;
   document.querySelector('meta[name="description"]').setAttribute('content', desc);
@@ -294,8 +294,8 @@ function renderBuy(p) {
 // main button once a size is picked; the price part drops on very narrow phones (product.css)
 function ctaHTML() {
   return M.isPreorder()
-    ? `Pre-order<span class="atc__price"> — ${money(view.price)}</span>`
-    : `Add to bag — ${money(view.price)}`;
+    ? `Pre-order<span class="atc__price"> · ${money(view.price)}</span>`
+    : `Add to bag · ${money(view.price)}`;
 }
 
 function selectSize(size) {

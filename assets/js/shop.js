@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Mudra Studios — shared storefront plumbing
+   Mudra Studios: shared storefront plumbing
    Loaded by every page before its own script. Exposes window.Mudra.
    Cart + checkout talk to the Shopify Storefront API directly (fetch, no SDK).
    ========================================================================== */

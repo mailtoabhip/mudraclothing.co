@@ -6,7 +6,7 @@ orders live in Shopify (Storefront API, no SDK).
 ## Structure
 
 ```
-index.html              page shell — hero, filters, spec band, footer
+index.html              page shell: hero, filters, spec band, footer
 product.html            product page template (one page renders every product)
 about.html, contact.html, shipping.html, returns.html, terms.html,
 privacy.html, size-guide.html, track.html, 404.html

@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Mudra Studios — /cart
+   Mudra Studios: /cart
    Renders the Storefront API cart. Checkout is Shopify's, via cart.checkoutUrl.
    ========================================================================== */
 
