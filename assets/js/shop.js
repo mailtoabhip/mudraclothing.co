@@ -14,7 +14,7 @@ const SHOPIFY = {
   apiVersion: '2026-07',
   shopId: '73593618511',
   cod: true,        // cash on delivery offered at checkout
-  enabled: false,   // false: the bag is a local counter and checkout stays closed
+  enabled: true,    // false: the bag is a local counter and checkout stays closed
 };
 
 const ACCOUNT_URL = `https://shopify.com/${SHOPIFY.shopId}/account`;
