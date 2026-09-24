@@ -364,14 +364,19 @@ def card_price(p):
 def buy_price(p):
     # mirrors priceHTML() in assets/js/product.js
     v, d = price_view(p), drop_dates()
+    label = '<p class="mono buy__label" aria-hidden="true">Pre-order price</p>' if v["pre"] else ""
     row = ('<div class="buy__pricerow">'
            + (f'<s class="mono buy__mrp">MRP {money(v["mrp"])}</s>' if v["mrp"] else "")
            + f'<span class="price{" is-pre" if v["pre"] else ""}" id="price"><span class="sr">'
-           + ("Pre-order price " if v["pre"] else "Price ") + f'</span>{money(v["now"])}</span>'
-           + '<span class="mono tax">Incl. of all taxes</span></div>')
-    after = (f'<p class="buy__after">{money(v["regular"])} after pre-orders close on {d["closes_short"]}.</p>'
-             if v["regular"] and d else "")
-    return f'<div class="buy__price" id="priceBlock">{row}{after}</div>'
+           + ("Pre-order price " if v["pre"] else "Price ")
+           + f'</span><span class="price__num">{money(v["now"])}</span></span></div>')
+    tax = '<p class="mono buy__tax">Inclusive of all taxes · Free shipping</p>'
+    note = ('<aside class="pricenote" role="note" aria-label="Price after pre-orders close">'
+            f'<div class="pricenote__row"><span class="mono">After {e(d["closes_short"])}</span>'
+            f'<span class="pricenote__price">{money(v["regular"])}</span></div>'
+            '<p class="pricenote__text">The pre-order price ends when pre-orders close.</p></aside>'
+            if v["regular"] and d else "")
+    return f'<div class="buy__price" id="priceBlock">{label}{row}{tax}{note}</div>'
 
 
 def check_prices(products):

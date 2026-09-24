@@ -44,14 +44,22 @@ body.is-pdp{padding-bottom:0}
   overflow-wrap:anywhere;
 }
 
-.buy__price{display:grid;gap:8px;padding-bottom:20px;border-bottom:1px solid var(--line)}
-.buy__pricerow{display:flex;align-items:baseline;gap:6px 14px;flex-wrap:wrap}
-.buy__price .price{font-family:var(--mono);font-size:20px;letter-spacing:.02em}
-/* pre-order price: fluoro-lime highlighter, the one loud thing in the column */
-.buy__price .price.is-pre{font-size:22px;background:#CCFF00;color:var(--fg);padding:3px 9px 2px;line-height:1.2}
-.buy__mrp{color:var(--ash);font-size:12px;text-decoration:line-through;text-decoration-color:var(--ash)}
-.buy__price .tax{color:var(--ash);font-size:10px}
-.buy__after{margin:0;font-size:14px;line-height:1.4;color:var(--ash)}
+.buy__price{display:grid;padding-bottom:20px;border-bottom:1px solid var(--line)}
+.buy__label{margin:0 0 6px;font-size:10px;color:var(--blue)}
+/* price first visually, MRP after it; DOM keeps MRP first for screen readers */
+.buy__pricerow{display:flex;align-items:baseline;gap:4px 12px;flex-wrap:wrap}
+.buy__price .price{order:-1;font-family:var(--mono);font-size:30px;font-weight:700;line-height:1.1;color:var(--fg);letter-spacing:0}
+/* pre-order price: lime marker under the lower half of the numerals, the one loud thing in the column */
+.buy__price .price.is-pre .price__num{background:linear-gradient(transparent 55%,#CCFF00 55%);padding:0 4px;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone}
+.buy__mrp{font-size:12px;color:var(--ash);text-decoration:line-through;text-decoration-color:var(--ash)}
+.buy__tax{margin:6px 0 0;font-size:10px;color:var(--ash)}
+.pricenote{display:grid;gap:4px;margin-top:14px;padding:12px 14px;border:1px solid var(--line);background:var(--paper-2)}
+.pricenote__row{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.pricenote__row .mono{font-size:10px;color:var(--fg)}
+.pricenote__price{font-family:var(--mono);font-size:14px;color:var(--fg)}
+.pricenote__text{margin:0;font-family:var(--body);font-size:13px;line-height:1.45;color:var(--ash)}
+@media(max-width:760px){.buy__price .price{font-size:26px}}
 
 .buy__blurb{margin:0;font-size:15.5px;line-height:1.55;max-width:44ch}
 

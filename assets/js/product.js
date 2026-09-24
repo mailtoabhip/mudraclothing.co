@@ -368,13 +368,19 @@ function shippingText(p) {
 function priceHTML(p) {
   const v = M.priceView(p, view.live), d = M.dropDates();
   const closes = d ? d.closesShort : '';
+  // DOM order is MRP then price, so screen readers hear "MRP ₹1,600, Pre-order price ₹1,299";
+  // CSS puts the price first visually. The visible label repeats the sr text, so it's hidden from AT.
   return `
+    ${v.pre ? '<p class="mono buy__label" aria-hidden="true">Pre-order price</p>' : ''}
     <div class="buy__pricerow">
       ${v.mrp ? `<s class="mono buy__mrp">MRP ${money(v.mrp)}</s>` : ''}
-      <span class="price${v.pre ? ' is-pre' : ''}" id="price"><span class="sr">${v.pre ? 'Pre-order price ' : 'Price '}</span>${money(v.now)}</span>
-      <span class="mono tax">Incl. of all taxes</span>
+      <span class="price${v.pre ? ' is-pre' : ''}" id="price"><span class="sr">${v.pre ? 'Pre-order price ' : 'Price '}</span><span class="price__num">${money(v.now)}</span></span>
     </div>
-    ${v.regular && closes ? `<p class="buy__after">${money(v.regular)} after pre-orders close on ${esc(closes)}.</p>` : ''}`;
+    <p class="mono buy__tax">Inclusive of all taxes · Free shipping</p>
+    ${v.regular && closes ? `<aside class="pricenote" role="note" aria-label="Price after pre-orders close">
+      <div class="pricenote__row"><span class="mono">After ${esc(closes)}</span><span class="pricenote__price">${money(v.regular)}</span></div>
+      <p class="pricenote__text">The pre-order price ends when pre-orders close.</p>
+    </aside>` : ''}`;
 }
 
 // main button once a size is picked; the price part drops on very narrow phones (product.css)
