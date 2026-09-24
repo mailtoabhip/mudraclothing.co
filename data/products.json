@@ -43,7 +43,11 @@
       "seriesLabel": "Y2K",
       "colour": "black bone blue sage",
       "print": "back",
-      "price": 1199,
+      "tier": "hero",
+      "mrp": 1600,
+      "price": 1299,
+      "regularPrice": 1499,
+      "preorderEnds": "2026-10-15T23:59:00+05:30",
       "badge": null,
       "sizes": [
         {
@@ -124,7 +128,11 @@
       "seriesLabel": "Y2K",
       "colour": "black bone magenta sky",
       "print": "back",
-      "price": 1199,
+      "tier": "hero",
+      "mrp": 1600,
+      "price": 1299,
+      "regularPrice": 1499,
+      "preorderEnds": "2026-10-15T23:59:00+05:30",
       "badge": {
         "type": "new",
         "label": "New"
@@ -218,7 +226,11 @@
       "seriesLabel": "Food",
       "colour": "black bone lime butter",
       "print": "back",
+      "tier": "core",
+      "mrp": 1600,
       "price": 1199,
+      "regularPrice": 1399,
+      "preorderEnds": "2026-10-15T23:59:00+05:30",
       "badge": null,
       "sizes": [
         {
@@ -314,7 +326,11 @@
       "seriesLabel": "Food",
       "colour": "black bone blue peach",
       "print": "back",
+      "tier": "core",
+      "mrp": 1600,
       "price": 1199,
+      "regularPrice": 1399,
+      "preorderEnds": "2026-10-15T23:59:00+05:30",
       "badge": null,
       "sizes": [
         {
@@ -405,7 +421,11 @@
       "seriesLabel": "Food",
       "colour": "black bone lime mint",
       "print": "back",
+      "tier": "core",
+      "mrp": 1600,
       "price": 1199,
+      "regularPrice": 1399,
+      "preorderEnds": "2026-10-15T23:59:00+05:30",
       "badge": null,
       "sizes": [
         {
@@ -501,7 +521,11 @@
       "seriesLabel": "Food",
       "colour": "black bone magenta rose",
       "print": "back",
+      "tier": "core",
+      "mrp": 1600,
       "price": 1199,
+      "regularPrice": 1399,
+      "preorderEnds": "2026-10-15T23:59:00+05:30",
       "badge": null,
       "sizes": [
         {
@@ -597,7 +621,11 @@
       "seriesLabel": "City",
       "colour": "black bone blue clay",
       "print": "back",
-      "price": 1199,
+      "tier": "entry",
+      "mrp": 1600,
+      "price": 1099,
+      "regularPrice": 1299,
+      "preorderEnds": "2026-10-15T23:59:00+05:30",
       "badge": null,
       "sizes": [
         {
@@ -668,7 +696,11 @@
       "seriesLabel": "City",
       "colour": "black bone magenta sand",
       "print": "back",
-      "price": 1199,
+      "tier": "entry",
+      "mrp": 1600,
+      "price": 1099,
+      "regularPrice": 1299,
+      "preorderEnds": "2026-10-15T23:59:00+05:30",
       "badge": null,
       "sizes": [
         {
@@ -739,7 +771,11 @@
       "seriesLabel": "City",
       "colour": "black bone lime stone",
       "print": "back",
-      "price": 1199,
+      "tier": "entry",
+      "mrp": 1600,
+      "price": 1099,
+      "regularPrice": 1299,
+      "preorderEnds": "2026-10-15T23:59:00+05:30",
       "badge": null,
       "sizes": [
         {
@@ -810,7 +846,11 @@
       "seriesLabel": "Y2K",
       "colour": "black bone blue periwinkle",
       "print": "back",
+      "tier": "core",
+      "mrp": 1600,
       "price": 1199,
+      "regularPrice": 1399,
+      "preorderEnds": "2026-10-15T23:59:00+05:30",
       "badge": null,
       "sizes": [
         {
@@ -896,7 +936,11 @@
       "seriesLabel": "Music",
       "colour": "black bone blue lilac",
       "print": "back",
+      "tier": "core",
+      "mrp": 1600,
       "price": 1199,
+      "regularPrice": 1399,
+      "preorderEnds": "2026-10-15T23:59:00+05:30",
       "badge": null,
       "sizes": [
         {
@@ -967,7 +1011,11 @@
       "seriesLabel": "Gym",
       "colour": "black bone magenta aqua",
       "print": "back",
-      "price": 1199,
+      "tier": "entry",
+      "mrp": 1600,
+      "price": 1099,
+      "regularPrice": 1299,
+      "preorderEnds": "2026-10-15T23:59:00+05:30",
       "badge": null,
       "sizes": [
         {
@@ -1038,7 +1086,11 @@
       "seriesLabel": "Gym",
       "colour": "black bone blue stone sage",
       "print": "back",
+      "tier": "core",
+      "mrp": 1600,
       "price": 1199,
+      "regularPrice": 1399,
+      "preorderEnds": "2026-10-15T23:59:00+05:30",
       "badge": null,
       "sizes": [
         {
@@ -1125,7 +1177,11 @@
       "seriesLabel": "Travel",
       "colour": "black bone magenta sky",
       "print": "back",
-      "price": 1199,
+      "tier": "entry",
+      "mrp": 1600,
+      "price": 1099,
+      "regularPrice": 1299,
+      "preorderEnds": "2026-10-15T23:59:00+05:30",
       "badge": null,
       "sizes": [
         {
@@ -1196,7 +1252,11 @@
       "seriesLabel": "Travel",
       "colour": "black bone lime aqua",
       "print": "back",
-      "price": 1199,
+      "tier": "entry",
+      "mrp": 1600,
+      "price": 1099,
+      "regularPrice": 1299,
+      "preorderEnds": "2026-10-15T23:59:00+05:30",
       "badge": null,
       "sizes": [
         {
@@ -1267,7 +1327,11 @@
       "seriesLabel": "Tarot",
       "colour": "black bone blue lavender",
       "print": "back",
-      "price": 1199,
+      "tier": "hero",
+      "mrp": 1600,
+      "price": 1299,
+      "regularPrice": 1499,
+      "preorderEnds": "2026-10-15T23:59:00+05:30",
       "badge": null,
       "sizes": [
         {

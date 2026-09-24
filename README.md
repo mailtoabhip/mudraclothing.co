@@ -156,3 +156,19 @@ image and the hero poster. Re-run it after any change to `data/products.json`.
   Organization structured data.
 - Price/stock structured data is only emitted while `SHOPIFY.enabled` is true.
 - `product.html` is now only the fallback template (noindex).
+
+## Prices (Drop 01)
+
+`data/pricing.json` holds the MRP, the three tiers and which tee is in which tier
+(provisional until Design confirms print areas). `scripts/pricing.py` writes
+`tier / mrp / price / regularPrice / preorderEnds` into `data/products.json`
+and a matching Shopify plan into `ops/` (not deployed):
+
+    python3 scripts/pricing.py preorder   # during pre-orders: price = pre-order price
+    python3 scripts/pricing.py regular    # when pre-orders close: price = regular price
+    python3 scripts/build_pages.py && python3 scripts/fingerprint.py
+
+Shopify must match: price = `price`, compare-at = MRP, metafield
+`custom.regular_price`. Apply `ops/shopify-prices-<phase>.json` through the
+Shopify connector, with the founder's go-ahead, in the same sitting as the push.
+The build stops if `preorderEnds` and `data/drop.json` disagree.

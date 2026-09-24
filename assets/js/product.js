@@ -79,7 +79,8 @@ async function loadLive(p) {
   view.variants = live.variants;
   if (live.price != null) {
     view.price = live.price;
-    $('#price').textContent = money(view.price);
+    view.live = live;
+    $('#priceBlock').innerHTML = priceHTML(p);
   }
   document.querySelectorAll('.szbtn').forEach(b => {
     const ok = !!live.variants[b.dataset.size]?.available;
@@ -213,10 +214,7 @@ function renderBuy(p) {
 
     <h1 class="buy__name">${esc(p.name)}</h1>
 
-    <div class="buy__price">
-      <span class="price" id="price">${money(view.price)}</span>
-      <span class="mono tax">Incl. of all taxes</span>
-    </div>
+    <div class="buy__price" id="priceBlock">${priceHTML(p)}</div>
 
     <p class="buy__blurb">${esc(blurb(p))}</p>
 
@@ -363,6 +361,20 @@ function shippingText(p) {
     return `${d.name} pre-orders run ${d.opensShort} to ${d.closesShort}, are made in one run after they close, and ship by ${d.shipsShort}. Free shipping across India.${prepaid}`;
   }
   return view.garment.shipping || '';
+}
+
+// struck MRP, the price (highlighted while pre-orders run), and what it becomes after.
+// Keep in step with the static block in scripts/build_seo.py.
+function priceHTML(p) {
+  const v = M.priceView(p, view.live), d = M.dropDates();
+  const closes = d ? d.closesShort : '';
+  return `
+    <div class="buy__pricerow">
+      ${v.mrp ? `<s class="mono buy__mrp">MRP ${money(v.mrp)}</s>` : ''}
+      <span class="price${v.pre ? ' is-pre' : ''}" id="price"><span class="sr">${v.pre ? 'Pre-order price ' : 'Price '}</span>${money(v.now)}</span>
+      <span class="mono tax">Incl. of all taxes</span>
+    </div>
+    ${v.regular && closes ? `<p class="buy__after">${money(v.regular)} after pre-orders close on ${esc(closes)}.</p>` : ''}`;
 }
 
 // main button once a size is picked; the price part drops on very narrow phones (product.css)

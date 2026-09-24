@@ -1,0 +1,17 @@
+{
+  "_note": "Drop 01 pricing (Manager, 25 Sep). Tier assignment is PROVISIONAL until Design confirms print areas. Edit here, then run: python3 scripts/pricing.py preorder (or regular).",
+  "mrp": 1600,
+  "provisional": true,
+  "tiers": {
+    "hero":  { "preorder": 1299, "regular": 1499 },
+    "core":  { "preorder": 1199, "regular": 1399 },
+    "entry": { "preorder": 1099, "regular": 1299 }
+  },
+  "assign": {
+    "face-card": "hero", "neo-bombay": "hero", "the-overthinker": "hero",
+    "dilli-belly": "core", "bombay-bhook": "core", "namma-hotte": "core", "pet-pujo": "core",
+    "on-repeat": "core", "not-responding": "core", "atlas": "core",
+    "calcutta-wb02": "entry", "delhi-dl01": "entry", "bengaluru-ka01": "entry",
+    "set-03": "entry", "one-way": "entry", "out-of-office": "entry"
+  }
+}

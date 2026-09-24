@@ -222,6 +222,20 @@ const codNow = () => SHOPIFY.cod && !(DROP && DROP.prepaidOnly && dropPhase() !=
 
 const money = n => `₹${Number(n).toLocaleString('en-IN', { maximumFractionDigits: 2 })}`;
 
+/* ---------- prices: MRP, now, and what it becomes after pre-orders ---- */
+// data/products.json holds mrp / price / regularPrice / preorderEnds (written by
+// scripts/pricing.py). A live Shopify price, when loaded, always wins: it's what
+// checkout charges. The struck MRP only shows when it's above the price.
+// Keep in step with price_view() in scripts/build_seo.py.
+function priceView(p, live) {
+  const now = live?.price ?? p.price;
+  const mrp = live?.compareAt ?? p.mrp ?? null;
+  const st = saleState(p.id);
+  const pre = st === 'open' || st === 'teaser';
+  const regular = pre && p.regularPrice > now ? p.regularPrice : null;
+  return { now, mrp: mrp > now ? mrp : null, regular, pre };
+}
+
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -250,7 +264,7 @@ const PRODUCT_Q = `query P($handle: String!) {
   product(handle: $handle) {
     handle title availableForSale
     variants(first: 20) { nodes {
-      id availableForSale price { amount currencyCode }
+      id availableForSale price { amount currencyCode } compareAtPrice { amount }
       selectedOptions { name value }
     } }
   }
@@ -269,7 +283,11 @@ function liveProduct(handle) {
         if (size) variants[size] = { id: v.id, available: v.availableForSale, price: Number(v.price.amount) };
       });
       const first = p.variants.nodes[0];
-      return { price: first ? Number(first.price.amount) : null, variants };
+      return {
+        price: first ? Number(first.price.amount) : null,
+        compareAt: first?.compareAtPrice ? Number(first.compareAtPrice.amount) : null,
+        variants,
+      };
     }).catch(err => { liveCache.delete(handle); throw err; }));
   }
   return liveCache.get(handle);
@@ -520,7 +538,7 @@ window.Mudra = {
   loadDrop, dropPhase, dropDates, saleState, canBuy, inDrop, closesIn, checkoutBlock, downloadIcs,
   tickerItems, heroTag, codNow, lineNote, get drop() { return DROP; },
   productUrl, productIdFromUrl, loadCatalogue, loadSprite, sellableColours,
-  money, esc, wireHeader, renderBag, initBag, addToBag, flash,
+  money, priceView, esc, wireHeader, renderBag, initBag, addToBag, flash,
   liveProduct, cart, sf,
 };
 

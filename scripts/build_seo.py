@@ -287,6 +287,8 @@ def product_ld(p, offers):
             ld["offers"]["availability"] = "https://schema.org/PreOrder"
             ld["offers"]["availabilityStarts"] = DROP["opens"]
             ld["offers"]["availabilityEnds"] = DROP["closes"]
+            # the pre-order price is only valid until pre-orders close
+            ld["offers"]["priceValidUntil"] = DROP["closes"][:10]
             ld["offers"]["shippingDetails"].pop("deliveryTime", None)
         elif st in ("closed", "notInDrop"):
             ld["offers"]["availability"] = "https://schema.org/OutOfStock"
@@ -338,6 +340,50 @@ def put_head(s, block):
                      '<meta name="viewport" content="width=device-width, initial-scale=1">\n' + block + "\n", 1)
 
 
+# ── prices (mirrors priceView() in assets/js/shop.js) ─────────────────────
+
+def price_view(p):
+    now = p["price"]
+    mrp = p.get("mrp")
+    pre = sale_state(p["id"]) in ("open", "teaser")
+    reg = p.get("regularPrice")
+    return {"now": now, "mrp": mrp if mrp and mrp > now else None,
+            "regular": reg if pre and reg and reg > now else None, "pre": pre}
+
+
+def card_price(p):
+    # mirrors cardPrice() in assets/js/main.js
+    v = price_view(p)
+    return ('<div class="pprice">'
+            + (f'<s class="pprice__mrp"><span class="sr">MRP </span>{money(v["mrp"])}</s>' if v["mrp"] else "")
+            + f'<span class="pprice__now">{money(v["now"])}</span>'
+            + ('<span class="pprice__po mono">Pre-order</span>' if v["pre"] else "")
+            + "</div>")
+
+
+def buy_price(p):
+    # mirrors priceHTML() in assets/js/product.js
+    v, d = price_view(p), drop_dates()
+    row = ('<div class="buy__pricerow">'
+           + (f'<s class="mono buy__mrp">MRP {money(v["mrp"])}</s>' if v["mrp"] else "")
+           + f'<span class="price{" is-pre" if v["pre"] else ""}" id="price"><span class="sr">'
+           + ("Pre-order price " if v["pre"] else "Price ") + f'</span>{money(v["now"])}</span>'
+           + '<span class="mono tax">Incl. of all taxes</span></div>')
+    after = (f'<p class="buy__after">{money(v["regular"])} after pre-orders close on {d["closes_short"]}.</p>'
+             if v["regular"] and d else "")
+    return f'<div class="buy__price" id="priceBlock">{row}{after}</div>'
+
+
+def check_prices(products):
+    # products.json and drop.json must agree on when pre-order prices end
+    if not DROP:
+        return
+    bad = [p["id"] for p in products if p.get("preorderEnds") and p["preorderEnds"] != DROP["closes"]]
+    if bad:
+        raise SystemExit(f"preorderEnds != drop.json closes for: {', '.join(bad)}. "
+                         "Run python3 scripts/pricing.py preorder|regular.")
+
+
 # ── home ──────────────────────────────────────────────────────────────────
 
 def card_cta(p, href, in_stock):
@@ -387,7 +433,7 @@ def card_html(p):
             f'<div class="dots">{dots}</div></div>'
             f'<div class="pcard__info"><div class="ptag mono">{e(p["seriesLabel"])} · {kind}</div>'
             f'<h3><a href="{href}">{e(p["name"])}</a></h3>'
-            f'<div class="pprice">{money(p["price"])}</div>'
+            + card_price(p)
             + (f'<div class="ptag mono pcard__po">{tag}</div>' if tag else "")
             + f'<div class="pswatches">{swatches}</div>{atc}</div></article>')
 
@@ -475,9 +521,8 @@ def build_products(products, offers):
                    lambda m: m.group(1) + gallery + m.group(2), s, count=1, flags=re.S)
         buy = (f'<div class="buy__top"><span class="mono buy__series">{e(p["seriesLabel"])} series</span></div>'
                f'<h1 class="buy__name">{e(p["name"])}</h1>'
-               f'<div class="buy__price"><span class="price">{money(p["price"])}</span>'
-               '<span class="mono tax">Incl. of all taxes</span></div>'
-               f'<p class="buy__blurb">{e(blurb(p))}</p>')
+               + buy_price(p)
+               + f'<p class="buy__blurb">{e(blurb(p))}</p>')
         s = s.replace('<aside class="buy" id="buy" aria-live="polite"></aside>',
                       f'<aside class="buy" id="buy" aria-live="polite">{buy}</aside>', 1)
         out = outdir / f"{p['id']}.html"
@@ -507,6 +552,7 @@ def build_sitemap(products):
 def build():
     data = json.loads((ROOT / "data/products.json").read_text(encoding="utf-8"))
     products = data["products"]
+    check_prices(products)
     offers = offers_live()
     # the one public setting product.js needs from site_config (Instagram link)
     (ROOT / "data/site.json").write_text(json.dumps({"instagram": INSTAGRAM_URL}) + "\n", encoding="utf-8")

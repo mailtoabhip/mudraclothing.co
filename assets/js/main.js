@@ -3,7 +3,7 @@
    Renders the grid from data/products.json. Shared plumbing lives in shop.js.
    ========================================================================== */
 
-const { productUrl, loadCatalogue, loadSprite, money, esc, wireHeader, initBag, sellableColours, ORDERING, isPreorder,
+const { productUrl, loadCatalogue, loadSprite, money, priceView, esc, wireHeader, initBag, sellableColours, ORDERING, isPreorder,
   loadDrop, saleState, dropDates, tickerItems, heroTag } = window.Mudra;
 
 const state = {
@@ -54,6 +54,16 @@ function cardCta(p, url, inStock) {
 
 /* ---------- rendering ------------------------------------------------ */
 
+// struck MRP · price · PRE-ORDER. Keep identical to card_price() in scripts/build_seo.py
+function cardPrice(p) {
+  const v = priceView(p);
+  return `<div class="pprice">`
+    + (v.mrp ? `<s class="pprice__mrp"><span class="sr">MRP </span>${money(v.mrp)}</s>` : '')
+    + `<span class="pprice__now">${money(v.now)}</span>`
+    + (v.pre ? '<span class="pprice__po mono">Pre-order</span>' : '')
+    + `</div>`;
+}
+
 function mediaHTML(m, i) {
   const on = i === 0 ? ' is-on' : '';
   if (m.type === 'img') {
@@ -94,7 +104,7 @@ function cardHTML(p) {
     <div class="pcard__info">
       <div class="ptag mono">${esc(p.seriesLabel)} · ${p.print === 'back' ? 'Back print' : 'Chest only'}</div>
       <h3><a href="${url}">${esc(p.name)}</a></h3>
-      <div class="pprice">${money(p.price)}</div>
+      ${cardPrice(p)}
       ${cta.tag ? `<div class="ptag mono pcard__po">${cta.tag}</div>` : ''}
       <div class="pswatches">${swatches}</div>
       ${cta.btn}

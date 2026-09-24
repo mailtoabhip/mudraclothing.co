@@ -1,0 +1,216 @@
+{
+  "phase": "preorder",
+  "mrp": 1600,
+  "products": {
+    "face-card": {
+      "price": "1299.00",
+      "compareAtPrice": "1600.00",
+      "regularPrice": "1499.00",
+      "productId": "gid://shopify/Product/9080409849935",
+      "variantIds": [
+        "gid://shopify/ProductVariant/46799119155279",
+        "gid://shopify/ProductVariant/46799119188047",
+        "gid://shopify/ProductVariant/46799119220815",
+        "gid://shopify/ProductVariant/46799119253583",
+        "gid://shopify/ProductVariant/46799119286351"
+      ]
+    },
+    "neo-bombay": {
+      "price": "1299.00",
+      "compareAtPrice": "1600.00",
+      "regularPrice": "1499.00",
+      "productId": "gid://shopify/Product/9080464867407",
+      "variantIds": [
+        "gid://shopify/ProductVariant/46799182331983",
+        "gid://shopify/ProductVariant/46799182364751",
+        "gid://shopify/ProductVariant/46799182397519",
+        "gid://shopify/ProductVariant/46799182430287",
+        "gid://shopify/ProductVariant/46799182463055"
+      ]
+    },
+    "dilli-belly": {
+      "price": "1199.00",
+      "compareAtPrice": "1600.00",
+      "regularPrice": "1399.00",
+      "productId": "gid://shopify/Product/9080408375375",
+      "variantIds": [
+        "gid://shopify/ProductVariant/46799116894287",
+        "gid://shopify/ProductVariant/46799116927055",
+        "gid://shopify/ProductVariant/46799116959823",
+        "gid://shopify/ProductVariant/46799116992591",
+        "gid://shopify/ProductVariant/46799117025359"
+      ]
+    },
+    "bombay-bhook": {
+      "price": "1199.00",
+      "compareAtPrice": "1600.00",
+      "regularPrice": "1399.00",
+      "productId": "gid://shopify/Product/9080408670287",
+      "variantIds": [
+        "gid://shopify/ProductVariant/46799117287503",
+        "gid://shopify/ProductVariant/46799117320271",
+        "gid://shopify/ProductVariant/46799117353039",
+        "gid://shopify/ProductVariant/46799117385807",
+        "gid://shopify/ProductVariant/46799117418575"
+      ]
+    },
+    "namma-hotte": {
+      "price": "1199.00",
+      "compareAtPrice": "1600.00",
+      "regularPrice": "1399.00",
+      "productId": "gid://shopify/Product/9080409161807",
+      "variantIds": [
+        "gid://shopify/ProductVariant/46799117942863",
+        "gid://shopify/ProductVariant/46799117975631",
+        "gid://shopify/ProductVariant/46799118008399",
+        "gid://shopify/ProductVariant/46799118041167",
+        "gid://shopify/ProductVariant/46799118073935"
+      ]
+    },
+    "pet-pujo": {
+      "price": "1199.00",
+      "compareAtPrice": "1600.00",
+      "regularPrice": "1399.00",
+      "productId": "gid://shopify/Product/9080409489487",
+      "variantIds": [
+        "gid://shopify/ProductVariant/46799118630991",
+        "gid://shopify/ProductVariant/46799118663759",
+        "gid://shopify/ProductVariant/46799118696527",
+        "gid://shopify/ProductVariant/46799118729295",
+        "gid://shopify/ProductVariant/46799118762063"
+      ]
+    },
+    "calcutta-wb02": {
+      "price": "1099.00",
+      "compareAtPrice": "1600.00",
+      "regularPrice": "1299.00",
+      "productId": "gid://shopify/Product/9080465031247",
+      "variantIds": [
+        "gid://shopify/ProductVariant/46799182626895",
+        "gid://shopify/ProductVariant/46799182659663",
+        "gid://shopify/ProductVariant/46799182692431",
+        "gid://shopify/ProductVariant/46799182725199",
+        "gid://shopify/ProductVariant/46799182757967"
+      ]
+    },
+    "delhi-dl01": {
+      "price": "1099.00",
+      "compareAtPrice": "1600.00",
+      "regularPrice": "1299.00",
+      "productId": "gid://shopify/Product/9080465096783",
+      "variantIds": [
+        "gid://shopify/ProductVariant/46799182823503",
+        "gid://shopify/ProductVariant/46799182856271",
+        "gid://shopify/ProductVariant/46799182889039",
+        "gid://shopify/ProductVariant/46799182921807",
+        "gid://shopify/ProductVariant/46799182954575"
+      ]
+    },
+    "bengaluru-ka01": {
+      "price": "1099.00",
+      "compareAtPrice": "1600.00",
+      "regularPrice": "1299.00",
+      "productId": "gid://shopify/Product/9080693882959",
+      "variantIds": [
+        "gid://shopify/ProductVariant/46799549792335",
+        "gid://shopify/ProductVariant/46799549825103",
+        "gid://shopify/ProductVariant/46799549857871",
+        "gid://shopify/ProductVariant/46799549890639",
+        "gid://shopify/ProductVariant/46799549923407"
+      ]
+    },
+    "not-responding": {
+      "price": "1199.00",
+      "compareAtPrice": "1600.00",
+      "regularPrice": "1399.00",
+      "productId": "gid://shopify/Product/9080698044495",
+      "variantIds": [
+        "gid://shopify/ProductVariant/46799555526735",
+        "gid://shopify/ProductVariant/46799555559503",
+        "gid://shopify/ProductVariant/46799555592271",
+        "gid://shopify/ProductVariant/46799555625039",
+        "gid://shopify/ProductVariant/46799555657807"
+      ]
+    },
+    "on-repeat": {
+      "price": "1199.00",
+      "compareAtPrice": "1600.00",
+      "regularPrice": "1399.00",
+      "productId": "gid://shopify/Product/9080695652431",
+      "variantIds": [
+        "gid://shopify/ProductVariant/46799553593423",
+        "gid://shopify/ProductVariant/46799553626191",
+        "gid://shopify/ProductVariant/46799553658959",
+        "gid://shopify/ProductVariant/46799553691727",
+        "gid://shopify/ProductVariant/46799553724495"
+      ]
+    },
+    "set-03": {
+      "price": "1099.00",
+      "compareAtPrice": "1600.00",
+      "regularPrice": "1299.00",
+      "productId": "gid://shopify/Product/9080464670799",
+      "variantIds": [
+        "gid://shopify/ProductVariant/46799180726351",
+        "gid://shopify/ProductVariant/46799180759119",
+        "gid://shopify/ProductVariant/46799180791887",
+        "gid://shopify/ProductVariant/46799180824655",
+        "gid://shopify/ProductVariant/46799180857423"
+      ]
+    },
+    "atlas": {
+      "price": "1199.00",
+      "compareAtPrice": "1600.00",
+      "regularPrice": "1399.00",
+      "productId": "gid://shopify/Product/9080464834639",
+      "variantIds": [
+        "gid://shopify/ProductVariant/46799181250639",
+        "gid://shopify/ProductVariant/46799181283407",
+        "gid://shopify/ProductVariant/46799181316175",
+        "gid://shopify/ProductVariant/46799181348943",
+        "gid://shopify/ProductVariant/46799181381711"
+      ]
+    },
+    "one-way": {
+      "price": "1099.00",
+      "compareAtPrice": "1600.00",
+      "regularPrice": "1299.00",
+      "productId": "gid://shopify/Product/9080694440015",
+      "variantIds": [
+        "gid://shopify/ProductVariant/46799553331279",
+        "gid://shopify/ProductVariant/46799553364047",
+        "gid://shopify/ProductVariant/46799553396815",
+        "gid://shopify/ProductVariant/46799553429583",
+        "gid://shopify/ProductVariant/46799553462351"
+      ]
+    },
+    "out-of-office": {
+      "price": "1099.00",
+      "compareAtPrice": "1600.00",
+      "regularPrice": "1299.00",
+      "productId": "gid://shopify/Product/9080697126991",
+      "variantIds": [
+        "gid://shopify/ProductVariant/46799553790031",
+        "gid://shopify/ProductVariant/46799553822799",
+        "gid://shopify/ProductVariant/46799553855567",
+        "gid://shopify/ProductVariant/46799553888335",
+        "gid://shopify/ProductVariant/46799553921103"
+      ]
+    },
+    "the-overthinker": {
+      "price": "1299.00",
+      "compareAtPrice": "1600.00",
+      "regularPrice": "1499.00",
+      "productId": "gid://shopify/Product/9080700534863",
+      "variantIds": [
+        "gid://shopify/ProductVariant/46799557853263",
+        "gid://shopify/ProductVariant/46799557886031",
+        "gid://shopify/ProductVariant/46799557918799",
+        "gid://shopify/ProductVariant/46799557951567",
+        "gid://shopify/ProductVariant/46799557984335"
+      ]
+    }
+  },
+  "_how": "Apply via the Shopify connector, one productVariantsBulkUpdate per product (price + compareAtPrice on every variant), then one metafieldsSet with custom.regular_price (number_decimal) for all 16. Ask the founder before running.",
+  "_snapshot": "Variant IDs and prior prices read from Shopify 25 Sep 2026: all 80 variants at 1199.00, no compare-at."
+}
