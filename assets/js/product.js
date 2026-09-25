@@ -22,11 +22,13 @@ const view = {
 
 async function init() {
   M.wireHeader({ solid: true });
-  const [, data, , site] = await Promise.all([
+  const [, data, , site, lines] = await Promise.all([
     M.loadSprite(), M.loadCatalogue(), M.loadDrop(),
     fetch('/data/site.json', { cache: 'no-cache' }).then(r => (r.ok ? r.json() : {})).catch(() => ({})),
+    fetch('/data/lines.json', { cache: 'no-cache' }).then(r => (r.ok ? r.json() : null)).catch(() => null),
   ]);
   view.site = site || {};
+  view.lines = lines?.lines || [];
   M.initBag();
 
   const id = M.productIdFromUrl();
@@ -210,6 +212,7 @@ function renderBuy(p) {
     <div class="buy__top">
       ${p.no ? `<span class="pno mono">Nº ${pad2(p.no)} <em>/ ${total}</em></span>` : ''}
       <span class="mono buy__series">${esc(p.seriesLabel)} series</span>
+      ${lineName(p) ? `<span class="mono buy__line">${esc(lineName(p))}</span>` : ''}
     </div>
 
     <h1 class="buy__name">${esc(p.name)}</h1>
@@ -365,6 +368,11 @@ function shippingText(p) {
 
 // struck MRP, the price (highlighted while pre-orders run), and what it becomes after.
 // Keep in step with the static block in scripts/build_seo.py.
+// "Modern" etc. from data/lines.json; mirrors line_name() in scripts/build_seo.py
+function lineName(p) {
+  return (view.lines || []).find(l => l.key === p.line)?.name || '';
+}
+
 function priceHTML(p) {
   const v = M.priceView(p, view.live), d = M.dropDates();
   const closes = d ? d.closesShort : '';

@@ -13,6 +13,7 @@ privacy.html, size-guide.html, track.html, 404.html
                         content pages. GENERATED from _src/pages/, don't edit directly
 _src/pages/             source for the content pages (not deployed)
 data/products.json      single source of truth for the catalogue
+data/lines.json         the three lines (Modern / Minimal / Cultural): all their copy
 assets/css/styles.css
 assets/js/shop.js       shared: Shopify config, bag, header, urls (load first)
 assets/js/main.js       home: grid, carousel, filters, sort
@@ -36,6 +37,7 @@ Add an object to `data/products.json`. Nothing else to touch.
   "name": "Bombay Bhook",
   "series": "food",
   "seriesLabel": "Food",
+  "line": "modern",
   "colour": "black",
   "print": "back",
   "price": 1199,
@@ -53,6 +55,24 @@ Add an object to `data/products.json`. Nothing else to touch.
 `{"type":"svg","ref":"#symbol-id","alt","viewBox"?}`.
 
 Photos: crop to 4:5, 760×950, JPEG q82.
+
+`line` is `modern`, `minimal` or `cultural` (keys in `data/lines.json`).
+
+## Three lines
+
+`data/lines.json` holds every word of the homepage "three lines" section and the
+shop's empty-line teaser: heading, each line's name, copy and CTA, the teaser line
+and the follow link text. Marketing edits happen in that one file, then rebuild.
+
+- Homepage: tabs under the hero. Modern shows the feature photo plus a strip of the
+  products listed in `strip` (same card as the grid). A line with no products shows
+  its name on a colour block (`block`: blue, lime or magenta) and "Coming in a later
+  drop."; it switches to a product strip on its own once any product has that `line`.
+- "Follow for the drop" only shows when `INSTAGRAM_URL` is set in `scripts/site_config.py`.
+- Shop: line switcher above the grid. `/?line=modern#shop` deep-links; the series
+  filters only list series in the selected line, with counts.
+- The section is pre-rendered by `scripts/build_seo.py` (readable without JS) and
+  `main.js` renders the same markup live. Change one, change the other.
 
 ## Shopify (cart + checkout)
 

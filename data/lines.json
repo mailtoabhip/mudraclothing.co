@@ -1,0 +1,36 @@
+{
+  "_note": "All copy for the three lines (homepage section + shop). Marketing edits live here. A line's panel shows its product strip as soon as any product in data/products.json has that \"line\".",
+  "heading": "THREE WAYS TO SAY THE SAME THING.",
+  "teaser": "Coming in a later drop.",
+  "follow": "Follow for the drop →",
+  "lines": [
+    {
+      "key": "modern",
+      "name": "Modern",
+      "copy": "Internet culture, city life, and things you'd say in the group chat. Loud on the back.",
+      "cta": "Shop all Modern →",
+      "feature": {
+        "src": "assets/img/products/face-card-snooker.jpg",
+        "fallback": "assets/img/products/neo-bombay-back.jpg",
+        "alt": "Face Card tee, full back print in a snooker parlour",
+        "fallbackAlt": "Neo Bombay back print artwork"
+      },
+      "strip": ["face-card", "the-overthinker", "neo-bombay", "not-responding", "delhi-dl01", "dilli-belly"],
+      "block": "blue"
+    },
+    {
+      "key": "minimal",
+      "name": "Minimal",
+      "copy": "Same jokes. Smaller font. For when you like the joke but have a meeting at 11.",
+      "cta": "Shop all Minimal →",
+      "block": "lime"
+    },
+    {
+      "key": "cultural",
+      "name": "Cultural",
+      "copy": "Home, in a font. Traditional things, the way your family actually says them.",
+      "cta": "Shop all Cultural →",
+      "block": "magenta"
+    }
+  ]
+}

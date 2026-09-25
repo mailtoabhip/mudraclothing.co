@@ -408,7 +408,7 @@ def card_cta(p, href, in_stock):
     return tag, btn
 
 
-def card_html(p):
+def card_html(p, lazy=False):
     # mirrors cardHTML() in assets/js/main.js; main.js re-renders over it
     href = f"/p/{p['id']}"
     avail = [s["size"] for s in p["sizes"] if s.get("available")]
@@ -418,7 +418,7 @@ def card_html(p):
     imgs = images(p)
     slides = "".join(
         f'<img class="slide{" is-on" if i == 0 else ""}" src="/{m["src"]}" alt="{e(m["alt"])}" '
-        f'loading="{"eager" if i == 0 else "lazy"}" decoding="async" width="800" height="1000">'
+        f'loading="{"eager" if i == 0 and not lazy else "lazy"}" decoding="async" width="800" height="1000">'
         for i, m in enumerate(imgs))
     dots = "".join('<i class="is-on"></i>' if i == 0 else "<i></i>" for i in range(len(imgs)))
     sw = [c for c in p.get("colours", []) if c.get("sellable")]
@@ -428,7 +428,7 @@ def card_html(p):
         for i, c in enumerate(sw))
     tag, atc = card_cta(p, href, bool(avail))
     kind = "Back print" if p["print"] == "back" else "Chest only"
-    return (f'<article class="pcard" data-id="{p["id"]}" data-series="{p["series"]}" '
+    return (f'<article class="pcard" data-id="{p["id"]}" data-line="{e(p.get("line", ""))}" data-series="{p["series"]}" '
             f'data-colour="{e(p["colour"])}" data-print="{p["print"]}" data-stock="{" ".join(stock)}" '
             f'data-sizes="{" ".join(avail)}" data-price="{p["price"]}" data-name="{e(p["name"])}" data-url="{href}">'
             f'<div class="pcard__media" tabindex="0" aria-label="{e(p["name"])}, view product">{badge}'
@@ -441,6 +441,101 @@ def card_html(p):
             + card_price(p)
             + (f'<div class="ptag mono pcard__po">{tag}</div>' if tag else "")
             + f'<div class="pswatches">{swatches}</div>{atc}</div></article>')
+
+
+# ── three lines (data/lines.json) ─────────────────────────────────────────
+# mirrors linesHTML() / lineIntroHTML() / lineSwitchHTML() in assets/js/main.js
+
+_lines_file = ROOT / "data/lines.json"
+LINES = json.loads(_lines_file.read_text(encoding="utf-8")) if _lines_file.exists() else None
+
+
+def line_name(p):
+    ln = next((l for l in (LINES or {}).get("lines", []) if l["key"] == p.get("line")), None)
+    return ln["name"] if ln else ""
+
+
+def line_products(products, ln):
+    mine = [p for p in products if p.get("line") == ln["key"]]
+    pick = [i for i in ln.get("strip", []) if any(p["id"] == i for p in mine)]
+    by_id = {p["id"]: p for p in mine}
+    return [by_id[i] for i in pick] if pick else mine[:6], len(mine)
+
+
+def line_visual(ln, has_products, lazy):
+    # a line with products and a feature photo shows the photo; otherwise the name, set big
+    f = ln.get("feature")
+    if has_products and f:
+        src, alt = f["src"], f["alt"]
+        if not (ROOT / src).exists() and f.get("fallback"):
+            src, alt = f["fallback"], f.get("fallbackAlt", alt)
+        return (f'<div class="lvis lvis--photo"><img src="/{e(src)}" alt="{e(alt)}" width="800" height="1000" '
+                f'loading="lazy" decoding="async"></div>')
+    return (f'<div class="lvis lvis--type lvis--{e(ln.get("block", "blue"))}" aria-hidden="true">'
+            f'<span class="lvis__name">{e(ln["name"])}</span></div>')
+
+
+def line_intro(ln, count, lazy):
+    L = LINES
+    act = (f'<a class="btn lines__cta" href="/?line={e(ln["key"])}#shop" data-line-link="{e(ln["key"])}">{e(ln["cta"])}</a>'
+           if count else
+           f'<p class="mono lines__soon">{e(L["teaser"])}</p>'
+           + (f'<a class="linkish mono lines__follow" href="{e(INSTAGRAM_URL)}" target="_blank" rel="noopener">{e(L["follow"])}</a>'
+              if INSTAGRAM_URL else ""))
+    return (f'<div class="lines__intro"><div class="lines__copy">'
+            f'<p class="mono lines__name">{e(ln["name"])}</p>'
+            f'<p class="lines__text">{e(ln["copy"])}</p>'
+            f'<div class="lines__act">{act}</div></div>'
+            + line_visual(ln, count > 0, lazy) + '</div>')
+
+
+def line_strip(ln, strip):
+    if not strip:
+        return ""
+    return (f'<div class="lstrip"><div class="lstrip__track" tabindex="-1">'
+            + "".join(card_html(p, lazy=True) for p in strip)
+            + '</div><div class="lstrip__nav">'
+            f'<button class="lstrip__btn" data-dir="-1" aria-label="Scroll {e(ln["name"])} tees back">&#8249;</button>'
+            f'<button class="lstrip__btn" data-dir="1" aria-label="Scroll {e(ln["name"])} tees forward">&#8250;</button>'
+            '</div></div>')
+
+
+def lines_html(products):
+    L = LINES
+    tabs, panels = [], []
+    for i, ln in enumerate(L["lines"]):
+        k, on = e(ln["key"]), i == 0
+        strip, count = line_products(products, ln)
+        tabs.append(f'<button class="lines__tab mono" role="tab" id="ltab-{k}" aria-controls="lpanel-{k}" '
+                    f'aria-selected="{"true" if on else "false"}" tabindex="{0 if on else -1}" data-line="{k}">{e(ln["name"])}</button>')
+        panels.append(f'<div class="lines__panel" role="tabpanel" id="lpanel-{k}" aria-labelledby="ltab-{k}" tabindex="0"'
+                      f'{"" if on else " hidden"}>' + line_intro(ln, count, not on) + line_strip(ln, strip) + '</div>')
+    return ('<div class="wrap">'
+            f'<h2 class="lines__head" id="linesHead">{e(L["heading"])}</h2>'
+            '<div class="lines__tabs" role="tablist" aria-labelledby="linesHead">' + "".join(tabs) + '</div>'
+            + "".join(panels)
+            + '<noscript><style>.lines__panel[hidden]{display:block}.lines__tabs{display:none}</style></noscript>'
+            '</div>')
+
+
+def line_switch_html():
+    btns = ['<button class="mono" data-line="all" aria-pressed="true">All</button>'] + [
+        f'<button class="mono" data-line="{e(ln["key"])}" aria-pressed="false">{e(ln["name"])}</button>'
+        for ln in LINES["lines"]]
+    return '<div class="lineswitch" id="lineSwitch" role="group" aria-label="Line">' + "".join(btns) + '</div>'
+
+
+def series_counts(s, products):
+    # "Food 4": counts for the ALL view; main.js recounts per line
+    def fix(m):
+        v = m.group(1)
+        n = sum(1 for p in products if p["series"] == v)
+        return f'<button data-v="{v}"{"" if n else " hidden"}>{m.group(2)} <span class="fcount">{n}</span></button>'
+    block = re.search(r'<div class="fchips" data-key="series">.*?</div>', s, flags=re.S)
+    if not block:
+        return s
+    new = re.sub(r'<button data-v="([^"]+)"(?: hidden)?>([^<]+?)(?: <span class="fcount">\d+</span>)?</button>', fix, block.group(0))
+    return s[:block.start()] + new + s[block.end():]
 
 
 def home_desc():
@@ -492,6 +587,12 @@ def build_home(products):
         s = re.sub(r"<!-- grid:start -->.*?<!-- grid:end -->", lambda _: grid, s, flags=re.S)
     else:
         s = s.replace('<div class="pgrid" id="pgrid"></div>', f'<div class="pgrid" id="pgrid">{grid}</div>', 1)
+    if LINES:
+        s = re.sub(r"<!-- lines:start -->.*?<!-- lines:end -->",
+                   lambda _: "<!-- lines:start -->" + lines_html(products) + "<!-- lines:end -->", s, flags=re.S)
+        s = re.sub(r"<!-- lineswitch:start -->.*?<!-- lineswitch:end -->",
+                   lambda _: "<!-- lineswitch:start -->" + line_switch_html() + "<!-- lineswitch:end -->", s, flags=re.S)
+    s = series_counts(s, products)
     s = s.replace('<html lang="en">', '<html lang="en-IN">', 1)
     f.write_text(s, encoding="utf-8")
 
@@ -524,7 +625,9 @@ def build_products(products, offers):
             for i, m in enumerate(shots))
         s = re.sub(r'(<div class="gallery__track" id="track">).*?(</div>\n)',
                    lambda m: m.group(1) + gallery + m.group(2), s, count=1, flags=re.S)
-        buy = (f'<div class="buy__top"><span class="mono buy__series">{e(p["seriesLabel"])} series</span></div>'
+        buy = (f'<div class="buy__top"><span class="mono buy__series">{e(p["seriesLabel"])} series</span>'
+               + (f'<span class="mono buy__line">{e(line_name(p))}</span>' if line_name(p) else "")
+               + '</div>'
                f'<h1 class="buy__name">{e(p["name"])}</h1>'
                + buy_price(p)
                + f'<p class="buy__blurb">{e(blurb(p))}</p>')

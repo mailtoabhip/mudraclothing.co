@@ -8,6 +8,9 @@ const { productUrl, loadCatalogue, loadSprite, money, priceView, esc, wireHeader
 
 const state = {
   products: [],
+  lines: null,      // data/lines.json
+  site: {},         // data/site.json (instagram)
+  line: 'all',      // shop line switcher
   filters: { sizes: [], series: [], colour: [], print: [], stock: [] },
   sort: 'feat',
 };
@@ -15,15 +18,23 @@ const state = {
 /* ---------- boot ---------------------------------------------------- */
 
 async function init() {
-  const [, data] = await Promise.all([loadSprite(), loadCatalogue(), loadDrop()]);
+  const [, data, , lines, site] = await Promise.all([loadSprite(), loadCatalogue(), loadDrop(),
+    getJSON('/data/lines.json'), getJSON('/data/site.json')]);
   state.products = data.products;
+  state.lines = lines;
+  state.site = site || {};
   renderDropCopy();
+  renderLines();
   renderGrid();
   wireFilters();
+  wireLineSwitch();
   wireSort();
   wireHeader();
   initBag();
 }
+
+const getJSON = url => fetch(url, { cache: 'no-cache' }).then(r => (r.ok ? r.json() : null)).catch(() => null);
+const reduceMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ---------- Drop 01 copy: ticker + hero tag -------------------------- */
 
@@ -64,17 +75,17 @@ function cardPrice(p) {
     + `</div>`;
 }
 
-function mediaHTML(m, i) {
+function mediaHTML(m, i, lazy) {
   const on = i === 0 ? ' is-on' : '';
   if (m.type === 'img') {
     return `<img class="slide${on}" src="/${m.src}" alt="${esc(m.alt)}"
-      loading="${i === 0 ? 'eager' : 'lazy'}" decoding="async" width="800" height="1000">`;
+      loading="${i === 0 && !lazy ? 'eager' : 'lazy'}" decoding="async" width="800" height="1000">`;
   }
   const vb = m.viewBox || '0 0 300 375';
   return `<svg class="slide${on}" viewBox="${vb}" role="img" aria-label="${esc(m.alt)}"><use href="${m.ref}"/></svg>`;
 }
 
-function cardHTML(p) {
+function cardHTML(p, lazy = false) {
   const available = p.sizes.filter(s => s.available);
   const inStock = available.length > 0;
   const stockTags = [inStock ? 'in' : 'out'];
@@ -83,14 +94,14 @@ function cardHTML(p) {
   const cta = cardCta(p, url, inStock);
 
   const badge = p.badge ? `<span class="pbadge ${p.badge.type}">${esc(p.badge.label)}</span>` : '';
-  const slides = p.media.map(mediaHTML).join('');
+  const slides = p.media.map((m, i) => mediaHTML(m, i, lazy)).join('');
   const dots = p.media.map((_, i) => (i === 0 ? '<i class="is-on"></i>' : '<i></i>')).join('');
   const swatches = sellableColours(p).map((c, i) =>
     `<button class="pswatch${i === 0 ? ' on' : ''}" data-colour="${c.key}"
        style="--sw:${c.hex}" title="${esc(c.name)}" aria-label="${esc(c.name)}"></button>`).join('');
 
   return `
-  <article class="pcard" data-id="${p.id}" data-series="${p.series}" data-colour="${p.colour}"
+  <article class="pcard" data-id="${p.id}" data-line="${esc(p.line || '')}" data-series="${p.series}" data-colour="${p.colour}"
            data-print="${p.print}" data-stock="${stockTags.join(' ')}"
            data-sizes="${available.map(s => s.size).join(' ')}"
            data-price="${p.price}" data-name="${esc(p.name)}" data-url="${url}">
@@ -118,6 +129,173 @@ function renderGrid() {
   grid.innerHTML = state.products.map(cardHTML).join('');
   grid.querySelectorAll('.pcard').forEach(wireCarousel);
   wireCards(grid);
+  applyFilters();
+}
+
+/* ---------- three lines: homepage tabs ------------------------------- */
+// Keep identical to lines_html() / line_intro() / line_strip() in scripts/build_seo.py
+
+function lineProducts(ln) {
+  const mine = state.products.filter(p => p.line === ln.key);
+  const pick = (ln.strip || []).map(id => mine.find(p => p.id === id)).filter(Boolean);
+  return { strip: pick.length ? pick : mine.slice(0, 6), count: mine.length };
+}
+
+function lineVisualHTML(ln, hasProducts) {
+  const f = ln.feature;
+  if (hasProducts && f) {
+    // falls back to the second photo if the first one is ever missing
+    const fb = f.fallback ? ` data-fallback="/${esc(f.fallback)}" data-fallback-alt="${esc(f.fallbackAlt || f.alt)}"` : '';
+    return `<div class="lvis lvis--photo"><img src="/${esc(f.src)}" alt="${esc(f.alt)}" width="800" height="1000" `
+      + `loading="lazy" decoding="async"${fb}></div>`;
+  }
+  return `<div class="lvis lvis--type lvis--${esc(ln.block || 'blue')}" aria-hidden="true">`
+    + `<span class="lvis__name">${esc(ln.name)}</span></div>`;
+}
+
+function lineIntroHTML(ln, count) {
+  const L = state.lines, ig = state.site.instagram;
+  const act = count
+    ? `<a class="btn lines__cta" href="/?line=${esc(ln.key)}#shop" data-line-link="${esc(ln.key)}">${esc(ln.cta)}</a>`
+    : `<p class="mono lines__soon">${esc(L.teaser)}</p>`
+      + (ig ? `<a class="linkish mono lines__follow" href="${esc(ig)}" target="_blank" rel="noopener">${esc(L.follow)}</a>` : '');
+  return `<div class="lines__intro"><div class="lines__copy">`
+    + `<p class="mono lines__name">${esc(ln.name)}</p>`
+    + `<p class="lines__text">${esc(ln.copy)}</p>`
+    + `<div class="lines__act">${act}</div></div>`
+    + lineVisualHTML(ln, count > 0) + `</div>`;
+}
+
+function lineStripHTML(ln, strip) {
+  if (!strip.length) return '';
+  return `<div class="lstrip"><div class="lstrip__track" tabindex="-1">`
+    + strip.map(p => cardHTML(p, true)).join('')
+    + `</div><div class="lstrip__nav">`
+    + `<button class="lstrip__btn" data-dir="-1" aria-label="Scroll ${esc(ln.name)} tees back">&#8249;</button>`
+    + `<button class="lstrip__btn" data-dir="1" aria-label="Scroll ${esc(ln.name)} tees forward">&#8250;</button>`
+    + `</div></div>`;
+}
+
+function renderLines() {
+  const box = document.getElementById('lines');
+  if (!box || !state.lines) return;
+  const tabs = [...box.querySelectorAll('[role="tab"]')];
+  state.lines.lines.forEach(ln => {
+    const panel = document.getElementById(`lpanel-${ln.key}`);
+    if (!panel) return;
+    const { strip, count } = lineProducts(ln);
+    panel.innerHTML = lineIntroHTML(ln, count) + lineStripHTML(ln, strip);
+    panel.querySelectorAll('.pcard').forEach(wireCarousel);
+    const track = panel.querySelector('.lstrip__track');
+    if (track) wireCards(track);
+  });
+  box.querySelectorAll('.lvis--photo img[data-fallback]').forEach(img =>
+    img.addEventListener('error', () => {
+      img.alt = img.dataset.fallbackAlt;
+      img.src = img.dataset.fallback;
+      img.removeAttribute('data-fallback');
+    }, { once: true }));
+
+  const select = (tab, focus) => {
+    tabs.forEach(t => {
+      const on = t === tab;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      const panel = document.getElementById(t.getAttribute('aria-controls'));
+      if (!panel) return;
+      if (on && panel.hidden) {
+        panel.hidden = false;
+        if (!reduceMotion()) {
+          panel.classList.remove('is-entering');
+          void panel.offsetWidth;          // restart the animation
+          panel.classList.add('is-entering');
+        }
+      } else if (!on) panel.hidden = true;
+    });
+    if (focus) tab.focus();
+  };
+  box.querySelector('[role="tablist"]').addEventListener('click', e => {
+    const t = e.target.closest('[role="tab"]');
+    if (t) select(t, false);
+  });
+  box.querySelector('[role="tablist"]').addEventListener('keydown', e => {
+    const i = tabs.indexOf(document.activeElement);
+    if (i < 0) return;
+    const to = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+    if (to === undefined) return;
+    e.preventDefault();
+    select(tabs[(to + tabs.length) % tabs.length], true);
+  });
+  box.addEventListener('animationend', e => e.target.classList?.remove('is-entering'));
+
+  // strip arrows: one card-width-ish page at a time
+  box.addEventListener('click', e => {
+    const b = e.target.closest('.lstrip__btn');
+    if (!b) return;
+    const track = b.closest('.lstrip').querySelector('.lstrip__track');
+    track.scrollBy({ left: Number(b.dataset.dir) * track.clientWidth * 0.8, behavior: reduceMotion() ? 'auto' : 'smooth' });
+  });
+
+  // "Shop all Modern" on this page: switch the shop without a reload
+  box.addEventListener('click', e => {
+    const a = e.target.closest('[data-line-link]');
+    if (!a || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    e.preventDefault();
+    setLine(a.dataset.lineLink, true);
+    document.getElementById('shop')?.scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth' });
+  });
+}
+
+/* ---------- shop: line switcher (?line=modern#shop) ------------------- */
+
+const lineKeys = () => ['all', ...(state.lines?.lines || []).map(l => l.key)];
+const lineFromUrl = () => {
+  const v = new URLSearchParams(location.search).get('line');
+  return lineKeys().includes(v) ? v : 'all';
+};
+
+function wireLineSwitch() {
+  const sw = document.getElementById('lineSwitch');
+  if (!sw) return;
+  sw.addEventListener('click', e => {
+    const b = e.target.closest('button[data-line]');
+    if (b) setLine(b.dataset.line, true);
+  });
+  window.addEventListener('popstate', () => setLine(lineFromUrl(), false));
+  setLine(lineFromUrl(), false);
+}
+
+function setLine(line, push) {
+  state.line = lineKeys().includes(line) ? line : 'all';
+  document.querySelectorAll('#lineSwitch button').forEach(b =>
+    b.setAttribute('aria-pressed', b.dataset.line === state.line ? 'true' : 'false'));
+  if (push) {
+    const u = new URL(location.href);
+    if (state.line === 'all') u.searchParams.delete('line'); else u.searchParams.set('line', state.line);
+    u.hash = 'shop';
+    if (u.href !== location.href) history.pushState({ line: state.line }, '', u);
+  }
+  // series chips: only the ones in this line, with their counts
+  const inLine = state.products.filter(p => state.line === 'all' || p.line === state.line);
+  document.querySelectorAll('.fchips[data-key="series"] button').forEach(b => {
+    const n = inLine.filter(p => p.series === b.dataset.v).length;
+    b.hidden = !n;
+    const c = b.querySelector('.fcount');
+    if (c) c.textContent = n;
+    if (!n && b.classList.contains('on')) {
+      b.classList.remove('on');
+      state.filters.series = state.filters.series.filter(v => v !== b.dataset.v);
+    }
+  });
+  // a line with nothing in it yet gets the same teaser as its homepage panel
+  const empty = document.getElementById('lineEmpty');
+  const ln = state.lines?.lines.find(l => l.key === state.line);
+  const none = !!ln && !inLine.length;
+  if (empty) {
+    empty.innerHTML = none ? lineIntroHTML(ln, 0) : '';
+    empty.hidden = !none;
+  }
+  document.querySelector('.catalogue')?.classList.toggle('is-lineempty', none);
   applyFilters();
 }
 
@@ -211,7 +389,9 @@ function wireFilters() {
 }
 
 function applyFilters() {
-  const cards = document.querySelectorAll('.pcard');
+  const all = [...document.querySelectorAll('#pgrid .pcard')];
+  const cards = all.filter(c => state.line === 'all' || c.dataset.line === state.line);
+  all.forEach(c => { c.hidden = !cards.includes(c); });
   let shown = 0;
 
   cards.forEach(card => {
@@ -224,7 +404,7 @@ function applyFilters() {
     if (ok) shown++;
   });
 
-  document.getElementById('empty').hidden = shown > 0;
+  document.getElementById('empty').hidden = shown > 0 || !cards.length;
   document.getElementById('showing').textContent = `Showing ${shown} of ${cards.length}`;
   document.getElementById('count').textContent = `${shown} ${shown === 1 ? 'piece' : 'pieces'}`;
 }

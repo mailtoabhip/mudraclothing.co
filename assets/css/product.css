@@ -33,10 +33,11 @@ body.is-pdp{padding-bottom:0}
 
 /* ── buy column ──────────────────────────── */
 .buy{position:sticky;top:calc(var(--navh) + 18px);display:flex;flex-direction:column;gap:22px;min-width:0}
-.buy__top{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.buy__top{display:flex;align-items:center;gap:10px}
 .pno{background:var(--blue);color:var(--on-blue);padding:6px 10px 5px;letter-spacing:.16em}
 .pno em{font-style:normal;opacity:.6}
-.buy__series{color:var(--ash)}
+.buy__series{color:var(--ash);margin-left:auto}
+.buy__line{font-size:10px;color:var(--fg);border:1px solid var(--line-strong);padding:4px 8px 3px}
 
 .buy__name{
   font-family:var(--display);text-transform:uppercase;letter-spacing:.01em;
