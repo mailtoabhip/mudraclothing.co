@@ -124,6 +124,15 @@ the pre-built HTML, structured data and meta descriptions are fixed at build tim
 - after 23:59 IST on 15 Oct 2026, i.e. on 16 Oct (`closes`)
 - on 30 Oct 2026, the day after `shipsBy` 29 Oct (back to print-to-order)
 
+## Shopify's own storefront (redirect only)
+
+Customers never see Shopify's theme. The published theme "Horizon · redirect to Mudra site"
+loads `snippets/mudra-redirect.liquid` (via `snippets/view-transition-opt-in.liquid`), which
+sends every q0xhyi-ac.myshopify.com page to this site: `/products/<handle>` → `/p/<handle>`,
+`/cart` → `/cart`, collections/search → `/#shop`, policies → the matching page, else `/`.
+That covers the checkout logo, "Continue shopping" and account links. The theme editor is
+left alone. **When the domain changes, update the site address in that snippet too.**
+
 ## Cache-busting
 
 After changing any CSS, JS or the sprite: `python3 scripts/fingerprint.py`
