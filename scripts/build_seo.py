@@ -115,7 +115,7 @@ def hero_tag():
             "closed": f"{d['name']} · printing now"}.get(ph, launched)
 
 
-HOME_TITLE = "Mudra Studios | Oversized graphic t-shirts, designed in India"
+HOME_TITLE = "Mudra Clothing Company | Oversized graphic t-shirts, designed in India"
 HOME_DESC = ("Oversized graphic tees with a clean front and a loud back. Food, city, Y2K, "
              "gym, travel and tarot designs, printed to order in India. Free shipping, "
              "cash on delivery.")

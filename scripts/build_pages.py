@@ -50,7 +50,7 @@ FOOTER = """<!-- footer:start -->
 {cols}
     </div>
     <div class="fbot">
-      <span>© 2026 Mudra Studios</span>
+      <span>© 2026 Mudra Clothing Company</span>
       <span>The rest is between you and your mirror.</span>
     </div>
   </div>
@@ -75,7 +75,7 @@ SHELL = """<!DOCTYPE html>
 <meta name="description" content="{description}">
 <link rel="canonical" href="{canonical}">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Mudra Studios">
+<meta property="og:site_name" content="Mudra Clothing Company">
 <meta property="og:locale" content="en_IN">
 <meta property="og:title" content="{title_tag}">
 <meta property="og:description" content="{description}">
@@ -99,7 +99,7 @@ SHELL = """<!DOCTYPE html>
 <header class="scrolled solid">
   <div class="wrap bar">
     <a class="brand" href="/">
-      <svg class="logo" viewBox="0 0 2906 825" preserveAspectRatio="xMinYMid meet" role="img" aria-label="Mudra Studios"><use href="#logo"/></svg>
+      <svg class="logo" viewBox="0 0 2906 825" preserveAspectRatio="xMinYMid meet" role="img" aria-label="Mudra Clothing Company"><use href="#logo"/></svg>
     </a>
     <nav class="mainnav">{nav}</nav>
     <a class="cart" href="/cart">Bag (0)</a>
@@ -198,7 +198,7 @@ def build():
         updated = f'<span>Updated {meta["updated"]}</span>' if meta.get("updated") else ""
         title = meta["title"]
         page = SHELL.format(
-            title_tag=html.escape(f"{meta.get('pagetitle') or html.unescape(re.sub(r'<[^>]+>', ' ', title)).strip()} · Mudra Studios".replace("  ", " "), quote=True),
+            title_tag=html.escape(f"{meta.get('pagetitle') or html.unescape(re.sub(r'<[^>]+>', ' ', title)).strip()} · Mudra Clothing Company".replace("  ", " "), quote=True),
             description=html.escape(meta.get("description", ""), quote=True),
             robots='<meta name="robots" content="noindex">\n' if slug == "404" else "",
             slug=slug, nav=nav, accent=meta.get("accent", "blue"),

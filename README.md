@@ -1,4 +1,4 @@
-# Mudra Studios
+# Mudra Clothing Company
 
 Static storefront. Design and browsing live here; cart, checkout, inventory and
 orders live in Shopify (Storefront API, no SDK).

@@ -7,7 +7,7 @@
 #   python3 scripts/build_pages.py && python3 scripts/fingerprint.py
 SITE_URL = "https://mudraclothing-co.vercel.app"
 
-SITE_NAME = "Mudra Studios"
+SITE_NAME = "Mudra Clothing Company"
 CONTACT_EMAIL = "abhijeet.designmail@gmail.com"
 
 # Add the handle once it exists; it goes into the Organization structured data.

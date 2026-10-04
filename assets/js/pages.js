@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Mudra Studios: content pages (about, help, legal, 404)
+   Mudra Clothing Company: content pages (about, help, legal, 404)
    ========================================================================== */
 
 (() => {

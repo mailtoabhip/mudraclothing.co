@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Mudra Studios: product page
+   Mudra Clothing Company: product page
    One template for every product: /p/{id} (Vercel rewrite) or
    /product.html?id={id} locally. Data comes from data/products.json.
    ========================================================================== */
@@ -119,7 +119,7 @@ function showError(msg) {
 
 function setMeta(p) {
   if (document.querySelector('link[rel="canonical"]')) return;   // pre-built page
-  const title = `${p.name} · ${p.seriesLabel} series · Mudra Studios`;
+  const title = `${p.name} · ${p.seriesLabel} series · Mudra Clothing Company`;
   const desc = blurb(p);
   document.title = title;
   document.querySelector('meta[name="description"]').setAttribute('content', desc);
@@ -593,7 +593,7 @@ function wireStickyBar() {
 /* ---------- not found ------------------------------------------------- */
 
 function renderMissing(id) {
-  document.title = 'Not found · Mudra Studios';
+  document.title = 'Not found · Mudra Clothing Company';
   $('.pdp-grid').innerHTML = `
     <div class="missing">
       <h1>THAT ONE DOESN'T EXIST.<em>YET.</em></h1>
