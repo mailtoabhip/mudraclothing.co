@@ -189,7 +189,7 @@ function chapters() {
 function clay() {
   const btn = $('#stClay'), label = $('#stClayLabel');
   if (!btn) return;
-  const HOLD = 1000, KEY = 'mudra.sealed';
+  const HOLD = 1000;   // fresh clay on every visit and every reload
   let raf = 0, t0 = 0, done = false;
 
   const seal = (animate) => {
@@ -202,7 +202,6 @@ function clay() {
     btn.setAttribute('aria-pressed', 'true');
     btn.style.removeProperty('--hold');
     label.textContent = 'Sealed.';
-    try { sessionStorage.setItem(KEY, '1'); } catch { /* private mode */ }
   };
   const tick = now => {
     const p = Math.min(1, (now - t0) / HOLD);
@@ -223,9 +222,7 @@ function clay() {
     btn.style.setProperty('--hold', 0);
   };
 
-  let stored = false;
-  try { stored = sessionStorage.getItem(KEY) === '1'; } catch { /* private mode */ }
-  if (stored || reduce) seal(false);
+  if (reduce) seal(false);
 
   btn.addEventListener('pointerdown', e => { e.preventDefault(); btn.setPointerCapture?.(e.pointerId); start(); });
   ['pointerup', 'pointercancel', 'pointerleave'].forEach(ev => btn.addEventListener(ev, stop));
