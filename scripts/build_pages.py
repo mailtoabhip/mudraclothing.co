@@ -10,7 +10,11 @@ Each source file starts with a comment block of `key: value` lines:
     accent       blue | ink | lime | magenta  (the colour block)
     description  meta description
     summary      optional "short version" box (HTML allowed)
-    layout       doc (numbered sections + contents rail) | plain
+    layout       doc (numbered sections + contents rail) | plain | bare
+                 (bare: no colour-block title; the page brings its own <h1>)
+    css / js     optional extra asset name, e.g. `css: story` → /assets/css/story.css
+    fonts        optional extra Google Fonts family, e.g. `fonts: Rozha+One`
+    ticker       `ticker: yes` puts the blue ticker bar above the header
     updated      optional "last updated" date
     out          optional output filename (default: <slug>.html)
 
@@ -66,6 +70,24 @@ def footer_html():
     return FOOTER.format(cols="\n".join(cols))
 
 
+PBLOCK = """  <section class="pblock pblock--{accent}">
+    <div class="wrap pblock__inner">
+      <div class="pblock__meta mono"><span>{kicker}</span>{updated}</div>
+      <h1 class="pblock__title">{title}</h1>
+    </div>
+  </section>
+
+"""
+
+# static copy of the ticker; the page's script swaps in the live drop lines
+TICKER = """<div class="ticker">
+  <div class="ticker__track" id="ticker">
+    <span>Designed in-house</span><span>✳</span><span>Free shipping across India</span><span>✳</span>
+    <span>Designed in-house</span><span>✳</span><span>Free shipping across India</span><span>✳</span>
+  </div>
+</div>
+"""
+
 SHELL = """<!DOCTYPE html>
 <html lang="en-IN">
 <head>
@@ -90,12 +112,12 @@ SHELL = """<!DOCTYPE html>
 <meta name="theme-color" content="#EDE9E0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Saira:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Saira:wght@400;500;600&family=Space+Mono:wght@400;700{fonts}&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/styles.css?v=0">
 <link rel="stylesheet" href="/assets/css/pages.css?v=0">
-</head>
+{css}</head>
 <body class="is-page page-{slug}">
-
+{ticker}
 <header class="scrolled solid">
   <div class="wrap bar">
     <a class="brand" href="/">
@@ -107,21 +129,14 @@ SHELL = """<!DOCTYPE html>
 </header>
 
 <main>
-  <section class="pblock pblock--{accent}">
-    <div class="wrap pblock__inner">
-      <div class="pblock__meta mono"><span>{kicker}</span>{updated}</div>
-      <h1 class="pblock__title">{title}</h1>
-    </div>
-  </section>
-
-{body}
+{pblock}{body}
 </main>
 
 {footer}
 
 <script src="/assets/js/shop.js?v=0" defer></script>
 <script src="/assets/js/pages.js?v=0" defer></script>
-</body>
+{js}</body>
 </html>
 """
 
@@ -195,15 +210,20 @@ def build():
         meta, content = parse(path)
         slug = path.stem
         body = doc_body(meta, content) if meta.get("layout", "doc") == "doc" else content.rstrip()
+        bare = meta.get("layout") == "bare"
         updated = f'<span>Updated {meta["updated"]}</span>' if meta.get("updated") else ""
         title = meta["title"]
         page = SHELL.format(
             title_tag=html.escape(f"{meta.get('pagetitle') or html.unescape(re.sub(r'<[^>]+>', ' ', title)).strip()} · Mudra Clothing Company".replace("  ", " "), quote=True),
             description=html.escape(meta.get("description", ""), quote=True),
             robots='<meta name="robots" content="noindex">\n' if slug == "404" else "",
-            slug=slug, nav=nav, accent=meta.get("accent", "blue"),
-            kicker=meta.get("kicker", ""), updated=updated, title=title,
-            body=body, footer=footer,
+            slug=slug, nav=nav, body=body, footer=footer,
+            pblock="" if bare else PBLOCK.format(accent=meta.get("accent", "blue"),
+                                                 kicker=meta.get("kicker", ""), updated=updated, title=title),
+            fonts=f"&family={meta['fonts']}" if meta.get("fonts") else "",
+            css=f'<link rel="stylesheet" href="/assets/css/{meta["css"]}.css?v=0">\n' if meta.get("css") else "",
+            js=f'<script src="/assets/js/{meta["js"]}.js?v=0" defer></script>\n' if meta.get("js") else "",
+            ticker=TICKER if meta.get("ticker") else "",
             canonical=SITE_URL.rstrip("/") + ("/" if slug == "404" else f"/{slug}"),
             og_image=SITE_URL.rstrip("/") + OG_IMAGE,
         )

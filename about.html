@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>About · Mudra Clothing Company</title>
-<meta name="description" content="Mudra Clothing Company makes oversized graphic tees for young India. Designed in-house, printed to order in India.">
+<title>Our story · Mudra Clothing Company</title>
+<meta name="description" content="A short story about a t-shirt. You are in it.">
 <link rel="canonical" href="https://mudraclothing-co.vercel.app/about">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Mudra Clothing Company">
 <meta property="og:locale" content="en_IN">
-<meta property="og:title" content="About · Mudra Clothing Company">
-<meta property="og:description" content="Mudra Clothing Company makes oversized graphic tees for young India. Designed in-house, printed to order in India.">
+<meta property="og:title" content="Our story · Mudra Clothing Company">
+<meta property="og:description" content="A short story about a t-shirt. You are in it.">
 <meta property="og:url" content="https://mudraclothing-co.vercel.app/about">
 <meta property="og:image" content="https://mudraclothing-co.vercel.app/assets/img/og/mudra-og.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -22,11 +22,18 @@
 <meta name="theme-color" content="#EDE9E0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Saira:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Saira:wght@400;500;600&family=Space+Mono:wght@400;700&family=Rozha+One&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/styles.css?v=79c4a115">
 <link rel="stylesheet" href="/assets/css/pages.css?v=001841f6">
+<link rel="stylesheet" href="/assets/css/story.css?v=62bffd0d">
 </head>
 <body class="is-page page-about">
+<div class="ticker">
+  <div class="ticker__track" id="ticker">
+    <span>Designed in-house</span><span>✳</span><span>Free shipping across India</span><span>✳</span>
+    <span>Designed in-house</span><span>✳</span><span>Free shipping across India</span><span>✳</span>
+  </div>
+</div>
 
 <header class="scrolled solid">
   <div class="wrap bar">
@@ -39,49 +46,205 @@
 </header>
 
 <main>
-  <section class="pblock pblock--lime">
-    <div class="wrap pblock__inner">
-      <div class="pblock__meta mono"><span>Company · About</span></div>
-      <h1 class="pblock__title">We make<br>t-shirts.</h1>
+<!--
+  OUR STORY. Copy is Marketing's "Website story" (6 Oct 2026), word for word.
+  Don't edit copy here without Marketing. Photos go in assets/img/story/ (see README);
+  until a file exists its frame shows a flat tone, nothing else.
+-->
+<div class="story" id="story">
+
+  <div class="st-progress" aria-hidden="true"><i id="stBar"></i></div>
+  <div class="st-count mono" id="stCount" aria-hidden="true">01 / 09</div>
+
+  <!-- 01 ─────────────────────────────────────────────────────────── -->
+  <section class="st st--hero" data-ch="1" data-tone="light">
+    <div class="wrap st-hero">
+      <p class="mono st-label">Our story · 3 min read</p>
+      <h1 class="st-title">The rest is between you and your <em>mirror.</em></h1>
+      <p class="st-hero__sub">A short story about a t-shirt. You are in it.</p>
+      <p class="mono st-cue" aria-hidden="true"><span>Scroll. Or don't.</span><i></i></p>
     </div>
   </section>
 
-<div class="wrap about">
-    <p class="about__lede">Mudra Clothing Company is a small Indian streetwear label. We design oversized tees with a quiet front and a loud back, and release them in drops.</p>
-
-    <div class="about__cols">
-      <div>
-        <p>Every design starts with something we already love: a plate of chaat, a number plate, a crashed Windows dialog, a tarot card that reads you too well. We draw it flat, print it big, and put it on the back where it belongs.</p>
-        <p>The front gets a small stamp and nothing else. You decide when to turn around.</p>
-      </div>
-      <div>
-        <p>It's run by one designer, who also builds the website and answers the emails. Nothing is made until you order it, so there's no warehouse of unsold stock and no end-of-season bonfire.</p>
-        <p>The rest is between you and your mirror.</p>
-      </div>
-    </div>
-
-    <div class="specs about__facts">
-      <div class="spec"><span class="mono">Designed</span><p>In-house. Every graphic, drawn from scratch.</p></div>
-      <div class="spec"><span class="mono">Cut</span><p>Oversized, drop shoulder. Clean front, loud back.</p></div>
-      <div class="spec"><span class="mono">Made</span><p>Printed to order in India. At your door in 7–10 days, shipped free.</p></div>
-      <div class="spec"><span class="mono">Released</span><p>In drops. Sixteen designs so far.</p></div>
-    </div>
-
-    <div class="about__series">
-      <h2>WHAT WE DRAW</h2>
-      <div class="chips">
-        <a href="/#shop">Food</a><a href="/#shop">City plates</a><a href="/#shop">Y2K</a><a href="/#shop">Music</a><a href="/#shop">Gym</a><a href="/#shop">Travel</a><a href="/#shop">Tarot</a>
+  <!-- 02 ─────────────────────────────────────────────────────────── -->
+  <section class="st st--night" data-ch="2" data-tone="dark">
+    <div class="st-split">
+      <figure class="st-photo st-photo--fan" data-photo="01-fan"></figure>
+      <div class="st-split__copy">
+        <h2 class="st-clock">11:47 PM</h2>
+        <div class="st-notif" id="stNotif" aria-hidden="true">
+          <div class="st-notif__card">
+            <div class="st-notif__front">
+              <span class="mono st-notif__meta"><b>Messages</b><time>11:47 PM</time></span>
+              <span class="st-notif__text">1 new message</span>
+              <span class="st-typing"><i></i><i></i><i></i></span>
+            </div>
+          </div>
+        </div>
+        <div class="st-prose">
+          <p>A message arrives at 11:47 pm.</p>
+          <p>You read it. You know exactly what you would say. You put the phone face down and go back to watching the ceiling fan.</p>
+          <p>You are not being rude. You are being yourself. There is no word for this, and you were never going to explain it anyway.</p>
+        </div>
       </div>
     </div>
+  </section>
 
-    <div class="about__biz">
-      <div><span class="mono">Business</span><p><span class="tbd">[Legal business name]</span>, trading as Mudra Clothing Company</p></div>
-      <div><span class="mono">Based in</span><p><span class="tbd">[City]</span>, India</p></div>
-      <div><span class="mono">Write to</span><p><a href="mailto:abhijeet.designmail@gmail.com">abhijeet.designmail@gmail.com</a></p></div>
+  <!-- 03 ─────────────────────────────────────────────────────────── -->
+  <section class="st st--quiet" data-ch="3" data-tone="light">
+    <div class="wrap">
+      <h2 class="st-h">The quiet ones</h2>
+      <div class="st-cols">
+        <div class="st-narr">
+          <div class="st-marquee" aria-hidden="true">
+            <div class="st-marquee__track">
+              <span>Hustle</span><span>Good vibes only</span><span>No pain no gain</span><span>Boss mode</span>
+              <span>Hustle</span><span>Good vibes only</span><span>No pain no gain</span><span>Boss mode</span>
+            </div>
+          </div>
+          <p class="st-narr__p">Some people narrate their lives. They announce their moods, their plans and their five-year goals.</p>
+        </div>
+        <p class="st-lines">
+          <span class="st-line">Then there are the rest of us.</span>
+          <span class="st-line">We think about it at 3 am. <a class="st-tag mono" href="/p/the-overthinker">See: The Overthinker</a></span>
+          <span class="st-line">We are at work, technically. <a class="st-tag mono" href="/p/not-responding">See: Not Responding</a></span>
+          <span class="st-line">We would leave tomorrow, eventually. <a class="st-tag mono" href="/p/one-way">See: One Way</a></span>
+          <span class="st-line">We hold opinions about our city's street food that could end friendships.</span>
+          <span class="st-line">We say almost none of it out loud.</span>
+        </p>
+      </div>
+      <p class="st-wide">For years our clothes said none of it either. T-shirts told us to hustle. They carried someone else's cartoon, someone else's logo, someone else's joke.</p>
+      <div class="st-chat">
+        <p class="st-bubble">None of them sounded like the group chat.</p>
+        <span class="mono st-delivered" aria-hidden="true">Delivered</span>
+      </div>
     </div>
+  </section>
 
-    <a class="btn about__cta" href="/#shop">See the tees</a>
-  </div>
+  <!-- 04 ─────────────────────────────────────────────────────────── -->
+  <section class="st st--seals" data-ch="4" data-tone="dark">
+    <div class="st-seals__top">
+      <figure class="st-photo st-photo--clay" data-photo="02-seal"></figure>
+      <div class="wrap"><h2 class="st-h st-h--xl">Before signatures, there were seals</h2></div>
+    </div>
+    <div class="st-narrow st-prose">
+      <p>Long before anyone in this country signed a name, they sealed it.</p>
+      <p>A merchant pressed his seal into wet clay, and a stranger at a faraway port knew whose goods these were. A king pressed his into wax, and a letter became a promise. The seal did all the talking. It said: this is mine, this is true, and I stand behind it. Then it said nothing more.</p>
+    </div>
+    <div class="st-word">
+      <div class="st-word__big" aria-hidden="true"><span class="st-word__en">Mudra</span><span class="st-word__hi" lang="hi">मुद्रा</span></div>
+      <p class="st-word__line">The word for that seal is mudra. <span lang="hi">मुद्रा.</span></p>
+    </div>
+    <div class="st-narrow st-prose">
+      <p>We took the word because we recognised the behaviour. One mark, pressed once, meaning everything. It is exactly how the quiet ones have always spoken.</p>
+    </div>
+    <div class="st-press">
+      <button class="st-clay" id="stClay" type="button" aria-pressed="false" aria-label="Press and hold to stamp the seal">
+        <svg class="st-clay__seal" viewBox="0 0 825 825" aria-hidden="true"><use href="#seal"/></svg>
+        <span class="st-clay__ring" aria-hidden="true"></span>
+      </button>
+      <span class="mono st-press__label" id="stClayLabel" aria-live="polite">Press and hold</span>
+    </div>
+  </section>
+
+  <!-- 05 ─────────────────────────────────────────────────────────── -->
+  <section class="st st--made" data-ch="5" data-tone="light">
+    <div class="wrap st-made">
+      <div class="st-made__copy">
+        <h2 class="st-h">So we made you one</h2>
+        <div class="st-prose">
+          <p>Mudra is a seal for people who would rather be understood than explain themselves.</p>
+          <p>You put it on in the morning without a speech. You wear it to a chai stall, a lecture, a Friday at the office.</p>
+          <p>Somewhere in the room, a stranger notices. Most people walk on. They were always going to.</p>
+          <p id="stSameP">One of them looks twice and says "same."</p>
+        </div>
+        <div class="st-walk" id="stWalk" aria-hidden="true">
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="st-walk__one"><b class="mono">Same.</b></i><i></i><i></i><i></i><i></i>
+        </div>
+        <div class="st-prose">
+          <p>You did not introduce yourself. You did not explain. You were recognised anyway, by exactly the right person.</p>
+        </div>
+        <p class="st-close">That is the entire job of what we make.</p>
+      </div>
+      <figure class="st-photo st-photo--chai" data-photo="03-chai"></figure>
+    </div>
+  </section>
+
+  <!-- 06 ─────────────────────────────────────────────────────────── -->
+  <section class="st st--blue" data-ch="6" data-tone="blue">
+    <svg class="st-spin" viewBox="0 0 825 825" aria-hidden="true"><use href="#seal"/></svg>
+    <div class="wrap">
+      <h2 class="st-h st-h--xl">Old word.<br>New light.</h2>
+      <p class="st-lead">Our seal carries an old script in a very new blue. That is where we stand: one foot in where we are from, the other in when we are living.</p>
+      <div class="st-two">
+        <div>
+          <span class="mono st-two__label">From here</span>
+          <p>We are from here, completely. From the cities that raised us, the languages we switch between mid-sentence, and the families who forward us good-morning messages at 6 am.</p>
+        </div>
+        <div class="st-diptych">
+          <figure class="st-photo st-photo--balcony" data-photo="04a-balcony"></figure>
+          <figure class="st-photo st-photo--airport" data-photo="04b-airport"></figure>
+        </div>
+        <div>
+          <span class="mono st-two__label">For anywhere</span>
+          <p>And we make for anywhere. Made in India, and held to the standard of the best in the world, because the people who wear our seal deserve nothing less.</p>
+        </div>
+      </div>
+      <p class="st-pride">Our pride is the quiet kind. It does not wave anything. It does the work properly, and it expects to be taken seriously in <span class="st-place">Delhi<b class="mono" aria-hidden="true">Same.</b></span>, in <span class="st-place">Dubai<b class="mono" aria-hidden="true">Same.</b></span>, and in a queue at <span class="st-place">Heathrow<b class="mono" aria-hidden="true">Same.</b></span> where someone behind you says "same."</p>
+    </div>
+  </section>
+
+  <!-- 07 ─────────────────────────────────────────────────────────── -->
+  <section class="st st--believe" data-ch="7" data-tone="light">
+    <div class="wrap">
+      <h2 class="st-h">What we believe</h2>
+      <ol class="st-cards">
+        <li class="st-card"><span class="mono st-card__n">01</span><h3>Say less. Mean it.</h3><p>A seal never needed a paragraph.</p><svg class="st-card__seal" viewBox="0 0 825 825" aria-hidden="true"><use href="#seal"/></svg></li>
+        <li class="st-card"><span class="mono st-card__n">02</span><h3>Moments over slogans.</h3><p>We care about what you do, never about what you should do.</p><svg class="st-card__seal" viewBox="0 0 825 825" aria-hidden="true"><use href="#seal"/></svg></li>
+        <li class="st-card"><span class="mono st-card__n">03</span><h3>The joke is the handshake.</h3><p>If they get it, they are your people.</p><svg class="st-card__seal" viewBox="0 0 825 825" aria-hidden="true"><use href="#seal"/></svg></li>
+        <li class="st-card"><span class="mono st-card__n">04</span><h3>Rooted here. Measured against anywhere.</h3><p>Indian in what we notice, world-class in what we expect of ourselves.</p><svg class="st-card__seal" viewBox="0 0 825 825" aria-hidden="true"><use href="#seal"/></svg></li>
+        <li class="st-card"><span class="mono st-card__n">05</span><h3>A few at a time.</h3><p>We would rather be your favourite than everyone's option.</p><svg class="st-card__seal" viewBox="0 0 825 825" aria-hidden="true"><use href="#seal"/></svg></li>
+        <li class="st-card"><span class="mono st-card__n">06</span><h3>A seal is a promise.</h3><p>We put our name on it, so we stand behind it.</p><svg class="st-card__seal" viewBox="0 0 825 825" aria-hidden="true"><use href="#seal"/></svg></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 08 ─────────────────────────────────────────────────────────── -->
+  <section class="st st--posters" data-ch="8" data-tone="lime">
+    <div class="st-poster st-poster--lime">
+      <div class="wrap">
+        <h2 class="mono st-poster__label">Our mission</h2>
+        <p class="st-poster__text">To make t-shirts that speak for the quiet ones, made in India to a standard the world respects.</p>
+      </div>
+    </div>
+    <div class="st-poster st-poster--ink" data-tone="dark">
+      <div class="wrap">
+        <h2 class="mono st-poster__label">Our vision</h2>
+        <p class="st-poster__text">A homegrown seal the world recognises, and a country where you can spot your people from across the room.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 ─────────────────────────────────────────────────────────── -->
+  <section class="st st--end" data-ch="9" data-tone="light">
+    <div class="wrap st-end">
+      <h2 class="mono st-label">And that is all</h2>
+      <p class="st-end__big">We make <span>t-shirts.</span></p>
+      <figure class="st-photo st-photo--mirror" data-photo="05-mirror"></figure>
+      <div class="st-mirror" id="stMirror">
+        <p class="st-mirror__line">The rest is between you and your mirror.</p>
+        <p class="st-mirror__refl" aria-hidden="true">The rest is between you and your mirror.</p>
+      </div>
+      <a class="st-btn mono" href="/#shop">See the tees</a>
+      <div class="st-biz">
+        <div><span class="mono">Business</span><p><span class="tbd">[Legal business name]</span></p></div>
+        <div><span class="mono">Based in</span><p><span class="tbd">[City]</span>, India</p></div>
+        <div><span class="mono">Write to</span><p><a href="mailto:abhijeet.designmail@gmail.com">abhijeet.designmail@gmail.com</a></p></div>
+      </div>
+    </div>
+  </section>
+
+</div>
 </main>
 
 <!-- footer:start -->
@@ -115,5 +278,6 @@
 
 <script src="/assets/js/shop.js?v=f49bb189" defer></script>
 <script src="/assets/js/pages.js?v=a246a697" defer></script>
+<script src="/assets/js/story.js?v=5e70e7ab" defer></script>
 </body>
 </html>

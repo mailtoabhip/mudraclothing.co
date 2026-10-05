@@ -181,3 +181,15 @@ Shopify must match: price = `price`, compare-at = MRP, metafield
 `custom.regular_price`. Apply `ops/shopify-prices-<phase>.json` through the
 Shopify connector, with the founder's go-ahead, in the same sitting as the push.
 The build stops if `preorderEnds` and `data/drop.json` disagree.
+
+## Our Story (/about)
+
+Source: `_src/pages/about.html` (layout `bare`), styles `assets/css/story.css`,
+script `assets/js/story.js`. The copy is Marketing's "Website story" and must
+stay word for word; change it only with Marketing.
+
+Photos: five frames, loaded only if the file exists (otherwise a flat tone).
+Drop JPEGs into `assets/img/story/` with these exact names, no rebuild needed:
+`01-fan.jpg` (portrait, ~1600×2000) · `02-seal.jpg` (landscape, ~2400×1500) ·
+`03-chai.jpg` (4:5) · `04a-balcony.jpg` and `04b-airport.jpg` (4:5 each) ·
+`05-mirror.jpg` (3:4.4 portrait). `/about?review=1` labels each empty frame.
