@@ -13,7 +13,7 @@ Each source file starts with a comment block of `key: value` lines:
     layout       doc (numbered sections + contents rail) | plain | bare
                  (bare: no colour-block title; the page brings its own <h1>)
     css / js     optional extra asset name, e.g. `css: story` → /assets/css/story.css
-    fonts        optional extra Google Fonts family, e.g. `fonts: Rozha+One`
+    fonts        optional extra Google Fonts family, e.g. `fonts: Anek+Devanagari:wght@600`
     ticker       `ticker: yes` puts the blue ticker bar above the header
     updated      optional "last updated" date
     out          optional output filename (default: <slug>.html)
