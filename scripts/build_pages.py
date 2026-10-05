@@ -31,7 +31,7 @@ SRC = ROOT / "_src" / "pages"
 
 ACCOUNT = "https://shopify.com/73593618511/account"
 
-NAV = [("/#shop", "Shop all"), ("/size-guide", "Size guide"), ("/about", "About"), (ACCOUNT, "Account")]
+NAV = [("/#shop", "Shop all"), ("/size-guide", "Size guide"), ("/about", "About")]
 
 FOOTER_COLS = [
     ("Shop", [("/#shop", "All tees"), ("/size-guide", "Size guide"), ("/track", "Track order"), (ACCOUNT, "Account")]),
