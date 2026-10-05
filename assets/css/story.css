@@ -176,9 +176,12 @@ body.review .st-photo::after{content:"PHOTO " attr(data-photo);position:absolute
 /* the Devanagari word is the brand's stencil lettering (assets/svg/mudra-devanagari.svg), inlined.
    Same path and the same four stencil cuts as the file; each cut is its own piece so it can light up on hover. */
 .st-word__hi{display:block;font-size:clamp(84px,22vw,380px);line-height:0;margin-top:.14em}
-.st-word__hi svg{display:block;width:2.45em;height:auto}
+/* sized so the headline-to-baseline height (1266 of the 3931-wide viewBox) equals the
+   Saira Stencil cap height (.692em): 0.692 × 3931 / 1266 = 2.148em. The matra hangs below like a descender. */
+.st-word__hi svg{display:block;width:2.148em;height:auto}
 .st-word__hi use{transition:fill .16s linear}
-@media(hover:hover){.st-word__hi use:hover{fill:var(--lime)}}
+.st-word__en>span{transition:color .16s linear}
+@media(hover:hover){.st-word__hi use:hover{fill:var(--lime)}.st-word__en>span:hover{color:var(--lime)}}
 .st-word__line{margin:0;font-size:clamp(17px,1.35vw,20px);color:rgba(237,233,224,.78)}
 .st-word__line [lang="hi"]{font-family:"Anek Devanagari","Noto Sans Devanagari",sans-serif;font-weight:600}
 .js-st .st-word__big>*{opacity:0;transform:translateY(18px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
