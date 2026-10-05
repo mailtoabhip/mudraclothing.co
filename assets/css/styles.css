@@ -140,12 +140,6 @@ header.scrolled .cart:hover{color:var(--on-blue)}
 .spec .mono{color:var(--blue);display:block;margin-bottom:9px}
 .spec p{margin:0;font-size:14px;line-height:1.45}
 
-/* archive */
-.archive{border-top:1px solid var(--line);padding-block:clamp(40px,6vw,76px)}
-.chips{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
-.chips a{font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;border:1px solid var(--line-strong);padding:9px 15px;color:var(--ash);transition:color .2s ease-out,border-color .2s ease-out}
-.chips a:hover{color:var(--fg);border-color:var(--blue)}
-
 /* signup */
 .signup{border:1px solid var(--line-strong);padding:clamp(24px,4.5vw,52px);margin-bottom:clamp(40px,6vw,76px)}
 .signup h2{font-family:var(--display);font-size:clamp(24px,5vw,46px);margin:0 0 10px;letter-spacing:.02em;text-transform:uppercase}
