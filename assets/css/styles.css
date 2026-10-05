@@ -39,6 +39,8 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 
 .wrap{max-width:1400px;margin:0 auto;padding-inline:var(--gut)}
 .mono{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+/* the logo's backwards R: wrap the R of "Mudra" when it is set in the display face */
+.r-mirror{display:inline-block;transform:scaleX(-1)}
 
 /* ticker */
 .ticker{background:var(--blue);color:var(--on-blue);overflow:hidden;white-space:nowrap;padding:7px 0}
