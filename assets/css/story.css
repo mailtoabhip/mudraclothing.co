@@ -45,24 +45,61 @@ body.review .st-photo::after{content:"PHOTO " attr(data-photo);position:absolute
   .st-progress i{display:block;height:100%;width:100%;background:var(--blue);transform-origin:0 50%;transform:scaleX(0)}
 }
 
-/* ── 01 hero ───────────────────────────────────────────────────────── */
-.st--hero{min-height:calc(100svh - var(--navh) - var(--tickerh));justify-content:stretch;padding-block:clamp(22px,4vh,40px) clamp(64px,10vh,96px)}
-.st-hero{flex:1;display:flex;flex-direction:column;justify-content:center;gap:clamp(18px,3vh,34px)}
-.st-hero .st-label{position:absolute;top:0;left:var(--gut)}
-.st-title{font-family:var(--display);font-weight:400;text-transform:uppercase;letter-spacing:.002em;
-  font-size:clamp(46px,11.2vw,196px);line-height:.88;margin:clamp(28px,5vh,40px) 0 0;max-width:11ch}
-.st-title em{font-style:normal;color:var(--blue)}
-.st-hero__sub{font-size:clamp(18px,1.6vw,22px);color:var(--ash);margin:0}
-.st-cue{position:absolute;left:50%;bottom:calc(clamp(64px,10vh,96px) * -1 + 18px);transform:translateX(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:10px;color:var(--ash);margin:0;white-space:nowrap}
-.st-cue i{width:1px;height:34px;background:var(--fg);transform-origin:50% 0;animation:st-grow 3.2s var(--ease) infinite}
-@keyframes st-grow{0%{transform:scaleY(0)}60%,100%{transform:scaleY(1)}}
+/* ── 01 the mirror ─────────────────────────────────────────────────
+   Default CSS is the finished state: line 1 in ink, line 2 readable in blue.
+   story.js adds .is-mirror to the fold (never with reduced motion), and only
+   then do the mirrored copy, the pane and the clip exist. --mx/--my (mirror
+   centre, px from the top left of line 2) and --p (scroll, 0 to 1) drive the
+   pane, its border and the clip on the readable text, so they cannot drift. */
+@property --p{syntax:"<number>";inherits:true;initial-value:0}
+.st--hero{min-height:max(70svh,440px);justify-content:stretch;padding-block:clamp(22px,4vh,40px)}
+.st-hero{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
+.st-hero>.st-label{margin-bottom:16px}
+.st-say,.st-glass{font-family:var(--display);font-weight:400;text-transform:uppercase;letter-spacing:.002em;
+  font-size:clamp(26px,4.2vw,54px);line-height:.95;margin:0}
+.st-say{color:var(--fg);white-space:nowrap}
+.st-glass{position:relative;margin-top:.35em;color:var(--blue)}
+.st-glass p{margin:0}
+.st-glass p span{display:inline-block;white-space:nowrap}
+.st-glass__base,.st-glass__pane,.st-glass__edge{display:none}
+.st-hint{margin:20px 0 0;color:var(--ash);visibility:hidden}
+.st-hint__touch{display:none}
+@media not ((hover:hover) and (pointer:fine)){.st-hint__point{display:none}.st-hint__touch{display:inline}}
+
+.is-mirror .st-glass{
+  --l:calc((var(--mx)*1px - 1em)*(1 - var(--p)) - .3em*var(--p));
+  --t:calc((var(--my)*1px - 1.6em)*(1 - var(--p)) - .3em*var(--p));
+  --r:calc((var(--mx)*1px + 1em)*(1 - var(--p)) + (var(--gw)*1px + .3em)*var(--p));
+  --b:calc((var(--my)*1px + 1.6em)*(1 - var(--p)) + (var(--gh)*1px + .3em)*var(--p));
+  /* the same rectangle, measured from the top left of the fold */
+  --L:calc(var(--l) + var(--ox)*1px);--T:calc(var(--t) + var(--oy)*1px);
+  --R:calc(var(--r) + var(--ox)*1px);--B:calc(var(--b) + var(--oy)*1px);
+}
+.is-mirror .st-glass__base{display:block;position:absolute;inset:0;color:var(--fg);opacity:calc(.35*(1 - var(--p)));
+  user-select:none;-webkit-user-select:none;pointer-events:none}
+.is-mirror .st-glass__base span{transform:scaleX(-1)}
+.is-mirror .st-glass__pane,.is-mirror .st-glass__edge{display:block;position:absolute;pointer-events:none;
+  left:calc(var(--ox)*-1px);top:calc(var(--oy)*-1px);width:calc(var(--fw)*1px);height:calc(var(--fh)*1px);
+  opacity:calc((1 - var(--p))*5)}
+.is-mirror .st-glass__pane{background:linear-gradient(rgba(255,255,255,.6),rgba(255,255,255,.6)),var(--paper);
+  clip-path:inset(var(--T) calc(100% - var(--R)) calc(100% - var(--B)) var(--L))}
+.is-mirror .st-glass__edge{background:var(--blue);
+  clip-path:polygon(evenodd,var(--L) var(--T),var(--R) var(--T),var(--R) var(--B),var(--L) var(--B),var(--L) var(--T),
+    calc(var(--L) + 1px) calc(var(--T) + 1px),calc(var(--R) - 1px) calc(var(--T) + 1px),
+    calc(var(--R) - 1px) calc(var(--B) - 1px),calc(var(--L) + 1px) calc(var(--B) - 1px),calc(var(--L) + 1px) calc(var(--T) + 1px))}
+.is-mirror .st-glass__text{position:relative;
+  clip-path:inset(var(--t) calc(100% - var(--r)) calc(100% - var(--b)) var(--l))}
+.is-mirror .st-hint{visibility:visible}
+.is-mirror .st-hint span{opacity:calc(1 - var(--p)*2)}
+@keyframes st-p{from{--p:0}to{--p:1}}
+@supports (animation-timeline:scroll()){
+  .is-mirror{animation:st-p linear both;animation-timeline:scroll(root);animation-range:0px 20vh}
+}
 .js-st .st-hero>*{opacity:0;transform:translateY(14px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
 .js-st .st-hero.in>*{opacity:1;transform:none}
 .js-st .st-hero.in>:nth-child(2){transition-delay:.08s}
 .js-st .st-hero.in>:nth-child(3){transition-delay:.2s}
-.js-st .st-hero.in>.st-cue{transform:translateX(-50%);transition-delay:.5s}
-.js-st .st-hero>.st-cue{transform:translateX(-50%)}
+.js-st .st-hero.in>:nth-child(4){transition-delay:.32s}
 
 /* ── 02 11:47 PM ───────────────────────────────────────────────────── */
 .st--night{padding-block:0;justify-content:stretch}
@@ -265,9 +302,6 @@ body.review .st-photo::after{content:"PHOTO " attr(data-photo);position:absolute
   .st-biz{grid-template-columns:1fr;gap:16px;text-align:center}
   .st-tag{flex-basis:100%}
   .st-seals__top{min-height:70svh}
-  .st-title{max-width:none;font-size:clamp(40px,11.8vw,96px)}
-  .st-hero .st-label{position:static}
-  .st--hero{padding-top:18px}
 }
 @media(hover:none){
   .st-line.in .st-tag{opacity:.55;transform:none}
@@ -278,9 +312,7 @@ body.review .st-photo::after{content:"PHOTO " attr(data-photo);position:absolute
 @media (prefers-reduced-motion:reduce){
   .story *,.story *::before,.story *::after{animation:none !important;transition:none !important}
   .js-st .st-hero>*,.js-st .st-line,.js-st .st-chat>*,.js-st .st-word__big>*{opacity:1;transform:none}
-  .js-st .st-hero>.st-cue{transform:translateX(-50%)}
   .js-st .st-notif__card{opacity:1;transform:none}
-  .st-cue i{transform:none}
   .st-tag{opacity:1;transform:none}
   .st-clay .st-clay__seal{opacity:1;transform:none}
   .st-walk i:not(.st-walk__one){opacity:.22}

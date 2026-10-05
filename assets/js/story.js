@@ -48,6 +48,115 @@ function photos() {
   });
 }
 
+/* ---------- 01: the mirror ------------------------------------------
+   Line 2 sits there mirrored; a small pane of glass shows it the right way
+   round. The pane follows the pointer, drifts when left alone, and the first
+   20vh of scroll opens it over the whole line. All geometry is read in
+   measure(); the frame loop only writes --mx and --my (and --p where CSS
+   scroll timelines are missing). With reduced motion none of this runs and
+   the page keeps the plain, finished text. */
+function glass() {
+  const fold = $('.st--hero'), box = $('.st-glass');
+  if (!fold || !box || reduce) return;
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const native = !!(window.CSS && CSS.supports('animation-timeline: scroll()'));
+  const IDLE = 3000, PASS = 6000, LAG = .15;
+  const set = (k, v) => fold.style.setProperty(k, v);
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+
+  let fx = 0, fy = 0, fw = 0, fh = 0, ox = 0, oy = 0, gw = 0, gh = 0, em = 0, vh = 1;
+  let mx = 0, my = 0, tx = 0, ty = 0;            // mirror centre now and wanted, from the top left of line 2
+  let px = 0, py = 0, moved = false, lastMove = 0;
+  let sy = 0, scrolled = true;                    // scroll position, read once per frame
+  let drifting = !fine, drift0 = -1, heldAt = 0, idleT = 0;
+  let seen = true, raf = 0, ready = false;
+
+  const measure = () => {
+    const f = fold.getBoundingClientRect();
+    fx = f.left + scrollX; fy = f.top + scrollY; fw = fold.offsetWidth; fh = fold.offsetHeight;
+    ox = 0; oy = 0;
+    for (let el = box; el && el !== fold; el = el.offsetParent) { ox += el.offsetLeft; oy += el.offsetTop; }
+    gw = box.offsetWidth; gh = box.offsetHeight;
+    em = parseFloat(getComputedStyle(box).fontSize);
+    vh = innerHeight;
+    set('--ox', ox); set('--oy', oy); set('--fw', fw); set('--fh', fh); set('--gw', gw); set('--gh', gh);
+    if (!moved && !drifting) { tx = mx = em; ty = my = gh / 2; }      // resting place: left edge of line 2
+    if (!ready) {
+      ready = true;
+      tx = mx = em; ty = my = gh / 2;
+      set('--mx', mx); set('--my', my);
+      fold.classList.add('is-mirror');
+    }
+    kick();
+  };
+
+  const startDrift = now => {
+    // pick the pass up from wherever the mirror already is
+    const u = clamp((mx - em) / Math.max(1, gw - 2 * em), 0, 1);
+    drift0 = now - Math.acos(1 - 2 * u) / Math.PI * PASS;
+    drifting = true;
+  };
+
+  function frame(now) {
+    raf = 0;
+    if (scrolled) { scrolled = false; sy = scrollY; }
+    if (!native) set('--p', clamp(sy / (vh * .2), 0, 1).toFixed(4));
+    if (sy > 0) {                                 // scroll owns the mirror now
+      if (!heldAt) heldAt = now;
+      if (!fine) drifting = false;                // touch: the drift ends with the first scroll
+      return;
+    }
+    if (heldAt) { if (drift0 >= 0) drift0 += now - heldAt; lastMove += now - heldAt; heldAt = 0; }
+
+    if (moved) {
+      moved = false;
+      tx = clamp(px - fx - ox, -ox, fw - ox);
+      ty = clamp(py - fy - oy, -oy, fh - oy);
+    } else if (fine && !drifting && now - lastMove >= IDLE) {
+      startDrift(now);
+    }
+    if (drifting) {
+      if (drift0 < 0) drift0 = now;
+      const u = (1 - Math.cos(Math.PI * (now - drift0) / PASS)) / 2;
+      tx = em + Math.max(0, gw - 2 * em) * u;
+      ty = gh / 2;
+    }
+    mx += (tx - mx) * LAG; my += (ty - my) * LAG;
+    const settled = Math.abs(tx - mx) < .05 && Math.abs(ty - my) < .05;
+    if (settled) { mx = tx; my = ty; }
+    set('--mx', mx.toFixed(2)); set('--my', my.toFixed(2));
+
+    if (drifting || !settled) return kick();
+    if (fine) {                                   // still: wake up when the idle time is over
+      clearTimeout(idleT);
+      idleT = setTimeout(kick, Math.max(0, IDLE - (now - lastMove)) + 20);
+    }
+  }
+  function kick() {
+    if (!raf && ready && seen && !document.hidden) raf = requestAnimationFrame(frame);
+  }
+  const hold = () => {
+    cancelAnimationFrame(raf); raf = 0; clearTimeout(idleT);
+    if (!heldAt) heldAt = performance.now();
+  };
+
+  if (fine) {
+    fold.addEventListener('pointermove', e => {
+      if (e.pointerType === 'touch') return;
+      px = e.pageX; py = e.pageY; moved = true; drifting = false; lastMove = performance.now();
+      kick();
+    }, { passive: true });
+  }
+  addEventListener('scroll', () => { scrolled = true; kick(); }, { passive: true });
+  addEventListener('resize', measure, { passive: true });
+  document.addEventListener('visibilitychange', () => (document.hidden ? hold() : kick()));
+  new IntersectionObserver(([en]) => { seen = en.isIntersecting; seen ? kick() : hold(); }).observe(fold);
+  if (window.ResizeObserver) { const ro = new ResizeObserver(measure); ro.observe(fold); ro.observe(box); }
+  lastMove = performance.now();
+  measure();
+  document.fonts && document.fonts.ready.then(measure);
+}
+
 /* ---------- chapter counter + progress line -------------------------- */
 function chapters() {
   const count = $('#stCount'), bar = $('#stBar');
@@ -167,7 +276,7 @@ function init() {
   if (!matchMedia('(hover:hover)').matches) {
     once($$('.st-card'), { rootMargin: '0px 0px -30% 0px', threshold: .6 }, el => el.classList.add('stamped'));
   }
-  chapters(); clay(); lines(); mirror(); photos(); ticker();
+  glass(); chapters(); clay(); lines(); mirror(); photos(); ticker();
 }
 
 init();
