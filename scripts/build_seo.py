@@ -197,7 +197,7 @@ def make_og_image():
     if out.exists():
         return
     from PIL import Image
-    src = ROOT / "assets/img/products/face-card-snooker.jpg"
+    src = ROOT / "assets/img/products/face-card-doorway.jpg"
     if not src.exists():
         return
     out.parent.mkdir(parents=True, exist_ok=True)

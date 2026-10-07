@@ -74,23 +74,43 @@
       "media": [
         {
           "type": "img",
-          "src": "assets/img/products/face-card-snooker.jpg",
-          "alt": "Face Card tee, full back print in a snooker parlour"
-        },
-        {
-          "type": "img",
           "src": "assets/img/products/face-card-doorway.jpg",
-          "alt": "Face Card tee, chest print in an old club doorway"
+          "alt": "Face Card tee in maroon, full back print, standing in an old stone doorway"
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-back.jpg",
-          "alt": "Face Card back print artwork"
+          "src": "assets/img/products/face-card-walk.jpg",
+          "alt": "Face Card tee in maroon, spade chest print, walking down a tree-lined lane"
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-front.jpg",
-          "alt": "Face Card chest print artwork"
+          "src": "assets/img/products/face-card-steps.jpg",
+          "alt": "Face Card tee in maroon, spade chest print, seated on worn stone steps"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/face-card-mirror.jpg",
+          "alt": "Face Card tee in maroon, full back print, mirror selfie in a lamp-lit bedroom"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/face-card-mirror-chest.jpg",
+          "alt": "Face Card tee in maroon, spade chest print, mirror selfie in a lamp-lit bedroom"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/face-card-hanger-back.jpg",
+          "alt": "Face Card tee in maroon on a hanger against a white wall, back print"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/face-card-studio.jpg",
+          "alt": "Face Card tee in maroon, full back print, studio shot"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/face-card-studio-chest.jpg",
+          "alt": "Face Card tee in maroon, spade chest print, studio shot"
         }
       ],
       "colours": [
