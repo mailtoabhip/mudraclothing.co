@@ -160,6 +160,36 @@
       "media": [
         {
           "type": "img",
+          "src": "assets/img/products/neo-hanger.jpg",
+          "alt": "Neo Bombay tee on a hanger on a rooftop, back print, city towers behind"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/neo-lane-walk.jpg",
+          "alt": "Neo Bombay tee, full back print, walking down a tree-lined lane"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/neo-seawall-sit.jpg",
+          "alt": "Neo Bombay tee, three-star chest print, seated on the sea wall"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/neo-balcony-chest.jpg",
+          "alt": "Neo Bombay tee, three-star chest print, standing below art deco balconies"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/neo-promenade.jpg",
+          "alt": "Neo Bombay tee, full back print, hands behind the head on the promenade"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/neo-duo-walk.jpg",
+          "alt": "Two people in Neo Bombay tees walking the promenade at sunset, back and chest prints"
+        },
+        {
+          "type": "img",
           "src": "assets/img/products/neo-back.jpg",
           "alt": "Neo Bombay tee, full back print at Marine Drive"
         },
