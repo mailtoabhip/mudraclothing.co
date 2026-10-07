@@ -365,23 +365,33 @@
       "media": [
         {
           "type": "img",
-          "src": "assets/img/products/atlas-hero.jpg",
-          "alt": "Atlas tee, full back print, hanging from pull-up bars at an outdoor calisthenics park"
+          "src": "assets/img/products/atlas-gym-hanger.jpg",
+          "alt": "Atlas tee on a hanger on a squat rack in a sunlit gym, back print"
         },
         {
           "type": "img",
-          "src": "assets/img/products/atlas-chest.jpg",
-          "alt": "Atlas tee, small checklist-and-barbell chest print, walking past a sports ground with a towel over the shoulder"
+          "src": "assets/img/products/atlas-squat-rack.jpg",
+          "alt": "Atlas tee, full back print, at the squat rack with a training partner"
         },
         {
           "type": "img",
-          "src": "assets/img/products/atlas-back.jpg",
-          "alt": "Atlas, Atlas specimen card, full back print"
+          "src": "assets/img/products/atlas-plate-carry.jpg",
+          "alt": "Atlas tee, checklist chest print, carrying a weight plate across the gym"
         },
         {
           "type": "img",
-          "src": "assets/img/products/atlas-front.jpg",
-          "alt": "Atlas, Atlas card chest print"
+          "src": "assets/img/products/atlas-bench-pair.jpg",
+          "alt": "Two people in Atlas tees at a bench, back print and chest print"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/atlas-pullup.jpg",
+          "alt": "Atlas tee, full back print, gripping a pull-up bar"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/atlas-rack-lean.jpg",
+          "alt": "Two people in Atlas tees leaning on a rack, chest print and back print"
         }
       ],
       "colours": [
