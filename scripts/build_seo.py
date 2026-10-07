@@ -95,14 +95,14 @@ def ticker_items():
     if not d or ph == "launched":
         return [f"Printed to order · {PREORDER_MIN_DAYS}–{PREORDER_MAX_DAYS} days", "Designed in-house", "Free shipping across India"]
     if ph == "teaser":
-        return [f"{d['name']} · pre-orders open {d['opens_short']}", "Designed in-house", "Free shipping across India"]
+        return [f"Pre-orders open {d['opens_short']}", "Designed in-house", "Free shipping across India"]
     if ph == "open":
         if before_launch():
-            return [f"{d['name']} · early pre-orders open", f"Closes {d['closes_short']}",
-                    f"Ships by {d['ships_short']}", "Free shipping across India"]
+            return ["Early pre-orders open", f"Closes {d['closes_short']}",
+                    "Free shipping across India"]
         return ["Pre-orders are now live", f"Open till {d['closes_short']}",
-                f"Ships by {d['ships_short']}", "Free shipping across India"]
-    return [f"{d['name']} · printing now", f"Ships by {d['ships_short']}"]
+                "Free shipping across India"]
+    return ["Printing now", f"Ships by {d['ships_short']}"]
 
 
 def hero_tag():
@@ -110,9 +110,9 @@ def hero_tag():
     launched = f"Printed to order · {PREORDER_MIN_DAYS}–{PREORDER_MAX_DAYS} days"   # nothing drop-specific
     if not d:
         return launched
-    return {"teaser": f"{d['name']} · pre-orders open {d['opens_short']}",
-            "open": f"{d['name']} · early pre-orders open" if before_launch() else f"{d['name']} · pre-orders are now live",
-            "closed": f"{d['name']} · printing now"}.get(ph, launched)
+    return {"teaser": f"Pre-orders open {d['opens_short']}",
+            "open": "Early pre-orders open" if before_launch() else "Pre-orders are now live",
+            "closed": "Printing now"}.get(ph, launched)
 
 
 HOME_TITLE = "Mudra Clothing Company | Oversized graphic t-shirts, designed in India"
@@ -160,9 +160,9 @@ def blurb(p):
     if p.get("blurb"):
         return p["blurb"]
     if p["print"] == "back":
-        return (f"{p['name']}, from the {p['seriesLabel']} series. "
+        return (f"{p['name']}. "
                 "A small stamp on the chest, the whole graphic on the back.")
-    return f"{p['name']}, from the {p['seriesLabel']} series. Chest print only."
+    return f"{p['name']}. Chest print only."
 
 
 def money(n):
@@ -456,8 +456,8 @@ def home_desc():
     base = ("Oversized graphic tees with a clean front and a loud back. Food, city, Y2K, "
             "gym, travel and tarot designs, printed in India. ")
     if ph == "closed":
-        return base + f"{d['name']} is printing now and ships by {d['ships_short']}. Free shipping across India."
-    return base + (f"{d['name']} pre-orders {d['opens_short']} to {d['closes_short']}, ships by "
+        return base + f"Pre-orders are printing now and ship by {d['ships_short']}. Free shipping across India."
+    return base + (f"Pre-orders {d['opens_short']} to {d['closes_short']}, ships by "
                    f"{d['ships_short']}. Free shipping across India.")
 
 
@@ -465,13 +465,13 @@ def product_desc(p):
     st, d = sale_state(p["id"]), drop_dates()
     lead = f"{blurb(p)} {money(p['price'])}."
     if st == "teaser":
-        return f"{lead} {d['name']} pre-orders open {d['opens_short']}, ship by {d['ships_short']}. Free shipping across India."
+        return f"{lead} Pre-orders open {d['opens_short']}, ship by {d['ships_short']}. Free shipping across India."
     if st == "open":
         return f"{lead} Pre-order until {d['closes_short']}, ships by {d['ships_short']}. Free shipping across India."
     if st == "closed":
-        return f"{lead} {d['name']} is printing now and ships by {d['ships_short']}. Free shipping across India."
+        return f"{lead} Pre-orders are printing now and ship by {d['ships_short']}. Free shipping across India."
     if st == "notInDrop":
-        return f"{lead} Back after {d['name']} launches. Free shipping across India."
+        return f"{lead} Back after launch. Free shipping across India."
     promise = f"Pre-order, arrives in {DAYS}. " if preorder() else ""
     return f"{lead} {promise}Free shipping across India, cash on delivery."
 
@@ -483,7 +483,7 @@ def build_home(products):
         organization(),
         {"@type": "WebSite", "@id": url("/#site"), "name": SITE_NAME, "url": url("/"),
          "inLanguage": "en-IN", "publisher": {"@id": url("/#org")}},
-        {"@type": "ItemList", "name": "The drops", "numberOfItems": len(products),
+        {"@type": "ItemList", "name": "The tees", "numberOfItems": len(products),
          "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": url(f"/p/{p['id']}"),
                               "name": p["name"]} for i, p in enumerate(products)]},
     ]}
@@ -515,7 +515,7 @@ def build_products(products, offers):
     keep = set()
     for p in products:
         shots = gallery_shots(p)
-        title = f"{p['name']} Oversized T-Shirt | {p['seriesLabel']} series | {SITE_NAME}"
+        title = f"{p['name']} Oversized T-Shirt | {SITE_NAME}"
         desc = product_desc(p)
         extra = jsonld(product_ld(p, offers)) + "\n" + jsonld(breadcrumb_ld(p))
         s = put_head(template, head_tags(title, desc, f"/p/{p['id']}",
@@ -533,8 +533,7 @@ def build_products(products, offers):
             for i, m in enumerate(shots))
         s = re.sub(r'(<div class="gallery__track" id="track">).*?(</div>\n)',
                    lambda m: m.group(1) + gallery + m.group(2), s, count=1, flags=re.S)
-        buy = (f'<div class="buy__top"><span class="mono buy__series">{e(p["seriesLabel"])} series</span></div>'
-               f'<h1 class="buy__name">{e(p["name"])}</h1>'
+        buy = (f'<h1 class="buy__name">{e(p["name"])}</h1>'
                + buy_price(p)
                + f'<p class="buy__blurb">{e(blurb(p))}</p>')
         s = s.replace('<aside class="buy" id="buy" aria-live="polite"></aside>',

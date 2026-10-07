@@ -43,7 +43,7 @@ function cardCta(p, url, inStock) {
   if (st === 'teaser') return { tag: '', btn: `<a class="atc" href="${url}">Opens ${d.opensShort}</a>` };
   if (st === 'open') return { tag: `Closes ${d.closesShort}`, btn: `<a class="atc" href="${url}">Pre-order now</a>` };
   if (st === 'closed') return { tag: '', btn: `<a class="atc" href="${url}">Closed</a>` };
-  if (st === 'notInDrop') return { tag: '', btn: `<button class="atc" disabled>Not in ${esc(d.name)}</button>` };
+  if (st === 'notInDrop') return { tag: '', btn: '<button class="atc" disabled>Not available yet</button>' };
   return {
     tag: isPreorder() ? `Pre-order · ${ORDERING.minDays}–${ORDERING.maxDays} days` : '',
     btn: inStock

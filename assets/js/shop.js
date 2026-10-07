@@ -175,7 +175,7 @@ function downloadIcs(productName) {
     `DTSTAMP:${stamp(Date.now())}`,
     `DTSTART:${stamp(start)}`,
     `DTEND:${stamp(start + 36e5)}`,
-    `SUMMARY:Mudra Clothing Company ${DROP.name}: pre-orders open`,
+    `SUMMARY:Mudra Clothing Company: pre-orders open`,
     `DESCRIPTION:${productName ? productName + '. ' : ''}Pre-orders run ${d.opensShort} to ${d.closesShort}. Ships by ${d.shipsShort}.`,
     `URL:${location.origin}${pid ? productUrl(pid) : '/'}`,
     'BEGIN:VALARM', 'TRIGGER:-PT15M', 'ACTION:DISPLAY', 'DESCRIPTION:Mudra Clothing Company pre-orders open soon', 'END:VALARM',
@@ -198,22 +198,22 @@ const beforeLaunch = (now = Date.now()) => !!(DROP && DROP.launch) && now < Date
 function tickerItems() {
   const ph = dropPhase(), d = dropDates();
   if (!d || ph === 'launched') return [`Printed to order · ${ORDERING.minDays}–${ORDERING.maxDays} days`, 'Designed in-house', 'Free shipping across India'];
-  if (ph === 'teaser') return [`${d.name} · pre-orders open ${d.opensShort}`, 'Designed in-house', 'Free shipping across India'];
+  if (ph === 'teaser') return [`Pre-orders open ${d.opensShort}`, 'Designed in-house', 'Free shipping across India'];
   if (ph === 'open') {
     return beforeLaunch()
-      ? [`${d.name} · early pre-orders open`, `Closes ${d.closesShort}`, `Ships by ${d.shipsShort}`, 'Free shipping across India']
-      : [`Pre-orders are now live`, `Open till ${d.closesShort}`, `Ships by ${d.shipsShort}`, 'Free shipping across India'];
+      ? [`Early pre-orders open`, `Closes ${d.closesShort}`, 'Free shipping across India']
+      : [`Pre-orders are now live`, `Open till ${d.closesShort}`, 'Free shipping across India'];
   }
-  return [`${d.name} · printing now`, `Ships by ${d.shipsShort}`];
+  return [`Printing now`, `Ships by ${d.shipsShort}`];
 }
 
 // hero tag on the home page
 function heroTag() {
   const ph = dropPhase(), d = dropDates();
   if (!d) return `Printed to order · ${ORDERING.minDays}–${ORDERING.maxDays} days`;
-  if (ph === 'teaser') return `${d.name} · pre-orders open ${d.opensShort}`;
-  if (ph === 'open') return beforeLaunch() ? `${d.name} · early pre-orders open` : `${d.name} · pre-orders are now live`;
-  if (ph === 'closed') return `${d.name} · printing now`;
+  if (ph === 'teaser') return `Pre-orders open ${d.opensShort}`;
+  if (ph === 'open') return beforeLaunch() ? 'Early pre-orders open' : 'Pre-orders are now live';
+  if (ph === 'closed') return 'Printing now';
   return `Printed to order · ${ORDERING.minDays}–${ORDERING.maxDays} days`;   // after launch: nothing drop-specific
 }
 
@@ -345,7 +345,7 @@ function unwrap(payload) {
 function orderAttributes() {
   if (DROP && dropPhase() === 'open') {
     return [
-      { key: 'Order type', value: `Pre-order · ${DROP.name}` },
+      { key: 'Order type', value: 'Pre-order' },
       { key: 'Ships by', value: DROP.shipsBy },
     ];
   }
@@ -501,7 +501,7 @@ function closeDrawer() {
 // the promise under each bag line: drop ship-by date, or the print-to-order window
 function lineNote() {
   const ph = dropPhase(), d = dropDates();
-  if (d && ph !== 'launched') return ph === 'teaser' ? `${d.name} · pre-orders open ${d.opensShort}` : `Pre-order · ships by ${d.shipsShort}`;
+  if (d && ph !== 'launched') return ph === 'teaser' ? `Pre-orders open ${d.opensShort}` : `Pre-order · ships by ${d.shipsShort}`;
   return isPreorder() ? `Pre-order · Arrives ${arrivalRange().text}` : '';
 }
 
@@ -516,7 +516,7 @@ async function addToBag(item, btn) {
     if (btn) flash(btn, isPreorder() ? 'Pre-ordered' : 'Added');
     return true;
   }
-  if (item.id && !canBuy(item.id)) throw new ShopError(checkoutBlock() || `Not in ${DROP ? DROP.name : 'this drop'}.`);
+  if (item.id && !canBuy(item.id)) throw new ShopError(checkoutBlock() || 'Not available for pre-order.');
   if (!item.variantId) throw new ShopError("That size isn't on sale yet.");
   const attributes = item.colour ? [{ key: 'Colour', value: item.colour }] : [];
   await cart.add(item.variantId, 1, attributes);

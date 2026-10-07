@@ -119,7 +119,7 @@ function showError(msg) {
 
 function setMeta(p) {
   if (document.querySelector('link[rel="canonical"]')) return;   // pre-built page
-  const title = `${p.name} · ${p.seriesLabel} series · Mudra Clothing Company`;
+  const title = `${p.name} · Mudra Clothing Company`;
   const desc = blurb(p);
   document.title = title;
   document.querySelector('meta[name="description"]').setAttribute('content', desc);
@@ -144,8 +144,8 @@ function setMeta(p) {
 function blurb(p) {
   if (p.blurb) return p.blurb;
   return p.print === 'back'
-    ? `${p.name}, from the ${p.seriesLabel} series. A small stamp on the chest, the whole graphic on the back.`
-    : `${p.name}, from the ${p.seriesLabel} series. Chest print only.`;
+    ? `${p.name}. A small stamp on the chest, the whole graphic on the back.`
+    : `${p.name}. Chest print only.`;
 }
 
 const pad2 = n => String(n).padStart(2, '0');
@@ -154,7 +154,7 @@ const pad2 = n => String(n).padStart(2, '0');
 
 function renderCrumb(p) {
   $('#crumb').insertAdjacentHTML('beforeend',
-    ` <span>/</span> <a href="/#shop">${esc(p.seriesLabel)}</a> <span>/</span> <strong>${esc(p.name)}</strong>`);
+    ` <span>/</span> <strong>${esc(p.name)}</strong>`);
 }
 
 /* ---------- gallery --------------------------------------------------- */
@@ -209,7 +209,6 @@ function renderBuy(p) {
   $('#buy').innerHTML = `
     <div class="buy__top">
       ${p.no ? `<span class="pno mono">Nº ${pad2(p.no)} <em>/ ${total}</em></span>` : ''}
-      <span class="mono buy__series">${esc(p.seriesLabel)} series</span>
     </div>
 
     <h1 class="buy__name">${esc(p.name)}</h1>
@@ -302,7 +301,7 @@ function lockedLabel() {
   const st = M.saleState(view.product.id), d = M.dropDates();
   if (st === 'teaser') return `Opens ${d.opensLong}`;
   if (st === 'closed') return 'Pre-orders closed';
-  if (st === 'notInDrop') return `Not in ${d.name}`;
+  if (st === 'notInDrop') return 'Not available yet';
   return '';
 }
 
@@ -323,7 +322,7 @@ function teaserActionsHTML(p) {
   return `
     <div class="dropx">
       <button class="dropx__cal mono" id="icsBtn" type="button">Add to calendar</button>
-      ${ig ? `<a class="linkish mono" href="${esc(ig)}" target="_blank" rel="noopener">Follow for the drop</a>` : ''}
+      ${ig ? `<a class="linkish mono" href="${esc(ig)}" target="_blank" rel="noopener">Follow for updates</a>` : ''}
     </div>`;
 }
 
@@ -340,14 +339,14 @@ function infoBoxHTML(p) {
       <p class="preorder__note">${esc(note)}</p>
     </aside>`;
   const prepaid = M.drop && M.drop.prepaidOnly ? ' Prepaid only for pre-orders.' : '';
-  if (st === 'teaser') return box(d.name, `Opens ${d.opensLong}`,
-    `Pre-orders run ${d.opensShort} to ${d.closesShort}. ${d.name} is made in one run after they close, and ships by ${d.shipsShort}.${prepaid}`);
+  if (st === 'teaser') return box('Pre-order', `Opens ${d.opensLong}`,
+    `Pre-orders run ${d.opensShort} to ${d.closesShort}. Everything is made in one run after they close, and ships by ${d.shipsShort}.${prepaid}`);
   if (st === 'open') return box('Pre-orders open', `Ships by ${d.shipsLong}`,
-    `${d.name} is made in one run after pre-orders close on ${d.closesShort}. We print what you order, nothing more.${prepaid}`, M.closesIn());
-  if (st === 'closed') return box(d.name, `Ships by ${d.shipsLong}`,
-    `Printing ${d.name} now. Pre-orders ship by ${d.shipsShort}. Missed it? This design comes back after launch.`);
-  if (st === 'notInDrop') return box(`Not in ${d.name}`, '',
-    `This design isn't part of ${d.name}. It comes back after launch.`);
+    `Made in one run after pre-orders close on ${d.closesShort}. We print what you order, nothing more.${prepaid}`, M.closesIn());
+  if (st === 'closed') return box('Printing now', `Ships by ${d.shipsLong}`,
+    `Pre-orders are closed and printing now. They ship by ${d.shipsShort}. Missed it? This design comes back after launch.`);
+  if (st === 'notInDrop') return box('Not available yet', '',
+    `This design isn't up for pre-order. It comes back after launch.`);
   if (!M.isPreorder()) return '';
   return box('Pre-order', `Arrives ${M.arrivalRange().text}`,
     "Printed for you after you order. We're new, so we print to order instead of guessing and bulk-printing. Once we know what you like, we'll keep stock and this gets faster.");
@@ -358,7 +357,7 @@ function shippingText(p) {
   const st = M.saleState(p.id), d = M.dropDates();
   if (['teaser', 'open', 'closed'].includes(st)) {
     const prepaid = M.drop.prepaidOnly ? ' Prepaid only for pre-orders; cash on delivery comes back after launch.' : '';
-    return `${d.name} pre-orders run ${d.opensShort} to ${d.closesShort}, are made in one run after they close, and ship by ${d.shipsShort}. Free shipping across India.${prepaid}`;
+    return `Pre-orders run ${d.opensShort} to ${d.closesShort}, are made in one run after they close, and ship by ${d.shipsShort}. Free shipping across India.${prepaid}`;
   }
   return view.garment.shipping || '';
 }
@@ -541,14 +540,13 @@ function renderRelated(p, list) {
   const rest = list.filter(x => x.id !== p.id && x.series !== p.series);
   const picks = [...same, ...rest].slice(0, 4);
   if (!picks.length) return;
-  $('#relatedTitle').textContent = same.length ? `MORE ${p.seriesLabel.toUpperCase()}` : 'KEEP LOOKING';
+  $('#relatedTitle').textContent = 'MORE';
   $('#rgrid').innerHTML = picks.map(x => {
     const img = x.media.find(m => m.type === 'img');
     return `
     <a class="rcard" href="${M.productUrl(x.id)}">
       <div class="rcard__img">${img ? `<img src="/${img.src}" alt="${esc(img.alt)}" loading="lazy" width="800" height="1000">` : ''}</div>
       <div class="rcard__meta">
-        <span class="mono">${esc(x.seriesLabel)}</span>
         <h3>${esc(x.name)}</h3>
         <span class="pprice">${money(x.price)}</span>
       </div>
