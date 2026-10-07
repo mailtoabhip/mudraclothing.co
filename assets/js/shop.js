@@ -202,7 +202,7 @@ function tickerItems() {
   if (ph === 'open') {
     return beforeLaunch()
       ? [`${d.name} · early pre-orders open`, `Closes ${d.closesShort}`, `Ships by ${d.shipsShort}`, 'Free shipping across India']
-      : [`${d.name} is live`, `Pre-orders close ${d.closesShort}`, `Ships by ${d.shipsShort}`, 'Free shipping across India'];
+      : [`Pre-orders are now live`, `Open till ${d.closesShort}`, `Ships by ${d.shipsShort}`, 'Free shipping across India'];
   }
   return [`${d.name} · printing now`, `Ships by ${d.shipsShort}`];
 }
@@ -212,7 +212,7 @@ function heroTag() {
   const ph = dropPhase(), d = dropDates();
   if (!d) return `Printed to order · ${ORDERING.minDays}–${ORDERING.maxDays} days`;
   if (ph === 'teaser') return `${d.name} · pre-orders open ${d.opensShort}`;
-  if (ph === 'open') return beforeLaunch() ? `${d.name} · early pre-orders open` : `${d.name} is live`;
+  if (ph === 'open') return beforeLaunch() ? `${d.name} · early pre-orders open` : `${d.name} · pre-orders are now live`;
   if (ph === 'closed') return `${d.name} · printing now`;
   return `Printed to order · ${ORDERING.minDays}–${ORDERING.maxDays} days`;   // after launch: nothing drop-specific
 }

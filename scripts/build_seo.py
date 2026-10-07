@@ -100,7 +100,7 @@ def ticker_items():
         if before_launch():
             return [f"{d['name']} · early pre-orders open", f"Closes {d['closes_short']}",
                     f"Ships by {d['ships_short']}", "Free shipping across India"]
-        return [f"{d['name']} is live", f"Pre-orders close {d['closes_short']}",
+        return ["Pre-orders are now live", f"Open till {d['closes_short']}",
                 f"Ships by {d['ships_short']}", "Free shipping across India"]
     return [f"{d['name']} · printing now", f"Ships by {d['ships_short']}"]
 
@@ -111,7 +111,7 @@ def hero_tag():
     if not d:
         return launched
     return {"teaser": f"{d['name']} · pre-orders open {d['opens_short']}",
-            "open": f"{d['name']} · early pre-orders open" if before_launch() else f"{d['name']} is live",
+            "open": f"{d['name']} · early pre-orders open" if before_launch() else f"{d['name']} · pre-orders are now live",
             "closed": f"{d['name']} · printing now"}.get(ph, launched)
 
 

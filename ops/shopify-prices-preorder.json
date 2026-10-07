@@ -28,6 +28,71 @@
         "gid://shopify/ProductVariant/46799182463055"
       ]
     },
+    "not-responding": {
+      "price": "1199.00",
+      "compareAtPrice": "1600.00",
+      "regularPrice": "1399.00",
+      "productId": "gid://shopify/Product/9080698044495",
+      "variantIds": [
+        "gid://shopify/ProductVariant/46799555526735",
+        "gid://shopify/ProductVariant/46799555559503",
+        "gid://shopify/ProductVariant/46799555592271",
+        "gid://shopify/ProductVariant/46799555625039",
+        "gid://shopify/ProductVariant/46799555657807"
+      ]
+    },
+    "atlas": {
+      "price": "1199.00",
+      "compareAtPrice": "1600.00",
+      "regularPrice": "1399.00",
+      "productId": "gid://shopify/Product/9080464834639",
+      "variantIds": [
+        "gid://shopify/ProductVariant/46799181250639",
+        "gid://shopify/ProductVariant/46799181283407",
+        "gid://shopify/ProductVariant/46799181316175",
+        "gid://shopify/ProductVariant/46799181348943",
+        "gid://shopify/ProductVariant/46799181381711"
+      ]
+    },
+    "one-way": {
+      "price": "1099.00",
+      "compareAtPrice": "1600.00",
+      "regularPrice": "1299.00",
+      "productId": "gid://shopify/Product/9080694440015",
+      "variantIds": [
+        "gid://shopify/ProductVariant/46799553331279",
+        "gid://shopify/ProductVariant/46799553364047",
+        "gid://shopify/ProductVariant/46799553396815",
+        "gid://shopify/ProductVariant/46799553429583",
+        "gid://shopify/ProductVariant/46799553462351"
+      ]
+    },
+    "out-of-office": {
+      "price": "1099.00",
+      "compareAtPrice": "1600.00",
+      "regularPrice": "1299.00",
+      "productId": "gid://shopify/Product/9080697126991",
+      "variantIds": [
+        "gid://shopify/ProductVariant/46799553790031",
+        "gid://shopify/ProductVariant/46799553822799",
+        "gid://shopify/ProductVariant/46799553855567",
+        "gid://shopify/ProductVariant/46799553888335",
+        "gid://shopify/ProductVariant/46799553921103"
+      ]
+    },
+    "the-overthinker": {
+      "price": "1299.00",
+      "compareAtPrice": "1600.00",
+      "regularPrice": "1499.00",
+      "productId": "gid://shopify/Product/9080700534863",
+      "variantIds": [
+        "gid://shopify/ProductVariant/46799557853263",
+        "gid://shopify/ProductVariant/46799557886031",
+        "gid://shopify/ProductVariant/46799557918799",
+        "gid://shopify/ProductVariant/46799557951567",
+        "gid://shopify/ProductVariant/46799557984335"
+      ]
+    },
     "dilli-belly": {
       "price": "1199.00",
       "compareAtPrice": "1600.00",
@@ -119,19 +184,6 @@
         "gid://shopify/ProductVariant/46799549923407"
       ]
     },
-    "not-responding": {
-      "price": "1199.00",
-      "compareAtPrice": "1600.00",
-      "regularPrice": "1399.00",
-      "productId": "gid://shopify/Product/9080698044495",
-      "variantIds": [
-        "gid://shopify/ProductVariant/46799555526735",
-        "gid://shopify/ProductVariant/46799555559503",
-        "gid://shopify/ProductVariant/46799555592271",
-        "gid://shopify/ProductVariant/46799555625039",
-        "gid://shopify/ProductVariant/46799555657807"
-      ]
-    },
     "on-repeat": {
       "price": "1199.00",
       "compareAtPrice": "1600.00",
@@ -156,58 +208,6 @@
         "gid://shopify/ProductVariant/46799180791887",
         "gid://shopify/ProductVariant/46799180824655",
         "gid://shopify/ProductVariant/46799180857423"
-      ]
-    },
-    "atlas": {
-      "price": "1199.00",
-      "compareAtPrice": "1600.00",
-      "regularPrice": "1399.00",
-      "productId": "gid://shopify/Product/9080464834639",
-      "variantIds": [
-        "gid://shopify/ProductVariant/46799181250639",
-        "gid://shopify/ProductVariant/46799181283407",
-        "gid://shopify/ProductVariant/46799181316175",
-        "gid://shopify/ProductVariant/46799181348943",
-        "gid://shopify/ProductVariant/46799181381711"
-      ]
-    },
-    "one-way": {
-      "price": "1099.00",
-      "compareAtPrice": "1600.00",
-      "regularPrice": "1299.00",
-      "productId": "gid://shopify/Product/9080694440015",
-      "variantIds": [
-        "gid://shopify/ProductVariant/46799553331279",
-        "gid://shopify/ProductVariant/46799553364047",
-        "gid://shopify/ProductVariant/46799553396815",
-        "gid://shopify/ProductVariant/46799553429583",
-        "gid://shopify/ProductVariant/46799553462351"
-      ]
-    },
-    "out-of-office": {
-      "price": "1099.00",
-      "compareAtPrice": "1600.00",
-      "regularPrice": "1299.00",
-      "productId": "gid://shopify/Product/9080697126991",
-      "variantIds": [
-        "gid://shopify/ProductVariant/46799553790031",
-        "gid://shopify/ProductVariant/46799553822799",
-        "gid://shopify/ProductVariant/46799553855567",
-        "gid://shopify/ProductVariant/46799553888335",
-        "gid://shopify/ProductVariant/46799553921103"
-      ]
-    },
-    "the-overthinker": {
-      "price": "1299.00",
-      "compareAtPrice": "1600.00",
-      "regularPrice": "1499.00",
-      "productId": "gid://shopify/Product/9080700534863",
-      "variantIds": [
-        "gid://shopify/ProductVariant/46799557853263",
-        "gid://shopify/ProductVariant/46799557886031",
-        "gid://shopify/ProductVariant/46799557918799",
-        "gid://shopify/ProductVariant/46799557951567",
-        "gid://shopify/ProductVariant/46799557984335"
       ]
     }
   },
