@@ -661,13 +661,33 @@
       "media": [
         {
           "type": "img",
-          "src": "assets/img/products/the-overthinker-back.jpg",
-          "alt": "The Overthinker, The Overthinker tarot card IX, full back print"
+          "src": "assets/img/products/the-overthinker-library-hanger.jpg",
+          "alt": "The Overthinker tee on a hanger on a library ladder, tarot card IX back print"
         },
         {
           "type": "img",
-          "src": "assets/img/products/the-overthinker-front.jpg",
-          "alt": "The Overthinker, Card IX chest print"
+          "src": "assets/img/products/the-overthinker-library-pair.jpg",
+          "alt": "Two people in The Overthinker tees in a library, chest print and back print"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/the-overthinker-floor-sit.jpg",
+          "alt": "The Overthinker tee, card IX chest print, sitting on a library floor with books"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/the-overthinker-ladder.jpg",
+          "alt": "The Overthinker tee, tarot card IX back print, on a library ladder"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/the-overthinker-desk-study.jpg",
+          "alt": "The Overthinker tee, card IX chest print, deep in thought at a reading desk"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/the-overthinker-window-seat.jpg",
+          "alt": "The Overthinker tee, tarot card IX back print, seated by a library window"
         }
       ],
       "colours": [
