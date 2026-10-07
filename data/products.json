@@ -265,6 +265,26 @@
       "media": [
         {
           "type": "img",
+          "src": "assets/img/products/not-responding-hanger.jpg",
+          "alt": "Not Responding tee on a hanger in a neon-lit gaming room, back print"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/not-responding-chair.jpg",
+          "alt": "Not Responding tee, full back print, leaning back in a gaming chair"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/not-responding-glass-door.jpg",
+          "alt": "Not Responding tee, dialog-box chest print, walking through a glass door with headphones"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/not-responding-desk.jpg",
+          "alt": "Not Responding tee, full back print, standing at a gaming desk"
+        },
+        {
+          "type": "img",
           "src": "assets/img/products/not-responding-hero.jpg",
           "alt": "Not Responding tee, full back print of stacked error windows, standing by a concrete stairwell"
         },
@@ -277,16 +297,6 @@
           "type": "img",
           "src": "assets/img/products/not-responding-seated.jpg",
           "alt": "Not Responding tee, back print, seated on the edge of a bed beside a closed laptop"
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/not-responding-back.jpg",
-          "alt": "Not Responding, Crashed dialog boxes, full back print"
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/not-responding-front.jpg",
-          "alt": "Not Responding, brb dialog chest print"
         }
       ],
       "colours": [
