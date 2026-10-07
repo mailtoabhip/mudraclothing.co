@@ -165,28 +165,8 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/neo-front.jpg",
-          "alt": "Neo Bombay tee, chest print, Bombay street at dusk"
-        },
-        {
-          "type": "img",
           "src": "assets/img/products/neo-seated.jpg",
           "alt": "Neo Bombay tee worn seated by the sea wall"
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/neo-flat.jpg",
-          "alt": "Neo Bombay tee, front and back laid flat"
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/neo-bombay-back.jpg",
-          "alt": "Neo Bombay back print artwork"
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/neo-bombay-front.jpg",
-          "alt": "Neo Bombay chest print artwork"
         }
       ],
       "colours": [
