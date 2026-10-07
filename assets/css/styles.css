@@ -202,6 +202,7 @@ footer{border-top:1px solid var(--line);padding-block:40px 60px}
   display:inline-flex;align-items:center;gap:6px;
   transition:color .2s ease-out,border-color .2s ease-out,background .2s ease-out;
 }
+.fchips button[hidden]{display:none}
 .fchips button em{width:11px;height:11px;display:block;border-radius:50%}
 .fchips button:hover{color:var(--fg);border-color:var(--fg)}
 .fchips button.on{background:var(--blue);border-color:var(--blue);color:var(--on-blue)}

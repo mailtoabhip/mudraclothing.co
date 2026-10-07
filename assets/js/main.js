@@ -118,6 +118,9 @@ function renderGrid() {
   grid.innerHTML = state.products.map(cardHTML).join('');
   grid.querySelectorAll('.pcard').forEach(wireCarousel);
   wireCards(grid);
+  // a series with every shirt archived has nothing to filter to
+  const live = new Set(state.products.map(p => p.series));
+  document.querySelectorAll('.fchips[data-key="series"] button').forEach(b => { b.hidden = !live.has(b.dataset.v); });
   applyFilters();
 }
 

@@ -27,7 +27,8 @@ def main(phase):
     pf = ROOT / "data/products.json"
     data = json.loads(pf.read_text(encoding="utf-8"))
     ops = {"phase": phase, "mrp": cfg["mrp"], "products": {}}
-    for p in data["products"]:
+    # archived shirts are priced too, so they come back correct when moved to "products"
+    for p in data["products"] + data.get("archived", []):
         tier = cfg["assign"].get(p["id"])
         if not tier:
             sys.exit(f"no tier for {p['id']} in data/pricing.json")

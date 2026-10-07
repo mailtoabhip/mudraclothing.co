@@ -26,6 +26,16 @@ assets/img/products/    product photography
 assets/video/hero.mp4
 ```
 
+## Archiving a shirt
+
+`data/products.json` has two lists. `products` is what the site sells; `archived`
+holds shirts taken off the site for now. To archive one, move its object from
+`products` to `archived` and rebuild. To bring it back, move it the other way.
+Nothing is deleted: photos stay in `assets/img/products/`, prices stay current
+(`scripts/pricing.py` covers both lists). An archived shirt has no card, no
+product page and no sitemap entry; its old `/p/<id>` link shows the "doesn't
+exist yet" page. Shopify is separate: set the product to Draft there too.
+
 ## Adding a product
 
 Add an object to `data/products.json`. Nothing else to touch.
