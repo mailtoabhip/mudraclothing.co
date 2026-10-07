@@ -13,7 +13,7 @@ What it writes:
                   WebSite JSON-LD) and the 16 product cards pre-rendered into the
                   grid, so the catalogue is readable without JavaScript.
   sitemap.xml, robots.txt
-  assets/img/og/mudra-og.jpg   default 1200x630 share image (only if missing)
+  assets/img/og/mudra-og-face-card.jpg   default 1200x630 share image (only if missing)
   assets/video/hero-poster.jpg first frame of the hero video (only if missing)
 
 Product/Offer price data is only emitted while checkout is switched on
@@ -197,7 +197,7 @@ def make_og_image():
     if out.exists():
         return
     from PIL import Image
-    src = ROOT / "assets/img/products/face-card-doorway.jpg"
+    src = ROOT / "assets/img/products/face-card-doorway-maroon.jpg"
     if not src.exists():
         return
     out.parent.mkdir(parents=True, exist_ok=True)

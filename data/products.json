@@ -74,7 +74,12 @@
       "media": [
         {
           "type": "img",
-          "src": "assets/img/products/face-card-doorway.jpg",
+          "src": "assets/img/products/face-card-hanger-back.jpg",
+          "alt": "Face Card tee in maroon on a hanger against a white wall, back print"
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/face-card-doorway-maroon.jpg",
           "alt": "Face Card tee in maroon, full back print, standing in an old stone doorway"
         },
         {
@@ -96,21 +101,6 @@
           "type": "img",
           "src": "assets/img/products/face-card-mirror-chest.jpg",
           "alt": "Face Card tee in maroon, spade chest print, mirror selfie in a lamp-lit bedroom"
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/face-card-hanger-back.jpg",
-          "alt": "Face Card tee in maroon on a hanger against a white wall, back print"
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/face-card-studio.jpg",
-          "alt": "Face Card tee in maroon, full back print, studio shot"
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/face-card-studio-chest.jpg",
-          "alt": "Face Card tee in maroon, spade chest print, studio shot"
         }
       ],
       "colours": [

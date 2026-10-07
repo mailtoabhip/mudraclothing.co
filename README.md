@@ -38,6 +38,10 @@ exist yet" page. Shopify is separate: set the product to Draft there too.
 
 ## Adding a product
 
+**Never reuse an image file name.** Everything under `assets/img/` is cached for a year
+(`immutable` in vercel.json), so a new photo saved under an old name keeps showing the
+old one to anyone who has seen it. Give replacements a new name.
+
 Add an object to `data/products.json`. Nothing else to touch.
 
 ```json
