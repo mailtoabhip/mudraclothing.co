@@ -143,6 +143,13 @@ function wireCarousel(card) {
   if (slides.length < 2) return;
   let cur = 0;
 
+  // The first photo stays put; the rest play in a random order, fresh on every
+  // page load. Hover, either arrow and either arrow key all move one step
+  // forward through that order, so no photo comes back within the next
+  // (count - 1) steps.
+  const order = [0, ...shuffle([...slides.keys()].slice(1))];
+  let pos = 0;
+
   const show = i => {
     if (i === cur) return;
     slides[cur].classList.remove('is-on');
@@ -151,19 +158,26 @@ function wireCarousel(card) {
     dots[i]?.classList.add('is-on');
     cur = i;
   };
-  const step = dir => show((cur + dir + slides.length) % slides.length);
+  const step = () => { pos = (pos + 1) % order.length; show(order[pos]); };
 
-  media.addEventListener('mouseenter', () => step(1));
+  media.addEventListener('mouseenter', step);
   media.addEventListener('click', e => {
-    const btn = e.target.closest('.navbtn');
-    if (!btn) return;
+    if (!e.target.closest('.navbtn')) return;
     e.preventDefault();
-    step(btn.classList.contains('next') ? 1 : -1);
+    step();
   });
   media.addEventListener('keydown', e => {
-    if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
-    if (e.key === 'ArrowLeft')  { e.preventDefault(); step(-1); }
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); step(); }
   });
+}
+
+// Fisher–Yates, in place
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
 
 /* ---------- colour swatches (size is picked on the product page) ----- */
