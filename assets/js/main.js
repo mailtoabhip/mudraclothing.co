@@ -74,6 +74,10 @@ function mediaHTML(m, i) {
   return `<svg class="slide${on}" viewBox="${vb}" role="img" aria-label="${esc(m.alt)}"><use href="${m.ref}"/></svg>`;
 }
 
+// colour swatches on the cards are off for now; flip to true to bring them back
+// (scripts/build_seo.py has the same switch for the pre-rendered grid)
+const CARD_SWATCHES = false;
+
 function cardHTML(p) {
   const available = p.sizes.filter(s => s.available);
   const inStock = available.length > 0;
@@ -85,7 +89,7 @@ function cardHTML(p) {
   const badge = p.badge ? `<span class="pbadge ${p.badge.type}">${esc(p.badge.label)}</span>` : '';
   const slides = p.media.map(mediaHTML).join('');
   const dots = p.media.map((_, i) => (i === 0 ? '<i class="is-on"></i>' : '<i></i>')).join('');
-  const swatches = sellableColours(p).map((c, i) =>
+  const swatches = !CARD_SWATCHES ? '' : sellableColours(p).map((c, i) =>
     `<button class="pswatch${i === 0 ? ' on' : ''}" data-colour="${c.key}"
        style="--sw:${c.hex}" title="${esc(c.name)}" aria-label="${esc(c.name)}"></button>`).join('');
 
@@ -102,11 +106,11 @@ function cardHTML(p) {
       <div class="dots">${dots}</div>
     </div>
     <div class="pcard__info">
-      <div class="ptag mono">${esc(p.seriesLabel)} · ${p.print === 'back' ? 'Back print' : 'Chest only'}</div>
+      <div class="ptag mono">${p.print === 'back' ? 'Back print' : 'Chest only'}</div>
       <h3><a href="${url}">${esc(p.name)}</a></h3>
       ${cardPrice(p)}
       ${cta.tag ? `<div class="ptag mono pcard__po">${cta.tag}</div>` : ''}
-      <div class="pswatches">${swatches}</div>
+      ${swatches ? `<div class="pswatches">${swatches}</div>` : ''}
       ${cta.btn}
     </div>
   </article>`;

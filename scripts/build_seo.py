@@ -408,6 +408,10 @@ def card_cta(p, href, in_stock):
     return tag, btn
 
 
+# colour swatches on the home cards (off for now; main.js has CARD_SWATCHES too)
+CARD_SWATCHES = False
+
+
 def card_html(p):
     # mirrors cardHTML() in assets/js/main.js; main.js re-renders over it
     href = f"/p/{p['id']}"
@@ -421,7 +425,8 @@ def card_html(p):
         f'loading="{"eager" if i == 0 else "lazy"}" decoding="async" width="800" height="1000">'
         for i, m in enumerate(imgs))
     dots = "".join('<i class="is-on"></i>' if i == 0 else "<i></i>" for i in range(len(imgs)))
-    sw = [c for c in p.get("colours", []) if c.get("sellable")]
+    # colour swatches on the cards are off for now (main.js CARD_SWATCHES too)
+    sw = [c for c in p.get("colours", []) if c.get("sellable")] if CARD_SWATCHES else []
     swatches = "".join(
         f'<button class="pswatch{" on" if i == 0 else ""}" data-colour="{c["key"]}" '
         f'style="--sw:{c["hex"]}" title="{e(c["name"])}" aria-label="{e(c["name"])}"></button>'
@@ -436,11 +441,12 @@ def card_html(p):
             '<button class="navbtn prev" aria-label="Previous image">&#8249;</button>'
             '<button class="navbtn next" aria-label="Next image">&#8250;</button>'
             f'<div class="dots">{dots}</div></div>'
-            f'<div class="pcard__info"><div class="ptag mono">{e(p["seriesLabel"])} · {kind}</div>'
+            f'<div class="pcard__info"><div class="ptag mono">{kind}</div>'
             f'<h3><a href="{href}">{e(p["name"])}</a></h3>'
             + card_price(p)
             + (f'<div class="ptag mono pcard__po">{tag}</div>' if tag else "")
-            + f'<div class="pswatches">{swatches}</div>{atc}</div></article>')
+            + (f'<div class="pswatches">{swatches}</div>' if swatches else "")
+            + f'{atc}</div></article>')
 
 
 def home_desc():
