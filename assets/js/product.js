@@ -326,7 +326,7 @@ function teaserActionsHTML(p) {
     </div>`;
 }
 
-// the quiet box under the button: drop facts, or the print-to-order window after launch
+// the quiet box under the button: drop facts, or the 7–10 day delivery window after launch
 function infoBoxHTML(p) {
   const st = M.saleState(p.id), d = M.dropDates();
   const box = (tag, right, note, extra = '') => `
@@ -342,17 +342,17 @@ function infoBoxHTML(p) {
   if (st === 'teaser') return box('Pre-order', `Opens ${d.opensLong}`,
     `Pre-orders run ${d.opensShort} to ${d.closesShort}. Everything is made in one run after they close, and ships by ${d.shipsShort}.${prepaid}`);
   if (st === 'open') return box('Pre-orders open', `Ships by ${d.shipsLong}`,
-    `Made in one run after pre-orders close on ${d.closesShort}. We print what you order, nothing more.${prepaid}`, M.closesIn());
+    `Made in one run after pre-orders close on ${d.closesShort}.${prepaid}`, M.closesIn());
   if (st === 'closed') return box('Printing now', `Ships by ${d.shipsLong}`,
     `Pre-orders are closed and printing now. They ship by ${d.shipsShort}. Missed it? This design comes back after launch.`);
   if (st === 'notInDrop') return box('Not available yet', '',
     `This design isn't up for pre-order. It comes back after launch.`);
   if (!M.isPreorder()) return '';
   return box('Pre-order', `Arrives ${M.arrivalRange().text}`,
-    "Printed for you after you order. We're new, so we print to order instead of guessing and bulk-printing. Once we know what you like, we'll keep stock and this gets faster.");
+    'At your door in 7–10 days, counted from the day you order. Free shipping across India.');
 }
 
-// Shipping accordion: drop dates while the drop runs, print-to-order after launch
+// Shipping accordion: drop dates while the drop runs, the delivery window after launch
 function shippingText(p) {
   const st = M.saleState(p.id), d = M.dropDates();
   if (['teaser', 'open', 'closed'].includes(st)) {

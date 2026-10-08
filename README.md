@@ -116,7 +116,7 @@ Optional per-product copy: add `"blurb"` to a product.
 `data/drop.json` is the one config for every drop date customers see (plain JSON, no
 comments). `window.Mudra.dropPhase()` gives `teaser` (before `opens`), `open`,
 `closed` (after `closes`) or `launched` (from the day after `shipsBy`), in IST. After
-launch the site falls back to `ORDERING` in shop.js (print-to-order, 7–10 days).
+launch the site falls back to `ORDERING` in shop.js (7–10 day delivery window).
 
 - `launch` (optional): public launch day inside the open window. Before it, the
   ticker and hero say "early pre-orders open"; after it, "pre-orders are now live".
@@ -135,7 +135,7 @@ the pre-built HTML, structured data and meta descriptions are fixed at build tim
     python3 scripts/build_pages.py && python3 scripts/fingerprint.py
 
 - on 2 Dec 2026, after pre-orders close at 23:59 IST on 1 Dec (`closes`)
-- on 16 Dec 2026, the day after `shipsBy` 15 Dec (back to print-to-order)
+- on 16 Dec 2026, the day after `shipsBy` 15 Dec (back to the 7–10 day window)
 
 (8 Oct 2026: window extended from 15 Oct to 1 Dec, ships by moved from 29 Oct
 to 15 Dec, launch copy is "pre-orders are now live".)

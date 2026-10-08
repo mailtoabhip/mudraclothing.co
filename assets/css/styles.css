@@ -388,7 +388,7 @@ a.atc{display:block;text-align:center}
 .hs--standard .hs-body{color:rgba(255,255,255,.88)}
 .hs-strong{font-weight:600}
 .hs-body p.hs-strong{margin-top:1.4em}
-.hs-items{list-style:none;margin:clamp(48px,6vw,88px) 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(24px,3vw,48px)}
+.hs-items{list-style:none;margin:clamp(48px,6vw,88px) 0 0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(24px,3vw,48px)}
 .hs-items li{border-top:1px solid var(--hair);padding-top:24px}
 .hs-num{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;background:var(--magenta);color:var(--fg);
   font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.06em;margin-bottom:20px}

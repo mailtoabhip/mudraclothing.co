@@ -75,7 +75,7 @@ function render(c) {
     </aside>`;
 }
 
-// one line under the totals: drop terms while it runs, the print-to-order window after
+// one line under the totals: drop terms while it runs, the 7–10 day delivery window after
 function summaryNote() {
   const ph = M.dropPhase();
   if (M.drop && ph !== 'launched') {

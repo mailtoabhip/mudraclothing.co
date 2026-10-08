@@ -17,7 +17,7 @@ const SHOPIFY = {
   enabled: true,    // false: the bag is a local counter and checkout stays closed
 };
 
-// How tees are sold. 'preorder': printed after the order, arrives in minDays–maxDays
+// How tees are sold. 'preorder': arrives in minDays–maxDays after the order
 // calendar days. 'instock': plain "Add to bag", no arrival promise.
 // minDays/maxDays MUST match PREORDER_MIN_DAYS/PREORDER_MAX_DAYS in scripts/site_config.py.
 const ORDERING = { mode: 'preorder', minDays: 7, maxDays: 10 };
@@ -194,10 +194,10 @@ function downloadIcs(productName) {
 // changes the ticker and hero wording, pre-orders stay open either way
 const beforeLaunch = (now = Date.now()) => !!(DROP && DROP.launch) && now < Date.parse(DROP.launch);
 
-// ticker lines per phase; launched falls back to print-to-order
+// ticker lines per phase; launched falls back to the delivery window
 function tickerItems() {
   const ph = dropPhase(), d = dropDates();
-  if (!d || ph === 'launched') return [`Printed to order · ${ORDERING.minDays}–${ORDERING.maxDays} days`, 'Designed in-house', 'Free shipping across India'];
+  if (!d || ph === 'launched') return [`At your door in ${ORDERING.minDays}–${ORDERING.maxDays} days`, 'Designed in-house', 'Free shipping across India'];
   if (ph === 'teaser') return [`Pre-orders open ${d.opensShort}`, 'Designed in-house', 'Free shipping across India'];
   if (ph === 'open') {
     return beforeLaunch()
@@ -210,11 +210,11 @@ function tickerItems() {
 // hero tag on the home page
 function heroTag() {
   const ph = dropPhase(), d = dropDates();
-  if (!d) return `Printed to order · ${ORDERING.minDays}–${ORDERING.maxDays} days`;
+  if (!d) return `At your door in ${ORDERING.minDays}–${ORDERING.maxDays} days`;
   if (ph === 'teaser') return `Pre-orders open ${d.opensShort}`;
   if (ph === 'open') return beforeLaunch() ? 'Early pre-orders open' : 'Pre-orders are now live';
   if (ph === 'closed') return 'Printing now';
-  return `Printed to order · ${ORDERING.minDays}–${ORDERING.maxDays} days`;   // after launch: nothing drop-specific
+  return `At your door in ${ORDERING.minDays}–${ORDERING.maxDays} days`;   // after launch: nothing drop-specific
 }
 
 // COD is off while the drop runs (drop.json prepaidOnly)
@@ -558,7 +558,7 @@ function closeDrawer() {
   lastFocus?.focus?.();
 }
 
-// the promise under each bag line: drop ship-by date, or the print-to-order window
+// the promise under each bag line: drop ship-by date, or the 7–10 day delivery window
 function lineNote() {
   const ph = dropPhase(), d = dropDates();
   if (d && ph !== 'launched') return ph === 'teaser' ? `Pre-orders open ${d.opensShort}` : `Pre-order · ships by ${d.shipsShort}`;

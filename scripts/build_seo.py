@@ -93,7 +93,7 @@ def before_launch(now=None):
 def ticker_items():
     ph, d = drop_phase(), drop_dates()
     if not d or ph == "launched":
-        return [f"Printed to order · {PREORDER_MIN_DAYS}–{PREORDER_MAX_DAYS} days", "Designed in-house", "Free shipping across India"]
+        return [f"At your door in {PREORDER_MIN_DAYS}–{PREORDER_MAX_DAYS} days", "Designed in-house", "Free shipping across India"]
     if ph == "teaser":
         return [f"Pre-orders open {d['opens_short']}", "Designed in-house", "Free shipping across India"]
     if ph == "open":
@@ -107,7 +107,7 @@ def ticker_items():
 
 def hero_tag():
     ph, d = drop_phase(), drop_dates()
-    launched = f"Printed to order · {PREORDER_MIN_DAYS}–{PREORDER_MAX_DAYS} days"   # nothing drop-specific
+    launched = f"At your door in {PREORDER_MIN_DAYS}–{PREORDER_MAX_DAYS} days"   # nothing drop-specific
     if not d:
         return launched
     return {"teaser": f"Pre-orders open {d['opens_short']}",
@@ -117,7 +117,7 @@ def hero_tag():
 
 HOME_TITLE = "Mudra Clothing Company | Oversized graphic t-shirts, designed in India"
 HOME_DESC = ("Oversized graphic tees with a clean front and a loud back. Food, city, Y2K, "
-             "gym, travel and tarot designs, printed to order in India. Free shipping, "
+             "gym, travel and tarot designs, made in India. Free shipping, "
              "cash on delivery.")
 
 # content pages that belong in the sitemap (404, cart and the bare template don't)
@@ -266,7 +266,7 @@ def product_ld(p, offers):
                 "@type": "OfferShippingDetails",
                 "shippingRate": {"@type": "MonetaryAmount", "value": "0", "currency": "INR"},
                 "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "IN"},
-                # printed to order: 3–5 days to print + 4–5 days in transit = 7–10 days
+                # after launch: 3–5 days to make + 4–5 days in transit = 7–10 days
                 "deliveryTime": {
                     "@type": "ShippingDeliveryTime",
                     "handlingTime": {"@type": "QuantitativeValue", "minValue": 3, "maxValue": 5, "unitCode": "DAY"},
