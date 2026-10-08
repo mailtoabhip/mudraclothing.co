@@ -404,7 +404,12 @@ a.atc{display:block;text-align:center}
 .hs :focus-visible{outline:2px solid currentColor;outline-offset:4px}
 .hs--standard .hs-link{margin-top:clamp(40px,5vw,64px)}
 .hs--story .hs-link{margin-top:32px}
-.hs-seal{color:var(--fg);pointer-events:none;display:block}
+.hs-seal{color:var(--fg);pointer-events:none;display:block;transform-origin:50% 50%;rotate:-8deg;
+  animation:hs-seal-spin 180s linear infinite}
+/* positioning lives in `translate`, the spin in `rotate`: translate and rotate are applied
+   rotate-first, so the seal turns on its own centre without leaving its spot */
+@keyframes hs-seal-spin{from{rotate:-8deg}to{rotate:352deg}}
+@media (prefers-reduced-motion:reduce){.hs-seal{animation:none}}
 @media(min-width:900px){
   .hs--standard .hs-copy{max-width:calc(100% * 8 / 12)}
   .hs--story .hs-copy{max-width:calc(100% * 7 / 12);position:relative;z-index:1}
@@ -412,7 +417,7 @@ a.atc{display:block;text-align:center}
   .hs-title{max-width:none;width:max-content;font-size:clamp(40px,5.2vw,78px)}  /* "Measured against anywhere." fits one line */
   .hs--story .wrap{position:static}
   .hs-seal{position:absolute;--s:clamp(320px,40vw,600px);width:var(--s);height:var(--s);top:50%;
-    right:calc(var(--s) * -0.38);transform:translateY(-50%) rotate(-8deg)}
+    right:calc(var(--s) * -0.38);translate:0 -50%}
 }
 @media(max-width:899px){
   .hs-items{grid-template-columns:1fr;gap:28px}
@@ -421,6 +426,6 @@ a.atc{display:block;text-align:center}
   .hs-lead{margin:0}
   .hs-text{grid-column:2;margin-top:8px}
   .hs--standard .hs-link{margin-top:40px}
-  .hs-seal{width:62vw;height:auto;margin:48px 0 calc(var(--pad) * -1) auto;transform:translate(30%,22%) rotate(-8deg)}
+  .hs-seal{width:62vw;height:auto;margin:48px 0 calc(var(--pad) * -1) auto;translate:30% 22%}
 }
 @media(max-width:599px){.br-d{display:none}}
