@@ -464,13 +464,9 @@ function sizeGuideHTML() {
       Guessing isn't a size guide.</p>
       <p class="acc__p mono small">Cut: oversized · drop shoulder · boxy</p>`;
   }
-  const cols = chart.columns;
-  return `
-    <table class="sizetable">
-      <thead><tr><th class="mono">Size</th>${cols.map(c => `<th class="mono">${esc(c)}</th>`).join('')}</tr></thead>
-      <tbody>${chart.rows.map(r => `<tr><th class="mono">${esc(r.size)}</th>${r.values.map(v => `<td>${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody>
-    </table>
-    <p class="acc__p mono small">Garment measurements in ${esc(g.sizeChartUnit || 'in')}, laid flat.</p>`;
+  return `${M.sizeTableHTML(g)}
+    <p class="acc__p acc__p--tight">Oversized and boxy with a dropped shoulder. Take your usual size for the oversized look, or one down if you like it closer.</p>
+    <a class="linkish mono sct__more" href="/size-guide">How to measure →</a>`;
 }
 
 function wireSizeSheet() {

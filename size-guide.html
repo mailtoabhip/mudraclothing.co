@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Saira:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/styles.css?v=03633bbc">
+<link rel="stylesheet" href="/assets/css/styles.css?v=747673c8">
 <link rel="stylesheet" href="/assets/css/pages.css?v=001841f6">
 </head>
 <body class="is-page page-size-guide">
@@ -53,12 +53,13 @@
     </div>
 
     <section class="sg__chart">
-      <div class="sg__head"><span class="mono">Measurements</span><span class="mono" id="sgUnit"></span></div>
-      <div id="sgChart" class="sg__table">
-        <div class="sg__pending">
-          <p>We're measuring the samples ourselves before we publish numbers. Guessing isn't a size guide.</p>
-          <p class="mono small">Chart lands here once the first samples arrive.</p>
+      <div class="sct" data-unit="in">
+        <div class="sct__bar">
+          <span class="mono">Garment measurements · <span data-unit-label>inches</span></span>
+          <div class="sct__units mono" role="group" aria-label="Units"><button type="button" data-unit-btn="in" aria-pressed="true">in</button><button type="button" data-unit-btn="cm" aria-pressed="false">cm</button></div>
         </div>
+        <div class="sct__scroll"><table class="sct__t"><thead><tr><th scope="col">Size</th><th scope="col"><span class="sct__mk">A</span>Chest<small>all the way round</small></th><th scope="col"><span class="sct__mk">B</span>Length</th><th scope="col"><span class="sct__mk">C</span>Shoulder</th><th scope="col"><span class="sct__mk">D</span>Sleeve</th></tr></thead><tbody><tr><th scope="row">S</th><td data-in="42">42</td><td data-in="27.5">27.5</td><td data-in="20">20</td><td data-in="8.5">8.5</td></tr><tr><th scope="row">M</th><td data-in="44">44</td><td data-in="28">28</td><td data-in="21">21</td><td data-in="9">9</td></tr><tr><th scope="row">L</th><td data-in="46">46</td><td data-in="28.5">28.5</td><td data-in="22">22</td><td data-in="9.5">9.5</td></tr><tr><th scope="row">XL</th><td data-in="48">48</td><td data-in="29">29</td><td data-in="23">23</td><td data-in="10">10</td></tr><tr><th scope="row">XXL</th><td data-in="50">50</td><td data-in="29.5">29.5</td><td data-in="24">24</td><td data-in="10.5">10.5</td></tr></tbody></table></div>
+        <p class="sct__note">Chest is measured all the way round. To compare with a tee you own, lay it flat, measure armpit to armpit and double it. Supplier measurements, ±1 in. We re-check them on our own samples.</p>
       </div>
     </section>
 
@@ -67,7 +68,7 @@
         <h2>HOW TO MEASURE</h2>
         <p>The quickest way to pick a size: take a tee you already like the fit of, lay it flat, and compare.</p>
         <ol class="sg__steps">
-          <li><span class="mono">A · Chest</span>Straight across, armpit to armpit.</li>
+          <li><span class="mono">A · Chest</span>Straight across, armpit to armpit, then double it. The chart gives the chest all the way round.</li>
           <li><span class="mono">B · Length</span>From the highest point of the shoulder, straight down to the hem.</li>
           <li><span class="mono">C · Shoulder</span>Seam to seam across the back. On a drop shoulder, the seam sits past your actual shoulder.</li>
           <li><span class="mono">D · Sleeve</span>From the shoulder seam to the sleeve hem.</li>
@@ -86,7 +87,7 @@
     </section>
 
     <section class="sg__fit">
-      <div class="spec"><span class="mono">Fit</span><p>Boxy and relaxed through the body. The shoulder seam sits down the arm on purpose.</p></div>
+      <div class="spec"><span class="mono">Fit</span><p>Unisex, boxy and relaxed through the body. The shoulder seam sits down the arm on purpose. Take your usual size, or one down for a closer fit.</p></div>
       <div class="spec"><span class="mono">Want it fitted?</span><p>This isn't that tee. We won't be offended.</p></div>
       <div class="spec"><span class="mono">Still unsure</span><p>Email <a href="mailto:abhijeet.designmail@gmail.com">abhijeet.designmail@gmail.com</a> with your height and usual size.</p></div>
     </section>
@@ -123,7 +124,7 @@
 </footer>
 <!-- footer:end -->
 
-<script src="/assets/js/shop.js?v=43ba4036" defer></script>
-<script src="/assets/js/pages.js?v=5ee77949" defer></script>
+<script src="/assets/js/shop.js?v=8ae3634c" defer></script>
+<script src="/assets/js/pages.js?v=86c966b0" defer></script>
 </body>
 </html>

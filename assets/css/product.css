@@ -122,6 +122,7 @@ body.is-pdp{padding-bottom:0}
 .acc details>*:not(summary){margin-top:0}
 .acc__p{margin:0 0 16px;font-size:14.5px;line-height:1.55;max-width:48ch}
 .acc__p.small,.small{font-size:10px;color:var(--ash)}
+.acc__p--tight{margin-top:14px}
 .acc__list{margin:0 0 16px;padding-left:18px;font-size:14.5px;line-height:1.7}
 .spec-dl{margin:0 0 16px;display:grid;gap:0}
 .spec-dl>div{display:grid;grid-template-columns:20px 74px 1fr;gap:12px;align-items:start;padding:10px 0;border-top:1px dashed var(--line)}

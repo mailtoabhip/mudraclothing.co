@@ -157,6 +157,29 @@ def drop_tokens(text):
     return out
 
 
+def size_chart_html():
+    """Static copy of sizeTableHTML() in assets/js/shop.js, from data/products.json."""
+    import json
+    g = json.loads((ROOT / "data/products.json").read_text(encoding="utf-8")).get("garment", {})
+    c = g.get("sizeChart")
+    if not c or not c.get("rows"):
+        return ('<div class="sg__pending"><p>We\'re measuring the samples ourselves before we publish numbers. '
+                'Guessing isn\'t a size guide.</p></div>')
+    fmt = lambda v: str(int(v)) if float(v).is_integer() else f"{v:.1f}"
+    head = "".join(f'<th scope="col"><span class="sct__mk">{html.escape(col["mark"])}</span>{html.escape(col["label"])}'
+                   + (f'<small>{html.escape(col["sub"])}</small>' if col.get("sub") else "") + "</th>" for col in c["columns"])
+    rows = "".join(f'<tr><th scope="row">{html.escape(r["size"])}</th>'
+                   + "".join(f'<td data-in="{v}">{fmt(v)}</td>' for v in r["values"]) + "</tr>" for r in c["rows"])
+    return f"""<div class="sct" data-unit="in">
+        <div class="sct__bar">
+          <span class="mono">Garment measurements · <span data-unit-label>inches</span></span>
+          <div class="sct__units mono" role="group" aria-label="Units"><button type="button" data-unit-btn="in" aria-pressed="true">in</button><button type="button" data-unit-btn="cm" aria-pressed="false">cm</button></div>
+        </div>
+        <div class="sct__scroll"><table class="sct__t"><thead><tr><th scope="col">Size</th>{head}</tr></thead><tbody>{rows}</tbody></table></div>
+        <p class="sct__note">Chest is measured all the way round. To compare with a tee you own, lay it flat, measure armpit to armpit and double it. Supplier measurements, ±1 in. We re-check them on our own samples.</p>
+      </div>"""
+
+
 SITE_TOKENS = {"email": CONTACT_EMAIL, "legal_name": LEGAL_NAME, "brand": BRAND,
                "instagram": INSTAGRAM_HANDLE, "instagram_url": INSTAGRAM_URL}
 
@@ -164,6 +187,8 @@ SITE_TOKENS = {"email": CONTACT_EMAIL, "legal_name": LEGAL_NAME, "brand": BRAND,
 def site_tokens(text):
     """Fill {{email}}, {{legal_name}}, {{brand}}, {{instagram}}, {{instagram_url}} from
     site_config.py. Until the mailbox is live, the visible address is marked .tbd."""
+    if "{{size_chart}}" in text:
+        text = text.replace("{{size_chart}}", size_chart_html())
     out = re.sub(r"\{\{(email|legal_name|brand|instagram|instagram_url)\}\}", lambda m: SITE_TOKENS[m.group(1)], text)
     assert "{{" not in out, "unknown {{token}} in a page source"
     if not MAILBOX_LIVE:

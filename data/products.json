@@ -1,7 +1,7 @@
 {
   "currency": "INR",
   "garment": {
-    "_note": "Shared product-page copy (Marketing, 9 Oct). Fabric and weight are the SUPPLIER spec (Merch Factory), not yet checked on a physical sample: re-verify when samples arrive. sizeChart stays null until measured on a real sample: never paste guessed numbers. 'icon' names a symbol in assets/svg/sprite.svg (i-<icon>).",
+    "_note": "Shared product-page copy (Marketing, 9 Oct). Fabric and weight are the SUPPLIER spec (Merch Factory), not yet checked on a physical sample: re-verify when samples arrive. sizeChart is the SUPPLIER chart (Merch Factory, unisex drop-shoulder oversized), inches, chest all the way round, ±1 in. Re-measure on our own samples and replace if it differs; never paste guessed numbers. 'icon' names a symbol in assets/svg/sprite.svg (i-<icon>).",
     "details": [
       {
         "icon": "fabric",
@@ -45,7 +45,76 @@
       }
     ],
     "printMethod": "Every design is printed with DTF, short for direct-to-film. The artwork is printed onto a thin film first, then pressed into the cotton with heat. It lets us print sharp lines, small text and bright colours on dark fabric, which is most of what we do.",
-    "sizeChart": null,
+    "sizeChart": {
+      "source": "supplier",
+      "tolerance": 1,
+      "columns": [
+        {
+          "mark": "A",
+          "label": "Chest",
+          "sub": "all the way round"
+        },
+        {
+          "mark": "B",
+          "label": "Length"
+        },
+        {
+          "mark": "C",
+          "label": "Shoulder"
+        },
+        {
+          "mark": "D",
+          "label": "Sleeve"
+        }
+      ],
+      "rows": [
+        {
+          "size": "S",
+          "values": [
+            42,
+            27.5,
+            20,
+            8.5
+          ]
+        },
+        {
+          "size": "M",
+          "values": [
+            44,
+            28,
+            21,
+            9
+          ]
+        },
+        {
+          "size": "L",
+          "values": [
+            46,
+            28.5,
+            22,
+            9.5
+          ]
+        },
+        {
+          "size": "XL",
+          "values": [
+            48,
+            29,
+            23,
+            10
+          ]
+        },
+        {
+          "size": "XXL",
+          "values": [
+            50,
+            29.5,
+            24,
+            10.5
+          ]
+        }
+      ]
+    },
     "sizeChartUnit": "in",
     "care": [
       {

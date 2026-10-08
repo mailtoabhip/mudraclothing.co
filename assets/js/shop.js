@@ -593,13 +593,49 @@ function initBag() {
   return Promise.resolve(null);
 }
 
+/* ---------- size chart (garment.sizeChart in products.json) ----------
+   Same markup as the static table build_pages.py writes into /size-guide.
+   Cells carry data-in; the in/cm buttons rewrite them in place. */
+const fmtIn = v => (Number.isInteger(v) ? String(v) : v.toFixed(1));
+const toCm = v => String(Math.round(v * 2.54));
+function sizeTableHTML(g) {
+  const c = g && g.sizeChart;
+  if (!c || !c.rows?.length) return '';
+  const head = c.columns.map(col => `<th scope="col"><span class="sct__mk">${esc(col.mark)}</span>${esc(col.label)}${col.sub ? `<small>${esc(col.sub)}</small>` : ''}</th>`).join('');
+  const rows = c.rows.map(r => `<tr><th scope="row">${esc(r.size)}</th>${r.values.map(v => `<td data-in="${v}">${fmtIn(v)}</td>`).join('')}</tr>`).join('');
+  return `
+    <div class="sct" data-unit="in">
+      <div class="sct__bar">
+        <span class="mono">Garment measurements · <span data-unit-label>inches</span></span>
+        <div class="sct__units mono" role="group" aria-label="Units">
+          <button type="button" data-unit-btn="in" aria-pressed="true">in</button><button type="button" data-unit-btn="cm" aria-pressed="false">cm</button>
+        </div>
+      </div>
+      <div class="sct__scroll"><table class="sct__t"><thead><tr><th scope="col">Size</th>${head}</tr></thead><tbody>${rows}</tbody></table></div>
+      <p class="sct__note">${esc("Chest is measured all the way round. To compare with a tee you own, lay it flat, measure armpit to armpit and double it. Supplier measurements, \u00b11 in. We re-check them on our own samples.")}</p>
+    </div>`;
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-unit-btn]');
+  if (!b) return;
+  const unit = b.dataset.unitBtn;
+  // every chart on the page follows, so the sheet and the accordion agree
+  document.querySelectorAll('.sct').forEach(t => {
+    t.dataset.unit = unit;
+    t.querySelectorAll('td[data-in]').forEach(td => { const v = parseFloat(td.dataset.in); td.textContent = unit === 'cm' ? toCm(v) : fmtIn(v); });
+    t.querySelectorAll('[data-unit-btn]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.unitBtn === unit)));
+    const l = t.querySelector('[data-unit-label]'); if (l) l.textContent = unit === 'cm' ? 'centimetres' : 'inches';
+    const n = t.querySelector('.sct__note'); if (n) n.textContent = n.textContent.replace(unit === 'cm' ? '±1 in' : '±2.5 cm', unit === 'cm' ? '±2.5 cm' : '±1 in');
+  });
+});
+
 window.Mudra = {
   SHOPIFY, SIZES, ACCOUNT_URL, CART_URL, ShopError, ORDERING, isPreorder, arrivalRange,
   loadDrop, dropPhase, dropDates, saleState, canBuy, inDrop, closesIn, checkoutBlock, downloadIcs,
   tickerItems, heroTag, codNow, lineNote, get drop() { return DROP; },
   productUrl, productIdFromUrl, loadCatalogue, loadSprite, sellableColours,
   money, priceView, esc, wireHeader, renderBag, initBag, addToBag, flash,
-  liveProduct, cart, sf,
+  liveProduct, cart, sf, sizeTableHTML,
 };
 
 })();

@@ -14,7 +14,6 @@ async function init() {
   const [, data] = await Promise.all([M.loadSprite(), needsData ? M.loadCatalogue() : null]);
   M.initBag();
   if (data) {
-    renderSizeChart(data.garment || {});
     renderPicks(data.products || []);
   }
 }
@@ -45,18 +44,8 @@ function wireToc() {
   document.querySelectorAll('.doc__body h2[id]').forEach(h => io.observe(h));
 }
 
-/* size guide: real numbers only, from products.json → garment.sizeChart */
-function renderSizeChart(g) {
-  const box = document.getElementById('sgChart');
-  const chart = g.sizeChart;
-  if (!box || !chart || !chart.rows?.length) return;
-  document.getElementById('sgUnit').textContent = `Garment, laid flat · ${g.sizeChartUnit || 'in'}`;
-  box.innerHTML = `
-    <table class="sgt">
-      <thead><tr><th>Size</th>${chart.columns.map(c => `<th>${esc(c)}</th>`).join('')}</tr></thead>
-      <tbody>${chart.rows.map(r => `<tr><th>${esc(r.size)}</th>${r.values.map(v => `<td>${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody>
-    </table>`;
-}
+/* size guide: the chart is written into the page at build time (build_pages.py,
+   {{size_chart}}); the in/cm switch lives in shop.js */
 
 /* 404: four tees that do exist */
 function renderPicks(products) {

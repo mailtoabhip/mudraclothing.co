@@ -440,3 +440,30 @@ a.atc{display:block;text-align:center}
   .hs-seal{width:62vw;height:auto;margin:48px 0 calc(var(--pad) * -1) auto;translate:30% 22%}
 }
 @media(max-width:599px){.br-d{display:none}}
+
+/* size chart (size guide page + product pages) */
+.sct{margin:0}
+.sct__bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px 12px;padding-bottom:12px;border-bottom:1px solid var(--fg)}
+.sct__bar>.mono{color:var(--ash)}
+.sct__units{display:inline-flex;border:1px solid var(--fg)}
+.sct__units button{font:inherit;letter-spacing:.14em;text-transform:uppercase;background:none;border:0;color:var(--fg);padding:6px 11px;cursor:pointer;min-width:42px}
+.sct__units button+button{border-left:1px solid var(--fg)}
+.sct__units button[aria-pressed="true"]{background:var(--fg);color:var(--paper)}
+.sct__units button:hover[aria-pressed="false"]{color:var(--blue)}
+.sct__scroll{overflow-x:auto}
+.sct__t{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.sct__t th,.sct__t td{text-align:left;padding:14px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+.sct__t thead th{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash);font-weight:400;vertical-align:bottom}
+.sct__t thead th small{display:block;font-size:9px;letter-spacing:.08em;text-transform:none;margin-top:3px}
+.sct__mk{display:inline-grid;place-items:center;width:16px;height:16px;border:1px solid var(--blue);color:var(--blue);font-size:9px;margin-right:7px;letter-spacing:0;vertical-align:1px}
+.sct__t tbody th{font-family:var(--mono);font-size:13px;font-weight:700;width:18%}
+.sct__t td{font-size:16px}
+.sct__t tbody tr:hover{background:var(--paper-2)}
+.sct__t tbody tr:hover th{color:var(--blue)}
+.sct__note{font-size:13.5px;line-height:1.55;color:var(--ash);margin:12px 0 0;max-width:62ch}
+.sct__more{display:inline-block;margin:4px 0 16px}
+@media(max-width:600px){
+  .sct__t th,.sct__t td{padding:12px 6px}
+  .sct__t td{font-size:15px}
+  .sct__mk{display:none}
+}
