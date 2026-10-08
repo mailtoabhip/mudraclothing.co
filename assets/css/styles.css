@@ -70,6 +70,14 @@ header.scrolled nav a:hover{color:var(--blue)}
 header.scrolled .cart{border-color:var(--line-strong);color:var(--fg)}
 header.scrolled .cart:hover{color:var(--on-blue)}
 @media(max-width:820px){nav{display:none}}
+/* account icon to the right of the bag (Shopify customer account: orders, profile) */
+.hacts{display:flex;align-items:stretch;gap:8px}
+.acct{display:inline-flex;align-items:center;justify-content:center;width:34px;
+  border:1px solid rgba(237,233,224,.45);color:var(--paper);
+  transition:background .2s ease-out,border-color .25s ease-out,color .25s ease-out}
+.acct:hover,.acct:focus-visible{background:var(--blue);border-color:var(--blue);color:var(--on-blue)}
+header.scrolled .acct{border-color:var(--line-strong);color:var(--fg)}
+header.scrolled .acct:hover,header.scrolled .acct:focus-visible{border-color:var(--blue);color:var(--on-blue)}
 /* "Shop for" dropdown in the header nav. Opens on hover and focus-within with
    CSS alone; shop.js adds .js and takes over (touch, Escape, aria-expanded). */
 header nav{align-self:stretch;align-items:center}

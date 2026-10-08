@@ -127,7 +127,7 @@ SHELL = """<!DOCTYPE html>
       <svg class="logo" viewBox="0 0 2906 825" preserveAspectRatio="xMinYMid meet" role="img" aria-label="Mudra"><use href="#logo"/></svg>
     </a>
     <nav class="mainnav">{nav}</nav>
-    <a class="cart" href="/cart">Bag (0)</a>
+    <div class="hacts"><a class="cart" href="/cart">Bag (0)</a><a class="acct" href="{account}" aria-label="Your account: orders and profile" title="Account"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg></a></div>
   </div>
 </header>
 
@@ -233,7 +233,7 @@ def build():
             title_tag=html.escape(f"{meta.get('pagetitle') or html.unescape(re.sub(r'<[^>]+>', ' ', title)).strip()} · {BRAND}".replace("  ", " "), quote=True),
             description=html.escape(meta.get("description", ""), quote=True),
             robots='<meta name="robots" content="noindex">\n' if slug == "404" else "",
-            slug=slug, nav=nav, body=body, footer=footer,
+            slug=slug, nav=nav, body=body, footer=footer, account=ACCOUNT,
             pblock="" if bare else PBLOCK.format(accent=meta.get("accent", "blue"),
                                                  kicker=meta.get("kicker", ""), updated=updated, title=title),
             fonts=f"&family={meta['fonts']}" if meta.get("fonts") else "",
