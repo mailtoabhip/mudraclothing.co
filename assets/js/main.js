@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Mudra Clothing Company: catalogue (home page)
+   Mudra: catalogue (home page)
    Renders the grid from data/products.json. Shared plumbing lives in shop.js.
    ========================================================================== */
 

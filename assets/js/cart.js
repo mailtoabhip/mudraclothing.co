@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Mudra Clothing Company: /cart
+   Mudra: /cart
    Renders the Storefront API cart. Checkout is Shopify's, via cart.checkoutUrl.
    ========================================================================== */
 

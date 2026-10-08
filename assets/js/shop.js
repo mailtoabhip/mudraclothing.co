@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Mudra Clothing Company: shared storefront plumbing
+   Mudra: shared storefront plumbing
    Loaded by every page before its own script. Exposes window.Mudra.
    Cart + checkout talk to the Shopify Storefront API directly (fetch, no SDK).
    ========================================================================== */
@@ -100,9 +100,9 @@ function loadDrop() {
   return dropPromise;
 }
 
-const LIVE_HOST = 'mudraclothing-co.vercel.app';
+const LIVE_HOSTS = ['wearmudra.in', 'www.wearmudra.in', 'mudraclothing-co.vercel.app'];
 // ?phase= is for testing: localhost or a Vercel preview URL only
-const canForcePhase = isLocal || (/\.vercel\.app$/.test(location.hostname) && location.hostname !== LIVE_HOST);
+const canForcePhase = isLocal || (/\.vercel\.app$/.test(location.hostname) && !LIVE_HOSTS.includes(location.hostname));
 
 // the day after shipsBy, 00:00 IST
 const launchTime = d => new Date(`${d.shipsBy}T00:00:00+05:30`).getTime() + 864e5;
@@ -169,16 +169,16 @@ function downloadIcs(productName) {
   const slug = DROP.name.replace(/\s+/g, '-').toLowerCase();
   const pid = productIdFromUrl();
   const lines = [
-    'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Mudra Clothing Company//Drop//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
+    'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Mudra//Drop//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
     'BEGIN:VEVENT',
     `UID:${slug}-opens@mudrastudios`,
     `DTSTAMP:${stamp(Date.now())}`,
     `DTSTART:${stamp(start)}`,
     `DTEND:${stamp(start + 36e5)}`,
-    `SUMMARY:Mudra Clothing Company: pre-orders open`,
+    `SUMMARY:Mudra: pre-orders open`,
     `DESCRIPTION:${productName ? productName + '. ' : ''}Pre-orders run ${d.opensShort} to ${d.closesShort}. Ships by ${d.shipsShort}.`,
     `URL:${location.origin}${pid ? productUrl(pid) : '/'}`,
-    'BEGIN:VALARM', 'TRIGGER:-PT15M', 'ACTION:DISPLAY', 'DESCRIPTION:Mudra Clothing Company pre-orders open soon', 'END:VALARM',
+    'BEGIN:VALARM', 'TRIGGER:-PT15M', 'ACTION:DISPLAY', 'DESCRIPTION:Mudra pre-orders open soon', 'END:VALARM',
     'END:VEVENT', 'END:VCALENDAR',
   ];
   const blob = new Blob([lines.join('\r\n') + '\r\n'], { type: 'text/calendar;charset=utf-8' });

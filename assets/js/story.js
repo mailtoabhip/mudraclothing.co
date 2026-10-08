@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Mudra Clothing Company: Our Story (/about)
+   Mudra: Our Story (/about)
    Small scroll-driven touches. The page reads fine without any of this:
    .js-st on <html> is what arms the "before" states in story.css.
    ========================================================================== */

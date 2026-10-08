@@ -21,7 +21,7 @@ Product/Offer price data is only emitted while checkout is switched on
 """
 import datetime, html, json, os, pathlib, re, subprocess
 
-from site_config import (SITE_URL, SITE_NAME, CONTACT_EMAIL, INSTAGRAM_URL, OG_IMAGE,
+from site_config import (SITE_URL, SITE_NAME, BRAND, LEGAL_NAME, CONTACT_EMAIL, INSTAGRAM_URL, OG_IMAGE,
                          PREORDER_MIN_DAYS, PREORDER_MAX_DAYS)
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -115,7 +115,7 @@ def hero_tag():
             "closed": "Printing now"}.get(ph, launched)
 
 
-HOME_TITLE = "Mudra Clothing Company | Oversized graphic t-shirts, designed in India"
+HOME_TITLE = "Oversized graphic t-shirts, designed in India · Mudra"
 HOME_DESC = ("Oversized graphic tees with a clean front and a loud back. Food, city, Y2K, "
              "gym, travel and tarot designs, made in India. Free shipping, "
              "cash on delivery.")
@@ -224,7 +224,8 @@ def organization():
     org = {
         "@type": "Organization",
         "@id": url("/#org"),
-        "name": SITE_NAME,
+        "name": LEGAL_NAME,
+        "alternateName": BRAND,
         "url": url("/"),
         "logo": url("/assets/favicon/icon-512.png"),
         "email": CONTACT_EMAIL,
@@ -246,7 +247,7 @@ def product_ld(p, offers):
         "description": blurb(p),
         "url": url(f"/p/{p['id']}"),
         "image": [url("/" + m["src"]) for m in shots],
-        "brand": {"@type": "Brand", "name": SITE_NAME},
+        "brand": {"@type": "Brand", "name": BRAND},
         "category": "Apparel & Accessories > Clothing > Shirts & Tops",
         "productID": p["id"],
         "size": [s["size"] for s in p["sizes"]],
@@ -314,7 +315,7 @@ def head_tags(title, desc, path, image, og_type="website", extra=""):
         f'<meta name="description" content="{e(desc)}">',
         f'<link rel="canonical" href="{e(url(path))}">',
         f'<meta property="og:type" content="{og_type}">',
-        f'<meta property="og:site_name" content="{SITE_NAME}">',
+        f'<meta property="og:site_name" content="{BRAND}">',
         '<meta property="og:locale" content="en_IN">',
         f'<meta property="og:title" content="{e(title)}">',
         f'<meta property="og:description" content="{e(desc)}">',
@@ -481,7 +482,7 @@ def build_home(products):
     s = f.read_text(encoding="utf-8")
     graph = {"@context": "https://schema.org", "@graph": [
         organization(),
-        {"@type": "WebSite", "@id": url("/#site"), "name": SITE_NAME, "url": url("/"),
+        {"@type": "WebSite", "@id": url("/#site"), "name": BRAND, "url": url("/"),
          "inLanguage": "en-IN", "publisher": {"@id": url("/#org")}},
         {"@type": "ItemList", "name": "The tees", "numberOfItems": len(products),
          "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": url(f"/p/{p['id']}"),
@@ -515,7 +516,7 @@ def build_products(products, offers):
     keep = set()
     for p in products:
         shots = gallery_shots(p)
-        title = f"{p['name']} Oversized T-Shirt | {SITE_NAME}"
+        title = f"{p['name']} Oversized T-Shirt · {BRAND}"
         desc = product_desc(p)
         extra = jsonld(product_ld(p, offers)) + "\n" + jsonld(breadcrumb_ld(p))
         s = put_head(template, head_tags(title, desc, f"/p/{p['id']}",

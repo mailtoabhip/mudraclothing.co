@@ -28,7 +28,7 @@ The shared footer is also written into index.html and product.html between
 import html, pathlib, re, sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-from site_config import SITE_URL, OG_IMAGE
+from site_config import SITE_URL, OG_IMAGE, BRAND, LEGAL_NAME, CONTACT_EMAIL, MAILBOX_LIVE, INSTAGRAM_URL, INSTAGRAM_HANDLE
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / "_src" / "pages"
@@ -52,11 +52,12 @@ FOOTER = """<!-- footer:start -->
       <div class="fbrand">
         <svg class="seal" viewBox="0 0 825 825" preserveAspectRatio="xMinYMid meet" aria-hidden="true"><use href="#seal"/></svg>
         <p>Oversized tees, designed in-house and made in India.</p>
+        <p class="fcontact"><a href="mailto:{{{{email}}}}">{{{{email}}}}</a><br><a href="{{{{instagram_url}}}}" target="_blank" rel="noopener">{{{{instagram}}}}</a></p>
       </div>
 {cols}
     </div>
     <div class="fbot">
-      <span>© 2026 Mudra Clothing Company</span>
+      <span>© 2026 {{{{legal_name}}}}</span>
       <span>The rest is between you and your mirror.</span>
     </div>
   </div>
@@ -69,7 +70,7 @@ def footer_html():
     for head, links in FOOTER_COLS:
         lis = "".join(f'<li><a href="{h}">{t}</a></li>' for h, t in links)
         cols.append(f"      <div>\n        <h4>{head}</h4>\n        <ul>{lis}</ul>\n      </div>")
-    return FOOTER.format(cols="\n".join(cols))
+    return site_tokens(FOOTER.format(cols="\n".join(cols)))
 
 
 PBLOCK = """  <section class="pblock pblock--{accent}">
@@ -99,7 +100,7 @@ SHELL = """<!DOCTYPE html>
 <meta name="description" content="{description}">
 <link rel="canonical" href="{canonical}">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Mudra Clothing Company">
+<meta property="og:site_name" content="Mudra">
 <meta property="og:locale" content="en_IN">
 <meta property="og:title" content="{title_tag}">
 <meta property="og:description" content="{description}">
@@ -123,7 +124,7 @@ SHELL = """<!DOCTYPE html>
 <header class="scrolled solid">
   <div class="wrap bar">
     <a class="brand" href="/">
-      <svg class="logo" viewBox="0 0 2906 825" preserveAspectRatio="xMinYMid meet" role="img" aria-label="Mudra Clothing Company"><use href="#logo"/></svg>
+      <svg class="logo" viewBox="0 0 2906 825" preserveAspectRatio="xMinYMid meet" role="img" aria-label="Mudra"><use href="#logo"/></svg>
     </a>
     <nav class="mainnav">{nav}</nav>
     <a class="cart" href="/cart">Bag (0)</a>
@@ -153,7 +154,20 @@ def drop_tokens(text):
     vals = {"drop_name": d["name"], "drop_opens": d["opens_short"], "drop_closes": d["closes_short"],
             "drop_ships": d["ships_short"], "drop_ships_long": d["ships_long"]}
     out = re.sub(r"\{\{(drop_\w+)\}\}", lambda m: vals[m.group(1)], text)
+    return out
+
+
+SITE_TOKENS = {"email": CONTACT_EMAIL, "legal_name": LEGAL_NAME, "brand": BRAND,
+               "instagram": INSTAGRAM_HANDLE, "instagram_url": INSTAGRAM_URL}
+
+
+def site_tokens(text):
+    """Fill {{email}}, {{legal_name}}, {{brand}}, {{instagram}}, {{instagram_url}} from
+    site_config.py. Until the mailbox is live, the visible address is marked .tbd."""
+    out = re.sub(r"\{\{(email|legal_name|brand|instagram|instagram_url)\}\}", lambda m: SITE_TOKENS[m.group(1)], text)
     assert "{{" not in out, "unknown {{token}} in a page source"
+    if not MAILBOX_LIVE:
+        out = re.sub(r'(?<!class="tbd")>' + re.escape(CONTACT_EMAIL) + '<', f'><span class="tbd">{CONTACT_EMAIL}</span><', out)
     return out
 
 
@@ -216,7 +230,7 @@ def build():
         updated = f'<span>Updated {meta["updated"]}</span>' if meta.get("updated") else ""
         title = meta["title"]
         page = SHELL.format(
-            title_tag=html.escape(f"{meta.get('pagetitle') or html.unescape(re.sub(r'<[^>]+>', ' ', title)).strip()} · Mudra Clothing Company".replace("  ", " "), quote=True),
+            title_tag=html.escape(f"{meta.get('pagetitle') or html.unescape(re.sub(r'<[^>]+>', ' ', title)).strip()} · {BRAND}".replace("  ", " "), quote=True),
             description=html.escape(meta.get("description", ""), quote=True),
             robots='<meta name="robots" content="noindex">\n' if slug == "404" else "",
             slug=slug, nav=nav, body=body, footer=footer,
@@ -229,6 +243,7 @@ def build():
             canonical=SITE_URL.rstrip("/") + ("/" if slug == "404" else f"/{slug}"),
             og_image=SITE_URL.rstrip("/") + OG_IMAGE,
         )
+        page = site_tokens(page)
         out = ROOT / meta.get("out", f"{slug}.html")
         # keep existing ?v= hashes stable; fingerprint.py rewrites them
         if out.exists():
