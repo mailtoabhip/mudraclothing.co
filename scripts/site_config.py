@@ -5,9 +5,10 @@
 # points at Vercel. Also change mudra_site in the Shopify redirect theme
 # (snippets/mudra-redirect.liquid). Then run:
 #   python3 scripts/build_pages.py && python3 scripts/fingerprint.py
-# HELD (8 Oct 2026): wearmudra.in has no DNS yet. Switch to "https://wearmudra.in"
-# only when it serves this site.
-SITE_URL = "https://mudraclothing-co.vercel.app"
+# 8 Oct 2026: wearmudra.shop is live on Vercel. The bare domain 308-redirects to www,
+# so www is the canonical address. If Vercel is set the other way round, follow it.
+# (mudraclothing-co.vercel.app keeps working; wearmudra.in was never registered.)
+SITE_URL = "https://www.wearmudra.shop"
 
 # Names. BRAND in the logo, page titles and running copy; LEGAL_NAME in the
 # footer copyright, legal pages, business details and the Organization schema.

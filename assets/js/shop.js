@@ -100,7 +100,7 @@ function loadDrop() {
   return dropPromise;
 }
 
-const LIVE_HOSTS = ['wearmudra.in', 'www.wearmudra.in', 'mudraclothing-co.vercel.app'];
+const LIVE_HOSTS = ['wearmudra.shop', 'www.wearmudra.shop', 'mudraclothing-co.vercel.app'];
 // ?phase= is for testing: localhost or a Vercel preview URL only
 const canForcePhase = isLocal || (/\.vercel\.app$/.test(location.hostname) && !LIVE_HOSTS.includes(location.hostname));
 

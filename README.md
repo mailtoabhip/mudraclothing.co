@@ -174,9 +174,9 @@ one static page per product in `p/<id>.html` (served at `/p/<id>`), the home
 page head + pre-rendered grid, `sitemap.xml`, `robots.txt`, the default share
 image and the hero poster. Re-run it after any change to `data/products.json`.
 
-- Site address: `SITE_URL` in `scripts/site_config.py`. It's the vercel.app
-  address until wearmudra.in resolves. When the domain is live, change that
-  one line and rebuild. Every canonical, sitemap entry and share tag follows.
+- Site address: `SITE_URL` in `scripts/site_config.py`, now https://www.wearmudra.shop
+  (the bare domain redirects to www on Vercel). Every canonical, sitemap entry and
+  share tag follows it. mudraclothing-co.vercel.app still serves the same site.
 - Instagram: set `INSTAGRAM_URL` in the same file; it goes into the
   Organization structured data.
 - Price/stock structured data is only emitted while `SHOPIFY.enabled` is true.
