@@ -74,33 +74,33 @@
       "media": [
         {
           "type": "img",
-          "src": "assets/img/products/face-card-hanger-back.jpg",
-          "alt": "Face Card tee in maroon on a hanger against a white wall, back print"
+          "src": "assets/img/products/face-card-heart-hanger.jpg",
+          "alt": "Face Card tee in maroon on a hanger against a white wall, king card back print"
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-doorway-maroon.jpg",
+          "src": "assets/img/products/face-card-heart-doorway.jpg",
           "alt": "Face Card tee in maroon, full back print, standing in an old stone doorway"
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-walk.jpg",
-          "alt": "Face Card tee in maroon, spade chest print, walking down a tree-lined lane"
+          "src": "assets/img/products/face-card-heart-steps.jpg",
+          "alt": "Face Card tee in maroon, heart card chest print, seated on worn stone steps"
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-steps.jpg",
-          "alt": "Face Card tee in maroon, spade chest print, seated on worn stone steps"
+          "src": "assets/img/products/face-card-heart-walk.jpg",
+          "alt": "Face Card tee in maroon, heart card chest print, walking down a tree-lined lane"
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-mirror.jpg",
+          "src": "assets/img/products/face-card-heart-mirror.jpg",
           "alt": "Face Card tee in maroon, full back print, mirror selfie in a lamp-lit bedroom"
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-mirror-chest.jpg",
-          "alt": "Face Card tee in maroon, spade chest print, mirror selfie in a lamp-lit bedroom"
+          "src": "assets/img/products/face-card-heart-mirror-chest.jpg",
+          "alt": "Face Card tee in maroon, heart card chest print, mirror selfie in a lamp-lit bedroom"
         }
       ],
       "colours": [

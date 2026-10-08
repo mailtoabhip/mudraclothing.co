@@ -35,7 +35,9 @@ SRC = ROOT / "_src" / "pages"
 
 ACCOUNT = "https://shopify.com/73593618511/account"
 
-NAV = [("/#shop", "Shop all"), ("/size-guide", "Size guide"), ("/about", "About")]
+# header nav: the "Shop for" dropdown (same markup as index/product/cart.html), then plain links
+SHOP_FOR = ('<div class="shopfor"><button type="button" class="shopfor__btn" id="shopforBtn" aria-haspopup="true" aria-expanded="false" aria-controls="shopforMenu">Shop for<i class="shopfor__chev" aria-hidden="true"></i></button><div class="shopfor__pop" id="shopforMenu"><div class="shopfor__panel"><a class="shopfor__item shopfor__item--go" href="/#shop">Oversized t-shirts</a><span class="shopfor__item shopfor__item--soon" aria-disabled="true">T-shirts<em class="shopfor__badge">Coming soon</em></span></div></div></div>')
+NAV = [("/size-guide", "Size guide"), ("/about", "About")]
 
 FOOTER_COLS = [
     ("Shop", [("/#shop", "All tees"), ("/size-guide", "Size guide"), ("/track", "Track order"), (ACCOUNT, "Account")]),
@@ -203,7 +205,7 @@ def doc_body(meta, content):
 
 
 def build():
-    nav = "".join(f'<a href="{h}">{t}</a>' for h, t in NAV)
+    nav = SHOP_FOR + "".join(f'<a href="{h}">{t}</a>' for h, t in NAV)
     footer = footer_html()
     built = []
     for path in sorted(SRC.glob("*.html")):

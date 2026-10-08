@@ -417,6 +417,66 @@ function wireHeader({ solid = false } = {}) {
   sync();
 }
 
+/* ---------- header "Shop for" dropdown ---------------------------------- */
+// CSS opens it on hover/focus-within without JS; with JS, .is-open is the only
+// switch so Escape, outside taps and aria-expanded stay in sync.
+function wireShopFor() {
+  const box = document.querySelector('.shopfor');
+  if (!box) return;
+  const btn = box.querySelector('.shopfor__btn');
+  const go = box.querySelector('.shopfor__item--go');
+  const touch = matchMedia('(hover: none)').matches;
+  let quiet = false;                                  // ignore the focus we cause ourselves
+  box.classList.add('js');
+  const set = open => {
+    box.classList.toggle('is-open', open);
+    btn.setAttribute('aria-expanded', String(open));
+  };
+  const close = () => set(false);
+
+  box.addEventListener('pointerenter', e => { if (e.pointerType !== 'touch') set(true); });
+  box.addEventListener('pointerleave', e => { if (e.pointerType !== 'touch') close(); });
+  box.addEventListener('focusin', () => { if (!quiet && !touch) set(true); });
+  // focus leaving for somewhere outside closes it; a click on the non-focusable
+  // "T-shirts" row also drops focus (relatedTarget null) but the pointer is
+  // still over the menu, so that one doesn't count
+  box.addEventListener('focusout', e => {
+    if (box.contains(e.relatedTarget) || (!e.relatedTarget && box.matches(':hover'))) return;
+    close();
+  });
+  // Enter, Space and taps toggle. A mouse click lands after hover has already
+  // opened the menu, so for a mouse it only ever opens (a toggle would shut it).
+  let downType = '';
+  btn.addEventListener('pointerdown', e => { downType = e.pointerType; });
+  btn.addEventListener('click', e => {
+    const mouse = e.detail > 0 && (downType === 'mouse' || downType === 'pen');
+    downType = '';
+    set(mouse ? true : !box.classList.contains('is-open'));
+  });
+  box.addEventListener('keydown', e => {
+    if (e.key !== 'Escape' || !box.classList.contains('is-open')) return;
+    e.preventDefault();
+    close();
+    quiet = true; btn.focus(); quiet = false;
+  });
+  document.addEventListener('pointerdown', e => { if (!box.contains(e.target)) close(); });
+
+  // on the home page, glide to the tees instead of jumping (and leave room for the header)
+  go.addEventListener('click', e => {
+    const shop = document.getElementById('shop');
+    if (!shop) return;                                 // other pages: plain /#shop navigation
+    e.preventDefault();
+    close();
+    const head = document.querySelector('header');
+    const y = shop.getBoundingClientRect().top + scrollY - (head ? head.offsetHeight : 0);
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    scrollTo({ top: Math.max(0, y), behavior: reduce ? 'auto' : 'smooth' });
+    history.replaceState(null, '', '#shop');
+    quiet = true; go.blur(); quiet = false;
+  });
+}
+wireShopFor();   // shop.js is deferred on every page, so the header is already parsed
+
 /* ---------- bag count ------------------------------------------------- */
 
 // With Shopify off, a local counter survives page changes in this tab.

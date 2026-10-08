@@ -70,6 +70,37 @@ header.scrolled nav a:hover{color:var(--blue)}
 header.scrolled .cart{border-color:var(--line-strong);color:var(--fg)}
 header.scrolled .cart:hover{color:var(--on-blue)}
 @media(max-width:820px){nav{display:none}}
+/* "Shop for" dropdown in the header nav. Opens on hover and focus-within with
+   CSS alone; shop.js adds .js and takes over (touch, Escape, aria-expanded). */
+header nav{align-self:stretch;align-items:center}
+.shopfor{position:relative;align-self:stretch;display:flex;align-items:center}
+.shopfor__btn{display:inline-flex;align-items:center;gap:8px;padding:0;
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(237,233,224,.8);transition:color .25s ease-out}
+.shopfor__btn:hover{color:var(--paper)}
+header.scrolled .shopfor__btn{color:var(--ash)}
+header.scrolled .shopfor__btn:hover{color:var(--blue)}
+.shopfor__chev{width:6px;height:6px;border-right:1px solid currentColor;border-bottom:1px solid currentColor;
+  transform:translateY(-2px) rotate(45deg);transition:transform .16s cubic-bezier(.2,.7,.2,1)}
+/* the pop sits flush under the trigger's full-height box; its top padding (8px past the header line)
+   bridges down to the panel, so the pointer never crosses a gap */
+.shopfor__pop{position:absolute;top:100%;left:0;z-index:60;padding-top:9px;
+  opacity:0;visibility:hidden;transform:translateY(6px);
+  transition:opacity .16s cubic-bezier(.2,.7,.2,1),transform .16s cubic-bezier(.2,.7,.2,1),visibility 0s linear .16s}
+.shopfor:not(.js):hover .shopfor__pop,.shopfor:not(.js):focus-within .shopfor__pop,.shopfor.is-open .shopfor__pop{
+  opacity:1;visibility:visible;transform:none;transition-delay:0s}
+.shopfor:not(.js):hover .shopfor__chev,.shopfor:not(.js):focus-within .shopfor__chev,.shopfor.is-open .shopfor__chev{
+  transform:translateY(1px) rotate(225deg)}
+.shopfor__panel{min-width:240px;background:var(--paper);border:1px solid var(--line-strong)}
+header nav .shopfor__item{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 16px;
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+header nav .shopfor__item+.shopfor__item{border-top:1px solid var(--line)}
+header nav .shopfor__panel a.shopfor__item--go{color:var(--fg);transition:background .16s ease-out,color .16s ease-out}
+header nav .shopfor__panel a.shopfor__item--go:hover,header nav .shopfor__panel a.shopfor__item--go:focus-visible{background:var(--blue);color:var(--on-blue);outline:none}
+header nav .shopfor__item--soon{color:var(--ash);cursor:default;user-select:none}
+.shopfor__badge{font-style:normal;font-size:9px;letter-spacing:.14em;border:1px solid var(--ash);padding:3px 6px;color:var(--ash)}
+#shop{scroll-margin-top:var(--navh)}
+@media (prefers-reduced-motion:reduce){.shopfor__pop,.shopfor__chev,header nav .shopfor__item--go{transition:none}}
 
 /* hero */
 .hero{position:relative;overflow:hidden;background:var(--shirt);display:flex;align-items:center;
