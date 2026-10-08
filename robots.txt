@@ -4,4 +4,4 @@ Disallow: /cart
 Disallow: /product$
 Disallow: /product.html
 
-Sitemap: https://wearmudra.in/sitemap.xml
+Sitemap: https://mudraclothing-co.vercel.app/sitemap.xml

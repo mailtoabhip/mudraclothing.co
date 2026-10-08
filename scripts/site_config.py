@@ -5,7 +5,9 @@
 # points at Vercel. Also change mudra_site in the Shopify redirect theme
 # (snippets/mudra-redirect.liquid). Then run:
 #   python3 scripts/build_pages.py && python3 scripts/fingerprint.py
-SITE_URL = "https://wearmudra.in"
+# HELD (8 Oct 2026): wearmudra.in has no DNS yet. Switch to "https://wearmudra.in"
+# only when it serves this site.
+SITE_URL = "https://mudraclothing-co.vercel.app"
 
 # Names. BRAND in the logo, page titles and running copy; LEGAL_NAME in the
 # footer copyright, legal pages, business details and the Organization schema.
@@ -14,11 +16,14 @@ LEGAL_NAME = "Mudra Clothing Company"
 SITE_NAME = LEGAL_NAME   # kept for older imports
 
 # Customer email. Every page gets it from here ({{email}} in _src/pages).
-CONTACT_EMAIL = "hello@wearmudra.in"
+# HELD (8 Oct 2026): hello@wearmudra.in doesn't receive mail yet, so the working
+# Gmail stays. To switch: set "hello@wearmudra.in" and MAILBOX_LIVE = False, rebuild,
+# send a test email, then MAILBOX_LIVE = True and rebuild again.
+CONTACT_EMAIL = "abhijeet.designmail@gmail.com"
 # False until the mailbox exists and receives mail: the address is then marked
 # as a placeholder (.tbd, highlighted with body.review). Flip to True once a
 # test email to it arrives, then rebuild.
-MAILBOX_LIVE = False
+MAILBOX_LIVE = True   # the Gmail above works
 
 INSTAGRAM_HANDLE = "@wearmudra"
 INSTAGRAM_URL = "https://instagram.com/wearmudra"
