@@ -118,5 +118,18 @@
       "source": "/p/:id",
       "destination": "/product"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "mudraclothing-co.vercel.app"
+        }
+      ],
+      "destination": "https://www.wearmudra.shop/:path*",
+      "permanent": true
+    }
   ]
 }
