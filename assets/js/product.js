@@ -202,9 +202,15 @@ function renderBuy(p) {
             aria-pressed="${view.colour && c.key === view.colour.key}"></button>`).join('');
   const anyStock = p.sizes.some(s => s.available);
 
-  const details = (g.details || []).map(([k, v]) =>
-    `<div><dt class="mono">${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('');
-  const care = (g.care || []).map(c => `<li>${esc(c)}</li>`).join('');
+  // small line icons from the sprite (i-<name>), decorative: the label carries the meaning
+  const icon = n => (n ? `<svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#i-${esc(n)}"/></svg>` : '');
+  const details = (g.details || []).map(r => {
+    const [k, v, n] = Array.isArray(r) ? [r[0], r[1], ''] : [r.label, r.value, r.icon];
+    return `<div>${icon(n)}<dt class="mono">${esc(k)}</dt><dd>${esc(v)}</dd></div>`;
+  }).join('');
+  const care = (g.care || []).map(c => typeof c === 'string'
+    ? `<li>${esc(c)}</li>`
+    : `<li>${icon(c.icon)}<span>${esc(c.text)}</span></li>`).join('');
 
   $('#buy').innerHTML = `
     <div class="buy__top">
@@ -247,13 +253,19 @@ function renderBuy(p) {
         <summary class="mono">Details</summary>
         <dl class="spec-dl">${details}</dl>
       </details>
+      ${g.printMethod ? `
+      <details>
+        <summary class="mono">How the print is made</summary>
+        <p class="acc__p acc__p--ico">${icon('print')}<span>${esc(g.printMethod)}</span></p>
+      </details>` : ''}
       <details>
         <summary class="mono">Size &amp; fit</summary>
         <div class="acc__body" data-size-body></div>
       </details>
       <details>
         <summary class="mono">Care</summary>
-        <ul class="acc__list">${care}</ul>
+        <ul class="acc__list care-list">${care}</ul>
+        ${g.careNote ? `<p class="acc__p acc__note">${esc(g.careNote)}</p>` : ''}
       </details>
       <details>
         <summary class="mono">Shipping</summary>
@@ -263,6 +275,11 @@ function renderBuy(p) {
         <summary class="mono">Returns</summary>
         <p class="acc__p">${esc(g.returns || '')}</p>
       </details>
+      ${g.colourNote ? `
+      <details>
+        <summary class="mono">Colour note</summary>
+        <p class="acc__p acc__p--ico">${icon('screen')}<span>${esc(g.colourNote)}</span></p>
+      </details>` : ''}
     </div>`;
 
   // the "Take your usual size" hint is a fit claim; only show it once a chart exists

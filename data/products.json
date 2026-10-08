@@ -1,36 +1,76 @@
 {
   "currency": "INR",
   "garment": {
-    "_note": "Shared product-page copy. Everything under 'details' is the SUPPLIER spec (Merch Factory listing), not yet checked on a physical sample. Re-verify once samples arrive. sizeChart stays null until measured on a real sample: never paste guessed numbers.",
+    "_note": "Shared product-page copy (Marketing, 9 Oct). Fabric and weight are the SUPPLIER spec (Merch Factory), not yet checked on a physical sample: re-verify when samples arrive. sizeChart stays null until measured on a real sample: never paste guessed numbers. 'icon' names a symbol in assets/svg/sprite.svg (i-<icon>).",
     "details": [
-      [
-        "Fabric",
-        "240 GSM loopknit cotton (supplier spec)"
-      ],
-      [
-        "Cut",
-        "Oversized, drop shoulder, boxy"
-      ],
-      [
-        "Neck",
-        "Ribbed crew"
-      ],
-      [
-        "Sleeve",
-        "Half sleeve"
-      ],
-      [
-        "Print",
-        "DTF. Small stamp on the chest, full graphic on the back"
-      ]
+      {
+        "icon": "fabric",
+        "label": "Fabric",
+        "value": "240 GSM 100% cotton, French terry / loopknit (supplier spec; we confirm it on the first samples)"
+      },
+      {
+        "icon": "weight",
+        "label": "Weight",
+        "value": "About 300 g per tee (supplier spec)"
+      },
+      {
+        "icon": "cut",
+        "label": "Cut",
+        "value": "Oversized, boxy, with a dropped shoulder"
+      },
+      {
+        "icon": "fit",
+        "label": "Fit",
+        "value": "Unisex. Size by your usual size for the oversized look, or one down if you like it closer"
+      },
+      {
+        "icon": "neck",
+        "label": "Neck",
+        "value": "Ribbed crew neck"
+      },
+      {
+        "icon": "sleeve",
+        "label": "Sleeve",
+        "value": "Half sleeve"
+      },
+      {
+        "icon": "print",
+        "label": "Print",
+        "value": "DTF. A small print on the front, the full graphic on the back"
+      },
+      {
+        "icon": "made",
+        "label": "Made",
+        "value": "In India"
+      }
     ],
+    "printMethod": "Every design is printed with DTF, short for direct-to-film. The artwork is printed onto a thin film first, then pressed into the cotton with heat. It lets us print sharp lines, small text and bright colours on dark fabric, which is most of what we do.",
     "sizeChart": null,
     "sizeChartUnit": "in",
     "care": [
-      "Wash inside out, cold.",
-      "Don't iron over the print.",
-      "Line dry. The dryer isn't your friend here."
+      {
+        "icon": "inside",
+        "text": "Turn it inside out before it goes in the machine."
+      },
+      {
+        "icon": "wash",
+        "text": "Cold wash, 30°C or below, gentle cycle."
+      },
+      {
+        "icon": "nobleach",
+        "text": "Mild detergent, no bleach, go easy on the fabric softener."
+      },
+      {
+        "icon": "shade",
+        "text": "Dry it in the shade, or on low heat if you must use a dryer."
+      },
+      {
+        "icon": "noiron",
+        "text": "Never iron on the print. Iron it inside out, or put a sheet of baking paper over the design."
+      }
     ],
+    "careNote": "Do all that and the print lasts. Skip it and it’s between you and your washing machine.",
+    "colourNote": "Colours on screens are approximate. The real tee and print may look slightly different depending on your display, the light, and small differences between fabric batches.",
     "shipping": "Pre-order. At your door in 7–10 days. Free shipping across India. Cash on delivery available.",
     "returns": "The full returns policy goes up before checkout opens. It'll be short and readable."
   },

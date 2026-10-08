@@ -124,10 +124,18 @@ body.is-pdp{padding-bottom:0}
 .acc__p.small,.small{font-size:10px;color:var(--ash)}
 .acc__list{margin:0 0 16px;padding-left:18px;font-size:14.5px;line-height:1.7}
 .spec-dl{margin:0 0 16px;display:grid;gap:0}
-.spec-dl>div{display:grid;grid-template-columns:92px 1fr;gap:14px;padding:9px 0;border-top:1px dashed var(--line)}
+.spec-dl>div{display:grid;grid-template-columns:20px 74px 1fr;gap:12px;align-items:start;padding:10px 0;border-top:1px dashed var(--line)}
 .spec-dl>div:first-child{border-top:0;padding-top:0}
-.spec-dl dt{color:var(--ash);font-size:10px;padding-top:3px}
+.spec-dl>div>dt:first-child{grid-column:2}
+.spec-dl dt{color:var(--ash);font-size:10px;padding-top:4px}
 .spec-dl dd{margin:0;font-size:14.5px;line-height:1.45}
+/* line icons (assets/svg/sprite.svg, i-*) */
+.ico{width:20px;height:20px;flex:none;color:var(--blue);display:block}
+.care-list{list-style:none;padding-left:0;display:grid;gap:12px}
+.care-list li{display:grid;grid-template-columns:20px 1fr;gap:12px;align-items:start;line-height:1.45}
+.care-list li span{padding-top:1px}
+.acc__p--ico{display:grid;grid-template-columns:20px 1fr;gap:12px;align-items:start;max-width:56ch}
+.acc__note{color:var(--ash);font-size:13.5px;margin-top:-2px}
 
 .sizetable{width:100%;border-collapse:collapse;margin-bottom:10px;font-size:14px}
 .sizetable th,.sizetable td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line)}

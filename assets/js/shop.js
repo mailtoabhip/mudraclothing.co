@@ -28,7 +28,7 @@ const API_URL = `https://${SHOPIFY.domain}/api/${SHOPIFY.apiVersion}/graphql.jso
 
 const SIZES = ['S', 'M', 'L', 'XL', 'XXL'];
 
-const SPRITE_URL = '/assets/svg/sprite.svg?v=351f9262';
+const SPRITE_URL = '/assets/svg/sprite.svg?v=3ffb4f08';
 
 /* ---------- urls ------------------------------------------------------ */
 
