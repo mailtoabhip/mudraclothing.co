@@ -121,6 +121,17 @@
   ],
   "redirects": [
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "mudraclothing-co.vercel.app"
+        }
+      ],
+      "destination": "https://www.wearmudra.shop/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         {
