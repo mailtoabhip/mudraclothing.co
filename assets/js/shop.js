@@ -384,7 +384,10 @@ const cart = {
   },
 
   async add(variantId, quantity = 1, attributes = []) {
-    const lines = [{ merchandiseId: variantId, quantity, attributes }];
+    return cart.addLines([{ merchandiseId: variantId, quantity, attributes }]);
+  },
+
+  async addLines(lines) {
     const id = cartState?.id || store.get();
     if (id) {
       const d = await sf(Q.add, { id, lines });
@@ -577,21 +580,29 @@ function lineNote() {
 
 /* ---------- add to bag ------------------------------------------------- */
 
-// item: { variantId, name, size, colour, image, price }
+// One item or an array: { variantId, name, size, colour, image, price, quantity }.
 // Resolves true when added. Throws ShopError with a message fit to show inline.
 async function addToBag(item, btn) {
+  const items = Array.isArray(item) ? item : [item];
+  const count = items.reduce((n, x) => n + (x.quantity || 1), 0);
   if (!SHOPIFY.enabled) {
-    writeLocalBag(readLocalBag() + 1);
+    writeLocalBag(readLocalBag() + count);
     renderBag();
     if (btn) flash(btn, isPreorder() ? 'Pre-ordered' : 'Added');
     return true;
   }
-  if (item.id && !canBuy(item.id)) throw new ShopError(checkoutBlock() || 'Not available for pre-order.');
-  if (!item.variantId) throw new ShopError("That size isn't on sale yet.");
-  const attributes = item.colour ? [{ key: 'Colour', value: item.colour }] : [];
-  await cart.add(item.variantId, 1, attributes);
+  const lines = items.map(x => {
+    if (x.id && !canBuy(x.id)) throw new ShopError(checkoutBlock() || 'Not available for pre-order.');
+    if (!x.variantId) throw new ShopError("That size isn't on sale yet.");
+    return { merchandiseId: x.variantId, quantity: x.quantity || 1,
+      attributes: x.colour ? [{ key: 'Colour', value: x.colour }] : [] };
+  });
+  await cart.addLines(lines);
   if (btn) flash(btn, isPreorder() ? 'Pre-ordered' : 'Added');
-  openDrawer(item, btn);
+  const preview = items.length === 1 && count === 1 ? items[0] : { ...items[0],
+    size: items.map(x => `${x.size} × ${x.quantity || 1}`).join(', '),
+    price: items.reduce((n, x) => n + x.price * (x.quantity || 1), 0) };
+  openDrawer(preview, btn);
   return true;
 }
 

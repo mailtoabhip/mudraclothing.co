@@ -13,6 +13,7 @@ const view = {
   product: null,
   garment: {},
   size: null,
+  quantities: {},
   colour: null,
   shots: [],   // image media only
   zoomAt: 0,
@@ -406,17 +407,19 @@ function priceHTML(p) {
 
 // main button once a size is picked; the price part drops on very narrow phones (product.css)
 function ctaHTML() {
+  const price = selectionTotal() || view.price;
   // drop window: "Pre-order now · ₹1,199"; narrow phones keep just "Pre-order"
-  if (M.saleState(view.product.id) === 'open') return `Pre-order<span class="atc__price"> now · ${money(view.price)}</span>`;
+  if (M.saleState(view.product.id) === 'open') return `Pre-order<span class="atc__price"> now · ${money(price)}</span>`;
   return M.isPreorder()
-    ? `Pre-order<span class="atc__price"> · ${money(view.price)}</span>`
-    : `Add to bag · ${money(view.price)}`;
+    ? `Pre-order<span class="atc__price"> · ${money(price)}</span>`
+    : `Add to bag · ${money(price)}`;
 }
 
 function selectSize(size) {
   view.size = size;
+  view.quantities[size] ||= 1;
   document.querySelectorAll('.szbtn').forEach(b => {
-    const on = b.dataset.size === size;
+    const on = !!view.quantities[b.dataset.size];
     b.classList.toggle('on', on);
     b.setAttribute('aria-pressed', String(on));
   });
@@ -430,10 +433,8 @@ function selectSize(size) {
 }
 
 async function addCurrent(btn) {
-  if (!view.size) {
-    const opt = $('#sizeOpt');
-    opt.classList.remove('need'); void opt.offsetWidth; opt.classList.add('need');
-    opt.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  if (!selectionCount()) {
+    openPurchaseSizes();
     return;
   }
   const p = view.product;
@@ -443,15 +444,16 @@ async function addCurrent(btn) {
   btn.setAttribute('aria-busy', 'true');
   showError('');
   try {
-    await M.addToBag({
+    await M.addToBag(Object.entries(view.quantities).filter(([,quantity]) => quantity > 0).map(([size, quantity]) => ({
       id: p.id,
-      variantId: view.variants?.[view.size]?.id,
+      variantId: view.variants?.[size]?.id,
       name: p.name,
-      size: view.size,
+      size,
+      quantity,
       colour: view.colour?.name,
       image: view.shots[0] ? '/' + view.shots[0].src : null,
-      price: view.price,
-    }, btn);
+      price: sizePrice(size),
+    })), btn);
   } catch (err) {
     showError(err.message || "Couldn't add that. Try again.");
   } finally {
@@ -577,68 +579,106 @@ function renderRelated(p, list) {
 
 /* ---------- persistent purchase bar ---------------------------------- */
 
+const SIZE_NAMES = { S: 'Small', M: 'Medium', L: 'Large', XL: 'Extra large', XXL: '2X large' };
+function sizePrice(size) { return view.variants?.[size]?.price ?? view.price; }
+function selectionCount() { return Object.values(view.quantities).reduce((n, q) => n + q, 0); }
+function selectionTotal() { return Object.entries(view.quantities).reduce((n, [s, q]) => n + sizePrice(s) * q, 0); }
+function selectionLabel() {
+  return Object.entries(view.quantities).filter(([, q]) => q > 0).map(([s, q]) => q > 1 ? `${s} × ${q}` : s).join(', ');
+}
+
 function syncSticky() {
-  const p = view.product;
-  $('#sbName').textContent = p.name;
-  $('#sbMeta').textContent = [money(view.price), view.colour?.name, view.size].filter(Boolean).join(' · ');
-  const main = $('#atc'), btn = $('#sbBtn'), picker = $('#sbSize');
-  picker.value = view.size || '';
-  picker.disabled = main.disabled || locked();
-  for (const option of picker.options) {
-    if (!option.value) continue;
-    const sizeButton = Array.from(document.querySelectorAll('#sizes .szbtn')).find(b => b.dataset.size === option.value);
-    option.disabled = !sizeButton || sizeButton.disabled;
+  const p = view.product, main = $('#atc'), btn = $('#sbBtn'), picker = $('#sbSize');
+  if (view.variants !== null) {
+    for (const size of Object.keys(view.quantities)) {
+      if (!view.variants[size]?.available) delete view.quantities[size];
+    }
   }
+  view.size = Object.keys(view.quantities)[0] || null;
+  const count = selectionCount();
+  $('#sbMeta').textContent = [money(count ? selectionTotal() : view.price), view.colour?.name, selectionLabel()].filter(Boolean).join(' · ');
+  picker.disabled = main.disabled || locked();
   btn.disabled = main.disabled || locked();
+  picker.innerHTML = `${count ? esc(selectionLabel()) : 'Choose sizes'} <span aria-hidden="true">⌃</span>`;
+  document.querySelectorAll('#sizes .szbtn').forEach(b => {
+    const on = !!view.quantities[b.dataset.size];
+    b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on));
+  });
+  document.querySelectorAll('[data-purchase-row]').forEach(row => {
+    const size = row.dataset.purchaseRow, q = view.quantities[size] || 0;
+    const available = view.variants === null ? view.product.sizes.find(s => s.size === size)?.available : view.variants[size]?.available;
+    row.querySelector('output').textContent = q;
+    row.querySelector('[data-quantity="-1"]').disabled = !q || main.disabled || locked();
+    row.querySelector('[data-quantity="1"]').disabled = !available || main.disabled || locked();
+    row.querySelector('.sizepick__availability').hidden = !!available;
+  });
+  $('#purchaseSizesTotal').textContent = `${count} shirt${count === 1 ? '' : 's'} · ${money(selectionTotal())}`;
   if (locked()) { btn.textContent = lockedLabel(); return; }
   if (main.disabled) { btn.textContent = main.textContent; return; }
+  if (!main.classList.contains('done')) {
+    main.innerHTML = count ? ctaHTML() : 'Pick a size';
+    main.classList.toggle('ready', !!count);
+  }
   if (btn.classList.contains('done')) return;
   const verb = M.saleState(p.id) === 'open' ? 'Pre-order now' : M.isPreorder() ? 'Pre-order' : 'Add to bag';
-  $('#sbBtn').textContent = view.size ? verb : 'Pick a size';
+  btn.textContent = count ? verb : 'Choose sizes';
+}
+
+function positionPurchaseSizes() {
+  if (matchMedia('(max-width:760px)').matches) return;
+  const rect = $('#sbSize').getBoundingClientRect(), panel = $('#purchaseSizes');
+  const width = Math.min(420, innerWidth - 32);
+  panel.style.setProperty('--picker-left', `${Math.max(16, Math.min(rect.left, innerWidth - width - 16))}px`);
+  panel.style.setProperty('--picker-bottom', `${innerHeight - rect.top + 12}px`);
+}
+
+function openPurchaseSizes() {
+  if ($('#sbSize').disabled) return;
+  const panel = $('#purchaseSizes');
+  positionPurchaseSizes();
+  if (!panel.open) panel.showModal();
+  $('#sbSize').setAttribute('aria-expanded', 'true');
 }
 
 function wireStickyBar() {
-  const bar = $('#stickybar');
-  const btn = $('#sbBtn');
-  const picker = $('#sbSize');
-  picker.innerHTML = '<option value="">Choose size</option>' + view.product.sizes.map(s =>
-    `<option value="${esc(s.size)}" ${s.available ? '' : 'disabled'}>${esc(s.size)}</option>`).join('');
-  picker.addEventListener('change', () => {
-    if (picker.value) selectSize(picker.value);
-    else {
-      view.size = null;
-      document.querySelectorAll('#sizes .szbtn').forEach(b => { b.classList.remove('on'); b.setAttribute('aria-pressed', 'false'); });
-      $('#atc').textContent = 'Pick a size';
-      $('#atc').classList.remove('ready');
-      syncSticky();
-    }
+  const bar = $('#stickybar'), panel = $('#purchaseSizes');
+  $('#purchaseSizesRows').innerHTML = view.product.sizes.map(s => {
+    const name = SIZE_NAMES[s.size] || s.size;
+    return `<div class="sizepick__row" data-purchase-row="${esc(s.size)}">
+      <div><span class="sizepick__label">${esc(name)}</span><span class="mono sizepick__code">${esc(s.size)}</span><span class="mono sizepick__availability" hidden>Unavailable</span></div>
+      <div class="sizepick__stepper">
+        <button type="button" data-quantity="-1" aria-label="Remove one ${esc(name)} shirt">−</button>
+        <output aria-label="${esc(name)} quantity">0</output>
+        <button type="button" data-quantity="1" aria-label="Add one ${esc(name)} shirt">+</button>
+      </div></div>`;
+  }).join('');
+  $('#purchaseSizesRows').addEventListener('click', e => {
+    const button = e.target.closest('[data-quantity]');
+    if (!button || button.disabled) return;
+    const size = button.closest('[data-purchase-row]').dataset.purchaseRow;
+    const quantity = Math.max(0, (view.quantities[size] || 0) + Number(button.dataset.quantity));
+    if (quantity) view.quantities[size] = quantity; else delete view.quantities[size];
+    showError('');
+    syncSticky();
   });
+  $('#sbSize').addEventListener('click', openPurchaseSizes);
+  $('#sbBtn').addEventListener('click', () => selectionCount() ? addCurrent($('#sbBtn')) : openPurchaseSizes());
+  $('#purchaseSizesClose').addEventListener('click', () => panel.close());
+  $('#purchaseSizesDone').addEventListener('click', () => panel.close());
+  panel.addEventListener('close', () => {
+    $('#sbSize').setAttribute('aria-expanded', 'false');
+    $('#sbSize').focus({ preventScroll: true });
+  });
+  panel.addEventListener('click', e => {
+    if (e.target !== panel) return;
+    const r = panel.getBoundingClientRect();
+    if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) panel.close();
+  });
+  addEventListener('resize', () => { if (panel.open) positionPurchaseSizes(); }, { passive: true });
+  bar.classList.add('on');
+  bar.setAttribute('aria-hidden', 'false');
+  bar.inert = false;
   syncSticky();
-  btn.addEventListener('click', () => {
-    if (!view.size) {
-      picker.focus();
-      return;
-    }
-    addCurrent(btn);
-  });
-  const place = () => {
-    const rect = $('#buy').getBoundingClientRect();
-    bar.style.setProperty('--purchase-left', `${rect.left}px`);
-    bar.style.setProperty('--purchase-width', `${rect.width}px`);
-  };
-  place();
-  new ResizeObserver(place).observe($('#buy'));
-  addEventListener('resize', place, { passive: true });
-  const navHeight = $('header').getBoundingClientRect().height;
-  const io = new IntersectionObserver(([en]) => {
-    // Keep purchase controls reachable whenever the main button is out of view.
-    const show = en.intersectionRatio < .5;
-    bar.classList.toggle('on', show);
-    bar.setAttribute('aria-hidden', String(!show));
-    bar.inert = !show;
-    if (!show && bar.contains(document.activeElement)) $('#atc').focus({ preventScroll: true });
-  }, { rootMargin: `-${navHeight}px 0px 0px`, threshold: .5 });
-  io.observe($('#atc'));
 }
 
 /* ---------- not found ------------------------------------------------- */
