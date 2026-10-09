@@ -39,6 +39,7 @@ async function ticker() {
 /* ---------- photos: use a file only if it exists --------------------- */
 function photos() {
   $$('.st-photo[data-photo]').forEach(fig => {
+    if (fig.querySelector('img')) return;
     const img = new Image();
     img.alt = '';
     img.decoding = 'async';

@@ -224,8 +224,9 @@ Source: `_src/pages/about.html` (layout `bare`), styles `assets/css/story.css`,
 script `assets/js/story.js`. The copy is Marketing's "Website story" and must
 stay word for word; change it only with Marketing.
 
-Photos: five frames, loaded only if the file exists (otherwise a flat tone).
-Drop JPEGs into `assets/img/story/` with these exact names, no rebuild needed:
+Photos: six editorial frames, rendered in the source with descriptive alt text.
+The scenes are generated illustrations of the story, using the existing tee designs.
+JPEGs live in `assets/img/story/` with these exact names:
 `01-fan.jpg` (portrait, ~1600×2000) · `02-seal.jpg` (landscape, ~2400×1500) ·
 `03-chai.jpg` (4:5) · `04a-balcony.jpg` and `04b-airport.jpg` (4:5 each) ·
 `05-mirror.jpg` (3:4.4 portrait). `/about?review=1` labels each empty frame.
