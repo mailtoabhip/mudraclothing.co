@@ -46,6 +46,16 @@
       const button = document.createElement('button'); button.className = 'btn'; button.type = 'button'; button.textContent = `Pay balance · ${M.money(record.balancePaise / 100)}`;
       button.addEventListener('click', () => pay({ action: 'balance', id: record.id }, button)); card.append(button);
     }
+    if (record.status === 'creating') {
+      const button = document.createElement('button'); button.className = 'btn'; button.type = 'button'; button.textContent = 'Retry unfinished checkout';
+      button.addEventListener('click', async () => {
+        button.disabled = true;
+        const result = await fetch('/api/reservations', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Mudra-CSRF': account.csrf }, body: JSON.stringify({ action: 'retry', id: record.id }) });
+        const data = await result.json();
+        if (result.ok) location.reload(); else { status.textContent = data.error; button.disabled = false; }
+      });
+      card.append(button);
+    }
     content.append(card);
   }
   async function load() {

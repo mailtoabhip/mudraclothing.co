@@ -41,7 +41,11 @@ async function findDraft(id, kind) {
 }
 async function createDraft(input) {
   const result = await admin(`mutation($input: DraftOrderInput!) { draftOrderCreate(input: $input) { draftOrder { ${FIELD} } userErrors { message } } }`, { input });
-  if (result.draftOrderCreate.userErrors.length || !result.draftOrderCreate.draftOrder) throw new Error('Could not create your checkout. Please try again.');
+  if (result.draftOrderCreate.userErrors.length || !result.draftOrderCreate.draftOrder) {
+    console.warn('Reservation draft validation failed', result.draftOrderCreate.userErrors.map(e => e.message));
+    const error = new Error('Could not create your checkout. Please try again.');
+    error.code = 'DRAFT_REJECTED'; throw error;
+  }
   return result.draftOrderCreate.draftOrder;
 }
 function assertDraft(draft, expected) {
@@ -71,10 +75,11 @@ async function createDeposit(customerId, lines, requestKey) {
     const existing = records.find(r => r.requestKey === requestKey);
     if (existing) {
       if (existing.fingerprint !== fingerprint) throw new Error('Your bag changed. Start a new reservation.');
+      if (existing.status === 'failed') { existing.status = 'creating'; existing.creatingAt = new Date().toISOString(); claimed = true; }
       return existing;
     }
     if (records.length >= 30 || records.some(r => ['creating', 'pending'].includes(r.status))) throw new Error('You already have an unfinished reservation. Open it below, or contact us to change it.');
-    const next = { ...quote, id: crypto.randomUUID(), customerId, requestKey, fingerprint, status: 'creating' };
+    const next = { ...quote, id: crypto.randomUUID(), customerId, requestKey, fingerprint, status: 'creating', creatingAt: new Date().toISOString() };
     records.push(next); claimed = true; return next;
   });
   if (record.status === 'paid' || record.cancelled) throw new Error('This reservation is already paid or cancelled.');
@@ -86,7 +91,11 @@ async function createDeposit(customerId, lines, requestKey) {
       quantity: item.quantity, originalUnitPriceWithCurrency: { amount: rupees(item.depositPaise), currencyCode: 'INR' },
       requiresShipping: false, taxable: false, customAttributes: [{ key: 'Size', value: item.size }, { key: 'Colour', value: item.colour },
         { key: 'Tee price (INR)', value: rupees(item.pricePaise) }, { key: 'Balance per tee (INR)', value: rupees(item.pricePaise - item.depositPaise) }] }));
-    draft = await createDraft(input);
+    try { draft = await createDraft(input); }
+    catch (error) {
+      if (error.code === 'DRAFT_REJECTED') await store.update(customerId, records => { records.find(r => r.id === record.id).status = 'failed'; });
+      throw error;
+    }
   }
   assertDraft(draft, record.depositPaise);
   await store.update(customerId, records => {
@@ -182,4 +191,18 @@ function publicRecord(record) {
     status: record.status, shipsBy: record.shipsBy, closes: record.closes, balancePaid: !!record.balancePaid,
     checkoutUrl: record.status === 'pending' && Date.now() <= Date.parse(record.closes) ? record.depositCheckoutUrl : null };
 }
-module.exports = { createDeposit, createBalance, reconcile, applyPayment, orderSnapshot, publicRecord, paise };
+async function retryUnpaid(customerId, id) {
+  const record = (await store.read(customerId)).records.find(r => r.id === id);
+  if (!record || record.depositDraftId || !['creating', 'failed'].includes(record.status)) throw new Error('Open the existing reservation instead.');
+  if (record.status === 'creating' && Date.now() - Date.parse(record.creatingAt || record.createdAt) < 300000) throw new Error('Checkout is still being prepared. Please wait a few minutes.');
+  // Check recent drafts directly as well as the tag search, before resetting a failed setup.
+  const recent = await admin(`{ draftOrders(first: 100, sortKey: CREATED_AT, reverse: true) { nodes { id tags } } }`);
+  if (recent.draftOrders.nodes.some(d => d.tags.includes(tag(record.id, 'deposit'))) || await findDraft(record.id, 'deposit')) throw new Error('A checkout already exists. Please contact us to recover its link.');
+  await store.update(customerId, records => {
+    const saved = records.find(r => r.id === id);
+    if (saved.depositDraftId || (saved.status === 'creating' && Date.now() - Date.parse(saved.creatingAt || saved.createdAt) < 300000)) throw new Error('Checkout is still being prepared.');
+    saved.status = 'failed';
+  });
+  return { retried: true };
+}
+module.exports = { createDeposit, createBalance, reconcile, applyPayment, orderSnapshot, publicRecord, paise, retryUnpaid };
