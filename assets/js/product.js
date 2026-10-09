@@ -203,8 +203,12 @@ function renderGallery(p) {
 function renderBuy(p) {
   const g = view.garment;
   const sizes = p.sizes.map(s => `
-    <button class="szbtn" data-size="${s.size}" ${s.available ? '' : 'disabled aria-disabled="true"'}
-            aria-pressed="false">${s.size}</button>`).join('');
+    <div class="szchoice">
+      <button type="button" class="szbtn" data-size="${s.size}" ${s.available ? '' : 'disabled aria-disabled="true"'}
+              aria-pressed="false" aria-label="Add one ${esc(SIZE_NAMES[s.size] || s.size)} shirt">${s.size}</button>
+      <span class="szchoice__count" aria-hidden="true" hidden>0</span>
+      <button type="button" class="szchoice__remove" data-remove-size="${s.size}" aria-label="Remove all ${esc(SIZE_NAMES[s.size] || s.size)} shirts" hidden>×</button>
+    </div>`).join('');
   const swatches = view.colours.map(c => `
     <button class="cswatch${view.colour && c.key === view.colour.key ? ' on' : ''}" data-colour="${c.key}"
             style="--sw:${c.hex}" aria-label="${esc(c.name)}" title="${esc(c.name)}"
@@ -293,6 +297,16 @@ function renderBuy(p) {
   document.querySelectorAll('[data-size-body]').forEach(el => { el.innerHTML = sizeGuideHTML(); });
 
   $('#sizes').addEventListener('click', e => {
+    if ($('#atc').disabled || locked()) return;
+    const remove = e.target.closest('[data-remove-size]');
+    if (remove && !remove.disabled) {
+      const size = remove.dataset.removeSize;
+      delete view.quantities[size];
+      showError('');
+      syncSticky();
+      document.querySelector(`#sizes [data-size="${size}"]`).focus({ preventScroll: true });
+      return;
+    }
     const b = e.target.closest('.szbtn');
     if (!b || b.disabled) return;
     selectSize(b.dataset.size);
@@ -417,7 +431,7 @@ function ctaHTML() {
 
 function selectSize(size) {
   view.size = size;
-  view.quantities[size] ||= 1;
+  view.quantities[size] = (view.quantities[size] || 0) + 1;
   document.querySelectorAll('.szbtn').forEach(b => {
     const on = !!view.quantities[b.dataset.size];
     b.classList.toggle('on', on);
@@ -441,6 +455,7 @@ async function addCurrent(btn) {
   const busy = [$('#atc'), $('#sbBtn')];
   busy.forEach(b => { b.disabled = true; });
   $('#sbSize').disabled = true;
+  syncSticky();
   btn.setAttribute('aria-busy', 'true');
   showError('');
   try {
@@ -601,8 +616,18 @@ function syncSticky() {
   btn.disabled = main.disabled || locked();
   picker.innerHTML = `${count ? esc(selectionLabel()) : 'Choose sizes'} <span aria-hidden="true">⌃</span>`;
   document.querySelectorAll('#sizes .szbtn').forEach(b => {
-    const on = !!view.quantities[b.dataset.size];
+    const size = b.dataset.size, quantity = view.quantities[size] || 0, on = quantity > 0;
+    const available = view.variants === null ? p.sizes.find(s => s.size === size)?.available : view.variants[size]?.available;
+    b.disabled = !available || main.disabled || locked();
+    b.toggleAttribute('aria-disabled', b.disabled);
+    b.setAttribute('aria-label', `Add one ${SIZE_NAMES[size] || size} shirt, ${quantity} selected`);
     b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on));
+    const tile = b.closest('.szchoice'), badge = tile.querySelector('.szchoice__count'), remove = tile.querySelector('.szchoice__remove');
+    badge.textContent = quantity;
+    badge.hidden = !on;
+    remove.hidden = !on;
+    remove.disabled = main.disabled || locked();
+    tile.classList.toggle('is-selected', on);
   });
   document.querySelectorAll('[data-purchase-row]').forEach(row => {
     const size = row.dataset.purchaseRow, q = view.quantities[size] || 0;
