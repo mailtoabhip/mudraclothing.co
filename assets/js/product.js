@@ -67,12 +67,14 @@ async function loadLive(p) {
   const atc = $('#atc');
   atc.disabled = true;
   atc.textContent = 'One moment';
+  syncSticky();
   let live;
   try {
     live = await M.liveProduct(p.id);
   } catch (err) {
     showError(err.message);
     atc.textContent = 'Unavailable';
+    syncSticky();
     return;
   }
   if (!live) return comingSoon();
@@ -107,12 +109,15 @@ function comingSoon() {
   atc.textContent = 'Coming soon';
   $('#sbBtn').textContent = 'Coming soon';
   $('#sbBtn').disabled = true;
+  syncSticky();
 }
 
 function showError(msg) {
   const el = $('#atcErr');
   el.textContent = msg || '';
   el.hidden = !msg;
+  $('#sbErr').textContent = msg || '';
+  $('#sbErr').hidden = !msg;
 }
 
 /* ---------- head ------------------------------------------------------ */
@@ -329,6 +334,7 @@ function paintLocked() {
   atc.textContent = label;
   sb.disabled = true;
   sb.textContent = label;
+  syncSticky();
 }
 
 // teaser only: calendar file + follow link
@@ -433,6 +439,7 @@ async function addCurrent(btn) {
   const p = view.product;
   const busy = [$('#atc'), $('#sbBtn')];
   busy.forEach(b => { b.disabled = true; });
+  $('#sbSize').disabled = true;
   btn.setAttribute('aria-busy', 'true');
   showError('');
   try {
@@ -450,6 +457,7 @@ async function addCurrent(btn) {
   } finally {
     busy.forEach(b => { b.disabled = false; });
     btn.removeAttribute('aria-busy');
+    syncSticky();
   }
 }
 
@@ -567,13 +575,24 @@ function renderRelated(p, list) {
   $('#related').hidden = false;
 }
 
-/* ---------- mobile sticky bar ---------------------------------------- */
+/* ---------- persistent purchase bar ---------------------------------- */
 
 function syncSticky() {
   const p = view.product;
   $('#sbName').textContent = p.name;
   $('#sbMeta').textContent = [money(view.price), view.colour?.name, view.size].filter(Boolean).join(' · ');
-  if (locked()) { $('#sbBtn').textContent = lockedLabel(); return; }
+  const main = $('#atc'), btn = $('#sbBtn'), picker = $('#sbSize');
+  picker.value = view.size || '';
+  picker.disabled = main.disabled || locked();
+  for (const option of picker.options) {
+    if (!option.value) continue;
+    const sizeButton = Array.from(document.querySelectorAll('#sizes .szbtn')).find(b => b.dataset.size === option.value);
+    option.disabled = !sizeButton || sizeButton.disabled;
+  }
+  btn.disabled = main.disabled || locked();
+  if (locked()) { btn.textContent = lockedLabel(); return; }
+  if (main.disabled) { btn.textContent = main.textContent; return; }
+  if (btn.classList.contains('done')) return;
   const verb = M.saleState(p.id) === 'open' ? 'Pre-order now' : M.isPreorder() ? 'Pre-order' : 'Add to bag';
   $('#sbBtn').textContent = view.size ? verb : 'Pick a size';
 }
@@ -581,22 +600,44 @@ function syncSticky() {
 function wireStickyBar() {
   const bar = $('#stickybar');
   const btn = $('#sbBtn');
+  const picker = $('#sbSize');
+  picker.innerHTML = '<option value="">Choose size</option>' + view.product.sizes.map(s =>
+    `<option value="${esc(s.size)}" ${s.available ? '' : 'disabled'}>${esc(s.size)}</option>`).join('');
+  picker.addEventListener('change', () => {
+    if (picker.value) selectSize(picker.value);
+    else {
+      view.size = null;
+      document.querySelectorAll('#sizes .szbtn').forEach(b => { b.classList.remove('on'); b.setAttribute('aria-pressed', 'false'); });
+      $('#atc').textContent = 'Pick a size';
+      $('#atc').classList.remove('ready');
+      syncSticky();
+    }
+  });
   syncSticky();
   btn.addEventListener('click', () => {
     if (!view.size) {
-      $('#sizeOpt').scrollIntoView({ behavior: 'smooth', block: 'center' });
-      $('#sizeOpt').classList.add('need');
+      picker.focus();
       return;
     }
     addCurrent(btn);
   });
+  const place = () => {
+    const rect = $('#buy').getBoundingClientRect();
+    bar.style.setProperty('--purchase-left', `${rect.left}px`);
+    bar.style.setProperty('--purchase-width', `${rect.width}px`);
+  };
+  place();
+  new ResizeObserver(place).observe($('#buy'));
+  addEventListener('resize', place, { passive: true });
+  const navHeight = $('header').getBoundingClientRect().height;
   const io = new IntersectionObserver(([en]) => {
-    // show the bar only once the real button has scrolled away
-    const show = !en.isIntersecting && en.boundingClientRect.top < 0;
+    // Keep purchase controls reachable whenever the main button is out of view.
+    const show = en.intersectionRatio < .5;
     bar.classList.toggle('on', show);
     bar.setAttribute('aria-hidden', String(!show));
-    btn.tabIndex = show ? 0 : -1;
-  });
+    bar.inert = !show;
+    if (!show && bar.contains(document.activeElement)) $('#atc').focus({ preventScroll: true });
+  }, { rootMargin: `-${navHeight}px 0px 0px`, threshold: .5 });
   io.observe($('#atc'));
 }
 

@@ -39,7 +39,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Saira:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Saira:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap"></noscript>
 <link rel="stylesheet" href="/assets/css/styles.css?v=16984305">
-<link rel="stylesheet" href="/assets/css/product.css?v=c70f1230">
+<link rel="stylesheet" href="/assets/css/product.css?v=963c131b">
 </head>
 <body class="is-pdp">
 
@@ -84,13 +84,18 @@
   </section>
 </main>
 
-<div class="stickybar" id="stickybar" aria-hidden="true">
+<section class="stickybar" id="stickybar" aria-label="Choose a size and pre-order" aria-hidden="true" inert>
   <div class="stickybar__meta">
     <span class="stickybar__name" id="sbName"></span>
     <span class="mono" id="sbMeta"></span>
   </div>
-  <button class="stickybar__btn" id="sbBtn" tabindex="-1">Pick a size</button>
-</div>
+  <div class="stickybar__actions">
+    <label class="sr" for="sbSize">Size</label>
+    <select class="stickybar__size" id="sbSize"><option value="">Choose size</option></select>
+    <button type="button" class="stickybar__btn" id="sbBtn" aria-describedby="sbErr">Pick a size</button>
+  </div>
+  <p class="stickybar__err mono" id="sbErr" hidden></p>
+</section>
 
 <dialog class="sheet" id="sizeSheet" aria-labelledby="sizeSheetTitle">
   <div class="sheet__head">
@@ -139,6 +144,6 @@
 <!-- footer:end -->
 
 <script src="/assets/js/shop.js?v=85a78f87" defer></script>
-<script src="/assets/js/product.js?v=93f00c39" defer></script>
+<script src="/assets/js/product.js?v=69ad04b1" defer></script>
 </body>
 </html>
