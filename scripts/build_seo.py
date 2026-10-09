@@ -495,6 +495,8 @@ def check_prices(products):
 # ── home ──────────────────────────────────────────────────────────────────
 
 def card_cta(p, href, in_stock):
+    if deposit_window():
+        return f"Orders open {drop_dates()['launch_short']}", f'<a class="atc" href="{href}">Pre-order @ {money(RESERVATIONS["depositRupees"])}</a>'
     # mirrors cardCta() in assets/js/main.js
     st, d = sale_state(p["id"]), drop_dates()
     if st == "teaser":
@@ -655,7 +657,7 @@ def related_html(p, products):
         out.append(f'<a class="rcard" href="/p/{x["id"]}"><div class="rcard__img">'
                    + (picture(img, sizes=RELATED_SIZES) if img else "")
                    + f'</div><div class="rcard__meta"><h3>{e(x["name"])}</h3>'
-                   f'<span class="pprice">{money(x["price"])}</span></div></a>')
+                   f'<span class="pprice">{("Pre-order @ " + money(RESERVATIONS["depositRupees"])) if deposit_window() else money(x["price"])}</span></div></a>')
     return "".join(out)
 
 

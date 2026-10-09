@@ -39,6 +39,7 @@ function renderDropCopy() {
 
 // card tag + button per phase. Keep identical to card_html() in scripts/build_seo.py
 function cardCta(p, url, inStock) {
+  if (window.Mudra.depositWindow()) return { tag: `Orders open ${dropDates().launchShort}`, btn: `<a class="atc" href="${url}">Pre-order @ ${money(window.Mudra.depositRupees)}</a>` };
   const st = saleState(p.id), d = dropDates();
   if (st === 'teaser') return { tag: '', btn: `<a class="atc" href="${url}">Opens ${d.opensShort}</a>` };
   if (st === 'open') return { tag: `Closes ${d.closesShort}`, btn: `<a class="atc" href="${url}">Pre-order now</a>` };

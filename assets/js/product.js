@@ -707,7 +707,7 @@ function syncSticky() {
     main.classList.toggle('ready', !!count);
   }
   if (btn.classList.contains('done')) return;
-  const verb = M.saleState(p.id) === 'open' ? 'Pre-order now' : M.isPreorder() ? 'Pre-order' : 'Add to bag';
+  const verb = M.depositWindow() ? `Pre-order @ ${money(count * M.depositRupees)}` : M.saleState(p.id) === 'open' ? 'Pre-order now' : M.isPreorder() ? 'Pre-order' : 'Add to bag';
   btn.textContent = Object.keys(view.bagQuantities).length ? (bagSelectionChanged() ? 'Update bag' : 'View bag') : count ? verb : 'Choose sizes';
 }
 
