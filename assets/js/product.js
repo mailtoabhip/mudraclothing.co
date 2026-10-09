@@ -414,7 +414,7 @@ function shippingText(p) {
 function priceHTML(p) {
   const v = M.priceView(p, view.live), d = M.dropDates();
   if (M.depositWindow()) return `<p class="mono buy__label">Product price</p>
-    <div class="buy__pricerow"><span class="price" id="price"><span class="price__num">${money(v.now)}</span></span><span class="deposit-tag">Pre-order at ${money(M.depositRupees)} today!<small>Deposit per tee</small></span></div>
+    <div class="buy__pricerow"><span class="price is-pre" id="price"><span class="price__num">${money(v.now)}</span></span><span class="deposit-tag">Pre-order at ${money(M.depositRupees)} today!</span></div>
     <p class="mono buy__tax">Inclusive of all taxes · Free shipping</p>
     <aside class="pricenote" role="note"><p class="pricenote__text">Pay ${money(M.depositRupees)} now to reserve this tee. Balance ${money(v.now - M.depositRupees)} when orders open on ${esc(M.dropDates().launchShort)}. Free shipping. Refundable before dispatch.</p></aside>`;
   const closes = d ? d.closesShort : '';

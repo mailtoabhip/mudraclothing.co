@@ -378,7 +378,7 @@ a.atc{display:block;text-align:center}
 .pprice{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px}
 .pprice__mrp{color:var(--ash);text-decoration:line-through;text-decoration-color:var(--ash);font-size:.85em}
 .deposit-tag{display:inline-flex;flex-direction:column;gap:3px;max-width:100%;padding:6px 8px;background:var(--magenta);color:var(--fg);font-family:var(--mono);font-size:10px;font-weight:700;line-height:1.35;letter-spacing:.02em;border-radius:0}
-.deposit-tag small{font-size:8px;font-weight:400;letter-spacing:.08em;text-transform:uppercase}
+.pprice__now.is-pre{background:linear-gradient(transparent 55%,#CCFF00 55%);padding:0 4px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 .pprice__po{font-size:9px;letter-spacing:.12em;color:var(--blue);border:1px solid var(--blue);padding:2px 5px 1px;line-height:1.2;align-self:center}
 @media(max-width:600px){.pprice{gap:2px 6px}.pprice__po{font-size:8px;letter-spacing:.1em;padding:1px 4px 0}}
 

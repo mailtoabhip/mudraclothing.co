@@ -450,7 +450,7 @@ def card_price(p):
     # mirrors cardPrice() in assets/js/main.js
     v = price_view(p)
     if deposit_window():
-        return f'<div class="pprice"><span class="pprice__now">{money(v["now"])}</span><span class="deposit-tag">Pre-order at {money(RESERVATIONS["depositRupees"])} today!<small>Deposit per tee</small></span></div>'
+        return f'<div class="pprice"><span class="pprice__now is-pre">{money(v["now"])}</span><span class="deposit-tag">Pre-order at {money(RESERVATIONS["depositRupees"])} today!</span></div>'
     return ('<div class="pprice">'
             + (f'<s class="pprice__mrp"><span class="sr">MRP </span>{money(v["mrp"])}</s>' if v["mrp"] else "")
             + f'<span class="pprice__now">{money(v["now"])}</span>'
@@ -464,7 +464,7 @@ def buy_price(p):
     if deposit_window():
         deposit = RESERVATIONS['depositRupees']
         return (f'<div class="buy__price" id="priceBlock"><p class="mono buy__label">Product price</p>'
-                f'<div class="buy__pricerow"><span class="price" id="price"><span class="price__num">{money(v["now"])}</span></span><span class="deposit-tag">Pre-order at {money(deposit)} today!<small>Deposit per tee</small></span></div>'
+                f'<div class="buy__pricerow"><span class="price is-pre" id="price"><span class="price__num">{money(v["now"])}</span></span><span class="deposit-tag">Pre-order at {money(deposit)} today!</span></div>'
                 f'<p class="mono buy__tax">Inclusive of all taxes · Free shipping</p>'
                 f'<aside class="pricenote" role="note"><p class="pricenote__text">Pay {money(deposit)} now to reserve this tee. Balance {money(v["now"] - deposit)} when orders open on {e(d["launch_short"])}. Free shipping. Refundable before dispatch.</p></aside></div>')
     label = '<p class="mono buy__label" aria-hidden="true">Pre-order price</p>' if v["pre"] else ""

@@ -58,7 +58,7 @@ function cardCta(p, url, inStock) {
 // struck MRP · price · PRE-ORDER. Keep identical to card_price() in scripts/build_seo.py
 function cardPrice(p) {
   const v = priceView(p);
-  if (window.Mudra.depositWindow()) return `<div class="pprice"><span class="pprice__now">${money(v.now)}</span><span class="deposit-tag">Pre-order at ${money(window.Mudra.depositRupees)} today!<small>Deposit per tee</small></span></div>`;
+  if (window.Mudra.depositWindow()) return `<div class="pprice"><span class="pprice__now is-pre">${money(v.now)}</span><span class="deposit-tag">Pre-order at ${money(window.Mudra.depositRupees)} today!</span></div>`;
   return `<div class="pprice">`
     + (v.mrp ? `<s class="pprice__mrp"><span class="sr">MRP </span>${money(v.mrp)}</s>` : '')
     + `<span class="pprice__now">${money(v.now)}</span>`
