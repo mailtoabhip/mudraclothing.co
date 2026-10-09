@@ -115,6 +115,10 @@
   ],
   "rewrites": [
     {
+      "source": "/server/:path*",
+      "destination": "/404"
+    },
+    {
       "source": "/p/:id",
       "destination": "/product"
     }

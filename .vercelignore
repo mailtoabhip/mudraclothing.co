@@ -4,3 +4,6 @@ README.md
 ops
 data/pricing.json
 data/sitemap-state.json
+tests
+.env
+.env.*
