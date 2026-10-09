@@ -1,0 +1,12 @@
+.reservation{border:1px solid var(--line);padding:24px;margin-bottom:24px;max-width:780px}
+.reservation h2{font-family:var(--display);font-size:28px;margin:0 0 16px}
+.reservation ul{list-style:none;padding:0;margin:0 0 20px}
+.reservation li{padding:12px 0;border-bottom:1px solid var(--line)}
+.reservation li span{display:block;color:var(--ash)}
+.reservation dl{font-family:var(--mono);font-size:12px}
+.reservation dl div{display:flex;justify-content:space-between;gap:16px;padding:8px 0}
+.reservation dd{margin:0}
+.reservation .btn{width:100%;background:var(--fg);color:var(--paper);border:1px solid var(--fg);padding:16px;cursor:pointer}
+.reservation .btn:hover,.reservation .btn:focus-visible{background:var(--blue);color:var(--on-blue)}
+.reservation .btn:disabled{opacity:.6;cursor:wait}
+@media(max-width:760px){.reservation{padding:18px}}

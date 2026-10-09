@@ -40,6 +40,7 @@ function quoteReservation(lines, products, drop, now = Date.now()) {
 }
 
 function verifyDeposit(reservation, order, customerId) {
+  if (!order) fail('UNPAID', 'The deposit has not been confirmed as paid.');
   if (!customerId || reservation.customerId !== customerId || order.customerId !== customerId) fail('FORBIDDEN', 'This reservation belongs to another account.');
   if (order.id !== reservation.depositOrderId) fail('INVALID_ORDER', 'The deposit payment does not match this reservation.');
   if (order.currency !== 'INR' || order.paidPaise !== reservation.depositPaise) fail('INVALID_PAYMENT', 'The paid deposit does not match this reservation.');
