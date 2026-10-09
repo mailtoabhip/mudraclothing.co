@@ -562,8 +562,8 @@ def build_home(products):
          "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": url(f"/p/{p['id']}"),
                               "name": product_title(p)} for i, p in enumerate(products)]},
     ]}
-    # the hero video's poster is the first big paint on the home page
-    preload = '<link rel="preload" as="image" href="/assets/video/hero-poster.jpg" fetchpriority="high">'
+    # The campaign image is the first big paint on the home page.
+    preload = '<link rel="preload" as="image" href="/assets/img/campaigns/mudra-people-hero-v2.webp" type="image/webp" fetchpriority="high">'
     s = put_head(s, head_tags(HOME_TITLE, home_desc(), "/", OG_IMAGE, extra=preload + "\n" + jsonld(graph),
                               img_size=OG_SIZE, img_alt=OG_ALT))
     # ticker + hero tag for the phase at build time (main.js re-renders them live)

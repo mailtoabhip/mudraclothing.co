@@ -111,23 +111,18 @@ header nav .shopfor__item--soon{color:var(--ash);cursor:default;user-select:none
 @media (prefers-reduced-motion:reduce){.shopfor__pop,.shopfor__chev,header nav .shopfor__item--go{transition:none}}
 
 /* hero */
-.hero{position:relative;overflow:hidden;background:var(--shirt);display:flex;align-items:center;
-  margin-top:calc(var(--navh) * -1);padding-top:var(--navh);
-  min-height:calc(100vh - var(--tickerh));min-height:calc(100svh - var(--tickerh))}
-@media(max-width:700px){.hero{min-height:calc(100svh - var(--tickerh) - 6px)}}
-.hero__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
-  filter:brightness(.5) contrast(1.05) saturate(.9)}
-.hero__scrim{position:absolute;inset:0;
-  background:linear-gradient(95deg,rgba(26,26,26,.78) 0%,rgba(26,26,26,.34) 52%,rgba(43,58,255,.20) 100%)}
-.hero__inner{position:relative;z-index:2;width:100%;padding-block:clamp(28px,5vh,56px)}
-.hero__copy{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(12px,1.8vh,20px);color:var(--paper)}
-.hero__tag{color:rgba(237,233,224,.72)}
-.hero h1{font-family:var(--display);font-size:clamp(28px,5vw,66px);line-height:.94;margin:0;
-  letter-spacing:.01em;text-transform:uppercase;color:var(--paper)}
-.hero h1 em{font-style:normal;color:var(--paper);display:block}
-.hero__copy p{max-width:34ch;margin:0;color:rgba(237,233,224,.76);font-size:clamp(14px,1.6vh,15.5px)}
-.hero__cap{position:absolute;right:var(--gut);bottom:16px;z-index:2;color:rgba(237,233,224,.5)}
-@media(max-width:700px){.hero__cap{display:none}}
+.hero{background:var(--paper)}
+.hero__campaign{margin:0;line-height:0}
+.hero__campaign a,.hero__campaign picture{display:block}
+.hero__campaign img{width:100%;height:auto;display:block}
+.hero__campaign a:focus-visible{outline:3px solid var(--blue);outline-offset:-3px}
+/* The light campaign artwork needs a readable header before scrolling. */
+.campaign-home header{background:var(--paper);border-bottom-color:var(--line)}
+.campaign-home .brand .logo{color:var(--blue)}
+.campaign-home header nav a,.campaign-home .shopfor__btn{color:var(--ash)}
+.campaign-home header nav a:hover,.campaign-home .shopfor__btn:hover{color:var(--blue)}
+.campaign-home .cart,.campaign-home .acct{border-color:var(--line-strong);color:var(--fg)}
+.campaign-home .cart:hover,.campaign-home .acct:hover,.campaign-home .acct:focus-visible{color:var(--on-blue);border-color:var(--blue)}
 .btn{display:inline-block;font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
   border:1px solid var(--magenta);color:var(--magenta);padding:14px 30px;
   transition:background .2s ease-out,border-color .2s ease-out,color .2s ease-out}
