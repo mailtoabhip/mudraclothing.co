@@ -58,11 +58,12 @@ function render(c) {
 
   const sub = c.cost.subtotalAmount;
   const block = M.checkoutBlock();   // outside the pre-order window, no checkout
-  const deposit = M.depositWindow() ? qty * M.depositRupees : 0;
+  const deposit = M.depositWindow() ? lines.reduce((n, line) => n + line.quantity * M.depositFor(line.merchandise.product.handle), 0) : 0;
+  const depositRates = new Set(lines.map(line => M.depositFor(line.merchandise.product.handle)));
   $('#bagBody').innerHTML = `
     <ul class="blines" aria-label="Items in your bag">${lines.map(lineHTML).join('')}</ul>
     <aside class="bsum" aria-label="Order summary">
-      ${deposit ? `<h2 class="bsum__deposit">Pre-order @ ${money(M.depositRupees)}</h2><p class="bsum__po">Per tee. Orders open ${esc(M.dropDates().launchShort)}.</p>` : ''}
+      ${deposit ? `<h2 class="bsum__deposit">${depositRates.size === 1 ? `Pre-order @ ${money([...depositRates][0])}` : 'Pre-order deposits'}</h2><p class="bsum__po">Orders open ${esc(M.dropDates().launchShort)}.</p>` : ''}
       <dl class="bsum__rows">
         <div><dt class="mono">${deposit ? 'Full tee total' : 'Subtotal'}</dt><dd class="mono">${money(sub.amount)}</dd></div>
         ${deposit ? `<div><dt class="mono">Deposit due now</dt><dd class="mono">${money(deposit)}</dd></div>
@@ -104,7 +105,7 @@ function lineHTML(l) {
       <div class="bline__info">
         <a class="bline__name" href="${url}">${esc(name)}</a>
         <p class="mono bline__meta">${['Size ' + esc(size), colour && esc(colour)].filter(Boolean).join(' · ')}</p>
-        ${M.lineNote() ? `<p class="mono bline__po">${esc(M.lineNote())}</p>` : ''}
+        ${M.lineNote(handle) ? `<p class="mono bline__po">${esc(M.lineNote(handle))}</p>` : ''}
         <div class="bline__ctl">
           <div class="qty" role="group" aria-label="Quantity for ${esc(name)}, size ${esc(size)}">
             <button class="qty__btn" data-act="dec" aria-label="One less">−</button>
@@ -114,7 +115,7 @@ function lineHTML(l) {
           <button class="bline__rm mono" data-act="rm" aria-label="Remove ${esc(name)}, size ${esc(size)}">Remove</button>
         </div>
       </div>
-      <span class="bline__price mono">${M.depositWindow() ? `${money(l.quantity * M.depositRupees)} deposit` : money(l.cost.totalAmount.amount)}</span>
+      <span class="bline__price mono">${M.depositWindow() ? `${money(l.quantity * M.depositFor(handle))} deposit` : money(l.cost.totalAmount.amount)}</span>
     </li>`;
 }
 

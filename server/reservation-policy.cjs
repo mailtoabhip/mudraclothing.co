@@ -1,13 +1,14 @@
 'use strict';
 
 // All amounts are paise. Reservations belong to paid orders, never to a browser bag.
-const DEPOSIT_PAISE = require('../data/reservations.json').depositRupees * 100;
+const depositSettings = require('../data/reservations.json');
+const DEPOSIT_PAISE = depositSettings.depositRupees * 100;
 class ReservationError extends Error {
   constructor(code, message) { super(message); this.code = code; }
 }
 function fail(code, message) { throw new ReservationError(code, message); }
 
-function quoteReservation(lines, products, drop, now = Date.now()) {
+function quoteReservation(lines, products, drop, now = Date.now(), settings = depositSettings) {
   const time = Number(now);
   if (!Number.isFinite(time) || time < Date.parse(drop.opens) || time > Date.parse(drop.closes)) {
     fail('WINDOW_CLOSED', 'The pre-order deposit window is closed.');
@@ -22,12 +23,13 @@ function quoteReservation(lines, products, drop, now = Date.now()) {
     if (!size || !colour) fail('INVALID_OPTION', 'Choose an available size and colour.');
     if (!Number.isInteger(line.quantity) || line.quantity < 1 || line.quantity > 20) fail('INVALID_QUANTITY', 'Choose between 1 and 20 tees per size.');
     const pricePaise = Math.round(Number(product.price) * 100);
-    if (!Number.isSafeInteger(pricePaise) || pricePaise <= DEPOSIT_PAISE) fail('INVALID_PRICE', 'This tee cannot be reserved right now.');
+    const depositPaise = (settings.temporaryOverrides?.[product.id] ?? settings.depositRupees) * 100;
+    if (!Number.isSafeInteger(depositPaise) || depositPaise < 100 || !Number.isSafeInteger(pricePaise) || pricePaise <= depositPaise) fail('INVALID_PRICE', 'This tee cannot be reserved right now.');
     const key = `${product.id}:${size.size}:${colour.key}`;
     const quantity = (selected.get(key)?.quantity || 0) + line.quantity;
     if (quantity > 20) fail('INVALID_QUANTITY', 'Choose at most 20 tees per size.');
     selected.set(key, { productId: product.id, name: product.name, size: size.size,
-      colour: colour.name, quantity, pricePaise, depositPaise: DEPOSIT_PAISE,
+      colour: colour.name, quantity, pricePaise, depositPaise,
       image: product.media.find(m => m.type === 'img')?.src || null });
   }
   const items = [...selected.values()];

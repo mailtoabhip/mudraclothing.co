@@ -389,7 +389,7 @@ function infoBoxHTML(p) {
   if (st === 'teaser') return box('Pre-order', `Opens ${d.opensLong}`,
     `Pre-orders run ${d.opensShort} to ${d.closesShort}. Everything is made in one run after they close, and ships by ${d.shipsShort}.${prepaid}`);
   if (st === 'open') return box('Pre-orders open', `Ships by ${d.shipsLong}`,
-    M.depositWindow() ? `Pre-order @ ${money(M.depositRupees)} per tee. Orders open ${d.launchShort}. Your deposit locks only your selected tees, sizes and quantities. Pay the remaining balance from launch, before dispatch.` : `Made in one run after pre-orders close on ${d.closesShort}.${prepaid}`, M.closesIn());
+    M.depositWindow() ? `Pre-order @ ${money(M.depositFor(view.product.id))} per tee. Orders open ${d.launchShort}. Your deposit locks only your selected tees, sizes and quantities. Pay the remaining balance from launch, before dispatch.` : `Made in one run after pre-orders close on ${d.closesShort}.${prepaid}`, M.closesIn());
   if (st === 'closed') return box('Printing now', `Ships by ${d.shipsLong}`,
     `Pre-orders are closed and printing now. They ship by ${d.shipsShort}. Missed it? This design comes back after launch.`);
   if (st === 'notInDrop') return box('Not available yet', '',
@@ -414,9 +414,9 @@ function shippingText(p) {
 function priceHTML(p) {
   const v = M.priceView(p, view.live), d = M.dropDates();
   if (M.depositWindow()) return `<p class="mono buy__label">Product price</p>
-    <div class="buy__pricerow"><span class="price is-pre" id="price"><span class="price__num">${money(v.now)}</span></span><span class="deposit-tag">Pre-order at ${money(M.depositRupees)} today!</span></div>
+    <div class="buy__pricerow"><span class="price is-pre" id="price"><span class="price__num">${money(v.now)}</span></span><span class="deposit-tag">Pre-order at ${money(M.depositFor(view.product.id))} today!</span></div>
     <p class="mono buy__tax">Inclusive of all taxes · Free shipping</p>
-    <aside class="pricenote" role="note"><p class="pricenote__text">Pay ${money(M.depositRupees)} now to reserve this tee. Balance ${money(v.now - M.depositRupees)} when orders open on ${esc(M.dropDates().launchShort)}. Free shipping. Refundable before dispatch.</p></aside>`;
+    <aside class="pricenote" role="note"><p class="pricenote__text">Pay ${money(M.depositFor(view.product.id))} now to reserve this tee. Balance ${money(v.now - M.depositFor(view.product.id))} when orders open on ${esc(M.dropDates().launchShort)}. Free shipping. Refundable before dispatch.</p></aside>`;
   const closes = d ? d.closesShort : '';
   // DOM order is MRP then price, so screen readers hear "MRP ₹1,600, Pre-order price ₹1,299";
   // CSS puts the price first visually. The visible label repeats the sr text, so it's hidden from AT.
@@ -441,7 +441,7 @@ function ctaHTML() {
   const price = selectionTotal() || view.price;
   if (M.depositWindow()) {
     const count = Object.values(view.quantities).reduce((n, qty) => n + qty, 0) || 1;
-    return `Pre-order @ ${money(count * M.depositRupees)}`;
+    return `Pre-order @ ${money(count * M.depositFor(view.product.id))}`;
   }
   // drop window: "Pre-order now · ₹1,199"; narrow phones keep just "Pre-order"
   if (M.saleState(view.product.id) === 'open') return `Pre-order<span class="atc__price"> now · ${money(price)}</span>`;
@@ -623,7 +623,7 @@ function renderRelated(p, list) {
       <div class="rcard__img">${img ? M.pictureHTML(img, { sizes: RELATED_SIZES }) : ''}</div>
       <div class="rcard__meta">
         <h3>${esc(x.name)}</h3>
-        <span class="pprice">${M.depositWindow() ? `Pre-order @ ${money(M.depositRupees)}` : money(x.price)}</span>
+        <span class="pprice">${M.depositWindow() ? `Pre-order @ ${money(M.depositFor(x.id))}` : money(x.price)}</span>
       </div>
     </a>`;
   }).join('');
@@ -673,7 +673,7 @@ function syncSticky() {
   const bagStatus = $('#productBagStatus');
   bagStatus.hidden = !savedCount;
   bagStatus.textContent = `${savedCount} shirt${savedCount === 1 ? '' : 's'} already in your bag`;
-  $('#sbMeta').textContent = [M.depositWindow() ? `Pre-order @ ${money((count || 1) * M.depositRupees)}` : money(count ? selectionTotal() : view.price), view.colour?.name, selectionLabel()].filter(Boolean).join(' · ');
+  $('#sbMeta').textContent = [M.depositWindow() ? `Pre-order @ ${money((count || 1) * M.depositFor(view.product.id))}` : money(count ? selectionTotal() : view.price), view.colour?.name, selectionLabel()].filter(Boolean).join(' · ');
   picker.disabled = main.disabled || locked();
   btn.disabled = main.disabled || locked();
   picker.innerHTML = `${count ? esc(selectionLabel()) : 'Choose sizes'} <span aria-hidden="true">⌃</span>`;
@@ -699,7 +699,7 @@ function syncSticky() {
     row.querySelector('[data-quantity="1"]').disabled = !available || main.disabled || locked();
     row.querySelector('.sizepick__availability').hidden = !!available;
   });
-  $('#purchaseSizesTotal').textContent = `${count} shirt${count === 1 ? '' : 's'} · ${M.depositWindow() ? `${money(count * M.depositRupees)} deposit` : money(selectionTotal())}`;
+  $('#purchaseSizesTotal').textContent = `${count} shirt${count === 1 ? '' : 's'} · ${M.depositWindow() ? `${money(count * M.depositFor(view.product.id))} deposit` : money(selectionTotal())}`;
   if (locked()) { btn.textContent = lockedLabel(); return; }
   if (main.disabled) { btn.textContent = main.textContent; return; }
   if (!main.classList.contains('done')) {
@@ -707,7 +707,7 @@ function syncSticky() {
     main.classList.toggle('ready', !!count);
   }
   if (btn.classList.contains('done')) return;
-  const verb = M.depositWindow() ? `Pre-order @ ${money(count * M.depositRupees)}` : M.saleState(p.id) === 'open' ? 'Pre-order now' : M.isPreorder() ? 'Pre-order' : 'Add to bag';
+  const verb = M.depositWindow() ? `Pre-order @ ${money(count * M.depositFor(view.product.id))}` : M.saleState(p.id) === 'open' ? 'Pre-order now' : M.isPreorder() ? 'Pre-order' : 'Add to bag';
   btn.textContent = Object.keys(view.bagQuantities).length ? (bagSelectionChanged() ? 'Update bag' : 'View bag') : count ? verb : 'Choose sizes';
 }
 

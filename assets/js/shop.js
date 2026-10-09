@@ -108,6 +108,10 @@ function loadReservations() {
 function depositWindow(now = Date.now()) {
   return RESERVATIONS.enabled === true && !!DROP && now >= Date.parse(DROP.opens) && now <= Date.parse(DROP.closes);
 }
+function depositFor(productId) {
+  const override = RESERVATIONS.temporaryOverrides?.[productId];
+  return Number.isSafeInteger(override) && override >= 1 ? override : RESERVATIONS.depositRupees;
+}
 function loadDrop() {
   dropPromise ||= fetch('/data/drop.json', { cache: 'no-cache' })
     .then(r => (r.ok ? r.json() : null)).catch(() => null)
@@ -581,7 +585,7 @@ function buildDrawer() {
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && !drawer.hidden) closeDrawer(); });
 }
 
-function openDrawer({ name, size, colour, image, price }, returnTo) {
+function openDrawer({ id, name, size, colour, image, price }, returnTo) {
   if (!drawer) buildDrawer();
   const n = bagCount();
   drawer.querySelector('#drawerBody').innerHTML = `
@@ -590,8 +594,8 @@ function openDrawer({ name, size, colour, image, price }, returnTo) {
       <div>
         <p class="dline__name">${esc(name)}</p>
         <p class="mono dline__meta">${[size, colour].filter(Boolean).map(esc).join(' · ')}</p>
-        <p class="mono dline__price">${depositWindow() ? `Pre-order @ ${money(RESERVATIONS.depositRupees)} per tee` : money(price)}</p>
-        ${lineNote() ? `<p class="mono dline__po">${esc(lineNote())}</p>` : ''}
+        <p class="mono dline__price">${depositWindow() ? `Pre-order @ ${money(depositFor(id))} per tee` : money(price)}</p>
+        ${lineNote(id) ? `<p class="mono dline__po">${esc(lineNote(id))}</p>` : ''}
       </div>
     </div>
     <p class="mono drawer__count">${n} item${n === 1 ? '' : 's'} in the bag</p>`;
@@ -609,8 +613,8 @@ function closeDrawer() {
 }
 
 // the promise under each bag line: drop ship-by date, or the 7–10 day delivery window
-function lineNote() {
-  if (depositWindow()) return `Pre-order @ ${money(RESERVATIONS.depositRupees)} per tee · Orders open ${dropDates().launchShort}`;
+function lineNote(productId) {
+  if (depositWindow()) return `Pre-order @ ${money(depositFor(productId))} per tee · Orders open ${dropDates().launchShort}`;
   const ph = dropPhase(), d = dropDates();
   if (d && ph !== 'launched') return ph === 'teaser' ? `Pre-orders open ${d.opensShort}` : `Pre-order · ships by ${d.shipsShort}`;
   return isPreorder() ? `Pre-order · Arrives ${arrivalRange().text}` : '';
@@ -700,7 +704,7 @@ document.addEventListener('click', e => {
 });
 
 window.Mudra = {
-  loadReservations, depositWindow, get depositRupees() { return RESERVATIONS.depositRupees; },
+  loadReservations, depositWindow, depositFor, get depositRupees() { return RESERVATIONS.depositRupees; },
   SHOPIFY, SIZES, ACCOUNT_URL, CART_URL, ShopError, ORDERING, isPreorder, arrivalRange,
   loadDrop, dropPhase, dropDates, saleState, canBuy, inDrop, closesIn, checkoutBlock, downloadIcs,
   tickerItems, heroTag, codNow, lineNote, get drop() { return DROP; },

@@ -85,10 +85,11 @@
       const box = document.createElement('article'); box.className = 'reservation';
       const catalogue = await M.loadCatalogue();
       const total = lines.reduce((n, l) => n + catalogue.products.find(p => p.id === l.productId).price * l.quantity, 0);
-      box.innerHTML = `<h2>Pre-order @ ${M.money(M.depositRupees)}</h2><p>${count} tee${count === 1 ? '' : 's'}. Pay ${M.money(count * M.depositRupees)} now for pre-order. Full tee total ${M.money(total)}. Balance ${M.money(total - count * M.depositRupees)} payable when orders open on ${M.esc(M.dropDates().launchShort)}, before dispatch.</p><p>Your paid deposit locks these exact tees, sizes and quantities at the current pre-order price. Additional purchases use their current price. Deposits are refundable before dispatch.</p>`;
-      const button = document.createElement('button'); button.type = 'button'; button.className = 'btn'; button.textContent = `Pay ${M.money(count * M.depositRupees)} for pre-order`;
+      const deposit = lines.reduce((n, l) => n + M.depositFor(l.productId) * l.quantity, 0);
+      box.innerHTML = `<h2>Pre-order your bag</h2><p>${count} tee${count === 1 ? '' : 's'}. Pay ${M.money(deposit)} now for pre-order. Full tee total ${M.money(total)}. Balance ${M.money(total - deposit)} payable when orders open on ${M.esc(M.dropDates().launchShort)}, before dispatch.</p><p>Your paid deposit locks these exact tees, sizes and quantities at the current pre-order price. Additional purchases use their current price. Deposits are refundable before dispatch.</p>`;
+      const button = document.createElement('button'); button.type = 'button'; button.className = 'btn'; button.textContent = `Pay ${M.money(deposit)} for pre-order`;
       button.addEventListener('click', () => {
-        let key; const fingerprint = JSON.stringify(lines);
+        let key; const fingerprint = JSON.stringify({ lines, deposits: lines.map(l => M.depositFor(l.productId)) });
         try { const prior = JSON.parse(localStorage.getItem('mudra-deposit-request')); if (prior?.fingerprint === fingerprint) key = prior.key; } catch {}
         key ||= crypto.randomUUID();
         try { localStorage.setItem('mudra-deposit-request', JSON.stringify({ fingerprint, key })); } catch {}

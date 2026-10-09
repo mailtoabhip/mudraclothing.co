@@ -1,7 +1,8 @@
 'use strict';
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { quoteReservation, quoteBalance, publicPrice } = require('../server/reservation-policy.cjs');
+const { quoteReservation: configuredQuote, quoteBalance, publicPrice } = require('../server/reservation-policy.cjs');
+const quoteReservation = (lines, products, drop, now) => configuredQuote(lines, products, drop, now, { depositRupees: 199 });
 const catalogue = require('../data/products.json');
 const drop = require('../data/drop.json');
 const now = Date.parse('2026-10-09T22:00:00+05:30');
@@ -18,6 +19,17 @@ test('deposit is INR 199 per tee across mixed sizes', () => {
   assert.equal(q.depositPaise, 59700);
   assert.equal(q.totalPaise, 389700);
   assert.equal(q.balancePaise, 330000);
+});
+test('temporary INR 1 override applies only to Face Card and leaves saved balances intact', () => {
+  const neo = catalogue.products.find(p => p.id === 'neo-bombay');
+  const lines = [{ productId: face.id, size: 'S', colour, quantity: 1 },
+    { productId: neo.id, size: 'S', colour: neo.colours.find(c => c.sellable).name, quantity: 1 }];
+  const q = configuredQuote(lines, catalogue.products, drop, now, { depositRupees: 199, temporaryOverrides: { 'face-card': 1 } });
+  assert.equal(q.items[0].depositPaise, 100);
+  assert.equal(q.items[1].depositPaise, 19900);
+  assert.equal(q.depositPaise, 20000);
+  assert.equal(q.totalPaise - q.depositPaise, q.balancePaise);
+  assert.equal(quoteReservation([lines[0]], catalogue.products, drop, now).depositPaise, 19900);
 });
 test('prices and totals supplied by a visitor are ignored', () => {
   const q = quoteReservation([{ ...selected[0], pricePaise: 1, depositPaise: 1 }], catalogue.products, drop, now);

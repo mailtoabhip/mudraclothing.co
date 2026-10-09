@@ -1,4 +1,5 @@
 {
   "enabled": true,
-  "depositRupees": 199
+  "depositRupees": 199,
+  "temporaryOverrides": { "face-card": 1 }
 }

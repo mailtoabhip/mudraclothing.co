@@ -38,6 +38,10 @@ DROP = json.loads(_drop_file.read_text(encoding="utf-8")) if _drop_file.exists()
 RESERVATIONS = json.loads((ROOT / 'data/reservations.json').read_text(encoding='utf-8'))
 
 
+def deposit_for(pid):
+    return RESERVATIONS.get('temporaryOverrides', {}).get(pid, RESERVATIONS['depositRupees'])
+
+
 def deposit_window(now=None):
     now = now or datetime.datetime.now(IST)
     return bool(RESERVATIONS.get('enabled') and DROP and
@@ -450,7 +454,7 @@ def card_price(p):
     # mirrors cardPrice() in assets/js/main.js
     v = price_view(p)
     if deposit_window():
-        return f'<div class="pprice"><span class="pprice__now is-pre">{money(v["now"])}</span><span class="deposit-tag">Pre-order at {money(RESERVATIONS["depositRupees"])} today!</span></div>'
+        return f'<div class="pprice"><span class="pprice__now is-pre">{money(v["now"])}</span><span class="deposit-tag">Pre-order at {money(deposit_for(p["id"]))} today!</span></div>'
     return ('<div class="pprice">'
             + (f'<s class="pprice__mrp"><span class="sr">MRP </span>{money(v["mrp"])}</s>' if v["mrp"] else "")
             + f'<span class="pprice__now">{money(v["now"])}</span>'
@@ -462,7 +466,7 @@ def buy_price(p):
     # mirrors priceHTML() in assets/js/product.js
     v, d = price_view(p), drop_dates()
     if deposit_window():
-        deposit = RESERVATIONS['depositRupees']
+        deposit = deposit_for(p['id'])
         return (f'<div class="buy__price" id="priceBlock"><p class="mono buy__label">Product price</p>'
                 f'<div class="buy__pricerow"><span class="price is-pre" id="price"><span class="price__num">{money(v["now"])}</span></span><span class="deposit-tag">Pre-order at {money(deposit)} today!</span></div>'
                 f'<p class="mono buy__tax">Inclusive of all taxes · Free shipping</p>'
@@ -496,7 +500,7 @@ def check_prices(products):
 
 def card_cta(p, href, in_stock):
     if deposit_window():
-        return f"Orders open {drop_dates()['launch_short']}", f'<a class="atc" href="{href}">Pre-order @ {money(RESERVATIONS["depositRupees"])}</a>'
+        return f"Orders open {drop_dates()['launch_short']}", f'<a class="atc" href="{href}">Pre-order @ {money(deposit_for(p["id"]))}</a>'
     # mirrors cardCta() in assets/js/main.js
     st, d = sale_state(p["id"]), drop_dates()
     if st == "teaser":
@@ -609,12 +613,12 @@ def build_home(products):
 
 # ── product pages ─────────────────────────────────────────────────────────
 
-def delivery_line():
+def delivery_line(p):
     # the same facts the page's pre-order box shows
     st, d = drop_phase(), drop_dates()
     if d and st == "open":
         if deposit_window():
-            return f"Pre-order @ {money(RESERVATIONS['depositRupees'])} deposit per tee. Orders open {d['launch_short']}. Reserved tees ship by {d['ships_long']}."
+            return f"Pre-order @ {money(deposit_for(p['id']))} deposit per tee. Orders open {d['launch_short']}. Reserved tees ship by {d['ships_long']}."
         return f"Pre-order: pre-orders close {d['closes_short']}, ships by {d['ships_long']}"
     if d and st == "closed":
         return f"Printing now, ships by {d['ships_long']}"
@@ -635,7 +639,7 @@ def pinfo_html(p):
     ]
     if colours(p):
         items.append("Colour: " + e(", ".join(colours(p))))
-    items += [e(delivery_line()), "Free shipping across India",
+    items += [e(delivery_line(p)), "Free shipping across India",
               'Returns: <a href="/returns">how returns work</a>']
     about = (f'<div class="pinfo__col"><h2 class="pinfo__h">About this design</h2>'
              f'<p class="pinfo__p">{e(p["blurb"])}</p></div>' if (p.get("blurb") or "").strip() else "")
@@ -657,7 +661,7 @@ def related_html(p, products):
         out.append(f'<a class="rcard" href="/p/{x["id"]}"><div class="rcard__img">'
                    + (picture(img, sizes=RELATED_SIZES) if img else "")
                    + f'</div><div class="rcard__meta"><h3>{e(x["name"])}</h3>'
-                   f'<span class="pprice">{("Pre-order @ " + money(RESERVATIONS["depositRupees"])) if deposit_window() else money(x["price"])}</span></div></a>')
+                   f'<span class="pprice">{("Pre-order @ " + money(deposit_for(x["id"]))) if deposit_window() else money(x["price"])}</span></div></a>')
     return "".join(out)
 
 

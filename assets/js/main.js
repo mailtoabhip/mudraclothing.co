@@ -39,7 +39,7 @@ function renderDropCopy() {
 
 // card tag + button per phase. Keep identical to card_html() in scripts/build_seo.py
 function cardCta(p, url, inStock) {
-  if (window.Mudra.depositWindow()) return { tag: `Orders open ${dropDates().launchShort}`, btn: `<a class="atc" href="${url}">Pre-order @ ${money(window.Mudra.depositRupees)}</a>` };
+  if (window.Mudra.depositWindow()) return { tag: `Orders open ${dropDates().launchShort}`, btn: `<a class="atc" href="${url}">Pre-order @ ${money(window.Mudra.depositFor(p.id))}</a>` };
   const st = saleState(p.id), d = dropDates();
   if (st === 'teaser') return { tag: '', btn: `<a class="atc" href="${url}">Opens ${d.opensShort}</a>` };
   if (st === 'open') return { tag: `Closes ${d.closesShort}`, btn: `<a class="atc" href="${url}">Pre-order now</a>` };
@@ -58,7 +58,7 @@ function cardCta(p, url, inStock) {
 // struck MRP · price · PRE-ORDER. Keep identical to card_price() in scripts/build_seo.py
 function cardPrice(p) {
   const v = priceView(p);
-  if (window.Mudra.depositWindow()) return `<div class="pprice"><span class="pprice__now is-pre">${money(v.now)}</span><span class="deposit-tag">Pre-order at ${money(window.Mudra.depositRupees)} today!</span></div>`;
+  if (window.Mudra.depositWindow()) return `<div class="pprice"><span class="pprice__now is-pre">${money(v.now)}</span><span class="deposit-tag">Pre-order at ${money(window.Mudra.depositFor(p.id))} today!</span></div>`;
   return `<div class="pprice">`
     + (v.mrp ? `<s class="pprice__mrp"><span class="sr">MRP </span>${money(v.mrp)}</s>` : '')
     + `<span class="pprice__now">${money(v.now)}</span>`

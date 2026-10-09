@@ -1,6 +1,8 @@
 'use strict';
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
+// Exercise the ordinary INR 199 lifecycle independently of temporary live-test rates.
+require('../data/reservations.json').temporaryOverrides = {};
 const adminModule = require('../server/shopify-admin.cjs');
 const fields = new Map(); const drafts = new Map(); let draftCount = 0;
 const inputs = [];
