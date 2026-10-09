@@ -153,18 +153,22 @@ const pad2 = n => String(n).padStart(2, '0');
 /* ---------- crumb ----------------------------------------------------- */
 
 function renderCrumb(p) {
+  if ($('#crumb strong')) return;          // pre-built /p/<id> pages already end with the name
   $('#crumb').insertAdjacentHTML('beforeend',
     ` <span>/</span> <strong>${esc(p.name)}</strong>`);
 }
 
 /* ---------- gallery --------------------------------------------------- */
 
+// mirrors GALLERY_SIZES / RELATED_SIZES in scripts/build_seo.py
+const GALLERY_SIZES = '(max-width: 900px) 100vw, 30vw';
+const RELATED_SIZES = '(max-width: 1000px) 50vw, 25vw';
+
 function renderGallery(p) {
   const track = $('#track');
   track.innerHTML = view.shots.map((m, i) => `
     <button class="gshot" data-i="${i}" aria-label="Enlarge image ${i + 1} of ${view.shots.length}">
-      <img src="/${m.src}" alt="${esc(m.alt)}" width="800" height="1000"
-           loading="${i < 2 ? 'eager' : 'lazy'}" decoding="async"${i === 0 ? ' fetchpriority="high"' : ''}>
+      ${M.pictureHTML(m, { loading: i < 2 ? 'eager' : 'lazy', sizes: GALLERY_SIZES, extra: i === 0 ? ' fetchpriority="high"' : '' })}
     </button>`).join('');
 
   track.classList.toggle('odd', view.shots.length % 2 === 1);
@@ -192,7 +196,6 @@ function renderGallery(p) {
 
 function renderBuy(p) {
   const g = view.garment;
-  const total = 16;
   const sizes = p.sizes.map(s => `
     <button class="szbtn" data-size="${s.size}" ${s.available ? '' : 'disabled aria-disabled="true"'}
             aria-pressed="false">${s.size}</button>`).join('');
@@ -213,10 +216,6 @@ function renderBuy(p) {
     : `<li>${icon(c.icon)}<span>${esc(c.text)}</span></li>`).join('');
 
   $('#buy').innerHTML = `
-    <div class="buy__top">
-      ${p.no ? `<span class="pno mono">Nº ${pad2(p.no)} <em>/ ${total}</em></span>` : ''}
-    </div>
-
     <h1 class="buy__name">${esc(p.name)}</h1>
 
     <div class="buy__price" id="priceBlock">${priceHTML(p)}</div>
@@ -558,7 +557,7 @@ function renderRelated(p, list) {
     const img = x.media.find(m => m.type === 'img');
     return `
     <a class="rcard" href="${M.productUrl(x.id)}">
-      <div class="rcard__img">${img ? `<img src="/${img.src}" alt="${esc(img.alt)}" loading="lazy" width="800" height="1000">` : ''}</div>
+      <div class="rcard__img">${img ? M.pictureHTML(img, { sizes: RELATED_SIZES }) : ''}</div>
       <div class="rcard__meta">
         <h3>${esc(x.name)}</h3>
         <span class="pprice">${money(x.price)}</span>

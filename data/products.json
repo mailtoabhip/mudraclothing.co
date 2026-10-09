@@ -152,6 +152,11 @@
       "seriesLabel": "Y2K",
       "colour": "maroon bone",
       "print": "back",
+      "blurb": "A playing card for people who walk into a room and let their face do the talking. Face Card is a Y2K graphic t-shirt built around a king card, mirrored top and bottom the way real cards are, with the words “Face Card” across the middle. It’s the internet’s favourite compliment, printed where everyone behind you can read it. Wear it to the party, the wedding or the queue at the chai stall. The card does the rest.",
+      "seo": {
+        "keyword": "Y2K t-shirt",
+        "description": "A playing card for people who let their face do the talking. Face Card is an oversized Y2K graphic t-shirt, king card on the back. {price}, free shipping."
+      },
       "tier": "hero",
       "mrp": 1600,
       "price": 1299,
@@ -184,32 +189,68 @@
         {
           "type": "img",
           "src": "assets/img/products/face-card-heart-hanger.jpg",
-          "alt": "Face Card tee in maroon on a hanger against a white wall, king card back print"
+          "alt": "Face Card tee in maroon on a hanger against a white wall, king card back print",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/face-card-heart-doorway.jpg",
-          "alt": "Face Card tee in maroon, full back print, standing in an old stone doorway"
+          "alt": "Face Card tee in maroon, full back print, standing in an old stone doorway",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/face-card-heart-steps.jpg",
-          "alt": "Face Card tee in maroon, heart card chest print, seated on worn stone steps"
+          "alt": "Face Card tee in maroon, heart card chest print, seated on worn stone steps",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/face-card-heart-walk.jpg",
-          "alt": "Face Card tee in maroon, heart card chest print, walking down a tree-lined lane"
+          "alt": "Face Card tee in maroon, heart card chest print, walking down a tree-lined lane",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/face-card-heart-mirror.jpg",
-          "alt": "Face Card tee in maroon, full back print, mirror selfie in a lamp-lit bedroom"
+          "alt": "Face Card tee in maroon, full back print, mirror selfie in a lamp-lit bedroom",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/face-card-heart-mirror-chest.jpg",
-          "alt": "Face Card tee in maroon, heart card chest print, mirror selfie in a lamp-lit bedroom"
+          "alt": "Face Card tee in maroon, heart card chest print, mirror selfie in a lamp-lit bedroom",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         }
       ],
       "colours": [
@@ -235,6 +276,11 @@
       "seriesLabel": "Y2K",
       "colour": "black bone magenta sky",
       "print": "back",
+      "blurb": "Mumbai at night, if it were a video game. Neo Bombay is a retro graphic t-shirt with a full game screen on the back: a pink sunset, palm trees, a skyline, a sports car, a wanted level and a mission list that reads reach the airport, lose the tail, do not look back. A row of stars sits on the chest, three of them filled, so only the people who’ve played the game will get it. Press any key to continue.",
+      "seo": {
+        "keyword": "Mumbai t-shirt",
+        "description": "Mumbai at night, if it were a video game. Neo Bombay is an oversized retro graphic t-shirt with a full game screen on the back. {price}, free shipping."
+      },
       "tier": "hero",
       "mrp": 1600,
       "price": 1299,
@@ -270,42 +316,88 @@
         {
           "type": "img",
           "src": "assets/img/products/neo-hanger.jpg",
-          "alt": "Neo Bombay tee on a hanger on a rooftop, back print, city towers behind"
+          "alt": "Neo Bombay tee on a hanger on a rooftop, back print, city towers behind",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/neo-lane-walk.jpg",
-          "alt": "Neo Bombay tee, full back print, walking down a tree-lined lane"
+          "alt": "Neo Bombay tee, full back print, walking down a tree-lined lane",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/neo-seawall-sit.jpg",
-          "alt": "Neo Bombay tee, three-star chest print, seated on the sea wall"
+          "alt": "Neo Bombay tee, three-star chest print, seated on the sea wall",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/neo-balcony-chest.jpg",
-          "alt": "Neo Bombay tee, three-star chest print, standing below art deco balconies"
+          "alt": "Neo Bombay tee, three-star chest print, standing below art deco balconies",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/neo-promenade.jpg",
-          "alt": "Neo Bombay tee, full back print, hands behind the head on the promenade"
+          "alt": "Neo Bombay tee, full back print, hands behind the head on the promenade",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/neo-duo-walk.jpg",
-          "alt": "Two people in Neo Bombay tees walking the promenade at sunset, back and chest prints"
+          "alt": "Two people in Neo Bombay tees walking the promenade at sunset, back and chest prints",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/neo-back.jpg",
-          "alt": "Neo Bombay tee, full back print at Marine Drive"
+          "alt": "Neo Bombay tee, full back print at Marine Drive",
+          "w": 760,
+          "h": 950,
+          "webp": [
+            760
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/neo-seated.jpg",
-          "alt": "Neo Bombay tee worn seated by the sea wall"
+          "alt": "Neo Bombay tee worn seated by the sea wall",
+          "w": 760,
+          "h": 950,
+          "webp": [
+            760
+          ]
         }
       ],
       "colours": [
@@ -343,6 +435,11 @@
       "seriesLabel": "Y2K",
       "colour": "black bone blue periwinkle",
       "print": "back",
+      "blurb": "For the days your brain has too many tabs open. Not Responding is a Y2K graphic t-shirt with a stack of old computer error windows on the back, the kind that appeared just before everything froze. It’s for Monday mornings, group projects and the fifth reminder about a deadline you already knew about. No restart required. You’ll come back online eventually, probably after lunch.",
+      "seo": {
+        "keyword": "Y2K t-shirt",
+        "description": "For the days your brain has too many tabs open. Not Responding is an oversized Y2K graphic t-shirt with error windows on the back. {price}, free shipping."
+      },
       "tier": "core",
       "mrp": 1600,
       "price": 1199,
@@ -375,37 +472,76 @@
         {
           "type": "img",
           "src": "assets/img/products/not-responding-hanger.jpg",
-          "alt": "Not Responding tee on a hanger in a neon-lit gaming room, back print"
+          "alt": "Not Responding tee on a hanger in a neon-lit gaming room, back print",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/not-responding-chair.jpg",
-          "alt": "Not Responding tee, full back print, leaning back in a gaming chair"
+          "alt": "Not Responding tee, full back print, leaning back in a gaming chair",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/not-responding-glass-door.jpg",
-          "alt": "Not Responding tee, dialog-box chest print, walking through a glass door with headphones"
+          "alt": "Not Responding tee, dialog-box chest print, walking through a glass door with headphones",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/not-responding-desk.jpg",
-          "alt": "Not Responding tee, full back print, standing at a gaming desk"
+          "alt": "Not Responding tee, full back print, standing at a gaming desk",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/not-responding-hero.jpg",
-          "alt": "Not Responding tee, full back print of stacked error windows, standing by a concrete stairwell"
+          "alt": "Not Responding tee, full back print of stacked error windows, standing by a concrete stairwell",
+          "w": 800,
+          "h": 1000,
+          "webp": [
+            800
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/not-responding-chest.jpg",
-          "alt": "Not Responding tee, small brb dialog-box chest print, in an open parking structure"
+          "alt": "Not Responding tee, small brb dialog-box chest print, in an open parking structure",
+          "w": 800,
+          "h": 1000,
+          "webp": [
+            800
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/not-responding-seated.jpg",
-          "alt": "Not Responding tee, back print, seated on the edge of a bed beside a closed laptop"
+          "alt": "Not Responding tee, back print, seated on the edge of a bed beside a closed laptop",
+          "w": 800,
+          "h": 1000,
+          "webp": [
+            800
+          ]
         }
       ],
       "colours": [
@@ -443,6 +579,11 @@
       "seriesLabel": "Gym",
       "colour": "black bone blue stone sage",
       "print": "back",
+      "blurb": "Named after the Titan who held up the sky and never once skipped a day. Atlas is a gym graphic t-shirt for the ones who show up at six, load the bar and don’t post about it. It’s for leg day, back day and every day you thought about not going and went anyway. Wear it to the gym, or wear it to carry the group project. The weight is roughly the same.",
+      "seo": {
+        "keyword": "gym t-shirt",
+        "description": "Named after the Titan who held up the sky. Atlas is an oversized gym graphic t-shirt for the ones who show up at six. Back print, {price}, free shipping."
+      },
       "tier": "core",
       "mrp": 1600,
       "price": 1199,
@@ -475,32 +616,68 @@
         {
           "type": "img",
           "src": "assets/img/products/atlas-gym-hanger.jpg",
-          "alt": "Atlas tee on a hanger on a squat rack in a sunlit gym, back print"
+          "alt": "Atlas tee on a hanger on a squat rack in a sunlit gym, back print",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/atlas-squat-rack.jpg",
-          "alt": "Atlas tee, full back print, at the squat rack with a training partner"
+          "alt": "Atlas tee, full back print, at the squat rack with a training partner",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/atlas-plate-carry.jpg",
-          "alt": "Atlas tee, checklist chest print, carrying a weight plate across the gym"
+          "alt": "Atlas tee, checklist chest print, carrying a weight plate across the gym",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/atlas-bench-pair.jpg",
-          "alt": "Two people in Atlas tees at a bench, back print and chest print"
+          "alt": "Two people in Atlas tees at a bench, back print and chest print",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/atlas-pullup.jpg",
-          "alt": "Atlas tee, full back print, gripping a pull-up bar"
+          "alt": "Atlas tee, full back print, gripping a pull-up bar",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/atlas-rack-lean.jpg",
-          "alt": "Two people in Atlas tees leaning on a rack, chest print and back print"
+          "alt": "Two people in Atlas tees leaning on a rack, chest print and back print",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         }
       ],
       "colours": [
@@ -544,6 +721,11 @@
       "seriesLabel": "Travel",
       "colour": "black bone magenta sky",
       "print": "back",
+      "blurb": "A boarding pass with no return date. One Way is a travel graphic t-shirt with a ticket printed on the back, from home to away, for the trip you keep planning in the group chat. It’s for airports, train stations, long bus rides and the moment you finally book the thing. Some people collect fridge magnets. Some people just keep going. Seat by the window, if you can get one.",
+      "seo": {
+        "keyword": "travel t-shirt",
+        "description": "A boarding pass with no return date. One Way is an oversized travel graphic t-shirt with a ticket printed on the back. {price}, free shipping across India."
+      },
       "tier": "entry",
       "mrp": 1600,
       "price": 1099,
@@ -576,37 +758,79 @@
         {
           "type": "img",
           "src": "assets/img/products/one-way-airport-hanger.jpg",
-          "alt": "One Way tee on a hanger at a sunlit airport window, back print"
+          "alt": "One Way tee on a hanger at a sunlit airport window, back print",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/one-way-terminal-walk.jpg",
-          "alt": "Two people in One Way tees walking through the terminal with suitcases, chest and back prints"
+          "alt": "Two people in One Way tees walking through the terminal with suitcases, chest and back prints",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/one-way-gate-seat.jpg",
-          "alt": "One Way tee, Seat 00A chest print, sitting cross-legged at the gate"
+          "alt": "One Way tee, Seat 00A chest print, sitting cross-legged at the gate",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/one-way-window.jpg",
-          "alt": "One Way tee, boarding pass back print, by the terminal windows"
+          "alt": "One Way tee, boarding pass back print, by the terminal windows",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/one-way-suitcase.jpg",
-          "alt": "One Way tee, boarding pass back print, with a yellow suitcase at the window"
+          "alt": "One Way tee, boarding pass back print, with a yellow suitcase at the window",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/one-way-duffel.jpg",
-          "alt": "One Way tee, Seat 00A chest print, with a duffel bag in the terminal"
+          "alt": "One Way tee, Seat 00A chest print, with a duffel bag in the terminal",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/one-way-coconut.jpg",
-          "alt": "One Way tee, Seat 00A chest print, holding a coconut by a beach doorway"
+          "alt": "One Way tee, Seat 00A chest print, holding a coconut by a beach doorway",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         }
       ],
       "colours": [
@@ -644,6 +868,11 @@
       "seriesLabel": "Travel",
       "colour": "black bone lime aqua",
       "print": "back",
+      "blurb": "Your auto-reply, but wearable. Out of Office is a travel graphic t-shirt with a luggage tag on the back, for the version of you that has stopped checking email. It’s made for beach towns, hill stations and any holiday where your phone stays in the bag. Leave the laptop at home. Leave the meetings to someone else. You’ll respond to all messages on your return, maybe.",
+      "seo": {
+        "keyword": "travel t-shirt",
+        "description": "Your auto-reply, but wearable. Out of Office is an oversized travel graphic t-shirt with a luggage tag on the back. {price}, free shipping across India."
+      },
       "tier": "entry",
       "mrp": 1600,
       "price": 1099,
@@ -676,32 +905,68 @@
         {
           "type": "img",
           "src": "assets/img/products/out-of-office-shutter-hanger.jpg",
-          "alt": "Out of Office tee on a hanger against a blue shutter, luggage tag back print"
+          "alt": "Out of Office tee on a hanger against a blue shutter, luggage tag back print",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/out-of-office-scooter-pair.jpg",
-          "alt": "Two people in Out of Office tees laughing by a yellow scooter"
+          "alt": "Two people in Out of Office tees laughing by a yellow scooter",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/out-of-office-coconut.jpg",
-          "alt": "Out of Office tee, AWAY tag chest print, leaning on a wall with a coconut"
+          "alt": "Out of Office tee, AWAY tag chest print, leaning on a wall with a coconut",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/out-of-office-lane-pair.jpg",
-          "alt": "Two people in Out of Office tees walking a seaside lane, back prints"
+          "alt": "Two people in Out of Office tees walking a seaside lane, back prints",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/out-of-office-steps.jpg",
-          "alt": "Out of Office tee, AWAY tag chest print, sitting on yellow steps"
+          "alt": "Out of Office tee, AWAY tag chest print, sitting on yellow steps",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/out-of-office-scooter-cheer.jpg",
-          "alt": "Out of Office tee, luggage tag back print, arm raised on a scooter by the sea"
+          "alt": "Out of Office tee, luggage tag back print, arm raised on a scooter by the sea",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         }
       ],
       "colours": [
@@ -739,6 +1004,11 @@
       "seriesLabel": "Tarot",
       "colour": "black bone blue lavender",
       "print": "back",
+      "blurb": "Card IX in a tarot deck is the Hermit, the one who goes quiet to think. We redrew it for the rest of us. The Overthinker is a tarot graphic t-shirt with a figure whose head is a tangle of scribbled thoughts, moons on either side and an open hand with an eye in the palm. It’s for 3 AM ceilings, unread replies and conversations you’re still replaying from last week. You’ve already thought about this enough. Wear it.",
+      "seo": {
+        "keyword": "tarot t-shirt",
+        "description": "Card IX in a tarot deck is the Hermit. The Overthinker is an oversized tarot graphic t-shirt with the card on the back. {price}, free shipping."
+      },
       "tier": "hero",
       "mrp": 1600,
       "price": 1299,
@@ -771,32 +1041,68 @@
         {
           "type": "img",
           "src": "assets/img/products/the-overthinker-library-hanger.jpg",
-          "alt": "The Overthinker tee on a hanger on a library ladder, tarot card IX back print"
+          "alt": "The Overthinker tee on a hanger on a library ladder, tarot card IX back print",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/the-overthinker-library-pair.jpg",
-          "alt": "Two people in The Overthinker tees in a library, chest print and back print"
+          "alt": "Two people in The Overthinker tees in a library, chest print and back print",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/the-overthinker-floor-sit.jpg",
-          "alt": "The Overthinker tee, card IX chest print, sitting on a library floor with books"
+          "alt": "The Overthinker tee, card IX chest print, sitting on a library floor with books",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/the-overthinker-ladder.jpg",
-          "alt": "The Overthinker tee, tarot card IX back print, on a library ladder"
+          "alt": "The Overthinker tee, tarot card IX back print, on a library ladder",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/the-overthinker-desk-study.jpg",
-          "alt": "The Overthinker tee, card IX chest print, deep in thought at a reading desk"
+          "alt": "The Overthinker tee, card IX chest print, deep in thought at a reading desk",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         },
         {
           "type": "img",
           "src": "assets/img/products/the-overthinker-window-seat.jpg",
-          "alt": "The Overthinker tee, tarot card IX back print, seated by a library window"
+          "alt": "The Overthinker tee, tarot card IX back print, seated by a library window",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         }
       ],
       "colours": [

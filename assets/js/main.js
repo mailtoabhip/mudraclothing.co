@@ -3,7 +3,7 @@
    Renders the grid from data/products.json. Shared plumbing lives in shop.js.
    ========================================================================== */
 
-const { productUrl, loadCatalogue, loadSprite, money, priceView, esc, wireHeader, initBag, sellableColours, ORDERING, isPreorder,
+const { productUrl, loadCatalogue, loadSprite, money, priceView, esc, pictureHTML, CARD_SIZES, wireHeader, initBag, sellableColours, ORDERING, isPreorder,
   loadDrop, saleState, dropDates, tickerItems, heroTag } = window.Mudra;
 
 const state = {
@@ -67,8 +67,7 @@ function cardPrice(p) {
 function mediaHTML(m, i) {
   const on = i === 0 ? ' is-on' : '';
   if (m.type === 'img') {
-    return `<img class="slide${on}" src="/${m.src}" alt="${esc(m.alt)}"
-      loading="${i === 0 ? 'eager' : 'lazy'}" decoding="async" width="800" height="1000">`;
+    return pictureHTML(m, { cls: 'slide' + on, loading: i === 0 ? 'eager' : 'lazy', sizes: CARD_SIZES });
   }
   const vb = m.viewBox || '0 0 300 375';
   return `<svg class="slide${on}" viewBox="${vb}" role="img" aria-label="${esc(m.alt)}"><use href="${m.ref}"/></svg>`;
@@ -106,7 +105,6 @@ function cardHTML(p) {
       <div class="dots">${dots}</div>
     </div>
     <div class="pcard__info">
-      <div class="ptag mono">${p.print === 'back' ? 'Back print' : 'Chest only'}</div>
       <h3><a href="${url}">${esc(p.name)}</a></h3>
       ${cardPrice(p)}
       ${cta.tag ? `<div class="ptag mono pcard__po">${cta.tag}</div>` : ''}
@@ -130,6 +128,13 @@ function renderGrid() {
 
 /* ---------- carousel: hover advances and stays ----------------------- */
 
+const armer = 'IntersectionObserver' in window
+  ? new IntersectionObserver(entries => entries.forEach(en => {
+      if (en.isIntersecting) { en.target.classList.add('armed'); armer.unobserve(en.target); }
+    }), { rootMargin: '300px 0px' })
+  : null;
+const armSoon = media => (armer ? armer.observe(media) : media.classList.add('armed'));
+
 function wireCarousel(card) {
   const media = card.querySelector('.pcard__media');
   const slides = media.querySelectorAll('.slide');
@@ -146,6 +151,10 @@ function wireCarousel(card) {
 
   if (slides.length < 2) return;
   let cur = 0;
+
+  // Only the first photo of each card loads with the page; the others are
+  // display:none (so their lazy images wait) until the card comes near the screen.
+  armSoon(media);
 
   // The first photo stays put; the rest play in a random order, fresh on every
   // page load. Hover, either arrow and either arrow key all move one step

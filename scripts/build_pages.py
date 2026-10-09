@@ -115,7 +115,7 @@ SHELL = """<!DOCTYPE html>
 <meta name="theme-color" content="#EDE9E0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Saira:wght@400;500;600&family=Space+Mono:wght@400;700{fonts}&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Saira:wght@400;500;600&family=Space+Mono:wght@400;700{fonts}&display=swap" onload="this.onload=null;this.rel=\'stylesheet\'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Saira:wght@400;500;600&family=Space+Mono:wght@400;700{fonts}&display=swap"></noscript>
 <link rel="stylesheet" href="/assets/css/styles.css?v=0">
 <link rel="stylesheet" href="/assets/css/pages.css?v=0">
 {css}</head>

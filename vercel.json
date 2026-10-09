@@ -141,6 +141,51 @@
       ],
       "destination": "https://www.wearmudra.shop/:path*",
       "permanent": true
+    },
+    {
+      "source": "/p/dilli-belly",
+      "destination": "/",
+      "statusCode": 302
+    },
+    {
+      "source": "/p/bombay-bhook",
+      "destination": "/",
+      "statusCode": 302
+    },
+    {
+      "source": "/p/namma-hotte",
+      "destination": "/",
+      "statusCode": 302
+    },
+    {
+      "source": "/p/pet-pujo",
+      "destination": "/",
+      "statusCode": 302
+    },
+    {
+      "source": "/p/calcutta-wb02",
+      "destination": "/",
+      "statusCode": 302
+    },
+    {
+      "source": "/p/delhi-dl01",
+      "destination": "/",
+      "statusCode": 302
+    },
+    {
+      "source": "/p/bengaluru-ka01",
+      "destination": "/",
+      "statusCode": 302
+    },
+    {
+      "source": "/p/on-repeat",
+      "destination": "/",
+      "statusCode": 302
+    },
+    {
+      "source": "/p/set-03",
+      "destination": "/",
+      "statusCode": 302
     }
   ]
 }

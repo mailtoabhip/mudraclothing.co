@@ -182,6 +182,26 @@ image and the hero poster. Re-run it after any change to `data/products.json`.
 - Price/stock structured data is only emitted while `SHOPIFY.enabled` is true.
 - `product.html` is now only the fallback template (noindex).
 
+
+### Product copy, images, feed (Oct 2026 SEO pass)
+
+- `blurb` in `data/products.json`: the "About this design" paragraph on each product
+  page. Marketing writes it, word for word; when it's empty nothing renders.
+- `seo.keyword` / `seo.description`: the search phrase and the meta description
+  (also og:description, the structured data and the Merchant feed). `{price}` is
+  filled with the current price at build time. Keep it under 155 characters.
+- Images: `scripts/build_images.py` (run by the build) writes `<photo>-800.webp` and
+  `<photo>-<width>.webp` next to each JPEG and records `w`, `h`, `webp` on the media
+  entry. Pages use `<picture>`; the JPEG stays the fallback and is what the sitemap
+  and feed list. No upscaling: for 1600 px versions, add bigger JPEGs (new names).
+- `sitemap.xml` lastmod only moves when a page's content changes. The hashes live
+  in `data/sitemap-state.json` (commit it; it isn't deployed).
+- Google Merchant feed: `/feeds/google-merchant.xml`, one item per size, rebuilt
+  from `data/products.json`. Gender and age group: `FEED_GENDER` / `FEED_AGE_GROUP`
+  in `scripts/site_config.py`. Submit the URL in Merchant Center.
+- Archived tees: the build writes a temporary (302) redirect `/p/<id>` → `/` into
+  `vercel.json` for every entry in "archived"; moving a tee back removes it.
+
 ## Prices (Drop 01)
 
 `data/pricing.json` holds the MRP, the three tiers and which tee is in which tier

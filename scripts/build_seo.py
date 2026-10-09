@@ -19,10 +19,11 @@ What it writes:
 Product/Offer price data is only emitted while checkout is switched on
 (SHOPIFY.enabled: true in assets/js/shop.js).
 """
-import datetime, html, json, os, pathlib, re, subprocess
+import datetime, hashlib, html, json, os, pathlib, re, subprocess
 
 from site_config import (SITE_URL, SITE_NAME, BRAND, LEGAL_NAME, CONTACT_EMAIL, INSTAGRAM_URL, OG_IMAGE,
-                         PREORDER_MIN_DAYS, PREORDER_MAX_DAYS)
+                         PREORDER_MIN_DAYS, PREORDER_MAX_DAYS, FEED_GENDER, FEED_AGE_GROUP)
+import build_images
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 TODAY = datetime.date.today().isoformat()
@@ -115,10 +116,16 @@ def hero_tag():
             "closed": "Printing now"}.get(ph, launched)
 
 
-HOME_TITLE = "Oversized graphic t-shirts, designed in India · Mudra"
-HOME_DESC = ("Oversized graphic tees with a clean front and a loud back. Food, city, Y2K, "
-             "gym, travel and tarot designs, made in India. Free shipping, "
-             "cash on delivery.")
+HOME_TITLE = "Oversized Graphic T-Shirts, Designed in India · Mudra"
+HOME_DESC = ("Oversized graphic t-shirts, designed in India. A small stamp on the front, "
+             "the whole graphic on the back. Free shipping across India.")
+OG_SIZE = (1200, 630)
+OG_ALT = "Mudra oversized graphic t-shirt, full back print"
+
+# srcset "sizes": mirror CARD_SIZES (shop.js) and GALLERY_SIZES / RELATED_SIZES (product.js)
+CARD_SIZES = "(max-width: 600px) 50vw, (max-width: 1100px) 45vw, 30vw"
+GALLERY_SIZES = "(max-width: 900px) 100vw, 30vw"
+RELATED_SIZES = "(max-width: 1000px) 50vw, 25vw"
 
 # content pages that belong in the sitemap (404, cart and the bare template don't)
 SITEMAP_PAGES = ["about", "contact", "shipping", "returns", "payment-help", "size-guide",
@@ -176,6 +183,25 @@ def images(p):
     return [m for m in p["media"] if m.get("type") == "img"]
 
 
+def webp_set(m):
+    base = "/" + re.sub(r"\.jpe?g$", "", m["src"], flags=re.I)
+    return ", ".join(f"{base}-{w}.webp {w}w" for w in m.get("webp", []))
+
+
+def picture(m, cls="", loading="lazy", sizes="100vw", extra=""):
+    # mirrors pictureHTML() in assets/js/shop.js
+    cls_attr = f' class="{cls}"' if cls else ""
+    img = (f'<img{cls_attr} src="/{m["src"]}" alt="{e(m["alt"])}" '
+           f'width="{m.get("w", 800)}" height="{m.get("h", 1000)}" loading="{loading}" decoding="async"{extra}>')
+    s = webp_set(m)
+    return f'<picture><source type="image/webp" srcset="{s}" sizes="{sizes}">{img}</picture>' if s else img
+
+
+def seo_desc(p):
+    d = (p.get("seo") or {}).get("description", "")
+    return d.replace("{price}", money(p["price"])) if d else ""
+
+
 def artwork_pair(p):
     imgs = [m for m in images(p) if "hanger" not in m["src"]]
     back = next((m for m in imgs if m["src"].endswith("-back.jpg")), None)
@@ -220,80 +246,128 @@ def make_hero_poster():
 
 # ── structured data ───────────────────────────────────────────────────────
 
+RETURN_POLICY = {
+    "@type": "MerchantReturnPolicy",
+    "applicableCountry": "IN",
+    "returnPolicyCountry": "IN",
+    "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+    "merchantReturnDays": 7,
+    "returnMethod": "https://schema.org/ReturnByMail",
+    "returnFees": "https://schema.org/FreeReturn",
+}
+
+
 def organization():
     org = {
-        "@type": "Organization",
+        "@type": ["Organization", "OnlineStore"],
         "@id": url("/#org"),
         "name": LEGAL_NAME,
         "alternateName": BRAND,
         "url": url("/"),
+        # the seal, square, 512 px
         "logo": url("/assets/favicon/icon-512.png"),
         "email": CONTACT_EMAIL,
         "contactPoint": {"@type": "ContactPoint", "contactType": "customer support",
                          "email": CONTACT_EMAIL, "areaServed": "IN",
                          "availableLanguage": ["en"]},
+        "hasMerchantReturnPolicy": RETURN_POLICY,
+        "hasShippingService": {
+            "@type": "ShippingService",
+            "name": "Free shipping across India",
+            "shippingConditions": {
+                "@type": "ShippingConditions",
+                "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "IN"},
+                "shippingRate": {"@type": "MonetaryAmount", "value": 0, "currency": "INR"},
+            },
+        },
     }
     if INSTAGRAM_URL:
         org["sameAs"] = [INSTAGRAM_URL]
     return org
 
 
+def product_title(p):
+    return f"{p['name']} Oversized Graphic T-Shirt"
+
+
+def colours(p):
+    return [c["name"] for c in p.get("colours", []) if c.get("sellable")]
+
+
+def offer_ld(p, size):
+    st = sale_state(p["id"])
+    o = {
+        "@type": "Offer",
+        "url": url(f"/p/{p['id']}"),
+        "priceCurrency": "INR",
+        "price": f"{float(p['price']):.2f}",
+        "availability": "https://schema.org/" + ("InStock" if size.get("available") else "OutOfStock"),
+        "itemCondition": "https://schema.org/NewCondition",
+        "seller": {"@id": url("/#org")},
+        "shippingDetails": {
+            "@type": "OfferShippingDetails",
+            "shippingRate": {"@type": "MonetaryAmount", "value": "0", "currency": "INR"},
+            "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "IN"},
+            # after launch: 3–5 days to make + 4–5 days in transit = 7–10 days
+            "deliveryTime": {
+                "@type": "ShippingDeliveryTime",
+                "handlingTime": {"@type": "QuantitativeValue", "minValue": 3, "maxValue": 5, "unitCode": "DAY"},
+                "transitTime": {"@type": "QuantitativeValue", "minValue": 4, "maxValue": 5, "unitCode": "DAY"},
+            },
+        },
+        "hasMerchantReturnPolicy": RETURN_POLICY,
+    }
+    if p.get("mrp") and float(p["mrp"]) > float(p["price"]):
+        # the MRP shown struck through next to the price
+        o["priceSpecification"] = [
+            {"@type": "UnitPriceSpecification", "price": f"{float(p['price']):.2f}", "priceCurrency": "INR"},
+            {"@type": "UnitPriceSpecification", "priceType": "https://schema.org/StrikethroughPrice",
+             "price": f"{float(p['mrp']):.2f}", "priceCurrency": "INR"},
+        ]
+    if st == "open" and size.get("available"):
+        # a real pre-order window, fixed ship-by date instead of 7–10 days
+        o["availability"] = "https://schema.org/PreOrder"
+        o["availabilityStarts"] = DROP["opens"]
+        o["availabilityEnds"] = DROP["closes"]
+        o["priceValidUntil"] = DROP["closes"][:10]   # the pre-order price ends with pre-orders
+        o["shippingDetails"].pop("deliveryTime", None)
+    elif st in ("closed", "notInDrop"):
+        o["availability"] = "https://schema.org/OutOfStock"
+        o["shippingDetails"].pop("deliveryTime", None)
+    return o
+
+
 def product_ld(p, offers):
+    # ProductGroup (the design) with one Product per size; all sizes live on one page
     shots = images(p)
+    page = url(f"/p/{p['id']}")
+    pics = [url("/" + m["src"]) for m in shots]
+    cols = colours(p)
     ld = {
         "@context": "https://schema.org",
-        "@type": "Product",
-        "name": f"{p['name']} Oversized T-Shirt",
-        "description": blurb(p),
-        "url": url(f"/p/{p['id']}"),
-        "image": [url("/" + m["src"]) for m in shots],
+        "@type": "ProductGroup",
+        "name": product_title(p),
+        "description": seo_desc(p) or blurb(p),
+        "url": page,
+        "image": pics,
         "brand": {"@type": "Brand", "name": BRAND},
         "category": "Apparel & Accessories > Clothing > Shirts & Tops",
-        "productID": p["id"],
-        "size": [s["size"] for s in p["sizes"]],
+        "productGroupID": p["id"],
+        "variesBy": ["https://schema.org/size"],
+        "audience": {"@type": "PeopleAudience", "suggestedGender": "unisex"},
+        "hasVariant": [],
     }
-    st = sale_state(p["id"])
-    if offers and st != "teaser":
-        in_stock = any(s.get("available") for s in p["sizes"])
-        ld["offers"] = {
-            "@type": "Offer",
-            "url": url(f"/p/{p['id']}"),
-            "priceCurrency": "INR",
-            "price": f"{float(p['price']):.2f}",
-            "availability": "https://schema.org/" + ("InStock" if in_stock else "OutOfStock"),
-            "itemCondition": "https://schema.org/NewCondition",
-            "seller": {"@id": url("/#org")},
-            "shippingDetails": {
-                "@type": "OfferShippingDetails",
-                "shippingRate": {"@type": "MonetaryAmount", "value": "0", "currency": "INR"},
-                "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "IN"},
-                # after launch: 3–5 days to make + 4–5 days in transit = 7–10 days
-                "deliveryTime": {
-                    "@type": "ShippingDeliveryTime",
-                    "handlingTime": {"@type": "QuantitativeValue", "minValue": 3, "maxValue": 5, "unitCode": "DAY"},
-                    "transitTime": {"@type": "QuantitativeValue", "minValue": 4, "maxValue": 5, "unitCode": "DAY"},
-                },
-            },
-            "hasMerchantReturnPolicy": {
-                "@type": "MerchantReturnPolicy",
-                "applicableCountry": "IN",
-                "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                "merchantReturnDays": 7,
-                "returnMethod": "https://schema.org/ReturnByMail",
-                "returnFees": "https://schema.org/FreeReturn",
-            },
-        }
-        if st == "open":
-            # Drop 01: a real pre-order window, fixed ship-by date instead of 7–10 days
-            ld["offers"]["availability"] = "https://schema.org/PreOrder"
-            ld["offers"]["availabilityStarts"] = DROP["opens"]
-            ld["offers"]["availabilityEnds"] = DROP["closes"]
-            # the pre-order price is only valid until pre-orders close
-            ld["offers"]["priceValidUntil"] = DROP["closes"][:10]
-            ld["offers"]["shippingDetails"].pop("deliveryTime", None)
-        elif st in ("closed", "notInDrop"):
-            ld["offers"]["availability"] = "https://schema.org/OutOfStock"
-            ld["offers"]["shippingDetails"].pop("deliveryTime", None)
+    if cols:
+        ld["color"] = "/".join(cols)
+    with_offers = offers and sale_state(p["id"]) != "teaser"
+    for s in p["sizes"]:
+        v = {"@type": "Product", "name": f"{product_title(p)}, {s['size']}", "sku": f"{p['id']}-{s['size'].lower()}",
+             "size": s["size"], "url": page, "image": pics[0] if pics else url(OG_IMAGE)}
+        if cols:
+            v["color"] = "/".join(cols)
+        if with_offers:
+            v["offers"] = offer_ld(p, s)
+        ld["hasVariant"].append(v)
     return ld
 
 
@@ -303,12 +377,14 @@ def breadcrumb_ld(p):
         "@type": "BreadcrumbList",
         "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Home", "item": url("/")},
-            {"@type": "ListItem", "position": 2, "name": p["name"], "item": url(f"/p/{p['id']}")},
+            {"@type": "ListItem", "position": 2, "name": "Oversized T-Shirts", "item": url("/#shop")},
+            {"@type": "ListItem", "position": 3, "name": p["name"], "item": url(f"/p/{p['id']}")},
         ],
     }
 
 
-def head_tags(title, desc, path, image, og_type="website", extra=""):
+def head_tags(title, desc, path, image, og_type="website", extra="", img_size=None, img_alt=""):
+    w, h = img_size or (None, None)
     return "\n".join([
         "<!-- seo:start -->",
         f"<title>{e(title)}</title>",
@@ -321,13 +397,17 @@ def head_tags(title, desc, path, image, og_type="website", extra=""):
         f'<meta property="og:description" content="{e(desc)}">',
         f'<meta property="og:url" content="{e(url(path))}">',
         f'<meta property="og:image" content="{e(url(image))}">',
+        f'<meta property="og:image:width" content="{w}">' if w else "",
+        f'<meta property="og:image:height" content="{h}">' if h else "",
+        f'<meta property="og:image:alt" content="{e(img_alt)}">' if img_alt else "",
         '<meta name="twitter:card" content="summary_large_image">',
         f'<meta name="twitter:title" content="{e(title)}">',
         f'<meta name="twitter:description" content="{e(desc)}">',
         f'<meta name="twitter:image" content="{e(url(image))}">',
+        f'<meta name="twitter:image:alt" content="{e(img_alt)}">' if img_alt else "",
         extra,
         "<!-- seo:end -->",
-    ]).replace("\n\n", "\n")
+    ]).replace("\n\n", "\n").replace("\n\n", "\n")
 
 
 def put_head(s, block):
@@ -422,8 +502,8 @@ def card_html(p):
              if p.get("badge") else "")
     imgs = images(p)
     slides = "".join(
-        f'<img class="slide{" is-on" if i == 0 else ""}" src="/{m["src"]}" alt="{e(m["alt"])}" '
-        f'loading="{"eager" if i == 0 else "lazy"}" decoding="async" width="800" height="1000">'
+        picture(m, cls="slide" + (" is-on" if i == 0 else ""), loading="eager" if i == 0 else "lazy",
+                sizes=CARD_SIZES)
         for i, m in enumerate(imgs))
     dots = "".join('<i class="is-on"></i>' if i == 0 else "<i></i>" for i in range(len(imgs)))
     # colour swatches on the cards are off for now (main.js CARD_SWATCHES too)
@@ -433,7 +513,6 @@ def card_html(p):
         f'style="--sw:{c["hex"]}" title="{e(c["name"])}" aria-label="{e(c["name"])}"></button>'
         for i, c in enumerate(sw))
     tag, atc = card_cta(p, href, bool(avail))
-    kind = "Back print" if p["print"] == "back" else "Chest only"
     return (f'<article class="pcard" data-id="{p["id"]}" data-series="{p["series"]}" '
             f'data-colour="{e(p["colour"])}" data-print="{p["print"]}" data-stock="{" ".join(stock)}" '
             f'data-sizes="{" ".join(avail)}" data-price="{p["price"]}" data-name="{e(p["name"])}" data-url="{href}">'
@@ -442,7 +521,7 @@ def card_html(p):
             '<button class="navbtn prev" aria-label="Previous image">&#8249;</button>'
             '<button class="navbtn next" aria-label="Next image">&#8250;</button>'
             f'<div class="dots">{dots}</div></div>'
-            f'<div class="pcard__info"><div class="ptag mono">{kind}</div>'
+            f'<div class="pcard__info">'
             f'<h3><a href="{href}">{e(p["name"])}</a></h3>'
             + card_price(p)
             + (f'<div class="ptag mono pcard__po">{tag}</div>' if tag else "")
@@ -451,18 +530,13 @@ def card_html(p):
 
 
 def home_desc():
-    ph, d = drop_phase(), drop_dates()
-    if not d or ph == "launched":
-        return HOME_DESC
-    base = ("Oversized graphic tees with a clean front and a loud back. Food, city, Y2K, "
-            "gym, travel and tarot designs, printed in India. ")
-    if ph == "closed":
-        return base + f"Pre-orders are printing now and ship by {d['ships_short']}. Free shipping across India."
-    return base + (f"Pre-orders {d['opens_short']} to {d['closes_short']}, ships by "
-                   f"{d['ships_short']}. Free shipping across India.")
+    return HOME_DESC
 
 
 def product_desc(p):
+    # data/products.json "seo.description" when written; the generated line otherwise
+    if seo_desc(p):
+        return seo_desc(p)
     st, d = sale_state(p["id"]), drop_dates()
     lead = f"{blurb(p)} {money(p['price'])}."
     if st == "teaser":
@@ -484,11 +558,14 @@ def build_home(products):
         organization(),
         {"@type": "WebSite", "@id": url("/#site"), "name": BRAND, "url": url("/"),
          "inLanguage": "en-IN", "publisher": {"@id": url("/#org")}},
-        {"@type": "ItemList", "name": "The tees", "numberOfItems": len(products),
+        {"@type": "ItemList", "name": "Oversized graphic t-shirts", "numberOfItems": len(products),
          "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": url(f"/p/{p['id']}"),
-                              "name": p["name"]} for i, p in enumerate(products)]},
+                              "name": product_title(p)} for i, p in enumerate(products)]},
     ]}
-    s = put_head(s, head_tags(HOME_TITLE, home_desc(), "/", OG_IMAGE, extra=jsonld(graph)))
+    # the hero video's poster is the first big paint on the home page
+    preload = '<link rel="preload" as="image" href="/assets/video/hero-poster.jpg" fetchpriority="high">'
+    s = put_head(s, head_tags(HOME_TITLE, home_desc(), "/", OG_IMAGE, extra=preload + "\n" + jsonld(graph),
+                              img_size=OG_SIZE, img_alt=OG_ALT))
     # ticker + hero tag for the phase at build time (main.js re-renders them live)
     row = "".join(f"<span>{e(t)}</span><span>✳</span>" for t in ticker_items())
     s = re.sub(r'(<div class="ticker__track">\n).*?(\n  </div>)',
@@ -508,6 +585,56 @@ def build_home(products):
 
 # ── product pages ─────────────────────────────────────────────────────────
 
+def delivery_line():
+    # the same facts the page's pre-order box shows
+    st, d = drop_phase(), drop_dates()
+    if d and st == "open":
+        return f"Pre-order: pre-orders close {d['closes_short']}, ships by {d['ships_long']}"
+    if d and st == "closed":
+        return f"Printing now, ships by {d['ships_long']}"
+    if d and st == "teaser":
+        return f"Pre-orders open {d['opens_short']}, ship by {d['ships_long']}"
+    return f"At your door in {DAYS}"
+
+
+def pinfo_html(p):
+    # "About this design" (Marketing's blurb, only when written) + facts already in the data
+    sizes = [s["size"] for s in p["sizes"]]
+    size_txt = f"{sizes[0]} to {sizes[-1]}" if len(sizes) > 1 else sizes[0]
+    items = [
+        "Oversized fit with a drop shoulder",
+        ("Small print on the chest, the full graphic on the back" if p["print"] == "back"
+         else "Chest print only"),
+        f'Sizes {size_txt}. <a href="/size-guide">Size guide</a>',
+    ]
+    if colours(p):
+        items.append("Colour: " + e(", ".join(colours(p))))
+    items += [e(delivery_line()), "Free shipping across India",
+              'Returns: <a href="/returns">how returns work</a>']
+    about = (f'<div class="pinfo__col"><h2 class="pinfo__h">About this design</h2>'
+             f'<p class="pinfo__p">{e(p["blurb"])}</p></div>' if (p.get("blurb") or "").strip() else "")
+    return (about + '<div class="pinfo__col"><h2 class="pinfo__h">Details</h2><ul class="pinfo__list">'
+            + "".join(f"<li>{i}</li>" for i in items) + "</ul></div>")
+
+
+def related_picks(p, products, n=4):
+    # mirrors renderRelated() in assets/js/product.js
+    same = [x for x in products if x["id"] != p["id"] and x["series"] == p["series"]]
+    rest = [x for x in products if x["id"] != p["id"] and x["series"] != p["series"]]
+    return (same + rest)[:n]
+
+
+def related_html(p, products):
+    out = []
+    for x in related_picks(p, products):
+        img = next(iter(images(x)), None)
+        out.append(f'<a class="rcard" href="/p/{x["id"]}"><div class="rcard__img">'
+                   + (picture(img, sizes=RELATED_SIZES) if img else "")
+                   + f'</div><div class="rcard__meta"><h3>{e(x["name"])}</h3>'
+                   f'<span class="pprice">{money(x["price"])}</span></div></a>')
+    return "".join(out)
+
+
 def build_products(products, offers):
     template = (ROOT / "product.html").read_text(encoding="utf-8")
     template = template.replace('<meta name="robots" content="noindex">\n', "")
@@ -516,21 +643,29 @@ def build_products(products, offers):
     keep = set()
     for p in products:
         shots = gallery_shots(p)
-        title = f"{p['name']} Oversized T-Shirt · {BRAND}"
+        title = f"{product_title(p)} · {BRAND}"
         desc = product_desc(p)
-        extra = jsonld(product_ld(p, offers)) + "\n" + jsonld(breadcrumb_ld(p))
+        first = shots[0] if shots else None
+        preload = (f'<link rel="preload" as="image" type="image/webp" imagesrcset="{webp_set(first)}" '
+                   f'imagesizes="{GALLERY_SIZES}" fetchpriority="high">' if first and first.get("webp") else "")
+        extra = preload + "\n" + jsonld(product_ld(p, offers)) + "\n" + jsonld(breadcrumb_ld(p))
         s = put_head(template, head_tags(title, desc, f"/p/{p['id']}",
-                                         "/" + shots[0]["src"] if shots else OG_IMAGE,
-                                         og_type="product", extra=extra))
+                                         "/" + first["src"] if first else OG_IMAGE,
+                                         og_type="product", extra=extra,
+                                         img_size=(first.get("w"), first.get("h")) if first else OG_SIZE,
+                                         img_alt=first["alt"] if first else OG_ALT))
         if offers and sale_state(p["id"]) != "teaser":
             s = s.replace("<!-- seo:end -->",
                           f'<meta property="product:price:amount" content="{float(p["price"]):.2f}">\n'
                           '<meta property="product:price:currency" content="INR">\n<!-- seo:end -->', 1)
         s = s.replace('<html lang="en">', '<html lang="en-IN">', 1)
+        # breadcrumb ends with the name in the HTML itself (product.js leaves it alone)
+        s = s.replace('<a href="/#shop">Oversized T-Shirts</a>\n',
+                      f'<a href="/#shop">Oversized T-Shirts</a> <span>/</span> <strong>{e(p["name"])}</strong>\n', 1)
         gallery = "".join(
             f'<button class="gshot" data-i="{i}" aria-label="Enlarge image {i + 1} of {len(shots)}">'
-            f'<img src="/{m["src"]}" alt="{e(m["alt"])}" width="800" height="1000" '
-            f'loading="{"eager" if i < 2 else "lazy"}" decoding="async"{HIGH if i == 0 else ""}></button>'
+            + picture(m, loading="eager" if i < 2 else "lazy", sizes=GALLERY_SIZES, extra=HIGH if i == 0 else "")
+            + '</button>'
             for i, m in enumerate(shots))
         s = re.sub(r'(<div class="gallery__track" id="track">).*?(</div>\n)',
                    lambda m: m.group(1) + gallery + m.group(2), s, count=1, flags=re.S)
@@ -539,6 +674,12 @@ def build_products(products, offers):
                + f'<p class="buy__blurb">{e(blurb(p))}</p>')
         s = s.replace('<aside class="buy" id="buy" aria-live="polite"></aside>',
                       f'<aside class="buy" id="buy" aria-live="polite">{buy}</aside>', 1)
+        s = s.replace('<section class="wrap pinfo" id="pinfo" hidden></section>',
+                      f'<section class="wrap pinfo" id="pinfo" aria-label="About this t-shirt">{pinfo_html(p)}</section>', 1)
+        s = s.replace('<section class="wrap related" id="related" hidden>',
+                      '<section class="wrap related" id="related">', 1)
+        s = s.replace('<div class="rgrid" id="rgrid"></div>',
+                      f'<div class="rgrid" id="rgrid">{related_html(p, products)}</div>', 1)
         out = outdir / f"{p['id']}.html"
         out.write_text(s, encoding="utf-8")
         keep.add(out.name)
@@ -549,21 +690,117 @@ def build_products(products, offers):
 
 # ── sitemap + robots ──────────────────────────────────────────────────────
 
+STATE = ROOT / "data/sitemap-state.json"     # build-only (.vercelignore): page hash -> lastmod
+
+
+def page_file(path):
+    return ROOT / ("index.html" if path == "/" else f"{path.lstrip('/')}.html")
+
+
+def page_hash(path):
+    # the page as a reader sees it: asset ?v= hashes don't count as a change
+    s = page_file(path).read_text(encoding="utf-8")
+    s = re.sub(r"\?v=[0-9a-f]+", "", s)
+    return hashlib.sha256(s.encode("utf-8")).hexdigest()[:16]
+
+
 def build_sitemap(products):
     rows = [("/", "1.0")] + [(f"/p/{p['id']}", "0.8") for p in products] + \
            [(f"/{s}", "0.4") for s in SITEMAP_PAGES if (ROOT / f"{s}.html").exists()]
-    body = "".join(f"<url><loc>{e(url(path))}</loc><lastmod>{TODAY}</lastmod>"
-                   f"<priority>{pr}</priority></url>" for path, pr in rows)
+    pics = {f"/p/{p['id']}": images(p) for p in products}
+    pics["/"] = [m for p in products for m in images(p)[:1]]
+    state = json.loads(STATE.read_text(encoding="utf-8")) if STATE.exists() else {}
+    new_state, body = {}, []
+    for path, pr in rows:
+        h = page_hash(path)
+        old = state.get(path, {})
+        lastmod = old["lastmod"] if old.get("hash") == h else TODAY
+        new_state[path] = {"hash": h, "lastmod": lastmod}
+        imgs = "".join(f"<image:image><image:loc>{e(url('/' + m['src']))}</image:loc></image:image>"
+                       for m in pics.get(path, []))
+        body.append(f"<url><loc>{e(url(path))}</loc><lastmod>{lastmod}</lastmod>"
+                    f"<priority>{pr}</priority>{imgs}</url>")
+    STATE.write_text(json.dumps(new_state, indent=1, sort_keys=True) + "\n", encoding="utf-8")
     (ROOT / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + body + "</urlset>\n",
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+        'xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">' + "".join(body) + "</urlset>\n",
         encoding="utf-8")
     (ROOT / "robots.txt").write_text(
-        "User-agent: *\nAllow: /\nDisallow: /cart\nDisallow: /product$\nDisallow: /product.html\n\n"
+        "User-agent: *\nAllow: /\nAllow: /assets/\nDisallow: /cart\nDisallow: /product$\nDisallow: /product.html\n\n"
         f"Sitemap: {url('/sitemap.xml')}\n", encoding="utf-8")
 
 
+# ── Google Merchant Center feed (free listings) ───────────────────────────
+
+FEED = ROOT / "feeds/google-merchant.xml"
+
+
+def build_feed(products):
+    st_all, d = drop_phase(), drop_dates()
+    x = lambda s: html.escape(str(s), quote=False)
+    items = []
+    for p in products:
+        st = sale_state(p["id"])
+        pics = [url("/" + m["src"]) for m in images(p)]
+        cols = colours(p)
+        price, mrp = float(p["price"]), float(p.get("mrp") or 0)
+        for s in p["sizes"]:
+            if st == "open" and s.get("available"):
+                avail = "<g:availability>preorder</g:availability>" \
+                        f"<g:availability_date>{DROP['shipsBy']}T00:00:00+05:30</g:availability_date>"
+            elif st in ("closed", "notInDrop", "teaser") or not s.get("available"):
+                avail = "<g:availability>out_of_stock</g:availability>"
+            else:
+                avail = "<g:availability>in_stock</g:availability>"
+            if mrp > price:
+                money_tags = f"<g:price>{mrp:.2f} INR</g:price><g:sale_price>{price:.2f} INR</g:sale_price>"
+                if st == "open":
+                    money_tags += f"<g:sale_price_effective_date>{DROP['opens']}/{DROP['closes']}</g:sale_price_effective_date>"
+            else:
+                money_tags = f"<g:price>{price:.2f} INR</g:price>"
+            items.append(
+                "<item>"
+                f"<g:id>{x(p['id'])}-{x(s['size'].lower())}</g:id>"
+                f"<g:item_group_id>{x(p['id'])}</g:item_group_id>"
+                f"<title>{x(product_title(p))}</title>"
+                f"<description>{x(product_desc(p))}</description>"
+                f"<link>{x(url('/p/' + p['id']))}</link>"
+                + (f"<g:image_link>{x(pics[0])}</g:image_link>" if pics else "")
+                + "".join(f"<g:additional_image_link>{x(u)}</g:additional_image_link>" for u in pics[1:11])
+                + avail + money_tags
+                + f"<g:brand>{x(BRAND)}</g:brand><g:condition>new</g:condition>"
+                "<g:google_product_category>212</g:google_product_category>"
+                "<g:identifier_exists>no</g:identifier_exists>"
+                f"<g:gender>{x(FEED_GENDER)}</g:gender><g:age_group>{x(FEED_AGE_GROUP)}</g:age_group>"
+                + (f"<g:color>{x('/'.join(cols))}</g:color>" if cols else "")
+                + f"<g:size>{x(s['size'])}</g:size><g:size_system>IN</g:size_system>"
+                "<g:shipping><g:country>IN</g:country><g:price>0.00 INR</g:price></g:shipping>"
+                "</item>")
+    FEED.parent.mkdir(exist_ok=True)
+    FEED.write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0"><channel>'
+        f"<title>{x(BRAND)}</title><link>{x(url('/'))}</link>"
+        "<description>Oversized graphic t-shirts, designed in India.</description>"
+        + "".join(items) + "</channel></rss>\n", encoding="utf-8")
+    return len(items)
+
+
+# ── redirects for archived tees (vercel.json) ─────────────────────────────
+
+def build_redirects(archived):
+    # temporary (302): an archived tee may come back. Rewritten on every build.
+    f = ROOT / "vercel.json"
+    cfg = json.loads(f.read_text(encoding="utf-8"))
+    keep = [r for r in cfg.get("redirects", []) if not r.get("source", "").startswith("/p/")]
+    cfg["redirects"] = keep + [{"source": f"/p/{p['id']}", "destination": "/", "statusCode": 302}
+                               for p in archived]
+    f.write_text(json.dumps(cfg, indent=2) + "\n", encoding="utf-8")
+
+
 def build():
+    build_images.build()                       # WebP sizes, recorded in products.json
     data = json.loads((ROOT / "data/products.json").read_text(encoding="utf-8"))
     products = data["products"]
     check_prices(products)
@@ -575,7 +812,10 @@ def build():
     build_home(products)
     build_products(products, offers)
     build_sitemap(products)
-    print(f"seo: home, {len(products)} product pages, sitemap, robots "
+    n = build_feed(products) if offers else 0
+    build_redirects(data.get("archived", []))
+    print(f"seo: home, {len(products)} product pages, sitemap, robots, feed ({n} items), "
+          f"{len(data.get('archived', []))} archive redirects "
           f"(offers {'on' if offers else 'off'}, drop phase {drop_phase()}, site {SITE_URL})")
 
 

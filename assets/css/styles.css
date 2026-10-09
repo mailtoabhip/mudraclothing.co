@@ -204,6 +204,7 @@ footer{border-top:1px solid var(--line);padding-block:40px 60px}
 .cat-head{display:flex;align-items:baseline;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-bottom:22px}
 .cat-head h2{font-family:var(--display);font-size:clamp(28px,6vw,60px);margin:0;letter-spacing:.02em;text-transform:uppercase}
 .cat-head .mono{color:var(--ash)}
+.cat-intro{margin:-8px 0 22px;max-width:60ch;color:var(--ash);font-size:15px;line-height:1.5}
 
 .cat-layout{display:grid;grid-template-columns:238px 1fr;gap:clamp(20px,3vw,44px);align-items:start}
 @media(max-width:900px){.cat-layout{grid-template-columns:1fr}}
@@ -274,6 +275,9 @@ footer{border-top:1px solid var(--line);padding-block:40px 60px}
 .slides{position:absolute;inset:0}
 .slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .25s ease-out}
 .slide.is-on{opacity:1}
+/* the other photos load only once main.js arms the card (near the screen) */
+.pcard__media:not(.armed) .slide:not(.is-on){display:none}
+picture{display:contents}
 .navbtn{
   position:absolute;top:50%;transform:translateY(-50%);z-index:3;
   width:30px;height:30px;line-height:1;font-size:19px;

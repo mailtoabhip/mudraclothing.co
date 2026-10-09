@@ -33,15 +33,13 @@ body.is-pdp{padding-bottom:0}
 
 /* ── buy column ──────────────────────────── */
 .buy{position:sticky;top:calc(var(--navh) + 18px);display:flex;flex-direction:column;gap:22px;min-width:0}
-.buy__top{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.pno{background:var(--blue);color:var(--on-blue);padding:6px 10px 5px;letter-spacing:.16em}
-.pno em{font-style:normal;opacity:.6}
+.buy{container-type:inline-size}
 .buy__series{color:var(--ash)}
 
 .buy__name{
   font-family:var(--display);text-transform:uppercase;letter-spacing:.01em;
-  font-size:clamp(40px,5.2vw,78px);line-height:.9;margin:-4px 0 0;
-  overflow-wrap:anywhere;
+  font-size:clamp(28px,12cqi,78px);line-height:.9;margin:-4px 0 0;
+  overflow-wrap:normal;word-break:normal;hyphens:none;
 }
 
 .buy__price{display:grid;padding-bottom:20px;border-bottom:1px solid var(--line)}
@@ -162,6 +160,17 @@ body.is-pdp{padding-bottom:0}
 }
 .sides__pair figure:last-child figcaption{background:var(--magenta);color:var(--on-magenta)}
 
+/* ── about this design + details (pre-rendered by build_seo.py) ── */
+.pinfo{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(20px,4vw,56px);
+  padding-block:clamp(28px,4vw,48px);border-top:1px solid var(--line)}
+.pinfo__h{font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash);margin:0 0 14px}
+.pinfo__p{margin:0;max-width:60ch;font-size:15px;line-height:1.55}
+.pinfo__list{list-style:none;margin:0;padding:0;font-size:15px;line-height:1.5}
+.pinfo__list li{padding:9px 0;border-top:1px dashed var(--line)}
+.pinfo__list li:first-child{border-top:0;padding-top:0}
+.pinfo__list a{text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line-strong)}
+.pinfo__list a:hover{color:var(--blue);text-decoration-color:var(--blue)}
+
 /* ── related ─────────────────────────────── */
 .related{padding-bottom:clamp(44px,7vw,90px)}
 .related .shead a{color:var(--ash)}
@@ -221,7 +230,7 @@ dialog::backdrop{background:rgba(26,26,26,.6);backdrop-filter:blur(2px)}
   }
   .gallery__badge{left:calc(var(--gut) + 0px)}
   .buy{position:static;gap:18px}
-  .buy__name{font-size:clamp(40px,13vw,64px)}
+  .buy__name{font-size:clamp(28px,12cqi,64px)}
   .sizes5 .szbtn{height:48px}
   .sides__pair{margin-inline:calc(var(--gut) * -1)}
   .rgrid{grid-template-columns:1fr 1fr;gap:10px}

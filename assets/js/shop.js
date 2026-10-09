@@ -236,6 +236,16 @@ function priceView(p, live) {
   return { now, mrp: mrp > now ? mrp : null, regular, pre };
 }
 
+// <picture> with the WebP widths scripts/build_images.py made (m.webp), JPEG fallback.
+// Mirrored by picture() in scripts/build_seo.py for the pre-rendered HTML.
+function pictureHTML(m, { cls = '', loading = 'lazy', sizes = '100vw', extra = '' } = {}) {
+  const base = '/' + m.src.replace(/\.jpe?g$/i, '');
+  const set = (m.webp || []).map(w => `${base}-${w}.webp ${w}w`).join(', ');
+  const img = `<img${cls ? ` class="${cls}"` : ''} src="/${m.src}" alt="${esc(m.alt)}" width="${m.w || 800}" height="${m.h || 1000}" loading="${loading}" decoding="async"${extra}>`;
+  return set ? `<picture><source type="image/webp" srcset="${set}" sizes="${sizes}">${img}</picture>` : img;
+}
+const CARD_SIZES = '(max-width: 600px) 50vw, (max-width: 1100px) 45vw, 30vw';
+
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
@@ -634,7 +644,7 @@ window.Mudra = {
   loadDrop, dropPhase, dropDates, saleState, canBuy, inDrop, closesIn, checkoutBlock, downloadIcs,
   tickerItems, heroTag, codNow, lineNote, get drop() { return DROP; },
   productUrl, productIdFromUrl, loadCatalogue, loadSprite, sellableColours,
-  money, priceView, esc, wireHeader, renderBag, initBag, addToBag, flash,
+  money, priceView, esc, pictureHTML, CARD_SIZES, wireHeader, renderBag, initBag, addToBag, flash,
   liveProduct, cart, sf, sizeTableHTML,
 };
 
