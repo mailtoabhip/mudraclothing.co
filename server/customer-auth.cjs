@@ -90,7 +90,7 @@ async function callback(req, res) {
   const session = { customerId, access: tokens.access_token, refresh: tokens.refresh_token,
     accessUntil: Date.now() + Number(tokens.expires_in) * 1000, csrf: crypto.randomBytes(24).toString('base64url'), exp: Date.now() + 604800000 };
   cookie(res, '__Host-mudra-session', seal(session), 604800);
-  res.redirect(302, '/pre-orders');
+  res.redirect(302, '/cart');
 }
 async function session(req, res) {
   const saved = unseal(cookies(req)['__Host-mudra-session']);

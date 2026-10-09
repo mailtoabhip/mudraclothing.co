@@ -80,3 +80,8 @@ header.solid{position:sticky;background:rgba(237,233,224,.96)}
 .bline__po{margin:0;color:var(--fg);font-size:10px;letter-spacing:.1em}
 .bsum__po{margin:0;font-size:14px;line-height:1.45}
 .bsum__checkout:disabled,.bsum__checkout:disabled:hover{background:transparent;color:var(--ash);border:1px solid var(--line-strong);cursor:not-allowed}
+
+/* Saved pre-orders remain part of the bag. */
+.bagpg__preorders{margin-top:40px;padding-top:24px;border-top:1px solid var(--line)}
+.bagpg__preorders[hidden]{display:none}
+.bagpg__preorders>h2{font-family:var(--display);font-size:28px;margin:0 0 24px}

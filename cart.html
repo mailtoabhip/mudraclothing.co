@@ -17,7 +17,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Saira:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Saira:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap"></noscript>
 <link rel="stylesheet" href="/assets/css/styles.css?v=ea932007">
-<link rel="stylesheet" href="/assets/css/cart.css?v=65de8268">
+<link rel="stylesheet" href="/assets/css/cart.css?v=5e029c3f">
+<link rel="stylesheet" href="/assets/css/reservations.css?v=8e26ccf9">
 </head>
 <body class="is-cart">
 
@@ -41,9 +42,14 @@
     <span class="mono bagpg__count" id="bagCount" aria-live="polite"></span>
   </div>
   <p class="bag__err mono" id="bagErr" role="alert" hidden></p>
+  <p class="bag__err mono" id="reservationStatus" role="status"></p>
   <div class="bagpg__body" id="bagBody" aria-busy="true">
     <p class="mono bag__loading">Loading the bag</p>
   </div>
+  <section class="bagpg__preorders" id="savedPreorders" aria-label="Your pre-orders" hidden>
+    <h2>Your pre-orders</h2>
+    <div id="reservationContent"></div>
+  </section>
 </main>
 
 <!-- footer:start -->
@@ -77,6 +83,7 @@
 <!-- footer:end -->
 
 <script src="/assets/js/shop.js?v=1882700d" defer></script>
-<script src="/assets/js/cart.js?v=64605b36" defer></script>
+<script src="/assets/js/cart.js?v=5bdb0d7a" defer></script>
+<script src="/assets/js/reservations.js?v=f35175e1" defer></script>
 </body>
 </html>

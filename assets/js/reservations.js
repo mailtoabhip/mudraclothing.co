@@ -6,13 +6,13 @@
   async function pay(body, button) {
     button.disabled = true;
     status.textContent = 'Preparing your secure Shopify checkout.';
+    const submittedBag = { cartId: M.cart.state?.id, lines: (M.cart.state?.lines?.nodes || []).map(line => ({ id: line.id, quantity: line.quantity })) };
     try {
       const response = await fetch('/api/reservations', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Mudra-CSRF': account.csrf }, body: JSON.stringify(body) });
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || 'Could not prepare checkout.');
       if (body.action === 'deposit') {
-        try { localStorage.setItem('mudra-pending-reservation', JSON.stringify({ id: result.id, cartId: M.cart.state.id,
-          lines: M.cart.state.lines.nodes.map(line => ({ id: line.id, quantity: line.quantity })) })); } catch {}
+        try { localStorage.setItem('mudra-pending-reservation', JSON.stringify({ id: result.id, ...submittedBag })); } catch {}
       }
       location.assign(result.checkoutUrl);
     } catch (error) { status.textContent = error.message; button.disabled = false; }
@@ -62,41 +62,22 @@
     content.append(card);
   }
   async function load() {
-    M.wireHeader({ solid: true });
-    await Promise.all([M.loadSprite(), M.loadCatalogue(), M.loadDrop(), M.loadReservations(), M.cart.load()]);
+    await M.cartReady;
+    if (!M.SHOPIFY.enabled) return;
     const response = await fetch('/api/customer/session', { cache: 'no-store' });
     if (!response.ok) throw new Error('Sign-in is unavailable. Please try again later.');
     account = await response.json();
     if (!account.signedIn) {
-      status.textContent = new URLSearchParams(location.search).has('error') ? 'Sign-in could not be completed. Please try again.' : 'Sign in to view your pre-ordered tees across devices.';
-      const link = document.createElement('a');
-      link.className = 'btn'; link.href = '/api/customer/login'; link.textContent = 'Sign in'; content.append(link);
+      status.textContent = new URLSearchParams(location.search).has('error') ? 'Sign-in could not be completed. Please try again.' : '';
       return;
     }
     const result = await fetch('/api/reservations', { cache: 'no-store' });
     const saved = await result.json();
     if (!result.ok) throw new Error(saved.error || 'Could not load your pre-orders.');
     await clearPaidBag(saved.reservations);
-    status.textContent = saved.reservations.length ? 'Your pre-orders.' : 'No pre-orders yet. Your bag is ready when you are.';
+    status.textContent = '';
+    document.getElementById('savedPreorders').hidden = !saved.reservations.length;
     saved.reservations.forEach(renderRecord);
-    const lines = bagLines();
-    if (lines.length && M.depositWindow()) {
-      const count = lines.reduce((n, l) => n + l.quantity, 0);
-      const box = document.createElement('article'); box.className = 'reservation';
-      const catalogue = await M.loadCatalogue();
-      const total = lines.reduce((n, l) => n + catalogue.products.find(p => p.id === l.productId).price * l.quantity, 0);
-      const deposit = lines.reduce((n, l) => n + M.depositFor(l.productId) * l.quantity, 0);
-      box.innerHTML = `<h2>Pre-order your bag</h2><p>${count} tee${count === 1 ? '' : 's'}. Pay ${M.money(deposit)} now for pre-order. Full tee total ${M.money(total)}. Balance ${M.money(total - deposit)} payable when orders open on ${M.esc(M.dropDates().launchShort)}, before dispatch.</p><p>Your paid deposit locks these exact tees, sizes and quantities at the current pre-order price. Additional purchases use their current price. Deposits are refundable before dispatch.</p>`;
-      const button = document.createElement('button'); button.type = 'button'; button.className = 'btn'; button.textContent = `Pay ${M.money(deposit)} for pre-order`;
-      button.addEventListener('click', () => {
-        let key; const fingerprint = JSON.stringify({ lines, deposits: lines.map(l => M.depositFor(l.productId)) });
-        try { const prior = JSON.parse(localStorage.getItem('mudra-deposit-request')); if (prior?.fingerprint === fingerprint) key = prior.key; } catch {}
-        key ||= crypto.randomUUID();
-        try { localStorage.setItem('mudra-deposit-request', JSON.stringify({ fingerprint, key })); } catch {}
-        pay({ action: 'deposit', lines, requestKey: key }, button);
-      });
-      box.append(button); content.append(box);
-    }
     const button = document.createElement('button'); button.type = 'button'; button.className = 'btn'; button.textContent = 'Sign out';
     button.addEventListener('click', async () => {
       const result = await fetch('/api/customer/session', { method: 'POST', headers: { 'X-Mudra-CSRF': account.csrf } });
@@ -104,5 +85,21 @@
     });
     content.append(button);
   }
-  load().catch(error => { status.textContent = error.message; });
+  const ready = load().catch(error => { status.textContent = error.message; });
+  M.preorders = {
+    async checkout(button) {
+      button.disabled = true;
+      await ready;
+      if (!account) { status.textContent = 'Sign-in is unavailable. Refresh and try again.'; button.disabled = false; return; }
+      if (!account.signedIn) { location.assign('/api/customer/login'); return; }
+      const lines = bagLines();
+      if (!M.depositWindow() || !lines.length) { status.textContent = 'Your bag changed. Refresh and try again.'; button.disabled = false; return; }
+      let key;
+      const fingerprint = JSON.stringify({ lines, deposits: lines.map(l => M.depositFor(l.productId)) });
+      try { const prior = JSON.parse(localStorage.getItem('mudra-deposit-request')); if (prior?.fingerprint === fingerprint) key = prior.key; } catch {}
+      key ||= crypto.randomUUID();
+      try { localStorage.setItem('mudra-deposit-request', JSON.stringify({ fingerprint, key })); } catch {}
+      await pay({ action: 'deposit', lines, requestKey: key }, button);
+    }
+  };
 })();

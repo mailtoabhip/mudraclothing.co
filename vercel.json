@@ -137,7 +137,12 @@
   "redirects": [
     {
       "source": "/reservations",
-      "destination": "/pre-orders",
+      "destination": "/cart",
+      "permanent": false
+    },
+    {
+      "source": "/pre-orders",
+      "destination": "/cart",
       "permanent": false
     },
     {
