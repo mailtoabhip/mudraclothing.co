@@ -196,7 +196,7 @@ async function retryUnpaid(customerId, id) {
   if (!record || record.depositDraftId || !['creating', 'failed'].includes(record.status)) throw new Error('Open the existing reservation instead.');
   if (record.status === 'creating' && Date.now() - Date.parse(record.creatingAt || record.createdAt) < 300000) throw new Error('Checkout is still being prepared. Please wait a few minutes.');
   // Check recent drafts directly as well as the tag search, before resetting a failed setup.
-  const recent = await admin(`{ draftOrders(first: 100, sortKey: CREATED_AT, reverse: true) { nodes { id tags } } }`);
+  const recent = await admin(`{ draftOrders(first: 100, sortKey: ID, reverse: true) { nodes { id tags } } }`);
   if (recent.draftOrders.nodes.some(d => d.tags.includes(tag(record.id, 'deposit'))) || await findDraft(record.id, 'deposit')) throw new Error('A checkout already exists. Please contact us to recover its link.');
   await store.update(customerId, records => {
     const saved = records.find(r => r.id === id);
