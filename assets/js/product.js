@@ -14,6 +14,8 @@ const view = {
   garment: {},
   size: null,
   quantities: {},
+  bagQuantities: {},
+  saving: false,
   colour: null,
   shots: [],   // image media only
   zoomAt: 0,
@@ -28,7 +30,7 @@ async function init() {
     fetch('/data/site.json', { cache: 'no-cache' }).then(r => (r.ok ? r.json() : {})).catch(() => ({})),
   ]);
   view.site = site || {};
-  M.initBag();
+  const bagReady = M.initBag();
 
   const id = M.productIdFromUrl();
   const list = data.products;
@@ -59,6 +61,11 @@ async function init() {
   wireSizeSheet();
   wireZoom();
   wireStickyBar();
+  M.cart.onChange(() => {
+    if (!view.saving) restoreBagSelection();
+  });
+  await bagReady;
+  restoreBagSelection();
   if (M.SHOPIFY.enabled) loadLive(p);
 }
 
@@ -245,6 +252,7 @@ function renderBuy(p) {
       </div>
       <div class="sizes5" id="sizes" role="group" aria-label="Size">${sizes}</div>
       <p class="opt__hint mono" id="sizeHint">Cut oversized on purpose. Take your usual size.</p>
+      <p class="opt__hint mono" id="productBagStatus" role="status" hidden></p>
     </div>
 
     <button class="buy__atc" id="atc" ${anyStock ? '' : 'disabled'}>${anyStock ? 'Pick a size' : 'Sold out'}</button>
@@ -320,6 +328,7 @@ function renderBuy(p) {
     b.setAttribute('aria-pressed', 'true');
     view.colour = view.colours.find(c => c.key === b.dataset.colour);
     $('#colourName').textContent = view.colour.name;
+    restoreBagSelection(true);
     syncSticky();
   });
 
@@ -421,6 +430,9 @@ function priceHTML(p) {
 
 // main button once a size is picked; the price part drops on very narrow phones (product.css)
 function ctaHTML() {
+  if (M.SHOPIFY.enabled && Object.keys(view.bagQuantities).length) {
+    return bagSelectionChanged() ? 'Update bag' : 'View bag';
+  }
   const price = selectionTotal() || view.price;
   // drop window: "Pre-order now · ₹1,199"; narrow phones keep just "Pre-order"
   if (M.saleState(view.product.id) === 'open') return `Pre-order<span class="atc__price"> now · ${money(price)}</span>`;
@@ -447,11 +459,16 @@ function selectSize(size) {
 }
 
 async function addCurrent(btn) {
-  if (!selectionCount()) {
+  if (!selectionCount() && !bagSelectionChanged()) {
     openPurchaseSizes();
     return;
   }
   const p = view.product;
+  if (M.SHOPIFY.enabled && !bagSelectionChanged() && selectionCount()) {
+    location.href = M.CART_URL;
+    return;
+  }
+  view.saving = true;
   const busy = [$('#atc'), $('#sbBtn')];
   busy.forEach(b => { b.disabled = true; });
   $('#sbSize').disabled = true;
@@ -459,7 +476,7 @@ async function addCurrent(btn) {
   btn.setAttribute('aria-busy', 'true');
   showError('');
   try {
-    await M.addToBag(Object.entries(view.quantities).filter(([,quantity]) => quantity > 0).map(([size, quantity]) => ({
+    const items = Object.entries(view.quantities).filter(([,quantity]) => quantity > 0).map(([size, quantity]) => ({
       id: p.id,
       variantId: view.variants?.[size]?.id,
       name: p.name,
@@ -468,13 +485,25 @@ async function addCurrent(btn) {
       colour: view.colour?.name,
       image: view.shots[0] ? '/' + view.shots[0].src : null,
       price: sizePrice(size),
-    })), btn);
+    }));
+    if (M.SHOPIFY.enabled && productBagLines().length) {
+      await M.cart.replaceLines(productBagLines(), items.map(x => ({
+        merchandiseId: x.variantId, quantity: x.quantity,
+        attributes: x.colour ? [{ key: 'Colour', value: x.colour }] : [],
+      })));
+      M.flash(btn, 'Bag updated');
+      if (items.length) M.openDrawer({ ...items[0], size: selectionLabel(), price: selectionTotal() }, btn);
+    } else if (items.length) await M.addToBag(items, btn);
   } catch (err) {
     showError(err.message || "Couldn't add that. Try again.");
   } finally {
+    view.saving = false;
+    restoreBagSelection(true);
     busy.forEach(b => { b.disabled = false; });
     btn.removeAttribute('aria-busy');
     syncSticky();
+    // The confirmation flash restores its old label; refresh it from the saved bag.
+    setTimeout(syncSticky, 1500);
   }
 }
 
@@ -595,6 +624,26 @@ function renderRelated(p, list) {
 /* ---------- persistent purchase bar ---------------------------------- */
 
 const SIZE_NAMES = { S: 'Small', M: 'Medium', L: 'Large', XL: 'Extra large', XXL: '2X large' };
+function productBagLines() {
+  return (M.cart.state?.lines.nodes || []).filter(line =>
+    line.merchandise.product.handle === view.product.id &&
+    (line.attributes.find(a => a.key === 'Colour')?.value || '').toLowerCase() === (view.colour?.name || '').toLowerCase());
+}
+function bagSelectionChanged() {
+  return view.product.sizes.some(({ size }) => (view.quantities[size] || 0) !== (view.bagQuantities[size] || 0));
+}
+function restoreBagSelection(force = false) {
+  if (!M.SHOPIFY.enabled) return;
+  const dirty = bagSelectionChanged();
+  const quantities = {};
+  for (const line of productBagLines()) {
+    const size = line.merchandise.selectedOptions.find(o => o.name.toLowerCase() === 'size')?.value;
+    if (size) quantities[size] = (quantities[size] || 0) + line.quantity;
+  }
+  view.bagQuantities = quantities;
+  if (force || !dirty) view.quantities = { ...quantities };
+  syncSticky();
+}
 function sizePrice(size) { return view.variants?.[size]?.price ?? view.price; }
 function selectionCount() { return Object.values(view.quantities).reduce((n, q) => n + q, 0); }
 function selectionTotal() { return Object.entries(view.quantities).reduce((n, [s, q]) => n + sizePrice(s) * q, 0); }
@@ -611,6 +660,10 @@ function syncSticky() {
   }
   view.size = Object.keys(view.quantities)[0] || null;
   const count = selectionCount();
+  const savedCount = Object.values(view.bagQuantities).reduce((sum, quantity) => sum + quantity, 0);
+  const bagStatus = $('#productBagStatus');
+  bagStatus.hidden = !savedCount;
+  bagStatus.textContent = `${savedCount} shirt${savedCount === 1 ? '' : 's'} already in your bag`;
   $('#sbMeta').textContent = [money(count ? selectionTotal() : view.price), view.colour?.name, selectionLabel()].filter(Boolean).join(' · ');
   picker.disabled = main.disabled || locked();
   btn.disabled = main.disabled || locked();
@@ -641,12 +694,12 @@ function syncSticky() {
   if (locked()) { btn.textContent = lockedLabel(); return; }
   if (main.disabled) { btn.textContent = main.textContent; return; }
   if (!main.classList.contains('done')) {
-    main.innerHTML = count ? ctaHTML() : 'Pick a size';
+    main.innerHTML = count || bagSelectionChanged() ? ctaHTML() : 'Pick a size';
     main.classList.toggle('ready', !!count);
   }
   if (btn.classList.contains('done')) return;
   const verb = M.saleState(p.id) === 'open' ? 'Pre-order now' : M.isPreorder() ? 'Pre-order' : 'Add to bag';
-  btn.textContent = count ? verb : 'Choose sizes';
+  btn.textContent = Object.keys(view.bagQuantities).length ? (bagSelectionChanged() ? 'Update bag' : 'View bag') : count ? verb : 'Choose sizes';
 }
 
 function positionPurchaseSizes() {
@@ -687,7 +740,7 @@ function wireStickyBar() {
     syncSticky();
   });
   $('#sbSize').addEventListener('click', openPurchaseSizes);
-  $('#sbBtn').addEventListener('click', () => selectionCount() ? addCurrent($('#sbBtn')) : openPurchaseSizes());
+  $('#sbBtn').addEventListener('click', () => selectionCount() || bagSelectionChanged() ? addCurrent($('#sbBtn')) : openPurchaseSizes());
   $('#purchaseSizesClose').addEventListener('click', () => panel.close());
   $('#purchaseSizesDone').addEventListener('click', () => panel.close());
   panel.addEventListener('close', () => {

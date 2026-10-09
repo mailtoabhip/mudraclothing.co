@@ -410,6 +410,23 @@ const cart = {
     return setCart(unwrap(d.cartLinesUpdate));
   },
 
+  // Replace this product/colour's selected quantities without adding them twice.
+  async replaceLines(existing, wanted) {
+    const updates = [], remove = [], additions = [];
+    const remaining = new Map(wanted.map(line => [line.merchandiseId, line]));
+    for (const line of existing) {
+      const next = remaining.get(line.merchandise.id);
+      remaining.delete(line.merchandise.id);
+      if (!next) remove.push(line.id);
+      else if (next.quantity !== line.quantity) updates.push({ id: line.id, quantity: next.quantity });
+    }
+    additions.push(...remaining.values());
+    if (remove.length) setCart(unwrap((await sf(Q.remove, { id: cartState.id, ids: remove })).cartLinesRemove));
+    if (updates.length) setCart(unwrap((await sf(Q.update, { id: cartState.id, lines: updates })).cartLinesUpdate));
+    if (additions.length) await cart.addLines(additions);
+    return cartState;
+  },
+
   async remove(lineId) {
     const d = await sf(Q.remove, { id: cartState.id, ids: [lineId] });
     return setCart(unwrap(d.cartLinesRemove));
@@ -614,6 +631,17 @@ function initBag() {
   return Promise.resolve(null);
 }
 
+// Re-read the saved Shopify cart when returning to the site or another tab.
+addEventListener('storage', e => {
+  if (SHOPIFY.enabled && e.key === CART_KEY) cart.load().catch(() => {});
+});
+addEventListener('pageshow', e => {
+  if (SHOPIFY.enabled && e.persisted) cart.load().catch(() => {});
+});
+document.addEventListener('visibilitychange', () => {
+  if (SHOPIFY.enabled && document.visibilityState === 'visible') cart.load().catch(() => {});
+});
+
 /* ---------- size chart (garment.sizeChart in products.json) ----------
    Same markup as the static table build_pages.py writes into /size-guide.
    Cells carry data-in; the in/cm buttons rewrite them in place. */
@@ -656,7 +684,7 @@ window.Mudra = {
   tickerItems, heroTag, codNow, lineNote, get drop() { return DROP; },
   productUrl, productIdFromUrl, loadCatalogue, loadSprite, sellableColours,
   money, priceView, esc, pictureHTML, CARD_SIZES, wireHeader, renderBag, initBag, addToBag, flash,
-  liveProduct, cart, sf, sizeTableHTML,
+  liveProduct, cart, sf, sizeTableHTML, openDrawer,
 };
 
 })();
