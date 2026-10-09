@@ -13,6 +13,7 @@ header.solid{position:sticky;background:rgba(237,233,224,.96)}
 .bagpg__count{color:var(--ash)}
 
 .bag__err{margin:18px 0 0;padding:12px 14px;border:1px solid var(--magenta);color:var(--fg);background:rgba(255,45,120,.08)}
+.bag__err:empty{display:none}
 .bag__loading{color:var(--ash);padding-top:28px}
 
 .bagpg__body{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,380px);gap:clamp(24px,5vw,72px);align-items:start}
