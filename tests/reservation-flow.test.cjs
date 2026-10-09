@@ -35,6 +35,7 @@ test('payment flow protects price locks, concurrent checkout requests and refund
   const checkout = attempts.find(r => r.status === 'fulfilled').value;
   assert.equal(draftCount, 1, 'concurrent calls must create at most one payable invoice');
   assert.equal(checkout.depositPaise, 59700); assert.equal(checkout.balancePaise, 330000);
+  assert.equal(inputs[0].tags.every(t => t.length <= 40), true, 'Shopify tag lengths are bounded');
   assert.equal(inputs[0].lineItems.every(l => l.requiresShipping === false && !l.variantId), true, 'deposit is not a physical shirt order');
   const again = await payments.createDeposit(customerId, lines, 'test-request-123456789');
   assert.equal(again.checkoutUrl, checkout.checkoutUrl); assert.equal(draftCount, 1);

@@ -18,7 +18,7 @@ function paise(value) {
   return result;
 }
 function rupees(amount) { return (amount / 100).toFixed(2); }
-function tag(id, kind) { return `mudra-${kind}-${id}`; }
+function tag(id, kind) { return `${kind === 'deposit' ? 'md' : 'mb'}-${id.replaceAll('-', '')}`; }
 async function ensureSubscriptions() {
   if (subscriptionsReady) return;
   const uri = `${ORIGIN}/api/reservation-webhook`;
@@ -152,6 +152,11 @@ async function applyPayment(customerId, id, kind, order) {
       record.balancePaid = true; record.status = 'settled';
     }
   });
+  const saved = (await store.read(customerId)).records.find(r => r.id === id);
+  if (saved?.cancelled && !saved.balancePaid && saved.balanceDraftId) {
+    const draft = await getDraft(saved.balanceDraftId);
+    if (draft && !draft.order && draft.status !== 'COMPLETED') await require('./reservation-maintenance.cjs').closeDraft(draft.id);
+  }
 }
 
 async function createBalance(customerId, id) {

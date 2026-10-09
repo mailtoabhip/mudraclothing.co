@@ -1,5 +1,16 @@
 {
   "cleanUrls": true,
+  "crons": [
+    {
+      "path": "/api/reservation-maintenance",
+      "schedule": "29 18 * * *"
+    }
+  ],
+  "functions": {
+    "api/**/*.js": {
+      "maxDuration": 60
+    }
+  },
   "headers": [
     {
       "source": "/(.*)",

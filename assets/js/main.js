@@ -96,7 +96,7 @@ function cardHTML(p) {
   <article class="pcard" data-id="${p.id}" data-series="${p.series}" data-colour="${p.colour}"
            data-print="${p.print}" data-stock="${stockTags.join(' ')}"
            data-sizes="${available.map(s => s.size).join(' ')}"
-           data-price="${p.price}" data-name="${esc(p.name)}" data-url="${url}">
+           data-price="${priceView(p).now}" data-name="${esc(p.name)}" data-url="${url}">
     <div class="pcard__media" tabindex="0" aria-label="${esc(p.name)}, view product">
       ${badge}
       <div class="slides">${slides}</div>

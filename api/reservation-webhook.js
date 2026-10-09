@@ -25,7 +25,15 @@ module.exports = async (req, res) => {
     const { admin } = require('../server/shopify-admin.cjs');
     const result = await admin('query($id: ID!) { draftOrder(id: $id) { order { id } } }', { id: record[`${kind}DraftId`] });
     const orderId = `gid://shopify/Order/${event.id}`;
-    if (result.draftOrder?.order?.id !== orderId) return res.status(200).end();
+    const ownedTag = `${kind === 'deposit' ? 'md' : 'mb'}-${id.replaceAll('-', '')}`;
+    const ownedRetired = kind === 'deposit' && record.depositRetired && String(event.tags || '').split(',').map(t => t.trim()).includes(ownedTag);
+    if (result.draftOrder?.order?.id !== orderId && !ownedRetired) return res.status(200).end();
+    if (record[`${kind}Payment`]?.paidAt && Date.now() - Date.parse(record[`${kind}Payment`].paidAt) > 58 * 86400000) {
+      if (event.cancelled_at || event.refunds?.length || ['refunded','partially_refunded','voided'].includes(event.financial_status)) {
+        await applyPayment(customerId, id, kind, { ...record[`${kind}Payment`], cancelled: true });
+      }
+      return res.status(200).end();
+    }
     const snapshot = await orderSnapshot(orderId);
     if (!snapshot) return res.status(503).end();
     await applyPayment(customerId, id, kind, snapshot);

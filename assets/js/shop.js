@@ -228,7 +228,8 @@ const money = n => `₹${Number(n).toLocaleString('en-IN', { maximumFractionDigi
 // checkout charges. The struck MRP only shows when it's above the price.
 // Keep in step with price_view() in scripts/build_seo.py.
 function priceView(p, live) {
-  const now = live?.price ?? p.price;
+  const pastWindow = DROP && Date.now() > Date.parse(DROP.closes);
+  const now = pastWindow && p.regularPrice ? p.regularPrice : (live?.price ?? p.price);
   const mrp = live?.compareAt ?? p.mrp ?? null;
   const st = saleState(p.id);
   const pre = st === 'open' || st === 'teaser';
