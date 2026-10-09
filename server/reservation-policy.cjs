@@ -1,7 +1,7 @@
 'use strict';
 
 // All amounts are paise. Reservations belong to paid orders, never to a browser bag.
-const DEPOSIT_PAISE = 19900;
+const DEPOSIT_PAISE = require('../data/reservations.json').depositRupees * 100;
 class ReservationError extends Error {
   constructor(code, message) { super(message); this.code = code; }
 }

@@ -28,6 +28,7 @@ async function init() {
   const [, data, , site] = await Promise.all([
     M.loadSprite(), M.loadCatalogue(), M.loadDrop(),
     fetch('/data/site.json', { cache: 'no-cache' }).then(r => (r.ok ? r.json() : {})).catch(() => ({})),
+    M.loadReservations(),
   ]);
   view.site = site || {};
   const bagReady = M.initBag();
@@ -434,6 +435,10 @@ function ctaHTML() {
     return bagSelectionChanged() ? 'Update bag' : 'View bag';
   }
   const price = selectionTotal() || view.price;
+  if (M.depositWindow()) {
+    const count = Object.values(view.quantities).reduce((n, qty) => n + qty, 0) || 1;
+    return `Pre-order<span class="atc__price"> · ${money(count * M.depositRupees)} deposit</span>`;
+  }
   // drop window: "Pre-order now · ₹1,199"; narrow phones keep just "Pre-order"
   if (M.saleState(view.product.id) === 'open') return `Pre-order<span class="atc__price"> now · ${money(price)}</span>`;
   return M.isPreorder()

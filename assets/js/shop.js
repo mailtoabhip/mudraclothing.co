@@ -93,6 +93,21 @@ function arrivalRange(now = new Date()) {
 
 let DROP = null;
 let dropPromise;
+let RESERVATIONS = { enabled: false, depositRupees: 199 };
+let reservationsPromise;
+function loadReservations() {
+  reservationsPromise ||= fetch('/data/reservations.json', { cache: 'no-cache' })
+    .then(r => { if (!r.ok) throw new Error('Reservation settings unavailable.'); return r.json(); })
+    .then(config => {
+      if (!Number.isSafeInteger(config.depositRupees) || config.depositRupees < 1) throw new Error('Invalid deposit.');
+      RESERVATIONS = config;
+      return config;
+    }).catch(() => RESERVATIONS);
+  return reservationsPromise;
+}
+function depositWindow(now = Date.now()) {
+  return RESERVATIONS.enabled === true && !!DROP && now >= Date.parse(DROP.opens) && now <= Date.parse(DROP.closes);
+}
 function loadDrop() {
   dropPromise ||= fetch('/data/drop.json', { cache: 'no-cache' })
     .then(r => (r.ok ? r.json() : null)).catch(() => null)
@@ -680,6 +695,7 @@ document.addEventListener('click', e => {
 });
 
 window.Mudra = {
+  loadReservations, depositWindow, get depositRupees() { return RESERVATIONS.depositRupees; },
   SHOPIFY, SIZES, ACCOUNT_URL, CART_URL, ShopError, ORDERING, isPreorder, arrivalRange,
   loadDrop, dropPhase, dropDates, saleState, canBuy, inDrop, closesIn, checkoutBlock, downloadIcs,
   tickerItems, heroTag, codNow, lineNote, get drop() { return DROP; },

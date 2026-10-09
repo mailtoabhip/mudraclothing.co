@@ -1,6 +1,8 @@
 # Pre-order deposit flow: agreed scope
 
-Status: implementation specification only. The current live checkout still collects the full tee price.
+Status: private customer sign-in, deposit and balance checkout APIs, customer-owned records, payment webhooks and cutoff maintenance are deployed. A real INR 199 deposit invoice has been verified. The founder must complete its payment before the main storefront deposit flow is enabled. The current main cart still collects the full tee price.
+
+`data/reservations.json` holds the deposit amount and the main-storefront rollout flag. Keep `enabled: false` until real paid-deposit reconciliation and the balance invoice have been checked. The dedicated `/reservations` page remains available for the payment test.
 
 ## Founder-confirmed rules
 
@@ -29,12 +31,15 @@ Status: implementation specification only. The current live checkout still colle
 5. Backend-enforced deadline and price rules. Frontend prices, browser storage and customer-submitted totals must not be trusted.
 6. Coordinated public Shopify and website regular-price updates at the cutoff. Existing closed-phase purchasing behaviour must be reviewed separately before enabling any new orders after the cutoff.
 
-## Current gaps
+## Remaining verification
 
-- The repository is a static storefront without reservation APIs, a reservation datastore or customer authentication callbacks.
-- No Shopify Admin connector is callable in the current session. Backend access must be connected through an authorised integration; never request or expose an Admin token in chat.
+- Complete the founder's real payment, verify the signed webhook and customer-owned reservation, then verify the balance invoice without automatically paying it.
+- Check the enabled storefront experience at desktop and phone widths before switching the rollout flag.
+- The approved Mudra Reservations app now has `write_products` in addition to its customer, order and draft-order permissions. Automatic maintenance changes only the seven live catalogue products, after the configured cutoff; saved reservation prices do not change.
+- The daily Vercel cron is not an exact-deadline guarantee. A scheduler delay can leave an already-issued Shopify deposit invoice payable briefly after the cutoff. Late payments grant no locked-price entitlement and need review and refund. Verify scheduling precision before promising immediate invoice expiry.
+- Static SEO prices and the merchant feed still require a cutoff rebuild. The browser uses regular prices after the cutoff, and maintenance updates Shopify prices.
 - Shopify native deferred-payment pre-orders require Shopify Payments or PayPal Express; the existing Razorpay integration cannot be assumed to support them.
-- No deposit functionality has been deployed or enabled by this document.
+- Keep app credentials and the session/cron keys in Vercel environment variables only. Never request or expose an Admin token in chat.
 
 ## Acceptance checks
 

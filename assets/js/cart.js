@@ -12,7 +12,7 @@ let names = {};   // handle → our product name, from products.json
 
 async function init() {
   M.wireHeader({ solid: true });
-  const [, data] = await Promise.all([M.loadSprite(), M.loadCatalogue().catch(() => ({ products: [] })), M.loadDrop()]);
+  const [, data] = await Promise.all([M.loadSprite(), M.loadCatalogue().catch(() => ({ products: [] })), M.loadDrop(), M.loadReservations()]);
   (data.products || []).forEach(p => { names[p.id] = p.name; });
 
   if (!M.SHOPIFY.enabled) return renderClosed();
@@ -58,19 +58,22 @@ function render(c) {
 
   const sub = c.cost.subtotalAmount;
   const block = M.checkoutBlock();   // outside the pre-order window, no checkout
+  const deposit = M.depositWindow() ? qty * M.depositRupees : 0;
   $('#bagBody').innerHTML = `
     <ul class="blines" aria-label="Items in your bag">${lines.map(lineHTML).join('')}</ul>
     <aside class="bsum" aria-label="Order summary">
       <dl class="bsum__rows">
         <div><dt class="mono">Subtotal</dt><dd class="mono">${money(sub.amount)}</dd></div>
+        ${deposit ? `<div><dt class="mono">Deposit due now</dt><dd class="mono">${money(deposit)}</dd></div>
+        <div><dt class="mono">Balance before dispatch</dt><dd class="mono">${money(Number(sub.amount) - deposit)}</dd></div>` : ''}
         <div><dt class="mono">Shipping</dt><dd class="mono">Free</dd></div>
         ${M.codNow() ? `<div><dt class="mono">Cash on delivery</dt><dd class="mono">Available</dd></div>` : ''}
       </dl>
       ${summaryNote() ? `<p class="bsum__po">${esc(summaryNote())}</p>` : ''}
-      <p class="mono bsum__note">Taxes included. Final total at checkout.</p>
+      <p class="mono bsum__note">${deposit ? 'A paid deposit locks only these tees, sizes and quantities. Refundable before dispatch. Sign in to reserve.' : 'Taxes included. Final total at checkout.'}</p>
       ${block
         ? `<button class="bsum__checkout mono" type="button" disabled>${esc(block)}</button>`
-        : `<a class="bsum__checkout mono" href="${esc(c.checkoutUrl)}">Checkout</a>`}
+        : `<a class="bsum__checkout mono" href="${deposit ? '/reservations' : esc(c.checkoutUrl)}">${deposit ? 'Reserve with a deposit' : 'Checkout'}</a>`}
       <p class="bsum__help">Payment failed, or money gone and no order? <a href="/payment-help">Read this first</a>.</p>
     </aside>`;
 }

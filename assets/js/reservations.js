@@ -36,7 +36,7 @@
   function renderRecord(record) {
     const card = document.createElement('article'); card.className = 'reservation';
     card.innerHTML = `<h2>Reserved tees</h2><ul>${record.items.map(item => `<li>${M.esc(item.name)} · ${M.esc(item.colour)} · ${M.esc(item.size)} × ${item.quantity} <span>${M.money(item.pricePaise / 100)} each</span></li>`).join('')}</ul>
-      <dl><div><dt>Locked total</dt><dd>${M.money(record.totalPaise / 100)}</dd></div><div><dt>Deposit ${['paid','settled'].includes(record.status) ? 'paid' : 'due'}</dt><dd>${M.money(record.depositPaise / 100)}</dd></div>
+      <dl><div><dt>${['paid','settled'].includes(record.status) ? 'Locked total' : 'Tee total'}</dt><dd>${M.money(record.totalPaise / 100)}</dd></div><div><dt>Deposit ${['paid','settled'].includes(record.status) ? 'paid' : 'due'}</dt><dd>${M.money(record.depositPaise / 100)}</dd></div>
       <div><dt>Balance ${record.balancePaid ? 'paid' : 'remaining'}</dt><dd>${M.money(record.balancePaise / 100)}</dd></div></dl>
       <p>${record.status === 'review' ? 'Payment or cancellation needs review. Please contact us.' : record.balancePaid ? 'Fully paid. Your shirts are reserved.' : record.status === 'paid' ? 'Deposit confirmed. Your sizes, quantities and price are locked.' : 'Your reservation is confirmed only after the deposit is paid.'}</p>`;
     if (record.status === 'pending' && record.checkoutUrl) {
@@ -60,7 +60,7 @@
   }
   async function load() {
     M.wireHeader({ solid: true });
-    await Promise.all([M.loadSprite(), M.loadCatalogue(), M.loadDrop(), M.cart.load()]);
+    await Promise.all([M.loadSprite(), M.loadCatalogue(), M.loadDrop(), M.loadReservations(), M.cart.load()]);
     const response = await fetch('/api/customer/session', { cache: 'no-store' });
     if (!response.ok) throw new Error('Sign-in is unavailable. Please try again later.');
     account = await response.json();
@@ -82,8 +82,8 @@
       const box = document.createElement('article'); box.className = 'reservation';
       const catalogue = await M.loadCatalogue();
       const total = lines.reduce((n, l) => n + catalogue.products.find(p => p.id === l.productId).price * l.quantity, 0);
-      box.innerHTML = `<h2>Reserve your bag</h2><p>${count} tee${count === 1 ? '' : 's'}. Deposit ${M.money(count * 199)} now, balance ${M.money(total - count * 199)} before dispatch. Full total ${M.money(total)}.</p><p>Your deposit locks these exact tees, sizes and quantities at the current pre-order price. Additional purchases use their current price. Deposits are refundable before dispatch.</p>`;
-      const button = document.createElement('button'); button.type = 'button'; button.className = 'btn'; button.textContent = `Pay deposit · ${M.money(count * 199)}`;
+      box.innerHTML = `<h2>Reserve your bag</h2><p>${count} tee${count === 1 ? '' : 's'}. Deposit ${M.money(count * M.depositRupees)} now, balance ${M.money(total - count * M.depositRupees)} before dispatch. Full total ${M.money(total)}.</p><p>Your deposit locks these exact tees, sizes and quantities at the current pre-order price. Additional purchases use their current price. Deposits are refundable before dispatch.</p>`;
+      const button = document.createElement('button'); button.type = 'button'; button.className = 'btn'; button.textContent = `Pay deposit · ${M.money(count * M.depositRupees)}`;
       button.addEventListener('click', () => {
         let key; const fingerprint = JSON.stringify(lines);
         try { const prior = JSON.parse(localStorage.getItem('mudra-deposit-request')); if (prior?.fingerprint === fingerprint) key = prior.key; } catch {}
