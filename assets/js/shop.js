@@ -128,6 +128,7 @@ function dropPhase(now = Date.now()) {
   if (['teaser', 'open', 'closed', 'launched'].includes(forced)) return forced;
   if (now < Date.parse(DROP.opens)) return 'teaser';
   if (now <= Date.parse(DROP.closes)) return 'open';
+  if (RESERVATIONS.enabled && now >= Date.parse(DROP.launch)) return 'launched';
   if (now < launchTime(DROP)) return 'closed';
   return 'launched';
 }
@@ -152,6 +153,7 @@ function dropDates() {
     name: DROP.name,
     opensLong: long(DROP.opens), opensShort: short(DROP.opens),
     closesShort: short(DROP.closes),
+    launchShort: DROP.launch ? short(DROP.launch) : '',
     shipsLong: long(ships), shipsShort: short(ships),
   };
 }
@@ -211,6 +213,7 @@ const beforeLaunch = (now = Date.now()) => !!(DROP && DROP.launch) && now < Date
 
 // ticker lines per phase; launched falls back to the delivery window
 function tickerItems() {
+  if (depositWindow()) return [`Pre-order @ ${money(RESERVATIONS.depositRupees)}`, `Orders open ${dropDates().launchShort}`, 'Free shipping across India'];
   const ph = dropPhase(), d = dropDates();
   if (!d || ph === 'launched') return [`At your door in ${ORDERING.minDays}–${ORDERING.maxDays} days`, 'Designed in-house', 'Free shipping across India'];
   if (ph === 'teaser') return [`Pre-orders open ${d.opensShort}`, 'Designed in-house', 'Free shipping across India'];
@@ -224,6 +227,7 @@ function tickerItems() {
 
 // hero tag on the home page
 function heroTag() {
+  if (depositWindow()) return `Pre-order @ ${money(RESERVATIONS.depositRupees)} · Orders open ${dropDates().launchShort}`;
   const ph = dropPhase(), d = dropDates();
   if (!d) return `At your door in ${ORDERING.minDays}–${ORDERING.maxDays} days`;
   if (ph === 'teaser') return `Pre-orders open ${d.opensShort}`;
@@ -586,7 +590,7 @@ function openDrawer({ name, size, colour, image, price }, returnTo) {
       <div>
         <p class="dline__name">${esc(name)}</p>
         <p class="mono dline__meta">${[size, colour].filter(Boolean).map(esc).join(' · ')}</p>
-        <p class="mono dline__price">${money(price)}</p>
+        <p class="mono dline__price">${depositWindow() ? `Pre-order @ ${money(RESERVATIONS.depositRupees)} per tee` : money(price)}</p>
         ${lineNote() ? `<p class="mono dline__po">${esc(lineNote())}</p>` : ''}
       </div>
     </div>
@@ -606,6 +610,7 @@ function closeDrawer() {
 
 // the promise under each bag line: drop ship-by date, or the 7–10 day delivery window
 function lineNote() {
+  if (depositWindow()) return `Pre-order @ ${money(RESERVATIONS.depositRupees)} per tee · Orders open ${dropDates().launchShort}`;
   const ph = dropPhase(), d = dropDates();
   if (d && ph !== 'launched') return ph === 'teaser' ? `Pre-orders open ${d.opensShort}` : `Pre-order · ships by ${d.shipsShort}`;
   return isPreorder() ? `Pre-order · Arrives ${arrivalRange().text}` : '';

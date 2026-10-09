@@ -62,10 +62,11 @@ function render(c) {
   $('#bagBody').innerHTML = `
     <ul class="blines" aria-label="Items in your bag">${lines.map(lineHTML).join('')}</ul>
     <aside class="bsum" aria-label="Order summary">
+      ${deposit ? `<h2 class="bsum__deposit">Pre-order @ ${money(M.depositRupees)}</h2><p class="bsum__po">Per tee. Orders open ${esc(M.dropDates().launchShort)}.</p>` : ''}
       <dl class="bsum__rows">
-        <div><dt class="mono">Subtotal</dt><dd class="mono">${money(sub.amount)}</dd></div>
+        <div><dt class="mono">${deposit ? 'Full tee total' : 'Subtotal'}</dt><dd class="mono">${money(sub.amount)}</dd></div>
         ${deposit ? `<div><dt class="mono">Deposit due now</dt><dd class="mono">${money(deposit)}</dd></div>
-        <div><dt class="mono">Balance before dispatch</dt><dd class="mono">${money(Number(sub.amount) - deposit)}</dd></div>` : ''}
+        <div><dt class="mono">Balance from ${esc(M.dropDates().launchShort)}</dt><dd class="mono">${money(Number(sub.amount) - deposit)}</dd></div>` : ''}
         <div><dt class="mono">Shipping</dt><dd class="mono">Free</dd></div>
         ${M.codNow() ? `<div><dt class="mono">Cash on delivery</dt><dd class="mono">Available</dd></div>` : ''}
       </dl>
@@ -73,7 +74,7 @@ function render(c) {
       <p class="mono bsum__note">${deposit ? 'A paid deposit locks only these tees, sizes and quantities. Refundable before dispatch. Sign in to reserve.' : 'Taxes included. Final total at checkout.'}</p>
       ${block
         ? `<button class="bsum__checkout mono" type="button" disabled>${esc(block)}</button>`
-        : `<a class="bsum__checkout mono" href="${deposit ? '/reservations' : esc(c.checkoutUrl)}">${deposit ? 'Reserve with a deposit' : 'Checkout'}</a>`}
+        : `<a class="bsum__checkout mono" href="${deposit ? '/reservations' : esc(c.checkoutUrl)}">${deposit ? `Pay ${money(deposit)} for pre-order` : 'Checkout'}</a>`}
       <p class="bsum__help">Payment failed, or money gone and no order? <a href="/payment-help">Read this first</a>.</p>
     </aside>`;
 }
@@ -113,7 +114,7 @@ function lineHTML(l) {
           <button class="bline__rm mono" data-act="rm" aria-label="Remove ${esc(name)}, size ${esc(size)}">Remove</button>
         </div>
       </div>
-      <span class="bline__price mono">${money(l.cost.totalAmount.amount)}</span>
+      <span class="bline__price mono">${M.depositWindow() ? `${money(l.quantity * M.depositRupees)} deposit` : money(l.cost.totalAmount.amount)}</span>
     </li>`;
 }
 

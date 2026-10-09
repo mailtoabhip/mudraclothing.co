@@ -42,7 +42,10 @@
     if (record.status === 'pending' && record.checkoutUrl) {
       const link = document.createElement('a'); link.className = 'btn'; link.href = record.checkoutUrl; link.textContent = 'Pay deposit'; card.append(link);
     }
-    if (record.status === 'paid' && !record.balancePaid) {
+    if (record.status === 'paid' && !record.balancePaid && !record.balanceAvailable) {
+      const note = document.createElement('p'); note.textContent = `Orders open ${M.dropDates().launchShort}. Pay your saved balance from launch, before dispatch.`; card.append(note);
+    }
+    if (record.status === 'paid' && !record.balancePaid && record.balanceAvailable) {
       const button = document.createElement('button'); button.className = 'btn'; button.type = 'button'; button.textContent = `Pay balance · ${M.money(record.balancePaise / 100)}`;
       button.addEventListener('click', () => pay({ action: 'balance', id: record.id }, button)); card.append(button);
     }
@@ -77,13 +80,13 @@
     status.textContent = saved.reservations.length ? 'Your pre-order reservations.' : 'No reservations yet. Your bag is ready when you are.';
     saved.reservations.forEach(renderRecord);
     const lines = bagLines();
-    if (lines.length && M.dropPhase() === 'open' && !saved.reservations.some(r => ['creating','pending'].includes(r.status))) {
+    if (lines.length && M.depositWindow()) {
       const count = lines.reduce((n, l) => n + l.quantity, 0);
       const box = document.createElement('article'); box.className = 'reservation';
       const catalogue = await M.loadCatalogue();
       const total = lines.reduce((n, l) => n + catalogue.products.find(p => p.id === l.productId).price * l.quantity, 0);
-      box.innerHTML = `<h2>Reserve your bag</h2><p>${count} tee${count === 1 ? '' : 's'}. Deposit ${M.money(count * M.depositRupees)} now, balance ${M.money(total - count * M.depositRupees)} before dispatch. Full total ${M.money(total)}.</p><p>Your deposit locks these exact tees, sizes and quantities at the current pre-order price. Additional purchases use their current price. Deposits are refundable before dispatch.</p>`;
-      const button = document.createElement('button'); button.type = 'button'; button.className = 'btn'; button.textContent = `Pay deposit · ${M.money(count * M.depositRupees)}`;
+      box.innerHTML = `<h2>Pre-order @ ${M.money(M.depositRupees)}</h2><p>${count} tee${count === 1 ? '' : 's'}. Pay ${M.money(count * M.depositRupees)} now for pre-order. Full tee total ${M.money(total)}. Balance ${M.money(total - count * M.depositRupees)} payable when orders open on ${M.esc(M.dropDates().launchShort)}, before dispatch.</p><p>Your paid deposit locks these exact tees, sizes and quantities at the current pre-order price. Additional purchases use their current price. Deposits are refundable before dispatch.</p>`;
+      const button = document.createElement('button'); button.type = 'button'; button.className = 'btn'; button.textContent = `Pay ${M.money(count * M.depositRupees)} for pre-order`;
       button.addEventListener('click', () => {
         let key; const fingerprint = JSON.stringify(lines);
         try { const prior = JSON.parse(localStorage.getItem('mudra-deposit-request')); if (prior?.fingerprint === fingerprint) key = prior.key; } catch {}

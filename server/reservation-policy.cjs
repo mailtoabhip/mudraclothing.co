@@ -46,7 +46,8 @@ function verifyDeposit(reservation, order, customerId) {
   if (order.currency !== 'INR' || order.paidPaise !== reservation.depositPaise) fail('INVALID_PAYMENT', 'The paid deposit does not match this reservation.');
   if (order.cancelled || order.refundedPaise > 0) fail('CANCELLED', 'This reservation needs review after cancellation or refund.');
   if (order.status !== 'PAID' || !order.paidAt || !Number.isFinite(Date.parse(order.paidAt))) fail('UNPAID', 'The deposit has not been confirmed as paid.');
-  if (Date.parse(order.paidAt) > Date.parse(reservation.closes)) fail('LATE_PAYMENT', 'This deposit was paid after the reservation window closed. Contact us for a refund.');
+  const cutoff = Math.min(Date.parse(reservation.closes), Date.parse(require('../data/drop.json').closes));
+  if (Date.parse(order.paidAt) > cutoff) fail('LATE_PAYMENT', 'This deposit was paid after the reservation window closed. Contact us for a refund.');
   return true;
 }
 

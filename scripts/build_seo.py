@@ -35,6 +35,13 @@ TODAY = datetime.date.today().isoformat()
 IST = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
 _drop_file = ROOT / "data/drop.json"
 DROP = json.loads(_drop_file.read_text(encoding="utf-8")) if _drop_file.exists() else None
+RESERVATIONS = json.loads((ROOT / 'data/reservations.json').read_text(encoding='utf-8'))
+
+
+def deposit_window(now=None):
+    now = now or datetime.datetime.now(IST)
+    return bool(RESERVATIONS.get('enabled') and DROP and
+                datetime.datetime.fromisoformat(DROP['opens']) <= now <= datetime.datetime.fromisoformat(DROP['closes']))
 
 
 def drop_phase(now=None):
@@ -51,6 +58,8 @@ def drop_phase(now=None):
         return "teaser"
     if now <= closes:
         return "open"
+    if RESERVATIONS.get('enabled') and now >= datetime.datetime.fromisoformat(DROP['launch']):
+        return 'launched'
     return "closed" if now < launch else "launched"
 
 
@@ -80,7 +89,8 @@ def drop_dates():
     c = datetime.datetime.fromisoformat(DROP["closes"]).astimezone(IST)
     sb = datetime.date.fromisoformat(DROP["shipsBy"])
     return {"name": DROP["name"], "opens_long": _long(o), "opens_short": _short(o),
-            "closes_short": _short(c), "ships_long": _long(sb), "ships_short": _short(sb)}
+            "closes_short": _short(c), "ships_long": _long(sb), "ships_short": _short(sb),
+            "launch_short": _short(datetime.datetime.fromisoformat(DROP['launch']).astimezone(IST))}
 
 
 def before_launch(now=None):
@@ -92,6 +102,8 @@ def before_launch(now=None):
 
 # mirrors tickerItems() / heroTag() in assets/js/shop.js
 def ticker_items():
+    if deposit_window():
+        return [f"Pre-order @ {money(RESERVATIONS['depositRupees'])}", f"Orders open {drop_dates()['launch_short']}", 'Free shipping across India']
     ph, d = drop_phase(), drop_dates()
     if not d or ph == "launched":
         return [f"At your door in {PREORDER_MIN_DAYS}–{PREORDER_MAX_DAYS} days", "Designed in-house", "Free shipping across India"]
@@ -107,6 +119,8 @@ def ticker_items():
 
 
 def hero_tag():
+    if deposit_window():
+        return f"Pre-order @ {money(RESERVATIONS['depositRupees'])} · Orders open {drop_dates()['launch_short']}"
     ph, d = drop_phase(), drop_dates()
     launched = f"At your door in {PREORDER_MIN_DAYS}–{PREORDER_MAX_DAYS} days"   # nothing drop-specific
     if not d:
@@ -424,7 +438,7 @@ def put_head(s, block):
 # ── prices (mirrors priceView() in assets/js/shop.js) ─────────────────────
 
 def price_view(p):
-    now = p["price"]
+    now = p.get('regularPrice', p['price']) if DROP and datetime.datetime.now(IST) > datetime.datetime.fromisoformat(DROP['closes']) else p['price']
     mrp = p.get("mrp")
     pre = sale_state(p["id"]) in ("open", "teaser")
     reg = p.get("regularPrice")
@@ -435,6 +449,8 @@ def price_view(p):
 def card_price(p):
     # mirrors cardPrice() in assets/js/main.js
     v = price_view(p)
+    if deposit_window():
+        return f'<div class="pprice"><span class="pprice__now">Pre-order @ {money(RESERVATIONS["depositRupees"])}</span><span class="mono">Deposit per tee · Full price {money(v["now"])}</span></div>'
     return ('<div class="pprice">'
             + (f'<s class="pprice__mrp"><span class="sr">MRP </span>{money(v["mrp"])}</s>' if v["mrp"] else "")
             + f'<span class="pprice__now">{money(v["now"])}</span>'
@@ -445,6 +461,12 @@ def card_price(p):
 def buy_price(p):
     # mirrors priceHTML() in assets/js/product.js
     v, d = price_view(p), drop_dates()
+    if deposit_window():
+        deposit = RESERVATIONS['depositRupees']
+        return (f'<div class="buy__price" id="priceBlock"><p class="mono buy__label">Pre-order @</p>'
+                f'<div class="buy__pricerow"><span class="price is-pre" id="price"><span class="price__num">{money(deposit)}</span></span></div>'
+                f'<p class="mono buy__tax">Deposit per tee · Full tee price {money(v["now"])}</p>'
+                f'<aside class="pricenote" role="note"><p class="pricenote__text">Pay {money(deposit)} now to reserve this tee. Balance {money(v["now"] - deposit)} when orders open on {e(d["launch_short"])}. Free shipping. Refundable before dispatch.</p></aside></div>')
     label = '<p class="mono buy__label" aria-hidden="true">Pre-order price</p>' if v["pre"] else ""
     row = ('<div class="buy__pricerow">'
            + (f'<s class="mono buy__mrp">MRP {money(v["mrp"])}</s>' if v["mrp"] else "")
@@ -589,6 +611,8 @@ def delivery_line():
     # the same facts the page's pre-order box shows
     st, d = drop_phase(), drop_dates()
     if d and st == "open":
+        if deposit_window():
+            return f"Pre-order @ {money(RESERVATIONS['depositRupees'])} deposit per tee. Orders open {d['launch_short']}. Reserved tees ship by {d['ships_long']}."
         return f"Pre-order: pre-orders close {d['closes_short']}, ships by {d['ships_long']}"
     if d and st == "closed":
         return f"Printing now, ships by {d['ships_long']}"
@@ -803,6 +827,8 @@ def build():
     build_images.build()                       # WebP sizes, recorded in products.json
     data = json.loads((ROOT / "data/products.json").read_text(encoding="utf-8"))
     products = data["products"]
+    if DROP and datetime.datetime.now(IST) > datetime.datetime.fromisoformat(DROP['closes']):
+        products = [dict(p, price=p.get('regularPrice', p['price'])) for p in products]
     check_prices(products)
     offers = offers_live()
     # the one public setting product.js needs from site_config (Instagram link)

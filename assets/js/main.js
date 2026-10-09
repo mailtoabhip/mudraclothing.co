@@ -15,7 +15,7 @@ const state = {
 /* ---------- boot ---------------------------------------------------- */
 
 async function init() {
-  const [, data] = await Promise.all([loadSprite(), loadCatalogue(), loadDrop()]);
+  const [, data] = await Promise.all([loadSprite(), loadCatalogue(), loadDrop(), window.Mudra.loadReservations()]);
   state.products = data.products;
   renderDropCopy();
   renderGrid();
@@ -57,6 +57,7 @@ function cardCta(p, url, inStock) {
 // struck MRP · price · PRE-ORDER. Keep identical to card_price() in scripts/build_seo.py
 function cardPrice(p) {
   const v = priceView(p);
+  if (window.Mudra.depositWindow()) return `<div class="pprice"><span class="pprice__now">Pre-order @ ${money(window.Mudra.depositRupees)}</span><span class="mono">Deposit per tee · Full price ${money(v.now)}</span></div>`;
   return `<div class="pprice">`
     + (v.mrp ? `<s class="pprice__mrp"><span class="sr">MRP </span>${money(v.mrp)}</s>` : '')
     + `<span class="pprice__now">${money(v.now)}</span>`

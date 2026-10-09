@@ -72,13 +72,13 @@ async function createDeposit(customerId, lines, requestKey) {
   let claimed = false;
   const record = await store.update(customerId, records => {
     claimed = false;
-    const existing = records.find(r => r.requestKey === requestKey);
+    const existing = records.find(r => r.requestKey === requestKey) || records.find(r => r.fingerprint === fingerprint && ['creating', 'pending'].includes(r.status));
     if (existing) {
       if (existing.fingerprint !== fingerprint) throw new Error('Your bag changed. Start a new reservation.');
       if (existing.status === 'failed') { existing.status = 'creating'; existing.creatingAt = new Date().toISOString(); claimed = true; }
       return existing;
     }
-    if (records.length >= 30 || records.some(r => ['creating', 'pending'].includes(r.status))) throw new Error('You already have an unfinished reservation. Open it below, or contact us to change it.');
+    if (records.length >= 30 || records.filter(r => ['creating', 'pending'].includes(r.status)).length >= 5) throw new Error('You have several unfinished reservations. Open one below, or contact us to change it.');
     const next = { ...quote, id: crypto.randomUUID(), customerId, requestKey, fingerprint, status: 'creating', creatingAt: new Date().toISOString() };
     records.push(next); claimed = true; return next;
   });
@@ -87,7 +87,7 @@ async function createDeposit(customerId, lines, requestKey) {
   if (!draft && !claimed) throw new Error('Your checkout is still being prepared. Try again in a moment.');
   if (!draft) {
     const input = baseDraft(record, 'deposit');
-    input.lineItems = record.items.map(item => ({ title: `Pre-order deposit · ${item.name} · ${item.size} · ${item.colour}`,
+    input.lineItems = record.items.map(item => ({ title: `Pay ₹${item.depositPaise / 100} for pre-order · ${item.name} · ${item.size} · ${item.colour}`,
       quantity: item.quantity, originalUnitPriceWithCurrency: { amount: rupees(item.depositPaise), currencyCode: 'INR' },
       requiresShipping: false, taxable: false, customAttributes: [{ key: 'Size', value: item.size }, { key: 'Colour', value: item.colour },
         { key: 'Tee price (INR)', value: rupees(item.pricePaise) }, { key: 'Balance per tee (INR)', value: rupees(item.pricePaise - item.depositPaise) }] }));
@@ -159,7 +159,7 @@ async function applyPayment(customerId, id, kind, order) {
   }
 }
 
-async function createBalance(customerId, id) {
+async function createBalance(customerId, id, now = Date.now()) {
   await reconcile(customerId);
   let claimed = false;
   const record = await store.update(customerId, records => {
@@ -167,6 +167,7 @@ async function createBalance(customerId, id) {
     const saved = records.find(r => r.id === id);
     if (!saved) throw new Error('Reservation was not found.');
     quoteBalance(saved, saved.depositPayment, customerId);
+    if (now < Date.parse(drop.launch)) throw new Error('Orders open on 1 November. Your paid deposit keeps your reserved price locked.');
     if (!saved.balanceCreating && !saved.balanceDraftId) { saved.balanceCreating = true; claimed = true; }
     return saved;
   });
@@ -193,8 +194,8 @@ async function createBalance(customerId, id) {
 }
 function publicRecord(record) {
   return { id: record.id, items: record.items, totalPaise: record.totalPaise, depositPaise: record.depositPaise, balancePaise: record.balancePaise,
-    status: record.status, shipsBy: record.shipsBy, closes: record.closes, balancePaid: !!record.balancePaid,
-    checkoutUrl: record.status === 'pending' && Date.now() <= Date.parse(record.closes) ? record.depositCheckoutUrl : null };
+    status: record.status, shipsBy: record.shipsBy, closes: record.closes, balancePaid: !!record.balancePaid, balanceAvailable: Date.now() >= Date.parse(drop.launch),
+    checkoutUrl: record.status === 'pending' && Date.now() <= Math.min(Date.parse(record.closes), Date.parse(drop.closes)) ? record.depositCheckoutUrl : null };
 }
 async function retryUnpaid(customerId, id) {
   const record = (await store.read(customerId)).records.find(r => r.id === id);

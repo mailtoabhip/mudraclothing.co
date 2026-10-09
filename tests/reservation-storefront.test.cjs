@@ -26,6 +26,7 @@ test('storefront deposits stay off until enabled and stop at the configured cuto
   assert.equal(enabled.depositWindow(Date.parse(drop.opens)), true);
   assert.equal(enabled.depositWindow(Date.parse(drop.closes)), true);
   assert.equal(enabled.depositWindow(Date.parse(drop.closes) + 1), false);
+  assert.equal(enabled.dropPhase(Date.parse(drop.launch)), 'launched');
 });
 test('invalid reservation settings cannot enable the deposit CTA', async () => {
   const M = storefront({ enabled: true, depositRupees: -1 });

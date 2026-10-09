@@ -134,11 +134,10 @@ the pre-built HTML, structured data and meta descriptions are fixed at build tim
 
     python3 scripts/build_pages.py && python3 scripts/fingerprint.py
 
-- on 2 Dec 2026, after pre-orders close at 23:59 IST on 1 Dec (`closes`)
-- on 16 Dec 2026, the day after `shipsBy` 15 Dec (back to the 7–10 day window)
+- on 1 Nov 2026: reservations end at midnight IST and orders/balance payments open. Rebuild public prices, SEO and the merchant feed.
+- Reserved tees retain the saved ship-by commitment of 15 Dec; their paid deposit and remaining balance are separate payments.
 
-(8 Oct 2026: window extended from 15 Oct to 1 Dec, ships by moved from 29 Oct
-to 15 Dec, launch copy is "pre-orders are now live".)
+(10 Oct 2026: founder changed the reservation cutoff to launch on 1 Nov. The ₹199 deposit is part of the full tee price, never the Product Offer price.)
 
 ## Shopify's own storefront (redirect only)
 

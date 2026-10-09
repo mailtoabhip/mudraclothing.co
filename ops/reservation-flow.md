@@ -1,12 +1,12 @@
 # Pre-order deposit flow: agreed scope
 
-Status: private customer sign-in, deposit and balance checkout APIs, customer-owned records, payment webhooks and cutoff maintenance are deployed. A real INR 199 deposit invoice has been verified. The founder must complete its payment before the main storefront deposit flow is enabled. The current main cart still collects the full tee price.
+Status: the storefront routes pre-orders to signed-in INR 199-per-tee deposit invoices. Product pages, home cards and bag identify the deposit separately from the full tee price. The real paid-deposit webhook and balance-invoice checks remain outstanding until the founder pays a deposit.
 
-`data/reservations.json` holds the deposit amount and the main-storefront rollout flag. Keep `enabled: false` until real paid-deposit reconciliation and the balance invoice have been checked. The dedicated `/reservations` page remains available for the payment test.
+`data/reservations.json` holds the deposit amount and rollout flag. It is enabled at the founder's request. The dedicated `/reservations` page shows only the signed-in customer's records. Balance payments are blocked on the server before the configured launch date.
 
 ## Founder-confirmed rules
 
-- Collect INR 199 per tee as a deposit through 1 December 2026, 23:59 IST. Read the exact cutoff from data/drop.json; do not maintain a second closing date.
+- Collect INR 199 per tee until orders open on 1 November 2026, midnight IST. Read the exact cutoff and launch from data/drop.json; do not maintain a second closing date.
 - The lower total price applies only to the exact shirts and quantities reserved with a successfully paid deposit. Additional purchases use the price applicable when they are bought.
 - Save the price applicable when the reservation is created and its per-unit deposit. A later catalogue price change must not change the reservation total or balance.
 - A browser bag, an email supplied by a visitor, or a checkout redirect alone is not proof of a paid reservation or customer identity.

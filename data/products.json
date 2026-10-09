@@ -161,7 +161,7 @@
       "mrp": 1600,
       "price": 1299,
       "regularPrice": 1499,
-      "preorderEnds": "2026-12-01T23:59:00+05:30",
+      "preorderEnds": "2026-10-31T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -285,7 +285,7 @@
       "mrp": 1600,
       "price": 1299,
       "regularPrice": 1499,
-      "preorderEnds": "2026-12-01T23:59:00+05:30",
+      "preorderEnds": "2026-10-31T23:59:59.999+05:30",
       "badge": {
         "type": "new",
         "label": "New"
@@ -444,7 +444,7 @@
       "mrp": 1600,
       "price": 1199,
       "regularPrice": 1399,
-      "preorderEnds": "2026-12-01T23:59:00+05:30",
+      "preorderEnds": "2026-10-31T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -588,7 +588,7 @@
       "mrp": 1600,
       "price": 1199,
       "regularPrice": 1399,
-      "preorderEnds": "2026-12-01T23:59:00+05:30",
+      "preorderEnds": "2026-10-31T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -730,7 +730,7 @@
       "mrp": 1600,
       "price": 1099,
       "regularPrice": 1299,
-      "preorderEnds": "2026-12-01T23:59:00+05:30",
+      "preorderEnds": "2026-10-31T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -877,7 +877,7 @@
       "mrp": 1600,
       "price": 1099,
       "regularPrice": 1299,
-      "preorderEnds": "2026-12-01T23:59:00+05:30",
+      "preorderEnds": "2026-10-31T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -1013,7 +1013,7 @@
       "mrp": 1600,
       "price": 1299,
       "regularPrice": 1499,
-      "preorderEnds": "2026-12-01T23:59:00+05:30",
+      "preorderEnds": "2026-10-31T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -1146,7 +1146,7 @@
       "mrp": 1600,
       "price": 1199,
       "regularPrice": 1399,
-      "preorderEnds": "2026-12-01T23:59:00+05:30",
+      "preorderEnds": "2026-10-31T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -1246,7 +1246,7 @@
       "mrp": 1600,
       "price": 1199,
       "regularPrice": 1399,
-      "preorderEnds": "2026-12-01T23:59:00+05:30",
+      "preorderEnds": "2026-10-31T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -1341,7 +1341,7 @@
       "mrp": 1600,
       "price": 1199,
       "regularPrice": 1399,
-      "preorderEnds": "2026-12-01T23:59:00+05:30",
+      "preorderEnds": "2026-10-31T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -1441,7 +1441,7 @@
       "mrp": 1600,
       "price": 1199,
       "regularPrice": 1399,
-      "preorderEnds": "2026-12-01T23:59:00+05:30",
+      "preorderEnds": "2026-10-31T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -1541,7 +1541,7 @@
       "mrp": 1600,
       "price": 1099,
       "regularPrice": 1299,
-      "preorderEnds": "2026-12-01T23:59:00+05:30",
+      "preorderEnds": "2026-10-31T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -1616,7 +1616,7 @@
       "mrp": 1600,
       "price": 1099,
       "regularPrice": 1299,
-      "preorderEnds": "2026-12-01T23:59:00+05:30",
+      "preorderEnds": "2026-10-31T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -1691,7 +1691,7 @@
       "mrp": 1600,
       "price": 1099,
       "regularPrice": 1299,
-      "preorderEnds": "2026-12-01T23:59:00+05:30",
+      "preorderEnds": "2026-10-31T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -1766,7 +1766,7 @@
       "mrp": 1600,
       "price": 1199,
       "regularPrice": 1399,
-      "preorderEnds": "2026-12-01T23:59:00+05:30",
+      "preorderEnds": "2026-10-31T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -1841,7 +1841,7 @@
       "mrp": 1600,
       "price": 1099,
       "regularPrice": 1299,
-      "preorderEnds": "2026-12-01T23:59:00+05:30",
+      "preorderEnds": "2026-10-31T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
