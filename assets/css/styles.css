@@ -489,7 +489,7 @@ a.atc{display:block;text-align:center}
 @media(max-width:760px){
  .hero__offer{padding:22px 20px;display:grid;gap:12px}
  .hero__cta{margin-left:0;justify-self:start}
- .hero__controls{top:12px;right:12px;gap:8px;padding:2px}
+ .hero__controls{top:auto;bottom:24px;right:20px;gap:8px;padding:2px}
  .hero__arrow{width:40px;height:40px}
  .hero__slide .hero__campaign img{object-fit:contain}
 }
