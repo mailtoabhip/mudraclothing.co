@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
     const supplied = Buffer.from(req.headers['x-shopify-hmac-sha256'] || '', 'base64');
     if (supplied.length !== expected.length || !crypto.timingSafeEqual(supplied, expected)) return res.status(401).end();
     const event = JSON.parse(raw.toString());
-    const id = event.note_attributes?.find(a => a.name === 'Mudra reservation')?.value;
+    const id = event.note_attributes?.find(a => ['Mudra pre-order', 'Mudra reservation'].includes(a.name))?.value;
     const kind = event.note_attributes?.find(a => a.name === 'Payment stage')?.value;
     if (!id || !['deposit', 'balance'].includes(kind) || !event.customer?.id) return res.status(200).end();
     const customerId = `gid://shopify/Customer/${event.customer.id}`;

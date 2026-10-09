@@ -7,5 +7,5 @@ module.exports = async (req, res) => {
   const actual = Buffer.from(req.headers.authorization || '');
   if (!process.env.CRON_SECRET || expected.length !== actual.length || !crypto.timingSafeEqual(expected, actual)) return res.status(401).end();
   try { return res.status(200).json(await maintain()); }
-  catch { return res.status(503).json({ error: 'Reservation maintenance needs review.' }); }
+  catch { return res.status(503).json({ error: 'Pre-order maintenance needs review.' }); }
 };

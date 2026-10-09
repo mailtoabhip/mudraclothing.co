@@ -97,7 +97,7 @@ let RESERVATIONS = { enabled: false, depositRupees: 199 };
 let reservationsPromise;
 function loadReservations() {
   reservationsPromise ||= fetch('/data/reservations.json', { cache: 'no-cache' })
-    .then(r => { if (!r.ok) throw new Error('Reservation settings unavailable.'); return r.json(); })
+    .then(r => { if (!r.ok) throw new Error('Pre-order settings unavailable.'); return r.json(); })
     .then(config => {
       if (!Number.isSafeInteger(config.depositRupees) || config.depositRupees < 1) throw new Error('Invalid deposit.');
       RESERVATIONS = config;

@@ -470,7 +470,7 @@ def buy_price(p):
         return (f'<div class="buy__price" id="priceBlock"><p class="mono buy__label">Product price</p>'
                 f'<div class="buy__pricerow"><span class="price is-pre" id="price"><span class="price__num">{money(v["now"])}</span></span><span class="deposit-tag">Pre-order at {money(deposit)} today!</span></div>'
                 f'<p class="mono buy__tax">Inclusive of all taxes · Free shipping</p>'
-                f'<aside class="pricenote" role="note"><p class="pricenote__text">Pay {money(deposit)} now to reserve this tee. Balance {money(v["now"] - deposit)} when orders open on {e(d["launch_short"])}. Free shipping. Refundable before dispatch.</p></aside></div>')
+                f'<aside class="pricenote" role="note"><p class="pricenote__text">Pay {money(deposit)} now to pre-order this tee. Balance {money(v["now"] - deposit)} when orders open on {e(d["launch_short"])}. Free shipping. Refundable before dispatch.</p></aside></div>')
     label = '<p class="mono buy__label" aria-hidden="true">Pre-order price</p>' if v["pre"] else ""
     row = ('<div class="buy__pricerow">'
            + (f'<s class="mono buy__mrp">MRP {money(v["mrp"])}</s>' if v["mrp"] else "")
@@ -618,7 +618,7 @@ def delivery_line(p):
     st, d = drop_phase(), drop_dates()
     if d and st == "open":
         if deposit_window():
-            return f"Pre-order @ {money(deposit_for(p['id']))} deposit per tee. Orders open {d['launch_short']}. Reserved tees ship by {d['ships_long']}."
+            return f"Pre-order @ {money(deposit_for(p['id']))} deposit per tee. Orders open {d['launch_short']}. Pre-ordered tees ship by {d['ships_long']}."
         return f"Pre-order: pre-orders close {d['closes_short']}, ships by {d['ships_long']}"
     if d and st == "closed":
         return f"Printing now, ships by {d['ships_long']}"

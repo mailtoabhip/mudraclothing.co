@@ -257,7 +257,7 @@ def build():
         page = SHELL.format(
             title_tag=html.escape(f"{meta.get('pagetitle') or html.unescape(re.sub(r'<[^>]+>', ' ', title)).strip()} · {BRAND}".replace("  ", " "), quote=True),
             description=html.escape(meta.get("description", ""), quote=True),
-            robots='<meta name="robots" content="noindex">\n' if slug in ("404", "reservations") else "",
+            robots='<meta name="robots" content="noindex">\n' if slug in ("404", "pre-orders") else "",
             slug=slug, nav=nav, body=body, footer=footer, account=ACCOUNT,
             pblock="" if bare else PBLOCK.format(accent=meta.get("accent", "blue"),
                                                  kicker=meta.get("kicker", ""), updated=updated, title=title),

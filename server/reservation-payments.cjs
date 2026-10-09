@@ -50,7 +50,7 @@ async function createDraft(input) {
 }
 function assertDraft(draft, expected) {
   if (!draft || draft.totalPriceSet.presentmentMoney.currencyCode !== 'INR' || paise(draft.totalPriceSet.presentmentMoney.amount) !== expected) throw new Error('Checkout total needs review. Please contact us.');
-  if (draft.status === 'COMPLETED') throw new Error('This checkout is already completed. Refresh your reservations.');
+  if (draft.status === 'COMPLETED') throw new Error('This checkout is already completed. Refresh your pre-orders.');
   const url = new URL(draft.invoiceUrl);
   if (url.protocol !== 'https:' || !['checkout.wearmudra.shop', 'q0xhyi-ac.myshopify.com'].includes(url.hostname)) throw new Error('Checkout link could not be verified.');
 }
@@ -58,10 +58,10 @@ function baseDraft(record, kind) {
   return { purchasingEntity: { customerId: record.customerId }, presentmentCurrencyCode: 'INR',
     acceptAutomaticDiscounts: false, allowDiscountCodesInCheckout: false,
     tags: ['mudra-reservation', tag(record.id, kind)],
-    customAttributes: [{ key: 'Mudra reservation', value: record.id }, { key: 'Payment stage', value: kind },
+    customAttributes: [{ key: 'Mudra pre-order', value: record.id }, { key: 'Payment stage', value: kind },
       { key: 'Full tee total (INR)', value: rupees(record.totalPaise) }, { key: 'Deposit (INR)', value: rupees(record.depositPaise) },
       { key: 'Remaining balance (INR)', value: rupees(record.balancePaise) }, { key: 'Ships by', value: record.shipsBy }],
-    note: kind === 'deposit' ? 'Pre-order deposit only. No physical shirts to fulfil. The balance is payable before dispatch.' : `Balance payment. Deposit already paid separately. Reservation ${record.id}.` };
+    note: kind === 'deposit' ? 'Pre-order deposit only. No physical shirts to fulfil. The balance is payable before dispatch.' : `Balance payment. Deposit already paid separately. Pre-order ${record.id}.` };
 }
 
 async function createDeposit(customerId, lines, requestKey) {
@@ -74,15 +74,15 @@ async function createDeposit(customerId, lines, requestKey) {
     claimed = false;
     const existing = records.find(r => r.requestKey === requestKey) || records.find(r => r.fingerprint === fingerprint && ['creating', 'pending'].includes(r.status));
     if (existing) {
-      if (existing.fingerprint !== fingerprint) throw new Error('Your bag changed. Start a new reservation.');
+      if (existing.fingerprint !== fingerprint) throw new Error('Your bag changed. Start a new pre-order.');
       if (existing.status === 'failed') { existing.status = 'creating'; existing.creatingAt = new Date().toISOString(); claimed = true; }
       return existing;
     }
-    if (records.length >= 30 || records.filter(r => ['creating', 'pending'].includes(r.status)).length >= 5) throw new Error('You have several unfinished reservations. Open one below, or contact us to change it.');
+    if (records.length >= 30 || records.filter(r => ['creating', 'pending'].includes(r.status)).length >= 5) throw new Error('You have several unfinished pre-orders. Open one below, or contact us to change it.');
     const next = { ...quote, id: crypto.randomUUID(), customerId, requestKey, fingerprint, status: 'creating', creatingAt: new Date().toISOString() };
     records.push(next); claimed = true; return next;
   });
-  if (record.status === 'paid' || record.cancelled) throw new Error('This reservation is already paid or cancelled.');
+  if (record.status === 'paid' || record.cancelled) throw new Error('This pre-order is already paid or cancelled.');
   let draft = record.depositDraftId ? await getDraft(record.depositDraftId) : await findDraft(record.id, 'deposit');
   if (!draft && !claimed) throw new Error('Your checkout is still being prepared. Try again in a moment.');
   if (!draft) {
@@ -165,9 +165,9 @@ async function createBalance(customerId, id, now = Date.now()) {
   const record = await store.update(customerId, records => {
     claimed = false;
     const saved = records.find(r => r.id === id);
-    if (!saved) throw new Error('Reservation was not found.');
+    if (!saved) throw new Error('Pre-order was not found.');
     quoteBalance(saved, saved.depositPayment, customerId);
-    if (now < Date.parse(drop.launch)) throw new Error('Orders open on 1 November. Your paid deposit keeps your reserved price locked.');
+    if (now < Date.parse(drop.launch)) throw new Error('Orders open on 1 November. Your paid deposit keeps your pre-order price locked.');
     if (!saved.balanceCreating && !saved.balanceDraftId) { saved.balanceCreating = true; claimed = true; }
     return saved;
   });
@@ -181,10 +181,10 @@ async function createBalance(customerId, id, now = Date.now()) {
       const result = await admin(`query($query: String!) { products(first: 1, query: $query) { nodes { handle status variants(first: 100) { nodes { id selectedOptions { name value } } } } } }`, { query: `handle:${item.productId}` });
       const product = result.products.nodes.find(p => p.handle === item.productId && p.status === 'ACTIVE');
       const variant = product?.variants.nodes.find(v => v.selectedOptions.some(o => o.name.toLowerCase() === 'size' && o.value === item.size));
-      if (!variant) throw new Error('That reserved size needs review. Please contact us.');
+      if (!variant) throw new Error('That pre-ordered size needs review. Please contact us.');
       input.lineItems.push({ variantId: variant.id, quantity: item.quantity,
         priceOverride: { amount: rupees(item.pricePaise - item.depositPaise), currencyCode: 'INR' },
-        customAttributes: [{ key: 'Colour', value: item.colour }, { key: 'Reservation', value: record.id }] });
+        customAttributes: [{ key: 'Colour', value: item.colour }, { key: 'Pre-order', value: record.id }] });
     }
     draft = await createDraft(input);
   }
@@ -199,7 +199,7 @@ function publicRecord(record) {
 }
 async function retryUnpaid(customerId, id) {
   const record = (await store.read(customerId)).records.find(r => r.id === id);
-  if (!record || record.depositDraftId || !['creating', 'failed'].includes(record.status)) throw new Error('Open the existing reservation instead.');
+  if (!record || record.depositDraftId || !['creating', 'failed'].includes(record.status)) throw new Error('Open the existing pre-order instead.');
   if (record.status === 'creating' && Date.now() - Date.parse(record.creatingAt || record.createdAt) < 300000) throw new Error('Checkout is still being prepared. Please wait a few minutes.');
   // Check recent drafts directly as well as the tag search, before resetting a failed setup.
   const recent = await admin(`{ draftOrders(first: 100, sortKey: ID, reverse: true) { nodes { id tags } } }`);

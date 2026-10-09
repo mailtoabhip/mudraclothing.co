@@ -72,10 +72,10 @@ function render(c) {
         ${M.codNow() ? `<div><dt class="mono">Cash on delivery</dt><dd class="mono">Available</dd></div>` : ''}
       </dl>
       ${summaryNote() ? `<p class="bsum__po">${esc(summaryNote())}</p>` : ''}
-      <p class="mono bsum__note">${deposit ? 'A paid deposit locks only these tees, sizes and quantities. Refundable before dispatch. Sign in to reserve.' : 'Taxes included. Final total at checkout.'}</p>
+      <p class="mono bsum__note">${deposit ? 'A paid deposit locks only these tees, sizes and quantities. Refundable before dispatch. Sign in to pre-order.' : 'Taxes included. Final total at checkout.'}</p>
       ${block
         ? `<button class="bsum__checkout mono" type="button" disabled>${esc(block)}</button>`
-        : `<a class="bsum__checkout mono" href="${deposit ? '/reservations' : esc(c.checkoutUrl)}">${deposit ? `Pay ${money(deposit)} for pre-order` : 'Checkout'}</a>`}
+        : `<a class="bsum__checkout mono" href="${deposit ? '/pre-orders' : esc(c.checkoutUrl)}">${deposit ? `Pay ${money(deposit)} for pre-order` : 'Checkout'}</a>`}
       <p class="bsum__help">Payment failed, or money gone and no order? <a href="/payment-help">Read this first</a>.</p>
     </aside>`;
 }

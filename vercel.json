@@ -136,6 +136,11 @@
   ],
   "redirects": [
     {
+      "source": "/reservations",
+      "destination": "/pre-orders",
+      "permanent": false
+    },
+    {
       "source": "/",
       "has": [
         {

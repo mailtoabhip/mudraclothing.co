@@ -35,10 +35,10 @@
   }
   function renderRecord(record) {
     const card = document.createElement('article'); card.className = 'reservation';
-    card.innerHTML = `<h2>Reserved tees</h2><ul>${record.items.map(item => `<li>${M.esc(item.name)} · ${M.esc(item.colour)} · ${M.esc(item.size)} × ${item.quantity} <span>${M.money(item.pricePaise / 100)} each</span></li>`).join('')}</ul>
+    card.innerHTML = `<h2>Pre-ordered tees</h2><ul>${record.items.map(item => `<li>${M.esc(item.name)} · ${M.esc(item.colour)} · ${M.esc(item.size)} × ${item.quantity} <span>${M.money(item.pricePaise / 100)} each</span></li>`).join('')}</ul>
       <dl><div><dt>${['paid','settled'].includes(record.status) ? 'Locked total' : 'Tee total'}</dt><dd>${M.money(record.totalPaise / 100)}</dd></div><div><dt>Deposit ${['paid','settled'].includes(record.status) ? 'paid' : 'due'}</dt><dd>${M.money(record.depositPaise / 100)}</dd></div>
       <div><dt>Balance ${record.balancePaid ? 'paid' : 'remaining'}</dt><dd>${M.money(record.balancePaise / 100)}</dd></div></dl>
-      <p>${record.status === 'review' ? 'Payment or cancellation needs review. Please contact us.' : record.balancePaid ? 'Fully paid. Your shirts are reserved.' : record.status === 'paid' ? 'Deposit confirmed. Your sizes, quantities and price are locked.' : 'Your reservation is confirmed only after the deposit is paid.'}</p>`;
+      <p>${record.status === 'review' ? 'Payment or cancellation needs review. Please contact us.' : record.balancePaid ? 'Fully paid. Your shirts are pre-ordered.' : record.status === 'paid' ? 'Deposit confirmed. Your sizes, quantities and price are locked.' : 'Your pre-order is confirmed only after the deposit is paid.'}</p>`;
     if (record.status === 'pending' && record.checkoutUrl) {
       const link = document.createElement('a'); link.className = 'btn'; link.href = record.checkoutUrl; link.textContent = 'Pay deposit'; card.append(link);
     }
@@ -68,16 +68,16 @@
     if (!response.ok) throw new Error('Sign-in is unavailable. Please try again later.');
     account = await response.json();
     if (!account.signedIn) {
-      status.textContent = new URLSearchParams(location.search).has('error') ? 'Sign-in could not be completed. Please try again.' : 'Sign in to view your reserved tees across devices.';
+      status.textContent = new URLSearchParams(location.search).has('error') ? 'Sign-in could not be completed. Please try again.' : 'Sign in to view your pre-ordered tees across devices.';
       const link = document.createElement('a');
       link.className = 'btn'; link.href = '/api/customer/login'; link.textContent = 'Sign in'; content.append(link);
       return;
     }
     const result = await fetch('/api/reservations', { cache: 'no-store' });
     const saved = await result.json();
-    if (!result.ok) throw new Error(saved.error || 'Could not load your reservations.');
+    if (!result.ok) throw new Error(saved.error || 'Could not load your pre-orders.');
     await clearPaidBag(saved.reservations);
-    status.textContent = saved.reservations.length ? 'Your pre-order reservations.' : 'No reservations yet. Your bag is ready when you are.';
+    status.textContent = saved.reservations.length ? 'Your pre-orders.' : 'No pre-orders yet. Your bag is ready when you are.';
     saved.reservations.forEach(renderRecord);
     const lines = bagLines();
     if (lines.length && M.depositWindow()) {

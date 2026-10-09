@@ -27,7 +27,7 @@ async function maintain(now = Date.now()) {
     const page = result.draftOrders;
     for (const draft of page.nodes) {
       const stage = draft.customAttributes.find(a => a.key === 'Payment stage')?.value;
-      const id = draft.customAttributes.find(a => a.key === 'Mudra reservation')?.value;
+      const id = draft.customAttributes.find(a => ['Mudra pre-order', 'Mudra reservation'].includes(a.key))?.value;
       if (stage !== 'deposit' || !id || !draft.customer?.id || draft.status === 'COMPLETED') continue;
       const close = await store.update(draft.customer.id, records => {
         const record = records.find(r => r.id === id);

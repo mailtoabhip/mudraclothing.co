@@ -8,17 +8,17 @@ async function read(customerId) {
   if (!result.customer) throw new Error('Customer account was not found.');
   const field = result.customer.metafield;
   const records = field ? JSON.parse(field.value) : [];
-  if (!Array.isArray(records)) throw new Error('Your reservations need review.');
+  if (!Array.isArray(records)) throw new Error('Your pre-orders need review.');
   return { records, digest: field?.compareDigest || null };
 }
 async function save(customerId, records, digest) {
   const value = JSON.stringify(records);
-  if (Buffer.byteLength(value) > 100000) throw new Error('Please contact us to manage further reservations.');
+  if (Buffer.byteLength(value) > 100000) throw new Error('Please contact us to manage further pre-orders.');
   const result = await admin(`mutation($fields: [MetafieldsSetInput!]!) { metafieldsSet(metafields: $fields) { metafields { compareDigest } userErrors { code } } }`, {
     fields: [{ ownerId: customerId, namespace: NAMESPACE, key: KEY, type: 'json', value, compareDigest: digest }]
   });
   if (result.metafieldsSet.userErrors.some(e => ['INVALID_COMPARE_DIGEST', 'STALE_OBJECT'].includes(e.code))) throw new Conflict();
-  if (result.metafieldsSet.userErrors.length) throw new Error('Could not save your reservation.');
+  if (result.metafieldsSet.userErrors.length) throw new Error('Could not save your pre-order.');
 }
 async function update(customerId, edit) {
   for (let attempt = 0; attempt < 4; attempt++) {

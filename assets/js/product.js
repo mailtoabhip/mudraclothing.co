@@ -416,7 +416,7 @@ function priceHTML(p) {
   if (M.depositWindow()) return `<p class="mono buy__label">Product price</p>
     <div class="buy__pricerow"><span class="price is-pre" id="price"><span class="price__num">${money(v.now)}</span></span><span class="deposit-tag">Pre-order at ${money(M.depositFor(view.product.id))} today!</span></div>
     <p class="mono buy__tax">Inclusive of all taxes · Free shipping</p>
-    <aside class="pricenote" role="note"><p class="pricenote__text">Pay ${money(M.depositFor(view.product.id))} now to reserve this tee. Balance ${money(v.now - M.depositFor(view.product.id))} when orders open on ${esc(M.dropDates().launchShort)}. Free shipping. Refundable before dispatch.</p></aside>`;
+    <aside class="pricenote" role="note"><p class="pricenote__text">Pay ${money(M.depositFor(view.product.id))} now to pre-order this tee. Balance ${money(v.now - M.depositFor(view.product.id))} when orders open on ${esc(M.dropDates().launchShort)}. Free shipping. Refundable before dispatch.</p></aside>`;
   const closes = d ? d.closesShort : '';
   // DOM order is MRP then price, so screen readers hear "MRP ₹1,600, Pre-order price ₹1,299";
   // CSS puts the price first visually. The visible label repeats the sr text, so it's hidden from AT.
