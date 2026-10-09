@@ -468,3 +468,34 @@ a.atc{display:block;text-align:center}
   .sct__t td{font-size:15px}
   .sct__mk{display:none}
 }
+
+/* Featured campaign carousel */
+.hero--carousel{position:relative}
+.hero__slide[hidden],.hero__controls[hidden]{display:none}
+.hero__slide{position:relative}
+.hero__slide .hero__campaign img,.hero__photo img{width:100%;aspect-ratio:1672/941;height:auto;display:block;object-fit:cover}
+.hero__photo,.hero__photo picture{display:block}
+.hero__slide--fluoro{background:#CCFF00}
+.hero__offer{padding:24px clamp(24px,5vw,80px);display:flex;align-items:center;gap:24px;background:var(--paper);border-top:1px solid var(--line)}
+.hero__offer-kicker{margin:0;color:var(--ash);font-size:11px}
+.hero__offer h2{margin:0;font-family:var(--display);font-size:clamp(22px,2.5vw,36px);line-height:1.15}
+.hero__offer h2 span{background:var(--magenta);color:var(--fg);padding:0 6px;white-space:nowrap}
+.hero__cta{margin-left:auto;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;padding:16px 24px;background:var(--fg);color:var(--paper);font-size:11px}
+.hero__cta:hover,.hero__cta:focus-visible{background:var(--blue);color:var(--on-blue)}
+.hero__controls{position:absolute;right:24px;top:24px;display:flex;align-items:center;gap:14px;padding:6px;background:var(--paper);border:1px solid var(--line-strong)}
+.hero__arrow{width:44px;height:44px;font-size:24px;color:var(--fg);background:transparent}
+.hero__arrow:hover,.hero__arrow:focus-visible{background:var(--blue);color:var(--on-blue)}
+#shop{scroll-margin-top:calc(var(--navh) + 16px)}
+@media(max-width:760px){
+ .hero__offer{padding:22px 20px;display:grid;gap:12px}
+ .hero__cta{margin-left:0;justify-self:start}
+ .hero__controls{top:12px;right:12px;gap:8px;padding:2px}
+ .hero__arrow{width:40px;height:40px}
+ .hero__slide .hero__campaign img{object-fit:contain}
+}
+
+.hero__photo{position:relative;color:var(--fg)}
+.hero__photo-copy{position:absolute;left:4%;top:26%;width:27%;display:grid;gap:20px}
+.hero__photo-copy strong{font-family:var(--display);font-size:clamp(28px,5.2vw,88px);text-transform:uppercase;line-height:.95}
+.hero__photo-copy>.mono{font-size:clamp(10px,1.4vw,22px);line-height:1.6}
+@media(max-width:760px){.hero__photo-copy{top:27%;gap:10px}.hero__photo-copy strong{font-size:clamp(20px,5.5vw,40px)}.hero__photo-copy>.mono{font-size:8px;letter-spacing:.04em}}

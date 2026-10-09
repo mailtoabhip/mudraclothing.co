@@ -18,6 +18,7 @@ async function init() {
   const [, data] = await Promise.all([loadSprite(), loadCatalogue(), loadDrop(), window.Mudra.loadReservations()]);
   state.products = data.products;
   renderDropCopy();
+  wireHeroCarousel();
   renderGrid();
   wireFilters();
   wireSort();
@@ -257,7 +258,8 @@ function applyFilters() {
   });
 
   document.getElementById('empty').hidden = shown > 0;
-  document.getElementById('showing').textContent = `Showing ${shown} of ${cards.length}`;
+  const filtered = Object.values(state.filters).some(values => values.length);
+  document.getElementById('showing').textContent = filtered ? `Showing (${shown})` : 'Showing all';
   document.getElementById('count').textContent = `${shown} ${shown === 1 ? 'piece' : 'pieces'}`;
 }
 
@@ -277,3 +279,27 @@ function wireSort() {
 }
 
 init();
+
+/* Campaign banners: manual navigation, no automatic motion. */
+function wireHeroCarousel() {
+  const hero = document.querySelector('.hero--carousel');
+  if (!hero) return;
+  const slides = [...hero.querySelectorAll('[data-hero-slide]')];
+  const controls = hero.querySelector('.hero__controls');
+  let current = 0;
+  controls.hidden = slides.length < 2;
+  function show(next) {
+    current = (next + slides.length) % slides.length;
+    slides.forEach((slide, i) => { slide.hidden = i !== current; slide.classList.toggle('is-active', i === current); });
+    hero.querySelector('[data-hero-status]').textContent = `${current + 1} / ${slides.length}`;
+  }
+  hero.querySelector('[data-hero-prev]').addEventListener('click', () => show(current - 1));
+  hero.querySelector('[data-hero-next]').addEventListener('click', () => show(current + 1));
+  hero.addEventListener('click', event => {
+    const link = event.target.closest('a[href="#shop"]');
+    if (!link) return;
+    event.preventDefault();
+    document.getElementById('shop').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' });
+    history.replaceState(null, '', '#shop');
+  });
+}

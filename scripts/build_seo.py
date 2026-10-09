@@ -606,7 +606,7 @@ def build_home(products):
         s = s.replace('<div class="pgrid" id="pgrid"></div>', f'<div class="pgrid" id="pgrid">{grid}</div>', 1)
     n = len(products)                      # counts shown before main.js runs
     s = re.sub(r'(<span class="mono" id="count">).*?(</span>)', lambda m: f"{m.group(1)}{n} {'piece' if n == 1 else 'pieces'}{m.group(2)}", s, count=1)
-    s = re.sub(r'(<span class="mono" id="showing">).*?(</span>)', lambda m: f"{m.group(1)}Showing {n} of {n}{m.group(2)}", s, count=1)
+    s = re.sub(r'(<span class="mono" id="showing">).*?(</span>)', lambda m: f"{m.group(1)}Showing all{m.group(2)}", s, count=1)
     s = s.replace('<html lang="en">', '<html lang="en-IN">', 1)
     f.write_text(s, encoding="utf-8")
 
