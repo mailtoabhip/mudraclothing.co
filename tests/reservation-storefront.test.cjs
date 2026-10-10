@@ -7,8 +7,8 @@ const drop = require('../data/drop.json');
 
 function storefront(settings) {
   const context = {
-    window: { addEventListener() {} }, location: { protocol: 'https:', hostname: 'www.wearmudra.shop', search: '' },
-    document: { readyState: 'loading', querySelector: () => null, addEventListener() {} }, addEventListener() {},
+    window: {}, location: { protocol: 'https:', hostname: 'www.wearmudra.shop', search: '' },
+    document: { querySelector: () => null, addEventListener() {} }, addEventListener() {},
     URLSearchParams, Intl, Date, console,
     fetch: async url => ({ ok: true, json: async () => url.includes('reservations') ? settings : drop }),
   };

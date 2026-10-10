@@ -1,32 +1,5 @@
 # Mudra Clothing Company
 
-## Anonymous product likes
-
-Hearts on home cards and product photos toggle one like per product per browser.
-The signed HttpOnly cookie lasts one year; clearing cookies, private browsing or
-another device creates another instance. Counts measure browser instances, not
-verified unique people. Likes do not identify customers or change the bag.
-
-Shared totals use atomic Redis set membership. Connect an Upstash Redis store to
-the Vercel project, supplying server-only `UPSTASH_REDIS_REST_URL` and
-`UPSTASH_REDIS_REST_TOKEN` (the existing `KV_REST_API_URL/TOKEN` aliases also work).
-The existing `RESERVATION_SESSION_KEY` signs browser cookies. Never put these
-values in frontend code. Without storage configuration, hearts remain hidden.
-
-Set server-only `LIKES_OWNER_EMAIL` to the owner's customer-account email. The API
-verifies the signed-in Customer gid and reads its email server-side before access.
-Alternatively set `LIKES_OWNER_CUSTOMER_ID` to pin access to that exact gid.
-`/product-interest` is a noindex, unlinked report. Customer sign-in currently returns
-to the bag, so revisit the report after signing in. Counts refresh every 10
-seconds while the report is visible. Sign-in is not required to like a product.
-
-Writes require same-origin JSON, valid live product IDs and boolean desired
-state. Repeated requests cannot increment the same membership twice. Per-browser
-and scrambled-network rate limits expire after 60 seconds. Anonymous likes are
-an interest signal, not an anti-fraud identity system. Undo deletes membership.
-Run `node --test tests/product-likes.test.cjs` for API/security checks, and verify
-duplicate concurrent writes against the connected Redis store before enabling.
-
 Static storefront. Design and browsing live here; cart, checkout, inventory and
 orders live in Shopify (Storefront API, no SDK).
 
