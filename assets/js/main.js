@@ -291,7 +291,6 @@ function wireHeroCarousel() {
   function show(next) {
     current = (next + slides.length) % slides.length;
     slides.forEach((slide, i) => { slide.hidden = i !== current; slide.classList.toggle('is-active', i === current); });
-    hero.querySelector('[data-hero-status]').textContent = `${current + 1} / ${slides.length}`;
   }
   hero.querySelector('[data-hero-prev]').addEventListener('click', () => show(current - 1));
   hero.querySelector('[data-hero-next]').addEventListener('click', () => show(current + 1));
