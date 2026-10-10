@@ -16,15 +16,13 @@ BRAND = "Mudra"
 LEGAL_NAME = "Mudra Clothing Company"
 SITE_NAME = LEGAL_NAME   # kept for older imports
 
-# Customer email. Every page gets it from here ({{email}} in _src/pages).
-# HELD (8 Oct 2026): hello@wearmudra.in doesn't receive mail yet, so the working
-# Gmail stays. To switch: set "hello@wearmudra.in" and MAILBOX_LIVE = False, rebuild,
-# send a test email, then MAILBOX_LIVE = True and rebuild again.
-CONTACT_EMAIL = "abhijeet.designmail@gmail.com"
-# False until the mailbox exists and receives mail: the address is then marked
-# as a placeholder (.tbd, highlighted with body.review). Flip to True once a
-# test email to it arrives, then rebuild.
-MAILBOX_LIVE = True   # the Gmail above works
+# Customer email. Every page gets it from here ({{email}} in _src/pages), plus the
+# footer and the Organization structured data.
+# 10 Oct 2026: abhijeet@wearmudra.shop (MX on wearmudra.shop points to GoDaddy mail).
+CONTACT_EMAIL = "abhijeet@wearmudra.shop"
+# False marks the address as a placeholder (.tbd, highlighted with body.review)
+# for a mailbox that doesn't receive mail yet.
+MAILBOX_LIVE = True
 
 INSTAGRAM_HANDLE = "@wear.mudra"
 INSTAGRAM_URL = "https://www.instagram.com/wear.mudra/"
