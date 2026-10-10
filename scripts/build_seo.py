@@ -286,8 +286,8 @@ def organization():
         "name": LEGAL_NAME,
         # every name people search us by: brand, domain, Instagram handle
         "alternateName": ALT_NAMES,
-        "description": "Mudra is an Indian streetwear label from Bengaluru making oversized graphic t-shirts: "
-                       "a small print on the front, the full graphic on the back. Sold online at wearmudra.shop.",
+        "description": "Mudra is an online-only Indian streetwear label based in Bengaluru, making oversized graphic t-shirts: "
+                       "a small print on the front, the full graphic on the back. Sold only at wearmudra.shop, no physical store.",
         "url": url("/"),
         # the seal, square, 512 px
         "logo": url("/assets/favicon/icon-512.png"),
@@ -845,8 +845,8 @@ def build_llms(products):
     """/llms.txt: a plain summary for AI assistants and answer engines. Facts only, from the same data as the pages."""
     host = SITE_URL.split("//", 1)[1]
     lines = [f"# {BRAND} ({LEGAL_NAME})", "",
-             f"> {BRAND} is an Indian streetwear label from Bengaluru making oversized graphic t-shirts: a small print on the "
-             f"front, the full graphic on the back. Online store: {host}. Instagram: {INSTAGRAM_HANDLE}.", "",
+             f"> {BRAND} is an online-only Indian streetwear label based in Bengaluru, making oversized graphic t-shirts: a small print on the "
+             f"front, the full graphic on the back. No physical store. Shop: {host}. Instagram: {INSTAGRAM_HANDLE}.", "",
              f"Also known as: {', '.join(ALT_NAMES)}.",
              f"Contact: {CONTACT_EMAIL}. Free shipping across India.", "",
              "## T-shirts", ""]
