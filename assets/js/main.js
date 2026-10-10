@@ -145,11 +145,11 @@ function wireCarousel(card) {
 
   // clicking the picture (not an arrow) opens the product
   media.addEventListener('click', e => {
-    if (e.target.closest('.navbtn')) return;
+    if (e.target.closest('.navbtn, .product-like')) return;
     location.href = card.dataset.url;
   });
   media.addEventListener('keydown', e => {
-    if (e.key === 'Enter') location.href = card.dataset.url;
+    if (e.key === 'Enter' && e.target === media) location.href = card.dataset.url;
   });
 
   if (slides.length < 2) return;

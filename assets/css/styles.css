@@ -391,6 +391,21 @@ a.atc{display:block;text-align:center}
 /* visible to screen readers only */
 .sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 
+/* Anonymous product likes: a product action, separate from gallery navigation. */
+.product-like{position:absolute;top:12px;right:12px;z-index:8;display:grid;place-items:center;width:44px;height:44px;padding:9px;background:var(--paper);color:var(--fg);border:1px solid var(--line-strong);border-radius:0;cursor:pointer}
+.product-like svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.7}
+.product-like[aria-pressed="true"]{background:var(--blue);color:var(--on-blue);border-color:var(--blue)}
+.product-like[aria-pressed="true"] svg{fill:currentColor}
+.product-like:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.product-like:disabled{cursor:wait;opacity:.7}
+.product-like-status{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);z-index:100;width:max-content;max-width:calc(100% - 32px);background:var(--paper);color:var(--fg);border:1px solid var(--line-strong);padding:12px 16px;font-size:14px;pointer-events:none}
+.product-like-status:empty{display:none}
+.likes-report{padding-block:40px;min-height:40vh}
+.likes-report table{width:100%;border-collapse:collapse;margin-block:24px}
+.likes-report th,.likes-report td{text-align:left;padding:16px;border-bottom:1px solid var(--line)}
+.likes-report td:last-child,.likes-report thead th:last-child{text-align:right}
+.likes-report [data-likes-status]{color:var(--blue)}
+
 /* home: standard + story */
 .hs{--pad:clamp(72px,10vw,144px);position:relative;padding-block:var(--pad)}
 .hs--standard{background:var(--blue);color:#FFFFFF;--hair:rgba(255,255,255,.35)}
