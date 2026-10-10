@@ -32,7 +32,7 @@ async function ticker() {
   const track = $('#ticker');
   if (!track || !M.loadDrop) return;
   await M.loadDrop();
-  const row = M.tickerItems().map(t => `<span>${M.esc(t)}</span><span>✳</span>`).join('');
+  const row = M.tickerItems().map(t => `<span>${M.esc(t)}</span>`).join('');
   track.innerHTML = row + row;
 }
 

@@ -83,10 +83,10 @@ PBLOCK = """  <section class="pblock pblock--{accent}">
 """
 
 # static copy of the ticker; the page's script swaps in the live drop lines
-TICKER = """<div class="ticker">
+TICKER = """<div class="ticker" data-nosnippet>
   <div class="ticker__track" id="ticker">
-    <span>Designed in-house</span><span>✳</span><span>Free shipping across India</span><span>✳</span>
-    <span>Designed in-house</span><span>✳</span><span>Free shipping across India</span><span>✳</span>
+    <span>Designed in-house</span><span>Free shipping across India</span>
+    <span>Designed in-house</span><span>Free shipping across India</span>
   </div>
 </div>
 """

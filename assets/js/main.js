@@ -31,7 +31,7 @@ async function init() {
 function renderDropCopy() {
   const track = document.querySelector('.ticker__track');
   if (track) {
-    const row = tickerItems().map(t => `<span>${esc(t)}</span><span>✳</span>`).join('');
+    const row = tickerItems().map(t => `<span>${esc(t)}</span>`).join('');
     track.innerHTML = row + row;   // twice, for the seamless loop
   }
   const tag = document.querySelector('.hero__tag');

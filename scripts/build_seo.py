@@ -21,7 +21,7 @@ Product/Offer price data is only emitted while checkout is switched on
 """
 import datetime, hashlib, html, json, os, pathlib, re, subprocess
 
-from site_config import (SITE_URL, SITE_NAME, BRAND, LEGAL_NAME, CONTACT_EMAIL, INSTAGRAM_URL, OG_IMAGE,
+from site_config import (SITE_URL, SITE_NAME, BRAND, LEGAL_NAME, CONTACT_EMAIL, INSTAGRAM_URL, INSTAGRAM_HANDLE, OG_IMAGE,
                          PREORDER_MIN_DAYS, PREORDER_MAX_DAYS, FEED_GENDER, FEED_AGE_GROUP)
 import build_images
 
@@ -135,7 +135,7 @@ def hero_tag():
 
 
 HOME_TITLE = "Oversized Graphic T-Shirts, Designed in India · Mudra"
-HOME_DESC = ("Oversized graphic t-shirts, designed in India. A small stamp on the front, "
+HOME_DESC = ("Mudra makes oversized graphic t-shirts, designed in Pune, India. A small stamp on the front, "
              "the whole graphic on the back. Free shipping across India.")
 OG_SIZE = (1200, 630)
 OG_ALT = "Mudra oversized graphic t-shirt, full back print"
@@ -275,16 +275,26 @@ RETURN_POLICY = {
 }
 
 
+ALT_NAMES = ["Wear Mudra", "wearmudra", "wearmudra.shop", "wear.mudra", BRAND,
+             "Mudra Clothing Co.", "Mudra Clothing"]
+
+
 def organization():
     org = {
         "@type": ["Organization", "OnlineStore"],
         "@id": url("/#org"),
         "name": LEGAL_NAME,
-        "alternateName": BRAND,
+        # every name people search us by: brand, domain, Instagram handle
+        "alternateName": ALT_NAMES,
+        "description": "Mudra is an Indian streetwear label from Pune making oversized graphic t-shirts: "
+                       "a small print on the front, the full graphic on the back. Sold online at wearmudra.shop.",
         "url": url("/"),
         # the seal, square, 512 px
         "logo": url("/assets/favicon/icon-512.png"),
         "email": CONTACT_EMAIL,
+        "founder": {"@type": "Person", "name": "Abhijeet Purandare", "jobTitle": "Showrunner"},
+        "foundingLocation": {"@type": "Place", "name": "Pune, India"},
+        "knowsAbout": ["Oversized t-shirts", "Graphic t-shirts", "Streetwear", "DTF printing"],
         "address": {"@type": "PostalAddress", "addressLocality": "Pune",
                     "addressRegion": "Maharashtra", "addressCountry": "IN"},
         "contactPoint": {"@type": "ContactPoint", "contactType": "customer support",
@@ -586,7 +596,7 @@ def build_home(products):
     s = f.read_text(encoding="utf-8")
     graph = {"@context": "https://schema.org", "@graph": [
         organization(),
-        {"@type": "WebSite", "@id": url("/#site"), "name": BRAND, "url": url("/"),
+        {"@type": "WebSite", "@id": url("/#site"), "name": BRAND, "alternateName": ALT_NAMES, "url": url("/"),
          "inLanguage": "en-IN", "publisher": {"@id": url("/#org")}},
         {"@type": "ItemList", "name": "Oversized graphic t-shirts", "numberOfItems": len(products),
          "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": url(f"/p/{p['id']}"),
@@ -597,7 +607,7 @@ def build_home(products):
     s = put_head(s, head_tags(HOME_TITLE, home_desc(), "/", OG_IMAGE, extra=preload + "\n" + jsonld(graph),
                               img_size=OG_SIZE, img_alt=OG_ALT))
     # ticker + hero tag for the phase at build time (main.js re-renders them live)
-    row = "".join(f"<span>{e(t)}</span><span>✳</span>" for t in ticker_items())
+    row = "".join(f"<span>{e(t)}</span>" for t in ticker_items())
     s = re.sub(r'(<div class="ticker__track">\n).*?(\n  </div>)',
                lambda m: m.group(1) + "    " + row + "\n    " + row + m.group(2), s, count=1, flags=re.S)
     s = re.sub(r'(<div class="mono hero__tag">).*?(</div>)', lambda m: m.group(1) + e(hero_tag()) + m.group(2), s, count=1)
@@ -831,6 +841,24 @@ def build_redirects(archived):
     f.write_text(json.dumps(cfg, indent=2) + "\n", encoding="utf-8")
 
 
+def build_llms(products):
+    """/llms.txt: a plain summary for AI assistants and answer engines. Facts only, from the same data as the pages."""
+    host = SITE_URL.split("//", 1)[1]
+    lines = [f"# {BRAND} ({LEGAL_NAME})", "",
+             f"> {BRAND} is an Indian streetwear label from Pune making oversized graphic t-shirts: a small print on the "
+             f"front, the full graphic on the back. Online store: {host}. Instagram: {INSTAGRAM_HANDLE}.", "",
+             f"Also known as: {', '.join(ALT_NAMES)}.",
+             f"Contact: {CONTACT_EMAIL}. Free shipping across India.", "",
+             "## T-shirts", ""]
+    for p in products:
+        lines.append(f"- [{product_title(p)}]({url('/p/' + p['id'])}): {blurb(p)} {money(p['price'])}.")
+    lines += ["", "## Help", "",
+              f"- [Size guide]({url('/size-guide')})", f"- [Shipping]({url('/shipping')})",
+              f"- [Returns]({url('/returns')})", f"- [Track an order]({url('/track')})",
+              f"- [Our story]({url('/about')})", f"- [Contact]({url('/contact')})", ""]
+    (ROOT / "llms.txt").write_text("\n".join(lines), encoding="utf-8")
+
+
 def build():
     build_images.build()                       # WebP sizes, recorded in products.json
     data = json.loads((ROOT / "data/products.json").read_text(encoding="utf-8"))
@@ -848,6 +876,7 @@ def build():
     build_sitemap(products)
     n = build_feed(products) if offers else 0
     build_redirects(data.get("archived", []))
+    build_llms(products)
     print(f"seo: home, {len(products)} product pages, sitemap, robots, feed ({n} items), "
           f"{len(data.get('archived', []))} archive redirects "
           f"(offers {'on' if offers else 'off'}, drop phase {drop_phase()}, site {SITE_URL})")
