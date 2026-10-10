@@ -66,7 +66,7 @@ function render(c) {
       ${deposit ? `<h2 class="bsum__deposit">${depositRates.size === 1 ? `Pre-order @ ${money([...depositRates][0])}` : 'Pre-order deposits'}</h2><p class="bsum__po">Orders open ${esc(M.dropDates().launchShort)}.</p>` : ''}
       <dl class="bsum__rows">
         <div><dt class="mono">${deposit ? 'Full tee total' : 'Subtotal'}</dt><dd class="mono">${money(sub.amount)}</dd></div>
-        ${deposit ? `<div class="bsum__hl"><dt class="mono">Pre-order amount</dt><dd class="mono">${money(deposit)}</dd></div>
+        ${deposit ? `<div class="bsum__hl"><dt class="mono">Pre-order amount<small class="bsum__sub">Store credit if the balance isn't paid</small></dt><dd class="mono">${money(deposit)}</dd></div>
         <div><dt class="mono">On launch, you pay<small class="bsum__sub">${esc(launchLong())} onwards</small></dt><dd class="mono">${money(Number(sub.amount) - deposit)}</dd></div>` : ''}
         <div><dt class="mono">Shipping</dt><dd class="mono">Free</dd></div>
         ${M.codNow() ? `<div><dt class="mono">Cash on delivery</dt><dd class="mono">Available</dd></div>` : ''}
