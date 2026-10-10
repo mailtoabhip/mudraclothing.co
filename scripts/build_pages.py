@@ -52,7 +52,7 @@ FOOTER = """<!-- footer:start -->
       <div class="fbrand">
         <svg class="seal" viewBox="0 0 825 825" preserveAspectRatio="xMinYMid meet" aria-hidden="true"><use href="#seal"/></svg>
         <p>Oversized tees, designed in-house and made in India.</p>
-        <p class="fcontact"><a class="fchip" href="mailto:{{{{email}}}}"><svg class="fchip__ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5.5" width="18" height="13"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></g></svg><span>{{{{email}}}}</span></a><a class="fchip" href="{{{{instagram_url}}}}" target="_blank" rel="noopener" aria-label="Mudra on Instagram, {{{{instagram}}}}"><svg class="fchip__ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/></g><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor"/></svg><span>{{{{instagram}}}}</span></a></p>
+        <p class="fcontact"><a class="fchip" href="mailto:{{{{email}}}}"><svg class="fchip__ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5.5" width="18" height="13"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></g></svg><span>{{{{email_display}}}}</span></a><a class="fchip" href="{{{{instagram_url}}}}" target="_blank" rel="noopener" aria-label="Mudra on Instagram, {{{{instagram}}}}"><svg class="fchip__ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/></g><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor"/></svg><span>{{{{instagram_display}}}}</span></a></p>
       </div>
 {cols}
     </div>
@@ -206,8 +206,15 @@ def size_chart_html():
       </div>"""
 
 
+def logo_r(text):
+    """The word Mudra in the stencil face gets the logo's backwards R (.r-mirror)."""
+    return re.sub(r"(mud)(r)(a)", r'\1<span class="r-mirror">\2</span>\3', html.escape(text), flags=re.I)
+
+
 SITE_TOKENS = {"email": CONTACT_EMAIL, "legal_name": LEGAL_NAME, "brand": BRAND,
-               "instagram": INSTAGRAM_HANDLE, "instagram_url": INSTAGRAM_URL}
+               "instagram": INSTAGRAM_HANDLE, "instagram_url": INSTAGRAM_URL,
+               # footer boxes: same text, for the stencil face
+               "email_display": logo_r(CONTACT_EMAIL), "instagram_display": logo_r(INSTAGRAM_HANDLE)}
 
 
 def site_tokens(text):
@@ -215,7 +222,7 @@ def site_tokens(text):
     site_config.py. Until the mailbox is live, the visible address is marked .tbd."""
     if "{{size_chart}}" in text:
         text = text.replace("{{size_chart}}", size_chart_html())
-    out = re.sub(r"\{\{(email|legal_name|brand|instagram|instagram_url)\}\}", lambda m: SITE_TOKENS[m.group(1)], text)
+    out = re.sub(r"\{\{(email_display|instagram_display|email|legal_name|brand|instagram_url|instagram)\}\}", lambda m: SITE_TOKENS[m.group(1)], text)
     assert "{{" not in out, "unknown {{token}} in a page source"
     if not MAILBOX_LIVE:
         out = re.sub(r'(?<!class="tbd")>' + re.escape(CONTACT_EMAIL) + '<', f'><span class="tbd">{CONTACT_EMAIL}</span><', out)
