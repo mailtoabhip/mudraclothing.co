@@ -285,6 +285,8 @@ def organization():
         # the seal, square, 512 px
         "logo": url("/assets/favicon/icon-512.png"),
         "email": CONTACT_EMAIL,
+        "address": {"@type": "PostalAddress", "addressLocality": "Pune",
+                    "addressRegion": "Maharashtra", "addressCountry": "IN"},
         "contactPoint": {"@type": "ContactPoint", "contactType": "customer support",
                          "email": CONTACT_EMAIL, "areaServed": "IN",
                          "availableLanguage": ["en"]},
