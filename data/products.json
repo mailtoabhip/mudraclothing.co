@@ -188,10 +188,10 @@
       "media": [
         {
           "type": "img",
-          "src": "assets/img/products/face-card-maroon-v2-mirror-front.jpg",
+          "src": "assets/img/products/face-card-maroon-v4-mirror-front.jpg",
           "alt": "Face Card oversized tee in deep maroon, heart card chest print, mirror selfie in a lamp-lit bedroom",
           "w": 1000,
-          "h": 1319,
+          "h": 1320,
           "webp": [
             800,
             1000
@@ -236,7 +236,7 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-maroon-v2-walking-front.jpg",
+          "src": "assets/img/products/face-card-maroon-v4-walking-front.jpg",
           "alt": "Face Card oversized tee in deep maroon, heart card chest print, walking along a tree-lined lane",
           "w": 992,
           "h": 1586,
@@ -248,7 +248,7 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-maroon-v2-seated-front.jpg",
+          "src": "assets/img/products/face-card-maroon-v4-seated-front.jpg",
           "alt": "Face Card oversized tee in deep maroon, heart card chest print, seated on stone steps",
           "w": 992,
           "h": 1586,
@@ -260,7 +260,7 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-blue-v1-mirror-front.jpg",
+          "src": "assets/img/products/face-card-blue-v2-mirror-front.jpg",
           "alt": "Face Card oversized tee in deep blue, heart card chest print, mirror selfie in a lamp-lit bedroom",
           "colour": "blue",
           "w": 1000,
@@ -308,7 +308,7 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-blue-v1-walking-front.jpg",
+          "src": "assets/img/products/face-card-blue-v2-walking-front.jpg",
           "alt": "Face Card oversized tee in deep blue, heart card chest print, walking along a tree-lined lane",
           "colour": "blue",
           "w": 992,
@@ -320,7 +320,7 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-blue-v1-seated-front.jpg",
+          "src": "assets/img/products/face-card-blue-v2-seated-front.jpg",
           "alt": "Face Card oversized tee in deep blue, heart card chest print, seated on stone steps",
           "colour": "blue",
           "w": 992,
