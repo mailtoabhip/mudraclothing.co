@@ -28,7 +28,7 @@ The shared footer is also written into index.html and product.html between
 import html, pathlib, re, sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-from site_config import SITE_URL, OG_IMAGE, BRAND, LEGAL_NAME, CONTACT_EMAIL, MAILBOX_LIVE, INSTAGRAM_URL, INSTAGRAM_HANDLE
+from site_config import SITE_URL, OG_IMAGE, BRAND, LEGAL_NAME, CONTACT_EMAIL, MAILBOX_LIVE, INSTAGRAM_URL, INSTAGRAM_HANDLE, GA_MEASUREMENT_ID
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / "_src" / "pages"
@@ -90,6 +90,32 @@ TICKER = """<div class="ticker">
   </div>
 </div>
 """
+
+def ga_tag():
+    """Google tag (gtag.js) for GA4, between markers so the build can refresh it."""
+    if not GA_MEASUREMENT_ID:
+        return ""
+    gid = GA_MEASUREMENT_ID
+    return (
+        "<!-- ga:start -->\n"
+        "<!-- Google tag (gtag.js) -->\n"
+        f'<script async src="https://www.googletagmanager.com/gtag/js?id={gid}"></script>\n'
+        "<script>\n"
+        "  window.dataLayer = window.dataLayer || [];\n"
+        "  function gtag(){dataLayer.push(arguments);}\n"
+        "  gtag('js', new Date());\n"
+        "\n"
+        f"  gtag('config', '{gid}');\n"
+        "</script>\n"
+        "<!-- ga:end -->\n"
+    )
+
+
+def put_ga(s):
+    """Insert or refresh the tag right after <head> (or remove it when the ID is empty)."""
+    s = re.sub(r"<!-- ga:start -->.*?<!-- ga:end -->\n", "", s, flags=re.S)
+    return s.replace("<head>\n", "<head>\n" + ga_tag(), 1)
+
 
 SHELL = """<!DOCTYPE html>
 <html lang="en-IN">
@@ -268,7 +294,7 @@ def build():
             canonical=SITE_URL.rstrip("/") + ("/" if slug == "404" else f"/{slug}"),
             og_image=SITE_URL.rstrip("/") + OG_IMAGE,
         )
-        page = site_tokens(page)
+        page = put_ga(site_tokens(page))
         out = ROOT / meta.get("out", f"{slug}.html")
         # keep existing ?v= hashes stable; fingerprint.py rewrites them
         if out.exists():
@@ -281,7 +307,7 @@ def build():
     for name in ("index.html", "product.html", "cart.html"):
         f = ROOT / name
         s = f.read_text(encoding="utf-8")
-        s2 = re.sub(r"<!-- footer:start -->.*?<!-- footer:end -->", lambda _: footer, s, flags=re.S)
+        s2 = put_ga(re.sub(r"<!-- footer:start -->.*?<!-- footer:end -->", lambda _: footer, s, flags=re.S))
         if s2 != s:
             f.write_text(s2, encoding="utf-8")
 

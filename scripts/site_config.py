@@ -41,3 +41,7 @@ PREORDER_MAX_DAYS = 10
 # Google Merchant feed (feeds/google-merchant.xml): who the tees are for.
 FEED_GENDER = "unisex"      # male | female | unisex
 FEED_AGE_GROUP = "adult"
+
+# Google Analytics 4 measurement ID. The build puts the Google tag (gtag.js) right
+# after <head> on every page. Empty string = no tag anywhere.
+GA_MEASUREMENT_ID = "G-KR05NW0DGN"
