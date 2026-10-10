@@ -41,15 +41,10 @@ async function init() {
   if (!p) return renderMissing(id);
 
   view.product = p;
-  view.shots = p.media.filter(m => m.type === 'img');
-  // with real photography, the flat artwork lives in the "clean front, loud back"
-  // section instead of the gallery, so it isn't shown twice
-  view.art = artworkPair(p);
-  const photos = view.shots.filter(m => !view.art.includes(m));
-  if (view.art.length === 2 && photos.length >= 2) view.shots = photos; else view.art = [];
   const wanted = new URLSearchParams(location.search).get('c');
   view.colours = M.sellableColours(p);
   view.colour = view.colours.find(c => c.key === wanted) || view.colours[0] || null;
+  selectColourMedia();
   view.price = p.price;
   view.variants = null;   // live Shopify variants by size, once loaded
 
@@ -178,6 +173,15 @@ function renderCrumb(p) {
 const GALLERY_SIZES = '(max-width: 900px) 100vw, 30vw';
 const RELATED_SIZES = '(max-width: 1000px) 50vw, 25vw';
 
+function selectColourMedia() {
+  const p = view.product;
+  view.shots = p.media.filter(m => m.type === 'img' && (!m.colour || m.colour === view.colour?.key));
+  view.art = artworkPair(p).filter(m => !m.colour || m.colour === view.colour?.key);
+  const photos = view.shots.filter(m => !view.art.includes(m));
+  if (view.art.length === 2 && photos.length >= 2) view.shots = photos; else view.art = [];
+  view.zoomAt = 0;
+}
+
 function renderGallery(p) {
   const track = $('#track');
   track.innerHTML = view.shots.map((m, i) => `
@@ -187,15 +191,15 @@ function renderGallery(p) {
 
   track.classList.toggle('odd', view.shots.length % 2 === 1);
 
+  $('#gallery .gallery__badge')?.remove();
   if (p.badge) track.insertAdjacentHTML('beforebegin',
     `<span class="pbadge ${p.badge.type} gallery__badge">${esc(p.badge.label)}</span>`);
 
-  track.addEventListener('click', e => {
+  track.onclick = e => {
     const b = e.target.closest('.gshot');
     if (b) openZoom(Number(b.dataset.i));
-  });
-
-  // mobile: the track scrolls sideways; keep the counter honest
+  };
+  view.galleryObserver?.disconnect();
   const count = $('#gcount');
   const total = view.shots.length;
   const setCount = i => { count.textContent = `${pad2(i + 1)} / ${pad2(total)}`; };
@@ -204,6 +208,8 @@ function renderGallery(p) {
     entries.forEach(en => { if (en.isIntersecting && en.intersectionRatio > .6) setCount(Number(en.target.dataset.i)); });
   }, { root: track, threshold: [.6] });
   track.querySelectorAll('.gshot').forEach(s => io.observe(s));
+  view.galleryObserver = io;
+  track.scrollLeft = 0;
 }
 
 /* ---------- buy box --------------------------------------------------- */
@@ -329,6 +335,12 @@ function renderBuy(p) {
     b.setAttribute('aria-pressed', 'true');
     view.colour = view.colours.find(c => c.key === b.dataset.colour);
     $('#colourName').textContent = view.colour.name;
+    selectColourMedia();
+    renderGallery(p);
+    renderSides(p);
+    const url = new URL(location.href);
+    url.searchParams.set('c', view.colour.key);
+    history.replaceState(null, '', url);
     restoreBagSelection(true);
     syncSticky();
   });

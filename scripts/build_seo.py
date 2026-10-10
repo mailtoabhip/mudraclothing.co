@@ -704,6 +704,8 @@ def build_products(products, offers):
         # breadcrumb ends with the name in the HTML itself (product.js leaves it alone)
         s = s.replace('<a href="/#shop">Oversized T-Shirts</a>\n',
                       f'<a href="/#shop">Oversized T-Shirts</a> <span>/</span> <strong>{e(p["name"])}</strong>\n', 1)
+        default_colour = next((c['key'] for c in p.get('colours', []) if c.get('sellable')), None)
+        shots = [m for m in shots if not m.get('colour') or m['colour'] == default_colour]
         gallery = "".join(
             f'<button class="gshot" data-i="{i}" aria-label="Enlarge image {i + 1} of {len(shots)}">'
             + picture(m, loading="eager" if i < 2 else "lazy", sizes=GALLERY_SIZES, extra=HIGH if i == 0 else "")

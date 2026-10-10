@@ -47,7 +47,7 @@ test('IST cutoff is shared with the website, including exact boundary', () => {
   assert.equal(publicPrice(face, drop, Date.parse(drop.closes) + 1), 1499);
 });
 test('unknown products, unavailable options and invalid quantities are rejected', () => {
-  for (const replacement of [{ productId: 'made-up' }, { size: 'XS' }, { colour: 'Blue' }, { quantity: 0 }, { quantity: 1.5 }, { quantity: 21 }]) {
+  for (const replacement of [{ productId: 'made-up' }, { size: 'XS' }, { colour: 'Unlisted' }, { quantity: 0 }, { quantity: 1.5 }, { quantity: 21 }]) {
     assert.throws(() => quoteReservation([{ ...selected[0], ...replacement }], catalogue.products, drop, now));
   }
 });
@@ -70,4 +70,13 @@ test('settled balances and corrupted records cannot be charged again', () => {
   const { reservation, order } = paid();
   assert.throws(() => quoteBalance({ ...reservation, balancePaid: true }, order, 'customer-1'), { code: 'ALREADY_SETTLED' });
   assert.throws(() => quoteBalance({ ...reservation, balancePaise: 1 }, order, 'customer-1'), { code: 'INVALID_BALANCE' });
+});
+
+
+test('Face Card colours stay distinct and use matching pre-order photos', () => {
+  const q = quoteReservation([{ ...selected[0], colour: 'Maroon', quantity: 1 }, { ...selected[0], colour: 'Blue', quantity: 1 }], catalogue.products, drop, now);
+  assert.equal(q.items.length, 2);
+  assert.equal(q.depositPaise, 39800);
+  assert.match(q.items[0].image, /maroon/);
+  assert.match(q.items[1].image, /blue/);
 });

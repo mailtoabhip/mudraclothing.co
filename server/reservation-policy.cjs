@@ -30,7 +30,7 @@ function quoteReservation(lines, products, drop, now = Date.now(), settings = de
     if (quantity > 20) fail('INVALID_QUANTITY', 'Choose at most 20 tees per size.');
     selected.set(key, { productId: product.id, name: product.name, size: size.size,
       colour: colour.name, quantity, pricePaise, depositPaise,
-      image: product.media.find(m => m.type === 'img')?.src || null });
+      image: product.media.find(m => m.type === 'img' && (!m.colour || m.colour === colour.key))?.src || null });
   }
   const items = [...selected.values()];
   if (items.reduce((n, x) => n + x.quantity, 0) > 50) fail('INVALID_QUANTITY', 'Pre-order at most 50 tees at a time.');

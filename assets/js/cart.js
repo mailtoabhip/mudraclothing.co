@@ -8,12 +8,13 @@ const M = window.Mudra;
 const { esc, money } = M;
 const $ = s => document.querySelector(s);
 
+let catalogue = {};
 let names = {};   // handle → our product name, from products.json
 
 async function init() {
   M.wireHeader({ solid: true });
   const [, data] = await Promise.all([M.loadSprite(), M.loadCatalogue().catch(() => ({ products: [] })), M.loadDrop(), M.loadReservations()]);
-  (data.products || []).forEach(p => { names[p.id] = p.name; });
+  (data.products || []).forEach(p => { names[p.id] = p.name; catalogue[p.id] = p; });
 
   if (!M.SHOPIFY.enabled) return renderClosed();
 
@@ -104,7 +105,8 @@ function lineHTML(l) {
   const size = v.selectedOptions?.find(o => o.name.toLowerCase() === 'size')?.value || v.title;
   const colour = l.attributes?.find(a => a.key === 'Colour')?.value;
   const url = handle ? M.productUrl(handle) : '/#shop';
-  const img = v.image?.url;
+  const photo = catalogue[handle]?.media.find(m => m.type === 'img' && m.colour && m.colour === colour?.toLowerCase());
+  const img = photo ? '/' + photo.src : v.image?.url;
   return `
     <li class="bline" data-line="${esc(l.id)}">
       <a class="bline__img" href="${url}" tabindex="-1" aria-hidden="true">

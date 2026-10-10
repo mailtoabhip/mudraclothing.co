@@ -175,6 +175,12 @@ function wireCarousel(card) {
     dots[cur]?.classList.remove('is-on');
     dots[i]?.classList.add('is-on');
     cur = i;
+    const photo = state.products.find(p => p.id === card.dataset.id)?.media[i];
+    if (photo?.colour) {
+      const base = productUrl(card.dataset.id);
+      card.dataset.url = base + (base.includes('?') ? '&' : '?') + 'c=' + encodeURIComponent(photo.colour);
+      card.querySelectorAll('.pcard__info a').forEach(a => { a.href = card.dataset.url; });
+    }
   };
   const step = (direction = 1) => { pos = (pos + direction + order.length) % order.length; show(order[pos]); };
 
