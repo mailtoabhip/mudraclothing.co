@@ -49,6 +49,11 @@ header.solid{position:sticky;background:rgba(237,233,224,.96)}
 .bsum__rows>div:first-child{border-top:0;padding-top:0}
 .bsum__rows dt{color:var(--ash)}
 .bsum__rows dd{margin:0;font-size:13px;letter-spacing:.04em}
+/* the amount paid now, highlighted while pre-orders run */
+.bsum__rows>div.bsum__hl{background:var(--blue);margin:2px -10px;padding:10px;border-top:0}
+.bsum__rows>div.bsum__hl dt,.bsum__rows>div.bsum__hl dd{color:var(--on-blue)}
+.bsum__rows>div.bsum__hl+div{border-top:0}
+.bsum__sub{display:block;margin-top:3px;font-size:10px;letter-spacing:.1em;color:var(--ash);text-transform:none}
 .bsum__rows>div:first-child dd{font-size:18px}
 .bsum__note{margin:0;color:var(--ash);font-size:10px}
 .bsum__checkout{display:flex;align-items:center;justify-content:center;height:58px;background:var(--fg);color:var(--paper);

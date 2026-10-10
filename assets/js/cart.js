@@ -66,8 +66,8 @@ function render(c) {
       ${deposit ? `<h2 class="bsum__deposit">${depositRates.size === 1 ? `Pre-order @ ${money([...depositRates][0])}` : 'Pre-order deposits'}</h2><p class="bsum__po">Orders open ${esc(M.dropDates().launchShort)}.</p>` : ''}
       <dl class="bsum__rows">
         <div><dt class="mono">${deposit ? 'Full tee total' : 'Subtotal'}</dt><dd class="mono">${money(sub.amount)}</dd></div>
-        ${deposit ? `<div><dt class="mono">Deposit due now</dt><dd class="mono">${money(deposit)}</dd></div>
-        <div><dt class="mono">Balance from ${esc(M.dropDates().launchShort)}</dt><dd class="mono">${money(Number(sub.amount) - deposit)}</dd></div>` : ''}
+        ${deposit ? `<div class="bsum__hl"><dt class="mono">Pre-order amount</dt><dd class="mono">${money(deposit)}</dd></div>
+        <div><dt class="mono">On launch, you pay<small class="bsum__sub">${esc(launchLong())} onwards</small></dt><dd class="mono">${money(Number(sub.amount) - deposit)}</dd></div>` : ''}
         <div><dt class="mono">Shipping</dt><dd class="mono">Free</dd></div>
         ${M.codNow() ? `<div><dt class="mono">Cash on delivery</dt><dd class="mono">Available</dd></div>` : ''}
       </dl>
@@ -79,6 +79,13 @@ function render(c) {
         : `<a class="bsum__checkout mono" href="${esc(c.checkoutUrl)}">Checkout</a>`}
       <p class="bsum__help">Payment failed, or money gone and no order? <a href="/payment-help">Read this first</a>.</p>
     </aside>`;
+}
+
+// launch day written out ("1 November"), IST, from data/drop.json
+function launchLong() {
+  const l = M.drop && M.drop.launch;
+  return l ? new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'long', timeZone: 'Asia/Kolkata' }).format(new Date(l))
+           : M.dropDates().launchShort;
 }
 
 // one line under the totals: drop terms while it runs, the 7–10 day delivery window after
