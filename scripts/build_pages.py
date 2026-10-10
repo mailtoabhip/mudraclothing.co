@@ -212,7 +212,7 @@ def logo_r(text):
 
 
 SITE_TOKENS = {"email": CONTACT_EMAIL, "legal_name": LEGAL_NAME, "brand": BRAND,
-               "instagram": INSTAGRAM_HANDLE, "instagram_url": INSTAGRAM_URL,
+               "instagram": INSTAGRAM_HANDLE, "instagram_url": INSTAGRAM_URL, "account": ACCOUNT,
                # footer boxes: same text, for the stencil face
                "email_display": logo_r(CONTACT_EMAIL), "instagram_display": logo_r(INSTAGRAM_HANDLE)}
 
@@ -222,7 +222,7 @@ def site_tokens(text):
     site_config.py. Until the mailbox is live, the visible address is marked .tbd."""
     if "{{size_chart}}" in text:
         text = text.replace("{{size_chart}}", size_chart_html())
-    out = re.sub(r"\{\{(email_display|instagram_display|email|legal_name|brand|instagram_url|instagram)\}\}", lambda m: SITE_TOKENS[m.group(1)], text)
+    out = re.sub(r"\{\{(email_display|instagram_display|email|legal_name|brand|instagram_url|instagram|account)\}\}", lambda m: SITE_TOKENS[m.group(1)], text)
     assert "{{" not in out, "unknown {{token}} in a page source"
     if not MAILBOX_LIVE:
         out = re.sub(r'(?<!class="tbd")>' + re.escape(CONTACT_EMAIL) + '<', f'><span class="tbd">{CONTACT_EMAIL}</span><', out)
