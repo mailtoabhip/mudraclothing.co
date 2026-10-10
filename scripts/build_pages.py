@@ -52,7 +52,7 @@ FOOTER = """<!-- footer:start -->
       <div class="fbrand">
         <svg class="seal" viewBox="0 0 825 825" preserveAspectRatio="xMinYMid meet" aria-hidden="true"><use href="#seal"/></svg>
         <p>Oversized tees, designed in-house and made in India.</p>
-        <p class="fcontact"><a href="mailto:{{{{email}}}}">{{{{email}}}}</a><br><a href="{{{{instagram_url}}}}" target="_blank" rel="noopener">{{{{instagram}}}}</a></p>
+        <p class="fcontact"><a class="fchip" href="mailto:{{{{email}}}}"><svg class="fchip__ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5.5" width="18" height="13"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></g></svg><span>{{{{email}}}}</span></a><a class="fchip" href="{{{{instagram_url}}}}" target="_blank" rel="noopener" aria-label="Mudra on Instagram, {{{{instagram}}}}"><svg class="fchip__ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/></g><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor"/></svg><span>{{{{instagram}}}}</span></a></p>
       </div>
 {cols}
     </div>
