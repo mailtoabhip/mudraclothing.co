@@ -96,7 +96,7 @@ function cardHTML(p) {
        style="--sw:${c.hex}" title="${esc(c.name)}" aria-label="${esc(c.name)}"></button>`).join('');
 
   return `
-  <article class="pcard" data-id="${p.id}" data-series="${p.series}" data-colour="${p.colour}"
+  <article class="pcard" data-id="${p.id}" data-media-order="${p.mediaOrder || 'random'}" data-series="${p.series}" data-colour="${p.colour}"
            data-print="${p.print}" data-stock="${stockTags.join(' ')}"
            data-sizes="${available.map(s => s.size).join(' ')}"
            data-price="${priceView(p).now}" data-name="${esc(p.name)}" data-url="${url}">
@@ -159,11 +159,13 @@ function wireCarousel(card) {
   // display:none (so their lazy images wait) until the card comes near the screen.
   armSoon(media);
 
-  // The first photo stays put; the rest play in a random order, fresh on every
+  // Ordered galleries follow their supplied sequence with real previous/next.
+  // Otherwise the first photo stays put; the rest play in a random order, fresh on every
   // page load. Hover, either arrow and either arrow key all move one step
   // forward through that order, so no photo comes back within the next
   // (count - 1) steps.
-  const order = [0, ...shuffle([...slides.keys()].slice(1))];
+  const ordered = card.dataset.mediaOrder === 'ordered';
+  const order = ordered ? [...slides.keys()] : [0, ...shuffle([...slides.keys()].slice(1))];
   let pos = 0;
 
   const show = i => {
@@ -174,16 +176,16 @@ function wireCarousel(card) {
     dots[i]?.classList.add('is-on');
     cur = i;
   };
-  const step = () => { pos = (pos + 1) % order.length; show(order[pos]); };
+  const step = (direction = 1) => { pos = (pos + direction + order.length) % order.length; show(order[pos]); };
 
-  media.addEventListener('mouseenter', step);
+  media.addEventListener('mouseenter', () => { if (!ordered) step(); });
   media.addEventListener('click', e => {
     if (!e.target.closest('.navbtn')) return;
     e.preventDefault();
-    step();
+    step(ordered && e.target.closest('.prev') ? -1 : 1);
   });
   media.addEventListener('keydown', e => {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); step(); }
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); step(ordered && e.key === 'ArrowLeft' ? -1 : 1); }
   });
 }
 

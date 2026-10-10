@@ -222,8 +222,8 @@ def seo_desc(p):
 
 def artwork_pair(p):
     imgs = [m for m in images(p) if "hanger" not in m["src"]]
-    back = next((m for m in imgs if m["src"].endswith("-back.jpg")), None)
-    front = next((m for m in imgs if m["src"].endswith("-front.jpg")), None)
+    back = next((m for m in imgs if m["src"].endswith(f'/{p["id"]}-back.jpg')), None)
+    front = next((m for m in imgs if m["src"].endswith(f'/{p["id"]}-front.jpg')), None)
     return [back, front] if back and front else []
 
 
@@ -553,7 +553,7 @@ def card_html(p):
         f'style="--sw:{c["hex"]}" title="{e(c["name"])}" aria-label="{e(c["name"])}"></button>'
         for i, c in enumerate(sw))
     tag, atc = card_cta(p, href, bool(avail))
-    return (f'<article class="pcard" data-id="{p["id"]}" data-series="{p["series"]}" '
+    return (f'<article class="pcard" data-id="{p["id"]}" data-media-order="{p.get("mediaOrder", "random")}" data-series="{p["series"]}" '
             f'data-colour="{e(p["colour"])}" data-print="{p["print"]}" data-stock="{" ".join(stock)}" '
             f'data-sizes="{" ".join(avail)}" data-price="{p["price"]}" data-name="{e(p["name"])}" data-url="{href}">'
             f'<div class="pcard__media" tabindex="0" aria-label="{e(p["name"])}, view product">{badge}'

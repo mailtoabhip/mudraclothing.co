@@ -587,8 +587,8 @@ function wireZoom() {
 // the flat artwork slides, by the naming rule {id}-back.jpg / {id}-front.jpg
 function artworkPair(p) {
   const img = p.media.filter(m => m.type === 'img' && !/hanger/.test(m.src));
-  const back = img.find(m => /-back\.jpg$/.test(m.src));
-  const front = img.find(m => /-front\.jpg$/.test(m.src));
+  const back = img.find(m => m.src.endsWith(`/${p.id}-back.jpg`));
+  const front = img.find(m => m.src.endsWith(`/${p.id}-front.jpg`));
   return back && front ? [back, front] : [];
 }
 

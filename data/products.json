@@ -188,8 +188,19 @@
       "media": [
         {
           "type": "img",
-          "src": "assets/img/products/face-card-heart-hanger.jpg",
-          "alt": "Face Card tee in maroon on a hanger against a white wall, king card back print",
+          "src": "assets/img/products/face-card-maroon-v2-mirror-front.jpg",
+          "alt": "Face Card oversized tee in deep maroon, heart card chest print, mirror selfie in a lamp-lit bedroom",
+          "w": 1000,
+          "h": 1319,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/face-card-maroon-v2-doorway-back.jpg",
+          "alt": "Face Card oversized tee in deep maroon, full king card back print, standing in an old stone doorway",
           "w": 1000,
           "h": 1250,
           "webp": [
@@ -199,8 +210,8 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-heart-doorway.jpg",
-          "alt": "Face Card tee in maroon, full back print, standing in an old stone doorway",
+          "src": "assets/img/products/face-card-maroon-v2-hanger-back.jpg",
+          "alt": "Face Card oversized tee in deep maroon on a wooden hanger, full king card back print against a sunlit wall",
           "w": 1000,
           "h": 1250,
           "webp": [
@@ -210,10 +221,10 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-heart-steps.jpg",
-          "alt": "Face Card tee in maroon, heart card chest print, seated on worn stone steps",
+          "src": "assets/img/products/face-card-maroon-v2-mirror-back.jpg",
+          "alt": "Face Card oversized tee in deep maroon, full king card back print, mirror selfie in a lamp-lit bedroom",
           "w": 1000,
-          "h": 1250,
+          "h": 1319,
           "webp": [
             800,
             1000
@@ -221,35 +232,24 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-heart-walk.jpg",
-          "alt": "Face Card tee in maroon, heart card chest print, walking down a tree-lined lane",
-          "w": 1000,
-          "h": 1250,
+          "src": "assets/img/products/face-card-maroon-v2-walking-front.jpg",
+          "alt": "Face Card oversized tee in deep maroon, heart card chest print, walking along a tree-lined lane",
+          "w": 992,
+          "h": 1586,
           "webp": [
             800,
-            1000
+            992
           ]
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-heart-mirror.jpg",
-          "alt": "Face Card tee in maroon, full back print, mirror selfie in a lamp-lit bedroom",
-          "w": 1000,
-          "h": 1250,
+          "src": "assets/img/products/face-card-maroon-v2-seated-front.jpg",
+          "alt": "Face Card oversized tee in deep maroon, heart card chest print, seated on stone steps",
+          "w": 992,
+          "h": 1586,
           "webp": [
             800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/face-card-heart-mirror-chest.jpg",
-          "alt": "Face Card tee in maroon, heart card chest print, mirror selfie in a lamp-lit bedroom",
-          "w": 1000,
-          "h": 1250,
-          "webp": [
-            800,
-            1000
+            992
           ]
         }
       ],
@@ -257,7 +257,7 @@
         {
           "key": "maroon",
           "name": "Maroon",
-          "hex": "#6D1418",
+          "hex": "#650C17",
           "sellable": true
         },
         {
@@ -266,7 +266,8 @@
           "hex": "#EDE9E0",
           "sellable": false
         }
-      ]
+      ],
+      "mediaOrder": "ordered"
     },
     {
       "id": "neo-bombay",
