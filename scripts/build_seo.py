@@ -135,7 +135,7 @@ def hero_tag():
 
 
 HOME_TITLE = "Oversized Graphic T-Shirts, Designed in India · Mudra"
-HOME_DESC = ("Mudra makes oversized graphic t-shirts, designed in Pune, India. A small stamp on the front, "
+HOME_DESC = ("Mudra makes oversized graphic t-shirts, designed in Bengaluru, India. A small stamp on the front, "
              "the whole graphic on the back. Free shipping across India.")
 OG_SIZE = (1200, 630)
 OG_ALT = "Mudra oversized graphic t-shirt, full back print"
@@ -286,17 +286,17 @@ def organization():
         "name": LEGAL_NAME,
         # every name people search us by: brand, domain, Instagram handle
         "alternateName": ALT_NAMES,
-        "description": "Mudra is an Indian streetwear label from Pune making oversized graphic t-shirts: "
+        "description": "Mudra is an Indian streetwear label from Bengaluru making oversized graphic t-shirts: "
                        "a small print on the front, the full graphic on the back. Sold online at wearmudra.shop.",
         "url": url("/"),
         # the seal, square, 512 px
         "logo": url("/assets/favicon/icon-512.png"),
         "email": CONTACT_EMAIL,
-        "founder": {"@type": "Person", "name": "Abhijeet Purandare", "jobTitle": "Showrunner"},
-        "foundingLocation": {"@type": "Place", "name": "Pune, India"},
+        "founder": {"@type": "Person", "name": "Abhijeet P.", "jobTitle": "Showrunner"},
+        "foundingLocation": {"@type": "Place", "name": "Bengaluru, India"},
         "knowsAbout": ["Oversized t-shirts", "Graphic t-shirts", "Streetwear", "DTF printing"],
-        "address": {"@type": "PostalAddress", "addressLocality": "Pune",
-                    "addressRegion": "Maharashtra", "addressCountry": "IN"},
+        "address": {"@type": "PostalAddress", "addressLocality": "Bengaluru",
+                    "addressRegion": "Karnataka", "addressCountry": "IN"},
         "contactPoint": {"@type": "ContactPoint", "contactType": "customer support",
                          "email": CONTACT_EMAIL, "areaServed": "IN",
                          "availableLanguage": ["en"]},
@@ -845,7 +845,7 @@ def build_llms(products):
     """/llms.txt: a plain summary for AI assistants and answer engines. Facts only, from the same data as the pages."""
     host = SITE_URL.split("//", 1)[1]
     lines = [f"# {BRAND} ({LEGAL_NAME})", "",
-             f"> {BRAND} is an Indian streetwear label from Pune making oversized graphic t-shirts: a small print on the "
+             f"> {BRAND} is an Indian streetwear label from Bengaluru making oversized graphic t-shirts: a small print on the "
              f"front, the full graphic on the back. Online store: {host}. Instagram: {INSTAGRAM_HANDLE}.", "",
              f"Also known as: {', '.join(ALT_NAMES)}.",
              f"Contact: {CONTACT_EMAIL}. Free shipping across India.", "",
