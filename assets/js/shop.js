@@ -377,6 +377,9 @@ function unwrap(payload) {
 
 // shows on the order in Shopify admin
 function orderAttributes() {
+  return [...baseOrderAttributes(), ...gaAttributes()];
+}
+function baseOrderAttributes() {
   if (DROP && dropPhase() === 'open') {
     return [
       { key: 'Order type', value: 'Pre-order' },
@@ -388,6 +391,12 @@ function orderAttributes() {
     { key: 'Order type', value: 'Pre-order' },
     { key: 'Promised arrival', value: arrivalRange().text },
   ];
+}
+// Hidden at checkout (leading underscore). The order webhook reads them so the purchase joins this visit in GA4.
+function gaAttributes() {
+  const ga = gaIds();
+  if (!ga) return [];
+  return [{ key: '_ga_client_id', value: ga.clientId }, ...(ga.sessionId ? [{ key: '_ga_session_id', value: ga.sessionId }] : [])];
 }
 
 const cart = {
@@ -640,6 +649,7 @@ async function addToBag(item, btn) {
       attributes: x.colour ? [{ key: 'Colour', value: x.colour }] : [] };
   });
   await cart.addLines(lines);
+  track('add_to_cart', items.map(x => gaItem(x.id, x.name, x.price, x.quantity || 1, x.colour, x.size)));
   if (btn) flash(btn, isPreorder() ? 'Pre-ordered' : 'Added');
   const preview = items.length === 1 && count === 1 ? items[0] : { ...items[0],
     size: items.map(x => `${x.size} × ${x.quantity || 1}`).join(', '),
@@ -703,7 +713,33 @@ document.addEventListener('click', e => {
   });
 });
 
+/* ---------- analytics (GA4 ecommerce) ---------------------------------- */
+
+// GA4's client and session ids, read from its _ga cookies, so payment events sent later by
+// the server join this visit. Null until gtag has set the cookie.
+function gaIds() {
+  const jar = Object.fromEntries(document.cookie.split('; ').map(x => { const i = x.indexOf('='); return [x.slice(0, i), x.slice(i + 1)]; }));
+  const clientId = (jar._ga || '').split('.').slice(-2).join('.');
+  if (!/^\d+\.\d+$/.test(clientId)) return null;
+  const s = jar[Object.keys(jar).find(k => k.startsWith('_ga_')) || ''] || '';
+  const sessionId = (s.match(/^GS2\.\d\.s(\d+)/) || s.match(/^GS1\.\d\.(\d+)/) || [])[1] || '';
+  return { clientId, sessionId };
+}
+
+// item_id is our product id (the Shopify handle), the same one the server sends with payments
+function gaItem(id, name, price, quantity = 1, colour, size) {
+  return { item_id: id, item_name: name, item_brand: 'Mudra', item_category: 'T-shirts', price: Number(price) || 0, quantity,
+    ...(colour || size ? { item_variant: [colour, size].filter(Boolean).join(' / ') } : {}) };
+}
+
+function track(name, items, extra = {}) {
+  if (typeof window.gtag !== 'function' || !items.length) return;
+  const value = items.reduce((n, x) => n + x.price * x.quantity, 0);
+  window.gtag('event', name, { currency: 'INR', value: Math.round(value * 100) / 100, items, ...extra });
+}
+
 window.Mudra = {
+  gaIds, gaItem, track,
   loadReservations, depositWindow, depositFor, get depositRupees() { return RESERVATIONS.depositRupees; },
   SHOPIFY, SIZES, ACCOUNT_URL, CART_URL, ShopError, ORDERING, isPreorder, arrivalRange,
   loadDrop, dropPhase, dropDates, saleState, canBuy, inDrop, closesIn, checkoutBlock, downloadIcs,

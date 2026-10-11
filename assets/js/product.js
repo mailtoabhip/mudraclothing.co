@@ -49,6 +49,7 @@ async function init() {
   view.variants = null;   // live Shopify variants by size, once loaded
 
   setMeta(p);
+  M.track('view_item', [M.gaItem(p.id, p.name, p.price, 1, view.colour?.name)]);
   renderCrumb(p);
   renderGallery(p);
   renderBuy(p);
@@ -512,6 +513,9 @@ async function addCurrent(btn) {
         merchandiseId: x.variantId, quantity: x.quantity,
         attributes: x.colour ? [{ key: 'Colour', value: x.colour }] : [],
       })));
+      // only what was added counts as add_to_cart
+      M.track('add_to_cart', items.filter(x => x.quantity > (view.bagQuantities[x.size] || 0))
+        .map(x => M.gaItem(p.id, p.name, x.price, x.quantity - (view.bagQuantities[x.size] || 0), x.colour, x.size)));
       M.flash(btn, 'Bag updated');
       if (items.length) M.openDrawer({ ...items[0], size: selectionLabel(), price: selectionTotal() }, btn);
     } else if (items.length) await M.addToBag(items, btn);

@@ -1,7 +1,22 @@
 'use strict';
 const crypto = require('node:crypto');
 const { orderSnapshot, applyPayment } = require('../server/reservation-payments.cjs');
-const { read } = require('../server/reservation-store.cjs');
+const { read, update } = require('../server/reservation-store.cjs');
+const analytics = require('../server/analytics.cjs');
+
+// A normal (non pre-order) order was paid: GA4 purchase, with our product ids for its items.
+async function trackOrder(event) {
+  try {
+    const ids = [...new Set((event.line_items || []).map(l => l.product_id).filter(Boolean))].map(n => `gid://shopify/Product/${n}`);
+    const handles = {};
+    if (ids.length) {
+      const { admin } = require('../server/shopify-admin.cjs');
+      const r = await admin('query($ids: [ID!]!) { nodes(ids: $ids) { ... on Product { id handle } } }', { ids });
+      for (const n of r.nodes || []) if (n?.handle) handles[n.id.split('/').pop()] = n.handle;
+    }
+    await analytics.orderPaid(event, handles);
+  } catch {}
+}
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   if (req.method !== 'POST') return res.status(405).end();
@@ -17,6 +32,7 @@ module.exports = async (req, res) => {
     const event = JSON.parse(raw.toString());
     const id = event.note_attributes?.find(a => ['Mudra pre-order', 'Mudra reservation'].includes(a.name))?.value;
     const kind = event.note_attributes?.find(a => a.name === 'Payment stage')?.value;
+    if (!id && req.headers['x-shopify-topic'] === 'orders/paid') { await trackOrder(event); return res.status(200).end(); }
     if (!id || !['deposit', 'balance'].includes(kind) || !event.customer?.id) return res.status(200).end();
     const customerId = `gid://shopify/Customer/${event.customer.id}`;
     const record = (await read(customerId)).records.find(r => r.id === id);
@@ -37,6 +53,19 @@ module.exports = async (req, res) => {
     const snapshot = await orderSnapshot(orderId);
     if (!snapshot) return res.status(503).end();
     await applyPayment(customerId, id, kind, snapshot);
+    // GA4, once per payment: Shopify sends paid and updated webhooks (sometimes twice), and the
+    // site may mark it paid first, so a flag on the record decides, claimed before sending.
+    const paid = r => (kind === 'deposit' ? ['paid', 'settled'].includes(r?.status) : r?.balancePaid);
+    const flag = kind === 'deposit' ? 'gaDepositSent' : 'gaBalanceSent';
+    let claim = null;
+    try {
+      await update(customerId, records => {
+        const r = records.find(x => x.id === id);
+        claim = r && paid(r) && !r.cancelled && !r[flag] ? r : null;
+        if (claim) r[flag] = new Date().toISOString();
+      });
+    } catch { claim = null; }
+    if (claim) await (kind === 'deposit' ? analytics.depositPaid(claim, event.id) : analytics.balancePaid(claim, event.id));
     return res.status(200).end();
   } catch { return res.status(503).end(); }
 };

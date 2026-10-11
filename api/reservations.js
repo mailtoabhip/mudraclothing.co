@@ -1,5 +1,14 @@
 const { session, secureHeaders, requireCsrf } = require('../server/customer-auth.cjs');
 const { createDeposit, createBalance, reconcile, publicRecord, retryUnpaid } = require('../server/reservation-payments.cjs');
+const store = require('../server/reservation-store.cjs');
+const { cleanIds } = require('../server/analytics.cjs');
+
+// Remember the visitor's GA4 ids on the pre-order, so the payment webhook can credit the same visit.
+async function rememberGa(customerId, id, ga) {
+  const ids = cleanIds(ga);
+  if (!ids || !id) return;
+  try { await store.update(customerId, records => { const r = records.find(x => x.id === id); if (r) r.ga = ids; }); } catch {}
+}
 module.exports = async (req, res) => {
   secureHeaders(res);
   if (!['GET', 'POST'].includes(req.method)) return res.status(405).json({ error: 'Method not allowed.' });
@@ -10,8 +19,16 @@ module.exports = async (req, res) => {
     requireCsrf(req, saved);
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
     if (JSON.stringify(body || {}).length > 15000) return res.status(413).json({ error: 'This request is too large.' });
-    if (body?.action === 'deposit') return res.status(200).json(await createDeposit(saved.customerId, body.lines, body.requestKey));
-    if (body?.action === 'balance' && typeof body.id === 'string') return res.status(200).json(await createBalance(saved.customerId, body.id));
+    if (body?.action === 'deposit') {
+      const result = await createDeposit(saved.customerId, body.lines, body.requestKey);
+      await rememberGa(saved.customerId, result.id, body.ga);
+      return res.status(200).json(result);
+    }
+    if (body?.action === 'balance' && typeof body.id === 'string') {
+      const result = await createBalance(saved.customerId, body.id);
+      await rememberGa(saved.customerId, body.id, body.ga);
+      return res.status(200).json(result);
+    }
     if (body?.action === 'retry' && typeof body.id === 'string') return res.status(200).json(await retryUnpaid(saved.customerId, body.id));
     return res.status(400).json({ error: 'Choose a pre-order payment.' });
   } catch (error) {

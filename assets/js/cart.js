@@ -131,8 +131,21 @@ function lineHTML(l) {
 
 /* ---------- actions --------------------------------------------------- */
 
+// begin_checkout: the Checkout link, or the pre-order deposit button
+function trackCheckout(deposit) {
+  const lines = M.cart.state?.lines?.nodes || [];
+  M.track('begin_checkout', lines.map(l => {
+    const handle = l.merchandise.product.handle;
+    const size = l.merchandise.selectedOptions?.find(o => o.name.toLowerCase() === 'size')?.value;
+    const colour = l.attributes?.find(a => a.key === 'Colour')?.value;
+    return M.gaItem(handle, names[handle] || l.merchandise.product.title, Number(l.cost.totalAmount.amount) / l.quantity, l.quantity, colour, size);
+  }), deposit ? { payment_type: 'pre-order deposit' } : {});
+}
+
 function wire() {
   $('#bagBody').addEventListener('click', async e => {
+    const go = e.target.closest('.bsum__checkout');
+    if (go && !go.disabled) trackCheckout(go.matches('[data-preorder-pay]'));
     const checkout = e.target.closest('[data-preorder-pay]');
     if (checkout) { await M.preorders.checkout(checkout); return; }
     const b = e.target.closest('[data-act]');

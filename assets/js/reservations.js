@@ -8,7 +8,7 @@
     status.textContent = 'Preparing your secure Shopify checkout.';
     const submittedBag = { cartId: M.cart.state?.id, lines: (M.cart.state?.lines?.nodes || []).map(line => ({ id: line.id, quantity: line.quantity })) };
     try {
-      const response = await fetch('/api/reservations', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Mudra-CSRF': account.csrf }, body: JSON.stringify(body) });
+      const response = await fetch('/api/reservations', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Mudra-CSRF': account.csrf }, body: JSON.stringify({ ...body, ga: M.gaIds?.() || null }) });
       const result = await response.json();
       if (!response.ok) throw new Error(result.error || 'Could not prepare checkout.');
       if (body.action === 'deposit') {
