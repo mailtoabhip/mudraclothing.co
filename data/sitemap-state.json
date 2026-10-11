@@ -1,6 +1,6 @@
 {
  "/": {
-  "hash": "f4169ddc28987e42",
+  "hash": "775e59e0eaa819a7",
   "lastmod": "2026-10-11"
  },
  "/about": {
@@ -13,6 +13,18 @@
  },
  "/p/atlas": {
   "hash": "4479ef220d925ffa",
+  "lastmod": "2026-10-11"
+ },
+ "/p/bengaluru-ka01": {
+  "hash": "be81c445607501c8",
+  "lastmod": "2026-10-11"
+ },
+ "/p/calcutta-wb02": {
+  "hash": "fa44ecb95c44dda0",
+  "lastmod": "2026-10-11"
+ },
+ "/p/delhi-dl01": {
+  "hash": "d4c42427c931ea2c",
   "lastmod": "2026-10-11"
  },
  "/p/face-card": {

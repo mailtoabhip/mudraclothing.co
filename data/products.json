@@ -1300,6 +1300,378 @@
           "sellable": false
         }
       ]
+    },
+    {
+      "id": "calcutta-wb02",
+      "name": "Calcutta WB 02",
+      "no": 9,
+      "series": "city",
+      "seriesLabel": "City",
+      "colour": "white",
+      "print": "back",
+      "tier": "entry",
+      "mrp": 1600,
+      "price": 1099,
+      "regularPrice": 1299,
+      "preorderEnds": "2026-10-31T23:59:59.999+05:30",
+      "badge": null,
+      "sizes": [
+        {
+          "size": "S",
+          "available": true
+        },
+        {
+          "size": "M",
+          "available": true
+        },
+        {
+          "size": "L",
+          "available": true
+        },
+        {
+          "size": "XL",
+          "available": true
+        },
+        {
+          "size": "XXL",
+          "available": true
+        }
+      ],
+      "media": [
+        {
+          "type": "img",
+          "src": "assets/img/products/calcutta-wb02-white-v1-hanger.jpg",
+          "alt": "Calcutta WB 02, White tee on a wooden hanger, full back graphic",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/calcutta-wb02-white-v1-back-walk.jpg",
+          "alt": "Calcutta WB 02, White tee worn outdoors, back graphic and oversized fit",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/calcutta-wb02-white-v1-front-walk.jpg",
+          "alt": "Calcutta WB 02, White tee worn walking outdoors, small left chest plate",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/calcutta-wb02-white-v1-front-seated.jpg",
+          "alt": "Calcutta WB 02, White tee at a local cafe, small left chest plate",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/calcutta-wb02-white-v1-back-candid.jpg",
+          "alt": "Calcutta WB 02, White tee in a candid conversation, full back graphic",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/calcutta-wb02-white-v1-front-balcony.jpg",
+          "alt": "Calcutta WB 02, White tee on a home balcony, small left chest plate",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        }
+      ],
+      "colours": [
+        {
+          "key": "white",
+          "name": "White",
+          "hex": "#FFFFFF",
+          "sellable": true
+        }
+      ],
+      "blurb": "WB 02 on a plate. Howrah Bridge, Victoria Memorial, a pink sun and a tram across the back. The city essentials line up below: chai, a rickshaw, fish, rosogolla, a drum and a taxi.",
+      "seo": {
+        "keyword": "Kolkata t-shirt",
+        "description": "Calcutta WB 02, an oversized Kolkata t-shirt in White. Small chest plate, full back graphic. {price}, free shipping across India."
+      }
+    },
+    {
+      "id": "delhi-dl01",
+      "name": "Delhi DL 01",
+      "no": 10,
+      "series": "city",
+      "seriesLabel": "City",
+      "colour": "white",
+      "print": "back",
+      "tier": "entry",
+      "mrp": 1600,
+      "price": 1099,
+      "regularPrice": 1299,
+      "preorderEnds": "2026-10-31T23:59:59.999+05:30",
+      "badge": null,
+      "sizes": [
+        {
+          "size": "S",
+          "available": true
+        },
+        {
+          "size": "M",
+          "available": true
+        },
+        {
+          "size": "L",
+          "available": true
+        },
+        {
+          "size": "XL",
+          "available": true
+        },
+        {
+          "size": "XXL",
+          "available": true
+        }
+      ],
+      "media": [
+        {
+          "type": "img",
+          "src": "assets/img/products/delhi-dl01-white-v1-hanger.jpg",
+          "alt": "Delhi DL 01, White tee on a wooden hanger, full back graphic",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/delhi-dl01-white-v1-back-walk.jpg",
+          "alt": "Delhi DL 01, White tee worn outdoors, back graphic and oversized fit",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/delhi-dl01-white-v1-front-walk.jpg",
+          "alt": "Delhi DL 01, White tee worn walking outdoors, small left chest plate",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/delhi-dl01-white-v1-front-seated.jpg",
+          "alt": "Delhi DL 01, White tee at a local cafe, small left chest plate",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/delhi-dl01-white-v1-back-candid.jpg",
+          "alt": "Delhi DL 01, White tee in a candid conversation, full back graphic",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/delhi-dl01-white-v1-front-balcony.jpg",
+          "alt": "Delhi DL 01, White tee on a home balcony, small left chest plate",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        }
+      ],
+      "colours": [
+        {
+          "key": "white",
+          "name": "White",
+          "hex": "#FFFFFF",
+          "sellable": true
+        }
+      ],
+      "blurb": "DL 01 CG on a plate. Delhi landmarks against a pink sun, four familiar status boxes, and chai, an auto, the metro and a kite below. Dilli hai dil walon ki.",
+      "seo": {
+        "keyword": "Delhi t-shirt",
+        "description": "Delhi DL 01, an oversized Delhi t-shirt in White. Small chest plate, full back graphic. {price}, free shipping across India."
+      }
+    },
+    {
+      "id": "bengaluru-ka01",
+      "name": "Bengaluru KA 01",
+      "no": 11,
+      "series": "city",
+      "seriesLabel": "City",
+      "colour": "white",
+      "print": "back",
+      "tier": "entry",
+      "mrp": 1600,
+      "price": 1099,
+      "regularPrice": 1299,
+      "preorderEnds": "2026-10-31T23:59:59.999+05:30",
+      "badge": null,
+      "sizes": [
+        {
+          "size": "S",
+          "available": true
+        },
+        {
+          "size": "M",
+          "available": true
+        },
+        {
+          "size": "L",
+          "available": true
+        },
+        {
+          "size": "XL",
+          "available": true
+        },
+        {
+          "size": "XXL",
+          "available": true
+        }
+      ],
+      "media": [
+        {
+          "type": "img",
+          "src": "assets/img/products/bengaluru-ka01-white-v1-hanger.jpg",
+          "alt": "Bengaluru KA 01, White tee on a wooden hanger, full back graphic",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/bengaluru-ka01-white-v1-back-walk.jpg",
+          "alt": "Bengaluru KA 01, White tee worn outdoors, back graphic and oversized fit",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/bengaluru-ka01-white-v1-front-walk.jpg",
+          "alt": "Bengaluru KA 01, White tee worn walking outdoors, small left chest plate",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/bengaluru-ka01-white-v1-front-seated.jpg",
+          "alt": "Bengaluru KA 01, White tee at a local cafe, small left chest plate",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/bengaluru-ka01-white-v1-back-candid.jpg",
+          "alt": "Bengaluru KA 01, White tee in a candid conversation, full back graphic",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/bengaluru-ka01-white-v1-front-balcony.jpg",
+          "alt": "Bengaluru KA 01, White tee on a home balcony, small left chest plate",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        }
+      ],
+      "colours": [
+        {
+          "key": "white",
+          "name": "White",
+          "hex": "#FFFFFF",
+          "sellable": true
+        }
+      ],
+      "blurb": "KA 01 on a plate. Vidhana Soudha, glass towers and an auto beneath two broad trees. Filter coffee, a laptop, dosa and a rain umbrella belong here too.",
+      "seo": {
+        "keyword": "Bengaluru t-shirt",
+        "description": "Bengaluru KA 01, an oversized Bengaluru t-shirt in White. Small chest plate, full back graphic. {price}, free shipping across India."
+      }
     }
   ],
   "archived": [
@@ -1694,231 +2066,6 @@
           "key": "rose",
           "name": "Rose",
           "hex": "#E8C4CC",
-          "sellable": false
-        }
-      ]
-    },
-    {
-      "id": "calcutta-wb02",
-      "name": "Calcutta WB 02",
-      "no": 9,
-      "series": "city",
-      "seriesLabel": "City",
-      "colour": "black bone blue clay",
-      "print": "back",
-      "tier": "entry",
-      "mrp": 1600,
-      "price": 1099,
-      "regularPrice": 1299,
-      "preorderEnds": "2026-10-31T23:59:59.999+05:30",
-      "badge": null,
-      "sizes": [
-        {
-          "size": "S",
-          "available": true
-        },
-        {
-          "size": "M",
-          "available": true
-        },
-        {
-          "size": "L",
-          "available": true
-        },
-        {
-          "size": "XL",
-          "available": true
-        },
-        {
-          "size": "XXL",
-          "available": true
-        }
-      ],
-      "media": [
-        {
-          "type": "img",
-          "src": "assets/img/products/calcutta-wb02-back.jpg",
-          "alt": "Calcutta WB 02, Calcutta plate and skyline, full back print"
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/calcutta-wb02-front.jpg",
-          "alt": "Calcutta WB 02, WB 02 plate chest print"
-        }
-      ],
-      "colours": [
-        {
-          "key": "black",
-          "name": "Black",
-          "hex": "#1A1A1A",
-          "sellable": true
-        },
-        {
-          "key": "bone",
-          "name": "Bone",
-          "hex": "#EDE9E0",
-          "sellable": false
-        },
-        {
-          "key": "blue",
-          "name": "Electric Blue",
-          "hex": "#2B3AFF",
-          "sellable": false
-        },
-        {
-          "key": "clay",
-          "name": "Clay",
-          "hex": "#E0C3B4",
-          "sellable": false
-        }
-      ]
-    },
-    {
-      "id": "delhi-dl01",
-      "name": "Delhi DL 01",
-      "no": 10,
-      "series": "city",
-      "seriesLabel": "City",
-      "colour": "black bone magenta sand",
-      "print": "back",
-      "tier": "entry",
-      "mrp": 1600,
-      "price": 1099,
-      "regularPrice": 1299,
-      "preorderEnds": "2026-10-31T23:59:59.999+05:30",
-      "badge": null,
-      "sizes": [
-        {
-          "size": "S",
-          "available": true
-        },
-        {
-          "size": "M",
-          "available": true
-        },
-        {
-          "size": "L",
-          "available": true
-        },
-        {
-          "size": "XL",
-          "available": true
-        },
-        {
-          "size": "XXL",
-          "available": true
-        }
-      ],
-      "media": [
-        {
-          "type": "img",
-          "src": "assets/img/products/delhi-dl01-back.jpg",
-          "alt": "Delhi DL 01, Delhi plate and skyline, full back print"
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/delhi-dl01-front.jpg",
-          "alt": "Delhi DL 01, DL 01 plate chest print"
-        }
-      ],
-      "colours": [
-        {
-          "key": "black",
-          "name": "Black",
-          "hex": "#1A1A1A",
-          "sellable": true
-        },
-        {
-          "key": "bone",
-          "name": "Bone",
-          "hex": "#EDE9E0",
-          "sellable": false
-        },
-        {
-          "key": "magenta",
-          "name": "Fluoro Magenta",
-          "hex": "#FF2D78",
-          "sellable": false
-        },
-        {
-          "key": "sand",
-          "name": "Sand",
-          "hex": "#E4D5B7",
-          "sellable": false
-        }
-      ]
-    },
-    {
-      "id": "bengaluru-ka01",
-      "name": "Bengaluru KA 01",
-      "no": 11,
-      "series": "city",
-      "seriesLabel": "City",
-      "colour": "black bone lime stone",
-      "print": "back",
-      "tier": "entry",
-      "mrp": 1600,
-      "price": 1099,
-      "regularPrice": 1299,
-      "preorderEnds": "2026-10-31T23:59:59.999+05:30",
-      "badge": null,
-      "sizes": [
-        {
-          "size": "S",
-          "available": true
-        },
-        {
-          "size": "M",
-          "available": true
-        },
-        {
-          "size": "L",
-          "available": true
-        },
-        {
-          "size": "XL",
-          "available": true
-        },
-        {
-          "size": "XXL",
-          "available": true
-        }
-      ],
-      "media": [
-        {
-          "type": "img",
-          "src": "assets/img/products/bengaluru-ka01-back.jpg",
-          "alt": "Bengaluru KA 01, Bengaluru plate and skyline, full back print"
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/bengaluru-ka01-front.jpg",
-          "alt": "Bengaluru KA 01, KA 01 plate chest print"
-        }
-      ],
-      "colours": [
-        {
-          "key": "black",
-          "name": "Black",
-          "hex": "#1A1A1A",
-          "sellable": true
-        },
-        {
-          "key": "bone",
-          "name": "Bone",
-          "hex": "#EDE9E0",
-          "sellable": false
-        },
-        {
-          "key": "lime",
-          "name": "Fluoro Lime",
-          "hex": "#CCFF00",
-          "sellable": false
-        },
-        {
-          "key": "stone",
-          "name": "Stone",
-          "hex": "#D5D2CB",
           "sellable": false
         }
       ]

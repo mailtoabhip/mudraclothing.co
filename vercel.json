@@ -188,21 +188,6 @@
       "statusCode": 302
     },
     {
-      "source": "/p/calcutta-wb02",
-      "destination": "/",
-      "statusCode": 302
-    },
-    {
-      "source": "/p/delhi-dl01",
-      "destination": "/",
-      "statusCode": 302
-    },
-    {
-      "source": "/p/bengaluru-ka01",
-      "destination": "/",
-      "statusCode": 302
-    },
-    {
       "source": "/p/on-repeat",
       "destination": "/",
       "statusCode": 302
