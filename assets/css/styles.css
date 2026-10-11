@@ -314,6 +314,11 @@ picture{display:contents}
 }
 .pswatch:hover{transform:scale(1.12)}
 .pswatch.on{border-color:var(--fg);outline:1px solid var(--fg);outline-offset:2px}
+/* on the card photo: bottom right, light rings so they read on any shot */
+.pcard__media .pswatches{position:absolute;right:10px;bottom:10px;z-index:4;gap:6px;flex-wrap:nowrap}
+.pcard__media .pswatch{width:16px;height:16px;border:1.5px solid var(--paper);box-shadow:0 1px 3px rgba(0,0,0,.35)}
+.pcard__media .pswatch.on{border-color:var(--paper);outline:1.5px solid var(--paper);outline-offset:2px}
+@media(max-width:600px){.pcard__media .pswatches{right:7px;bottom:17px;gap:5px}.pcard__media .pswatch{width:12px;height:12px}}
 .atc{
   font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
   border:1px solid var(--fg);padding:12px;margin-top:3px;width:100%;

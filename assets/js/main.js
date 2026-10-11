@@ -76,9 +76,9 @@ function mediaHTML(m, i) {
   return `<svg class="slide${on}" viewBox="${vb}" role="img" aria-label="${esc(m.alt)}"><use href="${m.ref}"/></svg>`;
 }
 
-// colour swatches on the cards are off for now; flip to true to bring them back
+// colour swatches sit on the photo, bottom right; false hides them
 // (scripts/build_seo.py has the same switch for the pre-rendered grid)
-const CARD_SWATCHES = false;
+const CARD_SWATCHES = true;
 
 function cardHTML(p) {
   const available = p.sizes.filter(s => s.available);
@@ -106,12 +106,12 @@ function cardHTML(p) {
       <button class="navbtn prev" aria-label="Previous image">&#8249;</button>
       <button class="navbtn next" aria-label="Next image">&#8250;</button>
       <div class="dots">${dots}</div>
+      ${swatches ? `<div class="pswatches">${swatches}</div>` : ''}
     </div>
     <div class="pcard__info">
       <h3><a href="${url}">${esc(p.name)}</a></h3>
       ${cardPrice(p)}
       ${cta.tag ? `<div class="ptag mono pcard__po">${cta.tag}</div>` : ''}
-      ${swatches ? `<div class="pswatches">${swatches}</div>` : ''}
       ${cta.btn}
     </div>
   </article>`;
@@ -142,10 +142,11 @@ function wireCarousel(card) {
   const media = card.querySelector('.pcard__media');
   const slides = media.querySelectorAll('.slide');
   const dots = media.querySelectorAll('.dots i');
+  const markSwatch = key => card.querySelectorAll('.pswatch').forEach(b => b.classList.toggle('on', b.dataset.colour === key));
 
   // clicking the picture (not an arrow) opens the product
   media.addEventListener('click', e => {
-    if (e.target.closest('.navbtn')) return;
+    if (e.target.closest('.navbtn, .pswatch')) return;
     location.href = card.dataset.url;
   });
   media.addEventListener('keydown', e => {
@@ -180,10 +181,16 @@ function wireCarousel(card) {
       const base = productUrl(card.dataset.id);
       card.dataset.url = base + (base.includes('?') ? '&' : '?') + 'c=' + encodeURIComponent(photo.colour);
       card.querySelectorAll('.pcard__info a').forEach(a => { a.href = card.dataset.url; });
+      markSwatch(photo.colour);
     }
   };
   const step = (direction = 1) => { pos = (pos + direction + order.length) % order.length; show(order[pos]); };
 
+  // a swatch click jumps to that colour's first photo
+  card.addEventListener('mudra:colour', e => {
+    const i = state.products.find(p => p.id === card.dataset.id)?.media.findIndex(m => m.colour === e.detail);
+    if (i > -1) { pos = order.indexOf(i); show(i); }
+  });
   media.addEventListener('mouseenter', () => { if (!ordered) step(); });
   media.addEventListener('click', e => {
     if (!e.target.closest('.navbtn')) return;
@@ -217,6 +224,7 @@ function wireCards(grid) {
     const url = `${productUrl(card.dataset.id)}${productUrl('x').includes('?') ? '&' : '?'}c=${sw.dataset.colour}`;
     card.dataset.url = url;
     card.querySelectorAll('h3 a, a.atc').forEach(a => { a.href = url; });
+    card.dispatchEvent(new CustomEvent('mudra:colour', { detail: sw.dataset.colour }));
   });
 }
 

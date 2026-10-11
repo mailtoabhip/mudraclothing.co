@@ -529,8 +529,8 @@ def card_cta(p, href, in_stock):
     return tag, btn
 
 
-# colour swatches on the home cards (off for now; main.js has CARD_SWATCHES too)
-CARD_SWATCHES = False
+# colour swatches on the home cards, on the photo bottom right (main.js has CARD_SWATCHES too)
+CARD_SWATCHES = True
 
 
 def card_html(p):
@@ -546,7 +546,6 @@ def card_html(p):
                 sizes=CARD_SIZES)
         for i, m in enumerate(imgs))
     dots = "".join('<i class="is-on"></i>' if i == 0 else "<i></i>" for i in range(len(imgs)))
-    # colour swatches on the cards are off for now (main.js CARD_SWATCHES too)
     sw = [c for c in p.get("colours", []) if c.get("sellable")] if CARD_SWATCHES else []
     swatches = "".join(
         f'<button class="pswatch{" on" if i == 0 else ""}" data-colour="{c["key"]}" '
@@ -560,12 +559,13 @@ def card_html(p):
             f'<div class="slides">{slides}</div>'
             '<button class="navbtn prev" aria-label="Previous image">&#8249;</button>'
             '<button class="navbtn next" aria-label="Next image">&#8250;</button>'
-            f'<div class="dots">{dots}</div></div>'
+            f'<div class="dots">{dots}</div>'
+            + (f'<div class="pswatches">{swatches}</div>' if swatches else "")
+            + '</div>'
             f'<div class="pcard__info">'
             f'<h3><a href="{href}">{e(p["name"])}</a></h3>'
             + card_price(p)
             + (f'<div class="ptag mono pcard__po">{tag}</div>' if tag else "")
-            + (f'<div class="pswatches">{swatches}</div>' if swatches else "")
             + f'{atc}</div></article>')
 
 
