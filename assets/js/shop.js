@@ -618,7 +618,7 @@ function closeDrawer() {
   lastFocus?.focus?.();
 }
 
-// the promise under each bag line: drop ship-by date, or the 7–10 day delivery window
+// the promise under each bag line: when orders open, or the delivery window after
 function lineNote(productId) {
   if (depositWindow()) return `Pre-order @ ${money(depositFor(productId))} per tee · Orders open ${dropDates().launchShort}`;
   const ph = dropPhase(), d = dropDates();

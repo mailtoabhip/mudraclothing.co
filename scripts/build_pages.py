@@ -28,7 +28,7 @@ The shared footer is also written into index.html and product.html between
 import html, pathlib, re, sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
-from site_config import SITE_URL, OG_IMAGE, BRAND, LEGAL_NAME, CONTACT_EMAIL, MAILBOX_LIVE, INSTAGRAM_URL, INSTAGRAM_HANDLE, GA_MEASUREMENT_ID
+from site_config import SITE_URL, OG_IMAGE, BRAND, LEGAL_NAME, CONTACT_EMAIL, MAILBOX_LIVE, INSTAGRAM_URL, INSTAGRAM_HANDLE, GA_MEASUREMENT_ID, COD_LIVE
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / "_src" / "pages"
@@ -229,8 +229,15 @@ def site_tokens(text):
     return out
 
 
+def cod_blocks(text):
+    """[[cod:…]] shows only once cash on delivery is switched on (site_config COD_LIVE),
+    [[nocod:…]] only until then. Keeps policy pages from promising COD before checkout offers it."""
+    text = re.sub(r"\[\[cod:(.*?)\]\]", lambda m: m.group(1) if COD_LIVE else "", text, flags=re.S)
+    return re.sub(r"\[\[nocod:(.*?)\]\]", lambda m: "" if COD_LIVE else m.group(1), text, flags=re.S)
+
+
 def parse(path):
-    raw = drop_tokens(path.read_text(encoding="utf-8"))
+    raw = cod_blocks(drop_tokens(path.read_text(encoding="utf-8")))
     m = re.match(r"\s*<!--(.*?)-->\s*", raw, re.S)
     meta = {}
     for line in m.group(1).strip().splitlines():

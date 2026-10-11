@@ -73,7 +73,7 @@ function render(c) {
         ${M.codNow() ? `<div><dt class="mono">Cash on delivery</dt><dd class="mono">Available</dd></div>` : ''}
       </dl>
       ${summaryNote() ? `<p class="bsum__po">${esc(summaryNote())}</p>` : ''}
-      <p class="mono bsum__note">${deposit ? 'A paid deposit locks only these tees, sizes and quantities. Refundable before dispatch. Sign-in may be required to save your pre-order.' : 'Taxes included. Final total at checkout.'}</p>
+      <p class="mono bsum__note">${deposit ? 'A paid deposit holds only these tees, sizes and quantities. Not refundable as cash: if you don\'t buy, it stays as store credit. Sign-in may be required to save your pre-order.' : 'Taxes included. Final total at checkout.'}</p>
       ${block
         ? `<button class="bsum__checkout mono" type="button" disabled>${esc(block)}</button>`
         : deposit ? `<button class="bsum__checkout mono" type="button" data-preorder-pay>Pay ${money(deposit)} for pre-order</button>`
