@@ -162,8 +162,12 @@ function wireCarousel(card) {
   // page load. Hover, either arrow and either arrow key all move one step
   // forward through that order, so no photo comes back within the next
   // (count - 1) steps.
+  // Cards with colour swatches only cycle the selected colour's photos (the first colour to start).
   const ordered = card.dataset.mediaOrder === 'ordered';
-  const order = ordered ? [...slides.keys()] : [0, ...shuffle([...slides.keys()].slice(1))];
+  const product = state.products.find(p => p.id === card.dataset.id);
+  const photosOf = key => [...slides.keys()].filter(i => { const c = product?.media[i]?.colour; return !key || !c || c === key; });
+  const sequence = key => { const idx = photosOf(key); return ordered ? idx : [idx[0], ...shuffle(idx.slice(1))]; };
+  let order = sequence(sellableColours(product || { colours: [] })[0]?.key);
   let pos = 0;
 
   const show = i => {
@@ -171,7 +175,7 @@ function wireCarousel(card) {
     slides[cur].classList.remove('is-on');
     slides[i].classList.add('is-on');
     cur = i;
-    const photo = state.products.find(p => p.id === card.dataset.id)?.media[i];
+    const photo = product?.media[i];
     if (photo?.colour) {
       const base = productUrl(card.dataset.id);
       card.dataset.url = base + (base.includes('?') ? '&' : '?') + 'c=' + encodeURIComponent(photo.colour);
@@ -181,10 +185,11 @@ function wireCarousel(card) {
   };
   const step = (direction = 1) => { pos = (pos + direction + order.length) % order.length; show(order[pos]); };
 
-  // a swatch click jumps to that colour's first photo
+  // a swatch click switches the card to that colour's photos only
   card.addEventListener('mudra:colour', e => {
-    const i = state.products.find(p => p.id === card.dataset.id)?.media.findIndex(m => m.colour === e.detail);
-    if (i > -1) { pos = order.indexOf(i); show(i); }
+    const next = sequence(e.detail);
+    if (!next.length) return;
+    order = next; pos = 0; show(order[0]);
   });
   media.addEventListener('mouseenter', () => step());
   media.addEventListener('click', e => {

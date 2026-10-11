@@ -1385,7 +1385,7 @@
       "no": 9,
       "series": "city",
       "seriesLabel": "City",
-      "colour": "white off-white",
+      "colour": "off-white white",
       "print": "back",
       "tier": "entry",
       "mrp": 1600,
@@ -1416,78 +1416,6 @@
         }
       ],
       "media": [
-        {
-          "type": "img",
-          "src": "assets/img/products/calcutta-wb02-white-v1-hanger.jpg",
-          "alt": "Calcutta WB 02, White tee on a wooden hanger, full back graphic",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/calcutta-wb02-white-v1-back-walk.jpg",
-          "alt": "Calcutta WB 02, White tee worn outdoors, back graphic and oversized fit",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/calcutta-wb02-white-v1-front-walk.jpg",
-          "alt": "Calcutta WB 02, White tee worn walking outdoors, small left chest plate",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/calcutta-wb02-white-v1-front-seated.jpg",
-          "alt": "Calcutta WB 02, White tee at a local cafe, small left chest plate",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/calcutta-wb02-white-v1-back-candid.jpg",
-          "alt": "Calcutta WB 02, White tee in a candid conversation, full back graphic",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/calcutta-wb02-white-v1-front-balcony.jpg",
-          "alt": "Calcutta WB 02, White tee on a home balcony, small left chest plate",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webp": [
-            800,
-            1000
-          ]
-        },
         {
           "type": "img",
           "src": "assets/img/products/calcutta-wb02-off-white-v1-hanger.jpg",
@@ -1559,19 +1487,91 @@
             800,
             1000
           ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/calcutta-wb02-white-v1-hanger.jpg",
+          "alt": "Calcutta WB 02, White tee on a wooden hanger, full back graphic",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/calcutta-wb02-white-v1-back-walk.jpg",
+          "alt": "Calcutta WB 02, White tee worn outdoors, back graphic and oversized fit",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/calcutta-wb02-white-v1-front-walk.jpg",
+          "alt": "Calcutta WB 02, White tee worn walking outdoors, small left chest plate",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/calcutta-wb02-white-v1-front-seated.jpg",
+          "alt": "Calcutta WB 02, White tee at a local cafe, small left chest plate",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/calcutta-wb02-white-v1-back-candid.jpg",
+          "alt": "Calcutta WB 02, White tee in a candid conversation, full back graphic",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/calcutta-wb02-white-v1-front-balcony.jpg",
+          "alt": "Calcutta WB 02, White tee on a home balcony, small left chest plate",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         }
       ],
       "colours": [
         {
-          "key": "white",
-          "name": "White",
-          "hex": "#FFFFFF",
-          "sellable": true
-        },
-        {
           "key": "off-white",
           "name": "Off White",
           "hex": "#FFF8DC",
+          "sellable": true
+        },
+        {
+          "key": "white",
+          "name": "White",
+          "hex": "#FFFFFF",
           "sellable": true
         }
       ],
@@ -1587,7 +1587,7 @@
       "no": 10,
       "series": "city",
       "seriesLabel": "City",
-      "colour": "white off-white",
+      "colour": "off-white white",
       "print": "back",
       "tier": "entry",
       "mrp": 1600,
@@ -1618,78 +1618,6 @@
         }
       ],
       "media": [
-        {
-          "type": "img",
-          "src": "assets/img/products/delhi-dl01-white-v1-hanger.jpg",
-          "alt": "Delhi DL 01, White tee on a wooden hanger, full back graphic",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/delhi-dl01-white-v1-back-walk.jpg",
-          "alt": "Delhi DL 01, White tee worn outdoors, back graphic and oversized fit",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/delhi-dl01-white-v1-front-walk.jpg",
-          "alt": "Delhi DL 01, White tee worn walking outdoors, small left chest plate",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/delhi-dl01-white-v1-front-seated.jpg",
-          "alt": "Delhi DL 01, White tee at a local cafe, small left chest plate",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/delhi-dl01-white-v1-back-candid.jpg",
-          "alt": "Delhi DL 01, White tee in a candid conversation, full back graphic",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/delhi-dl01-white-v1-front-balcony.jpg",
-          "alt": "Delhi DL 01, White tee on a home balcony, small left chest plate",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webp": [
-            800,
-            1000
-          ]
-        },
         {
           "type": "img",
           "src": "assets/img/products/delhi-dl01-off-white-v1-hanger.jpg",
@@ -1761,19 +1689,91 @@
             800,
             1000
           ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/delhi-dl01-white-v1-hanger.jpg",
+          "alt": "Delhi DL 01, White tee on a wooden hanger, full back graphic",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/delhi-dl01-white-v1-back-walk.jpg",
+          "alt": "Delhi DL 01, White tee worn outdoors, back graphic and oversized fit",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/delhi-dl01-white-v1-front-walk.jpg",
+          "alt": "Delhi DL 01, White tee worn walking outdoors, small left chest plate",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/delhi-dl01-white-v1-front-seated.jpg",
+          "alt": "Delhi DL 01, White tee at a local cafe, small left chest plate",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/delhi-dl01-white-v1-back-candid.jpg",
+          "alt": "Delhi DL 01, White tee in a candid conversation, full back graphic",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/delhi-dl01-white-v1-front-balcony.jpg",
+          "alt": "Delhi DL 01, White tee on a home balcony, small left chest plate",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         }
       ],
       "colours": [
         {
-          "key": "white",
-          "name": "White",
-          "hex": "#FFFFFF",
-          "sellable": true
-        },
-        {
           "key": "off-white",
           "name": "Off White",
           "hex": "#FFF8DC",
+          "sellable": true
+        },
+        {
+          "key": "white",
+          "name": "White",
+          "hex": "#FFFFFF",
           "sellable": true
         }
       ],
@@ -1789,7 +1789,7 @@
       "no": 11,
       "series": "city",
       "seriesLabel": "City",
-      "colour": "white off-white",
+      "colour": "off-white white",
       "print": "back",
       "tier": "entry",
       "mrp": 1600,
@@ -1820,78 +1820,6 @@
         }
       ],
       "media": [
-        {
-          "type": "img",
-          "src": "assets/img/products/bengaluru-ka01-white-v1-hanger.jpg",
-          "alt": "Bengaluru KA 01, White tee on a wooden hanger, full back graphic",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/bengaluru-ka01-white-v1-back-walk.jpg",
-          "alt": "Bengaluru KA 01, White tee worn outdoors, back graphic and oversized fit",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/bengaluru-ka01-white-v1-front-walk.jpg",
-          "alt": "Bengaluru KA 01, White tee worn walking outdoors, small left chest plate",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/bengaluru-ka01-white-v1-front-seated.jpg",
-          "alt": "Bengaluru KA 01, White tee at a local cafe, small left chest plate",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/bengaluru-ka01-white-v1-back-candid.jpg",
-          "alt": "Bengaluru KA 01, White tee in a candid conversation, full back graphic",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/bengaluru-ka01-white-v1-front-balcony.jpg",
-          "alt": "Bengaluru KA 01, White tee on a home balcony, small left chest plate",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webp": [
-            800,
-            1000
-          ]
-        },
         {
           "type": "img",
           "src": "assets/img/products/bengaluru-ka01-off-white-v1-hanger.jpg",
@@ -1963,19 +1891,91 @@
             800,
             1000
           ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/bengaluru-ka01-white-v1-hanger.jpg",
+          "alt": "Bengaluru KA 01, White tee on a wooden hanger, full back graphic",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/bengaluru-ka01-white-v1-back-walk.jpg",
+          "alt": "Bengaluru KA 01, White tee worn outdoors, back graphic and oversized fit",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/bengaluru-ka01-white-v1-front-walk.jpg",
+          "alt": "Bengaluru KA 01, White tee worn walking outdoors, small left chest plate",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/bengaluru-ka01-white-v1-front-seated.jpg",
+          "alt": "Bengaluru KA 01, White tee at a local cafe, small left chest plate",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/bengaluru-ka01-white-v1-back-candid.jpg",
+          "alt": "Bengaluru KA 01, White tee in a candid conversation, full back graphic",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/bengaluru-ka01-white-v1-front-balcony.jpg",
+          "alt": "Bengaluru KA 01, White tee on a home balcony, small left chest plate",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webp": [
+            800,
+            1000
+          ]
         }
       ],
       "colours": [
         {
-          "key": "white",
-          "name": "White",
-          "hex": "#FFFFFF",
-          "sellable": true
-        },
-        {
           "key": "off-white",
           "name": "Off White",
           "hex": "#FFF8DC",
+          "sellable": true
+        },
+        {
+          "key": "white",
+          "name": "White",
+          "hex": "#FFFFFF",
           "sellable": true
         }
       ],
