@@ -1,15 +1,15 @@
 {
  "/": {
-  "hash": "0afa9428555a5dca",
-  "lastmod": "2026-10-11"
+  "hash": "e89e4d005c1caf5a",
+  "lastmod": "2026-10-12"
  },
  "/about": {
-  "hash": "5dfb18e7311c7b25",
-  "lastmod": "2026-10-10"
+  "hash": "9c30b9f58371c1d6",
+  "lastmod": "2026-10-12"
  },
  "/contact": {
-  "hash": "b585337ab30b8365",
-  "lastmod": "2026-10-10"
+  "hash": "92eea6e27f20791a",
+  "lastmod": "2026-10-12"
  },
  "/p/atlas": {
   "hash": "4479ef220d925ffa",
@@ -28,8 +28,8 @@
   "lastmod": "2026-10-11"
  },
  "/p/face-card": {
-  "hash": "79d266bcdcfe65af",
-  "lastmod": "2026-10-11"
+  "hash": "f0794bbbf2f8a47a",
+  "lastmod": "2026-10-12"
  },
  "/p/neo-bombay": {
   "hash": "83c7667ed406cc6b",
@@ -52,31 +52,31 @@
   "lastmod": "2026-10-11"
  },
  "/payment-help": {
-  "hash": "dc9cdef114083b2e",
-  "lastmod": "2026-10-10"
+  "hash": "e19985521305b0c8",
+  "lastmod": "2026-10-12"
  },
  "/privacy": {
-  "hash": "ca260f6106b2e870",
-  "lastmod": "2026-10-10"
+  "hash": "f57e674eb3cc7ff5",
+  "lastmod": "2026-10-12"
  },
  "/returns": {
-  "hash": "b55e9bf04653a30b",
-  "lastmod": "2026-10-10"
+  "hash": "762591beb1f2417d",
+  "lastmod": "2026-10-12"
  },
  "/shipping": {
-  "hash": "37b49de1c0417195",
-  "lastmod": "2026-10-10"
+  "hash": "fc7657258e05a7a1",
+  "lastmod": "2026-10-12"
  },
  "/size-guide": {
-  "hash": "88d54a0406b1de59",
-  "lastmod": "2026-10-10"
+  "hash": "5bfa56ec80866e47",
+  "lastmod": "2026-10-12"
  },
  "/terms": {
-  "hash": "7b09e42e46ed7df2",
-  "lastmod": "2026-10-10"
+  "hash": "4114f845d97b0700",
+  "lastmod": "2026-10-12"
  },
  "/track": {
-  "hash": "72d35b5b9ae28342",
-  "lastmod": "2026-10-10"
+  "hash": "264c730ea0b3053b",
+  "lastmod": "2026-10-12"
  }
 }

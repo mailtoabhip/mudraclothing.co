@@ -200,39 +200,39 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-maroon-v2-doorway-back.jpg",
+          "src": "assets/img/products/face-card-maroon-v2-doorway-back-upright-k-v1.jpg",
           "alt": "Face Card oversized tee in deep maroon, full king card back print, standing in an old stone doorway",
+          "colour": "maroon",
           "w": 1000,
           "h": 1250,
           "webp": [
             800,
             1000
-          ],
-          "colour": "maroon"
+          ]
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-maroon-v2-hanger-back.jpg",
+          "src": "assets/img/products/face-card-maroon-v2-hanger-back-upright-k-v1.jpg",
           "alt": "Face Card oversized tee in deep maroon on a wooden hanger, full king card back print against a sunlit wall",
+          "colour": "maroon",
           "w": 1000,
           "h": 1250,
           "webp": [
             800,
             1000
-          ],
-          "colour": "maroon"
+          ]
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-maroon-v3-mirror-back.jpg",
+          "src": "assets/img/products/face-card-maroon-v3-mirror-back-upright-k-v1.jpg",
           "alt": "Face Card oversized tee in deep maroon, full king card back print, mirror selfie in a lamp-lit bedroom",
+          "colour": "maroon",
           "w": 1000,
           "h": 1320,
           "webp": [
             800,
             1000
-          ],
-          "colour": "maroon"
+          ]
         },
         {
           "type": "img",
@@ -272,7 +272,7 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-blue-v1-doorway-back.jpg",
+          "src": "assets/img/products/face-card-blue-v1-doorway-back-upright-k-v1.jpg",
           "alt": "Face Card oversized tee in deep blue, full king card back print, standing in an old stone doorway",
           "colour": "blue",
           "w": 1000,
@@ -284,7 +284,7 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-blue-v1-hanger-back.jpg",
+          "src": "assets/img/products/face-card-blue-v1-hanger-back-upright-k-v1.jpg",
           "alt": "Face Card oversized tee in deep blue on a wooden hanger, full king card back print against a sunlit wall",
           "colour": "blue",
           "w": 1000,
@@ -296,7 +296,7 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-blue-v1-mirror-back.jpg",
+          "src": "assets/img/products/face-card-blue-v1-mirror-back-upright-k-v1.jpg",
           "alt": "Face Card oversized tee in deep blue, full king card back print, mirror selfie in a lamp-lit bedroom",
           "colour": "blue",
           "w": 1000,
@@ -344,11 +344,11 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-brown-v1-doorway-back.jpg",
+          "src": "assets/img/products/face-card-brown-v1-doorway-back-upright-k-v1.jpg",
           "alt": "Face Card oversized tee in deep brown, full king card back print, standing in an old stone doorway",
+          "colour": "brown",
           "w": 1000,
           "h": 1250,
-          "colour": "brown",
           "webp": [
             800,
             1000
@@ -356,11 +356,11 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-brown-v1-hanger-back.jpg",
+          "src": "assets/img/products/face-card-brown-v1-hanger-back-upright-k-v1.jpg",
           "alt": "Face Card oversized tee in deep brown on a wooden hanger, full king card back print against a sunlit wall",
+          "colour": "brown",
           "w": 1000,
           "h": 1250,
-          "colour": "brown",
           "webp": [
             800,
             1000
@@ -368,11 +368,11 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-brown-v1-mirror-back.jpg",
+          "src": "assets/img/products/face-card-brown-v1-mirror-back-upright-k-v1.jpg",
           "alt": "Face Card oversized tee in deep brown, full king card back print, mirror selfie in a lamp-lit bedroom",
+          "colour": "brown",
           "w": 1000,
           "h": 1321,
-          "colour": "brown",
           "webp": [
             800,
             1000
