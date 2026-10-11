@@ -57,6 +57,9 @@ body.is-pdp{padding-bottom:0}
 .pricenote__row .mono{font-size:10px;color:var(--fg)}
 .pricenote__price{font-family:var(--mono);font-size:14px;color:var(--fg)}
 .pricenote__text{margin:0;font-family:var(--body);font-size:13px;line-height:1.45;color:var(--ash)}
+/* pre-order terms, directly above the main button */
+.explainer{margin:4px 0 14px;gap:6px}
+.explainer .pricenote__text{color:var(--fg)}
 @media(max-width:760px){.buy__price .price{font-size:26px}}
 
 .buy__blurb{margin:0;font-size:15.5px;line-height:1.55;max-width:44ch}

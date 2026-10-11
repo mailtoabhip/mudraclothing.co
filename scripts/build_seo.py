@@ -464,12 +464,24 @@ def card_price(p):
     # mirrors cardPrice() in assets/js/main.js
     v = price_view(p)
     if deposit_window():
-        return f'<div class="pprice"><span class="pprice__now is-pre">{money(v["now"])}</span><span class="deposit-tag">Pre-order at {money(deposit_for(p["id"]))} today!</span></div>'
+        return f'<div class="pprice"><span class="pprice__now is-pre">{money(v["now"])}</span><span class="deposit-tag">Pre-order @ {money(deposit_for(p["id"]))}</span></div>'
     return ('<div class="pprice">'
             + (f'<s class="pprice__mrp"><span class="sr">MRP </span>{money(v["mrp"])}</s>' if v["mrp"] else "")
             + f'<span class="pprice__now">{money(v["now"])}</span>'
             + ('<span class="pprice__po mono">Pre-order</span>' if v["pre"] else "")
             + "</div>")
+
+
+def preorder_terms(deposit, rest, d):
+    # mirrors explainerHTML() in assets/js/product.js (shown without JavaScript; the script redraws it above the button)
+    how = "online or cash on delivery" if COD_LIVE else "online"
+    lines = [f"{money(deposit)} holds this tee. You're first in line when orders open on {d['launch_short']}.",
+             f"Then pay the rest ({money(rest)}), {how}. At your door in {DAYS}.",
+             f"Change your mind? The {money(deposit)} stays as store credit. No expiry. No cash refund.",
+             f"If we can't make your tee, you get the full {money(deposit)} back.",
+             "We'll message you when orders open and when it ships."]
+    return ('<aside class="pricenote explainer" role="note" aria-label="How the pre-order works">'
+            + "".join(f'<p class="pricenote__text">{e(l)}</p>' for l in lines) + '</aside>')
 
 
 def buy_price(p):
@@ -478,9 +490,9 @@ def buy_price(p):
     if deposit_window():
         deposit = deposit_for(p['id'])
         return (f'<div class="buy__price" id="priceBlock"><p class="mono buy__label">Product price</p>'
-                f'<div class="buy__pricerow"><span class="price is-pre" id="price"><span class="price__num">{money(v["now"])}</span></span><span class="deposit-tag">Pre-order at {money(deposit)} today!</span></div>'
+                f'<div class="buy__pricerow"><span class="price is-pre" id="price"><span class="price__num">{money(v["now"])}</span></span><span class="deposit-tag">Pre-order @ {money(deposit)}</span></div>'
                 f'<p class="mono buy__tax">Inclusive of all taxes · Free shipping</p>'
-                f'<aside class="pricenote" role="note"><p class="pricenote__text">Pay {money(deposit)} now to pre-order this tee. Balance {money(v["now"] - deposit)} when orders open on {e(d["launch_short"])}. Free shipping. Refundable before dispatch.</p></aside></div>')
+                + preorder_terms(deposit, v["now"] - deposit, d) + '</div>')
     label = '<p class="mono buy__label" aria-hidden="true">Pre-order price</p>' if v["pre"] else ""
     row = ('<div class="buy__pricerow">'
            + (f'<s class="mono buy__mrp">MRP {money(v["mrp"])}</s>' if v["mrp"] else "")

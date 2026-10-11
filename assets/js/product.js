@@ -88,6 +88,7 @@ async function loadLive(p) {
     view.price = live.price;
     view.live = live;
     $('#priceBlock').innerHTML = priceHTML(p);
+    const ex = $('#explainer'); if (ex) ex.outerHTML = explainerHTML(p);
   }
   document.querySelectorAll('.szbtn').forEach(b => {
     const ok = !!live.variants[b.dataset.size]?.available;
@@ -263,6 +264,7 @@ function renderBuy(p) {
       <p class="opt__hint mono" id="productBagStatus" role="status" hidden></p>
     </div>
 
+    ${explainerHTML(p)}
     <button class="buy__atc" id="atc" ${anyStock ? '' : 'disabled'}>${anyStock ? 'Pick a size' : 'Sold out'}</button>
     ${teaserActionsHTML(p)}
     ${infoBoxHTML(p)}
@@ -400,8 +402,9 @@ function infoBoxHTML(p) {
     </aside>`;
   if (st === 'teaser') return box('Pre-order', `Opens ${d.opensLong}`,
     `Pre-orders run ${d.opensShort} to ${d.closesShort}. Orders open ${d.launchShort}.`);
+  if (st === 'open' && M.depositWindow()) return '';   // the explainer above the button says it
   if (st === 'open') return box('Pre-orders open', `Orders open ${d.launchLong}`,
-    M.depositWindow() ? `Pre-order @ ${money(M.depositFor(view.product.id))} per tee. Orders open ${d.launchShort}. Pay the rest then, and it's at your door in ${M.ORDERING.minDays}–${M.ORDERING.maxDays} days.` : `Pre-orders close ${d.closesShort}. Orders open ${d.launchShort}.`, M.closesIn());
+    `Pre-orders close ${d.closesShort}. Orders open ${d.launchShort}.`, M.closesIn());
   if (st === 'closed') return box('Pre-orders closed', `Orders open ${d.launchLong}`,
     `Pre-orders are closed. Orders open ${d.launchShort}.`);
   if (st === 'notInDrop') return box('Not available yet', '',
@@ -420,14 +423,29 @@ function shippingText(p) {
   return view.garment.shipping || '';
 }
 
+// The pre-order terms, directly above the main button while deposits are taken.
+// Same words as the static copy in scripts/build_seo.py (preorder_terms). COD only once checkout offers it.
+function explainerHTML(p) {
+  if (!M.depositWindow()) return '<div id="explainer" hidden></div>';
+  const dep = M.depositFor(p.id), rest = M.priceView(p, view.live).now - dep, d = M.dropDates();
+  const how = M.SHOPIFY.cod ? 'online or cash on delivery' : 'online';
+  const lines = [
+    `${money(dep)} holds this tee. You're first in line when orders open on ${d.launchShort}.`,
+    `Then pay the rest (${money(rest)}), ${how}. At your door in ${M.ORDERING.minDays}–${M.ORDERING.maxDays} days.`,
+    `Change your mind? The ${money(dep)} stays as store credit. No expiry. No cash refund.`,
+    `If we can't make your tee, you get the full ${money(dep)} back.`,
+    `We'll message you when orders open and when it ships.`,
+  ];
+  return `<aside class="pricenote explainer" id="explainer" role="note" aria-label="How the pre-order works">${lines.map(l => `<p class="pricenote__text">${esc(l)}</p>`).join('')}</aside>`;
+}
+
 // struck MRP, the price (highlighted while pre-orders run), and what it becomes after.
 // Keep in step with the static block in scripts/build_seo.py.
 function priceHTML(p) {
   const v = M.priceView(p, view.live), d = M.dropDates();
   if (M.depositWindow()) return `<p class="mono buy__label">Product price</p>
-    <div class="buy__pricerow"><span class="price is-pre" id="price"><span class="price__num">${money(v.now)}</span></span><span class="deposit-tag">Pre-order at ${money(M.depositFor(view.product.id))} today!</span></div>
-    <p class="mono buy__tax">Inclusive of all taxes · Free shipping</p>
-    <aside class="pricenote" role="note"><p class="pricenote__text">Pay ${money(M.depositFor(view.product.id))} now to pre-order this tee. Balance ${money(v.now - M.depositFor(view.product.id))} when orders open on ${esc(M.dropDates().launchShort)}. Free shipping. Refundable before dispatch.</p></aside>`;
+    <div class="buy__pricerow"><span class="price is-pre" id="price"><span class="price__num">${money(v.now)}</span></span><span class="deposit-tag">Pre-order @ ${money(M.depositFor(view.product.id))}</span></div>
+    <p class="mono buy__tax">Inclusive of all taxes · Free shipping</p>`;
   const closes = d ? d.closesShort : '';
   // DOM order is MRP then price, so screen readers hear "MRP ₹1,600, Pre-order price ₹1,299";
   // CSS puts the price first visually. The visible label repeats the sr text, so it's hidden from AT.
