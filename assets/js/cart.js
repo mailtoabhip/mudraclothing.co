@@ -89,11 +89,11 @@ function launchLong() {
            : M.dropDates().launchShort;
 }
 
-// one line under the totals: drop terms while it runs, the 7–10 day delivery window after
+// one line under the totals: drop terms while it runs, the delivery window after
 function summaryNote() {
   const ph = M.dropPhase();
   if (M.drop && ph !== 'launched') {
-    return M.drop.prepaidOnly ? 'Prepaid only for pre-orders. COD comes back when we have stock.' : '';
+    return '';
   }
   return M.isPreorder() ? `Pre-order items arrive in ${M.ORDERING.minDays}–${M.ORDERING.maxDays} days.` : '';
 }

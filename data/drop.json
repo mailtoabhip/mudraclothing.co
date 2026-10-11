@@ -3,8 +3,7 @@
   "opens": "2026-09-23T20:00:00+05:30",
   "launch": "2026-11-01T00:00:00+05:30",
   "closes": "2026-10-31T23:59:59.999+05:30",
-  "shipsBy": "2026-12-15",
-  "prepaidOnly": true,
+  "prepaidOnly": false,
   "products": "all",
   "afterLaunch": "preorder"
 }

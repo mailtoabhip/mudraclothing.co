@@ -33,8 +33,12 @@ OG_IMAGE = "/assets/img/og/mudra-og-face-card-upright-k-v1.jpg"
 # Pre-order arrival window, calendar days from order to door.
 # MUST match ORDERING.minDays / ORDERING.maxDays in assets/js/shop.js
 # (the mode itself, 'preorder' or 'instock', is read from shop.js).
-PREORDER_MIN_DAYS = 7
-PREORDER_MAX_DAYS = 10
+PREORDER_MIN_DAYS = 5
+PREORDER_MAX_DAYS = 7
+
+# Cash on delivery switched on at Shopify checkout? Keep False until it is: the site
+# only promises COD when this (and SHOPIFY.cod in assets/js/shop.js) is True.
+COD_LIVE = False
 
 # Google Merchant feed (feeds/google-merchant.xml): who the tees are for.
 FEED_GENDER = "unisex"      # male | female | unisex

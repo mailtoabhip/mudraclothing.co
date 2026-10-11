@@ -13,14 +13,14 @@ const SHOPIFY = {
   storefrontAccessToken: 'f2b9739c85384e64300f6b3c806ae959',
   apiVersion: '2026-07',
   shopId: '73593618511',
-  cod: true,        // cash on delivery offered at checkout
+  cod: false,       // cash on delivery switched on at Shopify checkout? Keep false until it is (scripts/site_config.py COD_LIVE too)
   enabled: true,    // false: the bag is a local counter and checkout stays closed
 };
 
 // How tees are sold. 'preorder': arrives in minDays–maxDays after the order
 // calendar days. 'instock': plain "Add to bag", no arrival promise.
 // minDays/maxDays MUST match PREORDER_MIN_DAYS/PREORDER_MAX_DAYS in scripts/site_config.py.
-const ORDERING = { mode: 'preorder', minDays: 7, maxDays: 10 };
+const ORDERING = { mode: 'preorder', minDays: 5, maxDays: 7 };
 const isPreorder = () => ORDERING.mode === 'preorder';
 
 const ACCOUNT_URL = `https://shopify.com/${SHOPIFY.shopId}/account`;
@@ -89,7 +89,7 @@ function arrivalRange(now = new Date()) {
 
 /* ---------- Drop 01: fixed pre-order window (data/drop.json) ----------- */
 // Phases, by IST time: teaser (before opens), open, closed (after closes),
-// launched (after the shipsBy day), when ORDERING takes over again.
+// launched (from `launch`, when orders open), when ORDERING takes over again.
 
 let DROP = null;
 let dropPromise;
@@ -123,8 +123,8 @@ const LIVE_HOSTS = ['wearmudra.shop', 'www.wearmudra.shop', 'mudraclothing-co.ve
 // ?phase= is for testing: localhost or a Vercel preview URL only
 const canForcePhase = isLocal || (/\.vercel\.app$/.test(location.hostname) && !LIVE_HOSTS.includes(location.hostname));
 
-// the day after shipsBy, 00:00 IST
-const launchTime = d => new Date(`${d.shipsBy}T00:00:00+05:30`).getTime() + 864e5;
+// orders open at `launch`; without one, straight after pre-orders close
+const launchTime = d => Date.parse(d.launch || d.closes) || 0;
 
 function dropPhase(now = Date.now()) {
   if (!DROP) return 'launched';
@@ -132,7 +132,6 @@ function dropPhase(now = Date.now()) {
   if (['teaser', 'open', 'closed', 'launched'].includes(forced)) return forced;
   if (now < Date.parse(DROP.opens)) return 'teaser';
   if (now <= Date.parse(DROP.closes)) return 'open';
-  if (RESERVATIONS.enabled && now >= Date.parse(DROP.launch)) return 'launched';
   if (now < launchTime(DROP)) return 'closed';
   return 'launched';
 }
@@ -152,13 +151,11 @@ function dropDates() {
   if (!DROP) return null;
   const long = iso => fmtDay(todayIST(new Date(iso)));
   const short = iso => { const d = new Date(todayIST(new Date(iso))); return `${d.getUTCDate()} ${MON[d.getUTCMonth()]}`; };
-  const ships = `${DROP.shipsBy}T12:00:00+05:30`;
   return {
     name: DROP.name,
     opensLong: long(DROP.opens), opensShort: short(DROP.opens),
     closesShort: short(DROP.closes),
-    launchShort: DROP.launch ? short(DROP.launch) : '',
-    shipsLong: long(ships), shipsShort: short(ships),
+    launchShort: DROP.launch ? short(DROP.launch) : '', launchLong: DROP.launch ? long(DROP.launch) : '',
   };
 }
 
@@ -197,7 +194,7 @@ function downloadIcs(productName) {
     `DTSTART:${stamp(start)}`,
     `DTEND:${stamp(start + 36e5)}`,
     `SUMMARY:Mudra: pre-orders open`,
-    `DESCRIPTION:${productName ? productName + '. ' : ''}Pre-orders run ${d.opensShort} to ${d.closesShort}. Ships by ${d.shipsShort}.`,
+    `DESCRIPTION:${productName ? productName + '. ' : ''}Pre-orders run ${d.opensShort} to ${d.closesShort}. Orders open ${d.launchShort}.`,
     `URL:${location.origin}${pid ? productUrl(pid) : '/'}`,
     'BEGIN:VALARM', 'TRIGGER:-PT15M', 'ACTION:DISPLAY', 'DESCRIPTION:Mudra pre-orders open soon', 'END:VALARM',
     'END:VEVENT', 'END:VCALENDAR',
@@ -226,7 +223,7 @@ function tickerItems() {
       ? [`Early pre-orders open`, `Closes ${d.closesShort}`, 'Free shipping across India']
       : [`Pre-orders are now live`, `Open till ${d.closesShort}`, 'Free shipping across India'];
   }
-  return [`Printing now`, `Ships by ${d.shipsShort}`];
+  return [`Pre-orders closed`, `Orders open ${d.launchShort}`];
 }
 
 // hero tag on the home page
@@ -236,11 +233,11 @@ function heroTag() {
   if (!d) return `At your door in ${ORDERING.minDays}–${ORDERING.maxDays} days`;
   if (ph === 'teaser') return `Pre-orders open ${d.opensShort}`;
   if (ph === 'open') return beforeLaunch() ? 'Early pre-orders open' : 'Pre-orders are now live';
-  if (ph === 'closed') return 'Printing now';
+  if (ph === 'closed') return `Orders open ${d.launchShort}`;
   return `At your door in ${ORDERING.minDays}–${ORDERING.maxDays} days`;   // after launch: nothing drop-specific
 }
 
-// COD is off while the drop runs (drop.json prepaidOnly)
+// COD: only once it's switched on at checkout (SHOPIFY.cod). The deposit itself is always paid online.
 const codNow = () => SHOPIFY.cod && !(DROP && DROP.prepaidOnly && dropPhase() !== 'launched');
 
 const money = n => `₹${Number(n).toLocaleString('en-IN', { maximumFractionDigits: 2 })}`;
@@ -383,7 +380,7 @@ function baseOrderAttributes() {
   if (DROP && dropPhase() === 'open') {
     return [
       { key: 'Order type', value: 'Pre-order' },
-      { key: 'Ships by', value: DROP.shipsBy },
+      { key: 'Orders open', value: (DROP.launch || '').slice(0, 10) },
     ];
   }
   if (!isPreorder()) return [];
@@ -625,7 +622,7 @@ function closeDrawer() {
 function lineNote(productId) {
   if (depositWindow()) return `Pre-order @ ${money(depositFor(productId))} per tee · Orders open ${dropDates().launchShort}`;
   const ph = dropPhase(), d = dropDates();
-  if (d && ph !== 'launched') return ph === 'teaser' ? `Pre-orders open ${d.opensShort}` : `Pre-order · ships by ${d.shipsShort}`;
+  if (d && ph !== 'launched') return ph === 'teaser' ? `Pre-orders open ${d.opensShort}` : `Pre-order · orders open ${d.launchShort}`;
   return isPreorder() ? `Pre-order · Arrives ${arrivalRange().text}` : '';
 }
 

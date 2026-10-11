@@ -34,7 +34,7 @@ function quoteReservation(lines, products, drop, now = Date.now(), settings = de
   }
   const items = [...selected.values()];
   if (items.reduce((n, x) => n + x.quantity, 0) > 50) fail('INVALID_QUANTITY', 'Pre-order at most 50 tees at a time.');
-  return { currency: 'INR', closes: drop.closes, shipsBy: drop.shipsBy,
+  return { currency: 'INR', closes: drop.closes, launch: drop.launch,
     createdAt: new Date(time).toISOString(), items,
     totalPaise: items.reduce((n, x) => n + x.pricePaise * x.quantity, 0),
     depositPaise: items.reduce((n, x) => n + x.depositPaise * x.quantity, 0),

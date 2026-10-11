@@ -60,7 +60,7 @@ function baseDraft(record, kind) {
     tags: ['mudra-reservation', tag(record.id, kind)],
     customAttributes: [{ key: 'Mudra pre-order', value: record.id }, { key: 'Payment stage', value: kind },
       { key: 'Full tee total (INR)', value: rupees(record.totalPaise) }, { key: 'Deposit (INR)', value: rupees(record.depositPaise) },
-      { key: 'Remaining balance (INR)', value: rupees(record.balancePaise) }, { key: 'Ships by', value: record.shipsBy }],
+      { key: 'Remaining balance (INR)', value: rupees(record.balancePaise) }, { key: 'Orders open', value: String(record.launch || '').slice(0, 10) || 'At launch' }],
     note: kind === 'deposit' ? 'Pre-order deposit only. No physical shirts to fulfil. The balance is payable before dispatch.' : `Balance payment. Deposit already paid separately. Pre-order ${record.id}.` };
 }
 

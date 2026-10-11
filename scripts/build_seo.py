@@ -22,7 +22,7 @@ Product/Offer price data is only emitted while checkout is switched on
 import datetime, hashlib, html, json, os, pathlib, re, subprocess
 
 from site_config import (SITE_URL, SITE_NAME, BRAND, LEGAL_NAME, CONTACT_EMAIL, INSTAGRAM_URL, INSTAGRAM_HANDLE, OG_IMAGE,
-                         PREORDER_MIN_DAYS, PREORDER_MAX_DAYS, FEED_GENDER, FEED_AGE_GROUP)
+                         PREORDER_MIN_DAYS, PREORDER_MAX_DAYS, FEED_GENDER, FEED_AGE_GROUP, COD_LIVE)
 import build_images
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -30,7 +30,7 @@ TODAY = datetime.date.today().isoformat()
 
 # ── Drop 01 (data/drop.json) ──────────────────────────────────────────────
 # The phase is worked out at BUILD time, so the site must be rebuilt and pushed on
-# the opening day, the day after closing, and the day after shipsBy (see README).
+# the opening day, the day after closing, and on `launch` (see README).
 # DROP_PHASE=teaser|open|closed|launched overrides it, for testing builds only.
 IST = datetime.timezone(datetime.timedelta(hours=5, minutes=30))
 _drop_file = ROOT / "data/drop.json"
@@ -57,13 +57,11 @@ def drop_phase(now=None):
     now = now or datetime.datetime.now(IST)
     opens = datetime.datetime.fromisoformat(DROP["opens"])
     closes = datetime.datetime.fromisoformat(DROP["closes"])
-    launch = datetime.datetime.fromisoformat(DROP["shipsBy"] + "T00:00:00+05:30") + datetime.timedelta(days=1)
+    launch = datetime.datetime.fromisoformat(DROP.get("launch") or DROP["closes"])
     if now < opens:
         return "teaser"
     if now <= closes:
         return "open"
-    if RESERVATIONS.get('enabled') and now >= datetime.datetime.fromisoformat(DROP['launch']):
-        return 'launched'
     return "closed" if now < launch else "launched"
 
 
@@ -91,10 +89,10 @@ def drop_dates():
         return None
     o = datetime.datetime.fromisoformat(DROP["opens"]).astimezone(IST)
     c = datetime.datetime.fromisoformat(DROP["closes"]).astimezone(IST)
-    sb = datetime.date.fromisoformat(DROP["shipsBy"])
     return {"name": DROP["name"], "opens_long": _long(o), "opens_short": _short(o),
-            "closes_short": _short(c), "ships_long": _long(sb), "ships_short": _short(sb),
-            "launch_short": _short(datetime.datetime.fromisoformat(DROP['launch']).astimezone(IST))}
+            "closes_short": _short(c),
+            "launch_short": _short(datetime.datetime.fromisoformat(DROP['launch']).astimezone(IST)),
+            "launch_long": _long(datetime.datetime.fromisoformat(DROP['launch']).astimezone(IST))}
 
 
 def before_launch(now=None):
@@ -119,7 +117,7 @@ def ticker_items():
                     "Free shipping across India"]
         return ["Pre-orders are now live", f"Open till {d['closes_short']}",
                 "Free shipping across India"]
-    return ["Printing now", f"Ships by {d['ships_short']}"]
+    return ["Pre-orders closed", f"Orders open {d['launch_short']}"]
 
 
 def hero_tag():
@@ -131,7 +129,7 @@ def hero_tag():
         return launched
     return {"teaser": f"Pre-orders open {d['opens_short']}",
             "open": "Early pre-orders open" if before_launch() else "Pre-orders are now live",
-            "closed": "Printing now"}.get(ph, launched)
+            "closed": f"Orders open {d['launch_short']}"}.get(ph, launched)
 
 
 HOME_TITLE = "Oversized Graphic T-Shirts, Designed in India · Mudra"
@@ -338,10 +336,10 @@ def offer_ld(p, size):
             "@type": "OfferShippingDetails",
             "shippingRate": {"@type": "MonetaryAmount", "value": "0", "currency": "INR"},
             "shippingDestination": {"@type": "DefinedRegion", "addressCountry": "IN"},
-            # after launch: 3–5 days to make + 4–5 days in transit = 7–10 days
+            # after launch: 1–2 days to pack + 4–5 days in transit = 5–7 days
             "deliveryTime": {
                 "@type": "ShippingDeliveryTime",
-                "handlingTime": {"@type": "QuantitativeValue", "minValue": 3, "maxValue": 5, "unitCode": "DAY"},
+                "handlingTime": {"@type": "QuantitativeValue", "minValue": 1, "maxValue": 2, "unitCode": "DAY"},
                 "transitTime": {"@type": "QuantitativeValue", "minValue": 4, "maxValue": 5, "unitCode": "DAY"},
             },
         },
@@ -355,7 +353,7 @@ def offer_ld(p, size):
              "price": f"{float(p['mrp']):.2f}", "priceCurrency": "INR"},
         ]
     if st == "open" and size.get("available"):
-        # a real pre-order window, fixed ship-by date instead of 7–10 days
+        # a real pre-order window: no delivery time until orders open
         o["availability"] = "https://schema.org/PreOrder"
         o["availabilityStarts"] = DROP["opens"]
         o["availabilityEnds"] = DROP["closes"]
@@ -578,15 +576,15 @@ def product_desc(p):
     st, d = sale_state(p["id"]), drop_dates()
     lead = f"{blurb(p)} {money(p['price'])}."
     if st == "teaser":
-        return f"{lead} Pre-orders open {d['opens_short']}, ship by {d['ships_short']}. Free shipping across India."
+        return f"{lead} Pre-orders open {d['opens_short']}, orders open {d['launch_short']}. Free shipping across India."
     if st == "open":
-        return f"{lead} Pre-order until {d['closes_short']}, ships by {d['ships_short']}. Free shipping across India."
+        return f"{lead} Pre-order until {d['closes_short']}, orders open {d['launch_short']}. Free shipping across India."
     if st == "closed":
-        return f"{lead} Pre-orders are printing now and ship by {d['ships_short']}. Free shipping across India."
+        return f"{lead} Orders open {d['launch_short']}. Free shipping across India."
     if st == "notInDrop":
         return f"{lead} Back after launch. Free shipping across India."
     promise = f"Pre-order, arrives in {DAYS}. " if preorder() else ""
-    return f"{lead} {promise}Free shipping across India, cash on delivery."
+    return f"{lead} {promise}Free shipping across India" + (", cash on delivery." if COD_LIVE else ".")
 
 
 def build_home(products):
@@ -628,12 +626,12 @@ def delivery_line(p):
     st, d = drop_phase(), drop_dates()
     if d and st == "open":
         if deposit_window():
-            return f"Pre-order @ {money(deposit_for(p['id']))} deposit per tee. Orders open {d['launch_short']}. Pre-ordered tees ship by {d['ships_long']}."
-        return f"Pre-order: pre-orders close {d['closes_short']}, ships by {d['ships_long']}"
+            return f"Pre-order @ {money(deposit_for(p['id']))} per tee. Orders open {d['launch_short']}, then at your door in {DAYS}."
+        return f"Pre-order: pre-orders close {d['closes_short']}, orders open {d['launch_short']}"
     if d and st == "closed":
-        return f"Printing now, ships by {d['ships_long']}"
+        return f"Pre-orders closed, orders open {d['launch_short']}"
     if d and st == "teaser":
-        return f"Pre-orders open {d['opens_short']}, ship by {d['ships_long']}"
+        return f"Pre-orders open {d['opens_short']}, orders open {d['launch_short']}"
     return f"At your door in {DAYS}"
 
 
@@ -790,7 +788,7 @@ def build_feed(products):
         for s in p["sizes"]:
             if st == "open" and s.get("available"):
                 avail = "<g:availability>preorder</g:availability>" \
-                        f"<g:availability_date>{DROP['shipsBy']}T00:00:00+05:30</g:availability_date>"
+                        f"<g:availability_date>{DROP['launch']}</g:availability_date>"
             elif st in ("closed", "notInDrop", "teaser") or not s.get("available"):
                 avail = "<g:availability>out_of_stock</g:availability>"
             else:

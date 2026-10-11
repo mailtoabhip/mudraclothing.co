@@ -386,7 +386,7 @@ function teaserActionsHTML(p) {
     </div>`;
 }
 
-// the quiet box under the button: drop facts, or the 7–10 day delivery window after launch
+// the quiet box under the button: drop facts, or the delivery window after launch
 function infoBoxHTML(p) {
   const st = M.saleState(p.id), d = M.dropDates();
   const box = (tag, right, note, extra = '') => `
@@ -398,26 +398,24 @@ function infoBoxHTML(p) {
       </div>
       <p class="preorder__note">${esc(note)}</p>
     </aside>`;
-  const prepaid = M.drop && M.drop.prepaidOnly ? ' Prepaid only for pre-orders.' : '';
   if (st === 'teaser') return box('Pre-order', `Opens ${d.opensLong}`,
-    `Pre-orders run ${d.opensShort} to ${d.closesShort}. Everything is made in one run after they close, and ships by ${d.shipsShort}.${prepaid}`);
-  if (st === 'open') return box('Pre-orders open', `Ships by ${d.shipsLong}`,
-    M.depositWindow() ? `Pre-order @ ${money(M.depositFor(view.product.id))} per tee. Orders open ${d.launchShort}. Your deposit locks only your selected tees, sizes and quantities. Pay the remaining balance from launch, before dispatch.` : `Made in one run after pre-orders close on ${d.closesShort}.${prepaid}`, M.closesIn());
-  if (st === 'closed') return box('Printing now', `Ships by ${d.shipsLong}`,
-    `Pre-orders are closed and printing now. They ship by ${d.shipsShort}. Missed it? This design comes back after launch.`);
+    `Pre-orders run ${d.opensShort} to ${d.closesShort}. Orders open ${d.launchShort}.`);
+  if (st === 'open') return box('Pre-orders open', `Orders open ${d.launchLong}`,
+    M.depositWindow() ? `Pre-order @ ${money(M.depositFor(view.product.id))} per tee. Orders open ${d.launchShort}. Pay the rest then, and it's at your door in ${M.ORDERING.minDays}–${M.ORDERING.maxDays} days.` : `Pre-orders close ${d.closesShort}. Orders open ${d.launchShort}.`, M.closesIn());
+  if (st === 'closed') return box('Pre-orders closed', `Orders open ${d.launchLong}`,
+    `Pre-orders are closed. Orders open ${d.launchShort}.`);
   if (st === 'notInDrop') return box('Not available yet', '',
     `This design isn't up for pre-order. It comes back after launch.`);
   if (!M.isPreorder()) return '';
   return box('Pre-order', `Arrives ${M.arrivalRange().text}`,
-    'At your door in 7–10 days, counted from the day you order. Free shipping across India.');
+    `At your door in ${M.ORDERING.minDays}–${M.ORDERING.maxDays} days in most of India, counted from the day you order. Remote pin codes can take longer. Free shipping across India.`);
 }
 
 // Shipping accordion: drop dates while the drop runs, the delivery window after launch
 function shippingText(p) {
   const st = M.saleState(p.id), d = M.dropDates();
   if (['teaser', 'open', 'closed'].includes(st)) {
-    const prepaid = M.drop.prepaidOnly ? ' Prepaid only for pre-orders; cash on delivery comes back after launch.' : '';
-    return `Pre-orders run ${d.opensShort} to ${d.closesShort}, are made in one run after they close, and ship by ${d.shipsShort}. Free shipping across India.${prepaid}`;
+    return `Pre-orders run ${d.opensShort} to ${d.closesShort}. Orders open ${d.launchShort}. From then, at your door in ${M.ORDERING.minDays}–${M.ORDERING.maxDays} days in most of India; remote pin codes can take longer. Free shipping across India.`;
   }
   return view.garment.shipping || '';
 }

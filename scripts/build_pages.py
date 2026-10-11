@@ -171,14 +171,14 @@ SHELL = """<!DOCTYPE html>
 
 
 def drop_tokens(text):
-    """Fill {{drop_name}}, {{drop_opens}}, {{drop_closes}}, {{drop_ships}}, {{drop_ships_long}}
+    """Fill {{drop_name}}, {{drop_opens}}, {{drop_closes}}, {{drop_launch}}, {{drop_launch_long}}
     from data/drop.json, so policy pages quote the same dates as the shop."""
     if "{{drop_" not in text:
         return text
     from build_seo import drop_dates
     d = drop_dates()
     vals = {"drop_name": d["name"], "drop_opens": d["opens_short"], "drop_closes": d["closes_short"],
-            "drop_ships": d["ships_short"], "drop_ships_long": d["ships_long"], "drop_launch": d["launch_short"]}
+            "drop_launch": d["launch_short"], "drop_launch_long": d["launch_long"]}
     out = re.sub(r"\{\{(drop_\w+)\}\}", lambda m: vals[m.group(1)], text)
     return out
 
