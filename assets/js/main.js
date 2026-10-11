@@ -90,7 +90,6 @@ function cardHTML(p) {
 
   const badge = p.badge ? `<span class="pbadge ${p.badge.type}">${esc(p.badge.label)}</span>` : '';
   const slides = p.media.map(mediaHTML).join('');
-  const dots = p.media.map((_, i) => (i === 0 ? '<i class="is-on"></i>' : '<i></i>')).join('');
   const swatches = !CARD_SWATCHES ? '' : sellableColours(p).map((c, i) =>
     `<button class="pswatch${i === 0 ? ' on' : ''}" data-colour="${c.key}"
        style="--sw:${c.hex}" title="${esc(c.name)}" aria-label="${esc(c.name)}"></button>`).join('');
@@ -105,7 +104,6 @@ function cardHTML(p) {
       <div class="slides">${slides}</div>
       <button class="navbtn prev" aria-label="Previous image">&#8249;</button>
       <button class="navbtn next" aria-label="Next image">&#8250;</button>
-      <div class="dots">${dots}</div>
       ${swatches ? `<div class="pswatches">${swatches}</div>` : ''}
     </div>
     <div class="pcard__info">
@@ -141,7 +139,6 @@ const armSoon = media => (armer ? armer.observe(media) : media.classList.add('ar
 function wireCarousel(card) {
   const media = card.querySelector('.pcard__media');
   const slides = media.querySelectorAll('.slide');
-  const dots = media.querySelectorAll('.dots i');
   const markSwatch = key => card.querySelectorAll('.pswatch').forEach(b => b.classList.toggle('on', b.dataset.colour === key));
 
   // clicking the picture (not an arrow) opens the product
@@ -160,7 +157,7 @@ function wireCarousel(card) {
   // display:none (so their lazy images wait) until the card comes near the screen.
   armSoon(media);
 
-  // Ordered galleries follow their supplied sequence with real previous/next.
+  // Ordered galleries follow their supplied sequence with real previous/next; hover steps forward.
   // Otherwise the first photo stays put; the rest play in a random order, fresh on every
   // page load. Hover, either arrow and either arrow key all move one step
   // forward through that order, so no photo comes back within the next
@@ -173,8 +170,6 @@ function wireCarousel(card) {
     if (i === cur) return;
     slides[cur].classList.remove('is-on');
     slides[i].classList.add('is-on');
-    dots[cur]?.classList.remove('is-on');
-    dots[i]?.classList.add('is-on');
     cur = i;
     const photo = state.products.find(p => p.id === card.dataset.id)?.media[i];
     if (photo?.colour) {
@@ -191,7 +186,7 @@ function wireCarousel(card) {
     const i = state.products.find(p => p.id === card.dataset.id)?.media.findIndex(m => m.colour === e.detail);
     if (i > -1) { pos = order.indexOf(i); show(i); }
   });
-  media.addEventListener('mouseenter', () => { if (!ordered) step(); });
+  media.addEventListener('mouseenter', () => step());
   media.addEventListener('click', e => {
     if (!e.target.closest('.navbtn')) return;
     e.preventDefault();

@@ -545,7 +545,6 @@ def card_html(p):
         picture(m, cls="slide" + (" is-on" if i == 0 else ""), loading="eager" if i == 0 else "lazy",
                 sizes=CARD_SIZES)
         for i, m in enumerate(imgs))
-    dots = "".join('<i class="is-on"></i>' if i == 0 else "<i></i>" for i in range(len(imgs)))
     sw = [c for c in p.get("colours", []) if c.get("sellable")] if CARD_SWATCHES else []
     swatches = "".join(
         f'<button class="pswatch{" on" if i == 0 else ""}" data-colour="{c["key"]}" '
@@ -559,7 +558,6 @@ def card_html(p):
             f'<div class="slides">{slides}</div>'
             '<button class="navbtn prev" aria-label="Previous image">&#8249;</button>'
             '<button class="navbtn next" aria-label="Next image">&#8250;</button>'
-            f'<div class="dots">{dots}</div>'
             + (f'<div class="pswatches">{swatches}</div>' if swatches else "")
             + '</div>'
             f'<div class="pcard__info">'
