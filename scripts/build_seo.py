@@ -478,7 +478,6 @@ def preorder_terms(deposit, rest, d):
     lines = [f"{money(deposit)} holds this tee. You're first in line when orders open on {d['launch_short']}.",
              f"Then pay the rest ({money(rest)}), {how}. At your door in {DAYS}.",
              f"Change your mind? The {money(deposit)} stays as store credit. No expiry. No cash refund.",
-             f"If we can't make your tee, you get the full {money(deposit)} back.",
              "We'll message you when orders open and when it ships."]
     return ('<aside class="pricenote explainer" role="note" aria-label="How the pre-order works">'
             + "".join(f'<p class="pricenote__text">{e(l)}</p>' for l in lines) + '</aside>')

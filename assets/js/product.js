@@ -433,7 +433,6 @@ function explainerHTML(p) {
     `${money(dep)} holds this tee. You're first in line when orders open on ${d.launchShort}.`,
     `Then pay the rest (${money(rest)}), ${how}. At your door in ${M.ORDERING.minDays}–${M.ORDERING.maxDays} days.`,
     `Change your mind? The ${money(dep)} stays as store credit. No expiry. No cash refund.`,
-    `If we can't make your tee, you get the full ${money(dep)} back.`,
     `We'll message you when orders open and when it ships.`,
   ];
   return `<aside class="pricenote explainer" id="explainer" role="note" aria-label="How the pre-order works">${lines.map(l => `<p class="pricenote__text">${esc(l)}</p>`).join('')}</aside>`;
