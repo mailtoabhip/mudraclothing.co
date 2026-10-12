@@ -33,7 +33,7 @@ from site_config import SITE_URL, OG_IMAGE, BRAND, LEGAL_NAME, CONTACT_EMAIL, MA
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SRC = ROOT / "_src" / "pages"
 
-ACCOUNT = "https://shopify.com/73593618511/account"
+ACCOUNT = "/account"
 
 # header nav: the "Shop for" dropdown (same markup as index/product/cart.html), then plain links
 SHOP_FOR = ('<div class="shopfor"><button type="button" class="shopfor__btn" id="shopforBtn" aria-haspopup="true" aria-expanded="false" aria-controls="shopforMenu">Shop for<i class="shopfor__chev" aria-hidden="true"></i></button><div class="shopfor__pop" id="shopforMenu"><div class="shopfor__panel"><a class="shopfor__item shopfor__item--go" href="/#shop">Oversized t-shirts</a><span class="shopfor__item shopfor__item--soon" aria-disabled="true">T-shirts<em class="shopfor__badge">Coming soon</em></span></div></div></div>')
@@ -289,7 +289,7 @@ def build():
         page = SHELL.format(
             title_tag=html.escape(f"{meta.get('pagetitle') or html.unescape(re.sub(r'<[^>]+>', ' ', title)).strip()} · {BRAND}".replace("  ", " "), quote=True),
             description=html.escape(meta.get("description", ""), quote=True),
-            robots='<meta name="robots" content="noindex">\n' if slug in ("404", "pre-orders") else "",
+            robots='<meta name="robots" content="noindex">\n' if slug in ("404", "pre-orders", "account") else "",
             slug=slug, nav=nav, body=body, footer=footer, account=ACCOUNT,
             pblock="" if bare else PBLOCK.format(accent=meta.get("accent", "blue"),
                                                  kicker=meta.get("kicker", ""), updated=updated, title=title),

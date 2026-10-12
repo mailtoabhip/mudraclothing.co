@@ -2,8 +2,17 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const crypto = require('node:crypto');
-const { seal, unseal, requireCsrf, cookie } = require('../server/customer-auth.cjs');
+const { seal, unseal, requireCsrf, cookie, login } = require('../server/customer-auth.cjs');
 process.env.RESERVATION_SESSION_KEY = crypto.randomBytes(32).toString('base64');
+test('sign-in preserves only the allowed account or bag destination', () => {
+  for (const [returnTo, expected] of [['account', '/account'], ['https://attacker.example', '/cart'], [undefined, '/cart']]) {
+    const headers = {};
+    const res = { getHeader: n => headers[n], setHeader: (n,v) => { headers[n]=v; }, redirect() {} };
+    login({query:{returnTo}},res);
+    const value = headers['Set-Cookie'][0].split(';')[0].split('=')[1];
+    assert.equal(unseal(value).returnTo, expected);
+  }
+});
 test('session is encrypted and authenticated', () => {
   const value = { customerId: 'customer-1', access: 'example-access', exp: Date.now() + 10000 };
   const sealed = seal(value);

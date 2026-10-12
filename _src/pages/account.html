@@ -1,0 +1,18 @@
+<!--
+title: Your account
+kicker: Account
+accent: blue
+layout: plain
+description: Your Mudra pre-orders, saved balances, store credit and Shopify order history.
+css: reservations
+js: reservations
+-->
+<div class="wrap account-page">
+  <p><a class="btn" href="https://shopify.com/73593618511/account">Orders and profile in Shopify</a></p>
+  <p id="reservationStatus" role="status"></p>
+  <p id="accountSignIn" hidden><a class="btn" href="/api/customer/login?returnTo=account">Sign in to see your pre-orders</a></p>
+  <section id="savedPreorders" aria-label="Your pre-orders" hidden>
+    <h2>Your pre-orders</h2>
+    <div id="reservationContent"></div>
+  </section>
+</div>

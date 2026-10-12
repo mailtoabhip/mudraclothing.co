@@ -82,15 +82,19 @@
     account = await response.json();
     if (!account.signedIn) {
       status.textContent = new URLSearchParams(location.search).has('error') ? 'Sign-in could not be completed. Please try again.' : '';
+      const signIn = document.getElementById('accountSignIn');
+      if (signIn) signIn.hidden = false;
       return;
     }
     const result = await fetch('/api/reservations', { cache: 'no-store' });
     const saved = await result.json();
     if (!result.ok) throw new Error(saved.error || 'Could not load your pre-orders.');
-    content.setAttribute?.('data-store-credit-ready', String(saved.creditReady === true));
     await clearPaidBag(saved.reservations);
     status.textContent = '';
-    document.getElementById('savedPreorders').hidden = !saved.reservations.length;
+    if (!content) return;
+    content.setAttribute('data-store-credit-ready', String(saved.creditReady === true));
+    document.getElementById('savedPreorders').hidden = false;
+    if (!saved.reservations.length) content.textContent = 'No pre-orders yet.';
     saved.reservations.forEach(renderRecord);
     const button = document.createElement('button'); button.type = 'button'; button.className = 'btn'; button.textContent = 'Sign out';
     button.addEventListener('click', async () => {

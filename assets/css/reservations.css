@@ -1,4 +1,9 @@
 .reservation{border:1px solid var(--line);padding:24px;margin-bottom:24px;max-width:780px}
+.account-page{padding-top:32px;padding-bottom:64px}
+.account-page>p{margin-bottom:24px}
+.account-page>p>.btn{display:inline-block;padding:16px;border:1px solid var(--line-strong)}
+.account-page>p>.btn:hover,.account-page>p>.btn:focus-visible{background:var(--blue);color:var(--on-blue)}
+.account-page #savedPreorders>h2{margin-bottom:24px}
 .reservation h2{font-family:var(--display);font-size:28px;margin:0 0 16px}
 .reservation ul{list-style:none;padding:0;margin:0 0 20px}
 .reservation li{padding:12px 0;border-bottom:1px solid var(--line)}

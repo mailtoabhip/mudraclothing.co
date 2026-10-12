@@ -73,7 +73,8 @@ function login(req, res) {
   const state = crypto.randomBytes(24).toString('base64url');
   const nonce = crypto.randomBytes(24).toString('base64url');
   const verifier = crypto.randomBytes(48).toString('base64url');
-  cookie(res, '__Host-mudra-login', seal({ state, nonce, verifier, exp: Date.now() + 600000 }), 600);
+  const returnTo = req.query?.returnTo === 'account' ? '/account' : '/cart';
+  cookie(res, '__Host-mudra-login', seal({ state, nonce, verifier, returnTo, exp: Date.now() + 600000 }), 600);
   const url = new URL(`${ACCOUNT}/authentication/oauth/authorize`);
   url.search = new URLSearchParams({ client_id: CLIENT, response_type: 'code', redirect_uri: CALLBACK,
     scope: 'openid email customer-account-api:full', state, nonce,
@@ -90,7 +91,7 @@ async function callback(req, res) {
   const session = { customerId, access: tokens.access_token, refresh: tokens.refresh_token,
     accessUntil: Date.now() + Number(tokens.expires_in) * 1000, csrf: crypto.randomBytes(24).toString('base64url'), exp: Date.now() + 604800000 };
   cookie(res, '__Host-mudra-session', seal(session), 604800);
-  res.redirect(302, '/cart');
+  res.redirect(302, saved.returnTo === '/account' ? '/account' : '/cart');
 }
 async function session(req, res) {
   const saved = unseal(cookies(req)['__Host-mudra-session']);

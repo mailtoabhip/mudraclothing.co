@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const vm = require('node:vm');
 const fs = require('node:fs');
 
-function checkout({ signedIn = true, open = true, fail = false } = {}) {
+function checkout({ signedIn = true, open = true, fail = false, records = [] } = {}) {
   const nodes = new Map();
   const element = () => ({ hidden: true, textContent: '', append() {}, addEventListener() {} });
   const storage = new Map();
@@ -14,13 +14,13 @@ function checkout({ signedIn = true, open = true, fail = false } = {}) {
       merchandise: { product: { handle: 'face-card' }, selectedOptions: [{ name: 'Size', value: 'S' }] },
       attributes: [{ key: 'Colour', value: 'Maroon' }] }] } } } };
   vm.runInNewContext(fs.readFileSync(require.resolve('../assets/js/reservations.js'), 'utf8'), {
-    window: { Mudra: M }, document: { getElementById(id) { if (!nodes.has(id)) nodes.set(id, element()); return nodes.get(id); }, createElement: element },
+    window: { Mudra: M }, document: { getElementById(id) { if (id === 'reservationContent' || id === 'savedPreorders') return null; if (!nodes.has(id)) nodes.set(id, element()); return nodes.get(id); }, createElement: () => { throw new Error('The bag must not render previous orders.'); } },
     location: { search: '', assign: url => navigated.push(url) }, URLSearchParams,
     localStorage: { getItem: key => storage.get(key), setItem: (key, value) => storage.set(key, value) },
     crypto: { randomUUID: () => 'test-request-key-123456' },
     fetch: async (url, options = {}) => {
       if (url === '/api/customer/session') return { ok: true, json: async () => ({ signedIn, csrf: 'test-csrf' }) };
-      if (options.method !== 'POST') return { ok: true, json: async () => ({ reservations: [] }) };
+      if (options.method !== 'POST') return { ok: true, json: async () => ({ reservations: records }) };
       posted.push({ body: JSON.parse(options.body), csrf: options.headers['X-Mudra-CSRF'] });
       return { ok: !fail, json: async () => fail ? { error: 'Checkout unavailable.' } : { id: 'record-1', checkoutUrl: 'https://checkout.wearmudra.shop/test' } };
     }
@@ -36,6 +36,12 @@ test('bag sends selected tees and CSRF directly to deposit checkout, preserving 
   assert.deepEqual(c.posted[0].body.lines, [{ productId: 'face-card', size: 'S', colour: 'Maroon', quantity: 2 }]);
   assert.deepEqual(c.navigated, ['https://checkout.wearmudra.shop/test']);
   assert.deepEqual(JSON.parse(c.storage.get('mudra-pending-reservation')).lines, [{ id: 'line-1', quantity: 2 }]);
+});
+test('signed-in bag checkout works with saved pre-orders without displaying order history', async () => {
+  const c = checkout({ records: [{ id: 'previous-order', status: 'paid' }] });
+  await c.M.preorders.checkout({ disabled: false });
+  assert.equal(c.nodes.get('reservationStatus').textContent, 'Preparing your secure Shopify checkout.');
+  assert.deepEqual(c.navigated, ['https://checkout.wearmudra.shop/test']);
 });
 test('signed-out checkout starts sign-in without creating a deposit', async () => {
   const c = checkout({ signedIn: false });
