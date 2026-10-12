@@ -8,10 +8,11 @@ const MEASUREMENT_ID = 'G-KR05NW0DGN';   // same as scripts/site_config.py GA_ME
 
 // Only the ids the browser read from GA's own cookies, in their known shape.
 function cleanIds(ga) {
+  if (ga?.analyticsConsent !== true) return null;
   const clientId = /^\d{1,20}\.\d{1,20}$/.test(ga?.clientId || '') ? ga.clientId : null;
   if (!clientId) return null;
   const sessionId = /^\d{1,20}$/.test(ga?.sessionId || '') ? ga.sessionId : null;
-  return { clientId, sessionId };
+  return { clientId, sessionId, analyticsConsent: true };
 }
 
 const rupees = paise => Math.round(paise) / 100;
@@ -20,8 +21,8 @@ async function send(ga, name, params) {
   const secret = process.env.GA_API_SECRET;
   if (!secret) return false;
   const ids = cleanIds(ga);
-  // No browser id (cookies blocked, or an order made outside the site): still count it, as its own visitor.
-  const clientId = ids?.clientId || `${Math.floor(Math.random() * 2e9)}.${Math.floor(Date.now() / 1000)}`;
+  if (!ids) return false;
+  const clientId = ids.clientId;
   const body = { client_id: clientId, events: [{ name, params: {
     ...params, engagement_time_msec: 1, ...(ids?.sessionId ? { session_id: ids.sessionId } : {}),
   } }] };
@@ -57,7 +58,7 @@ function balancePaid(record, orderId) {
 // a normal Shopify checkout (after launch). items carry our product id (the handle) like the site's events.
 function orderPaid(event, handles) {
   const attr = key => event.note_attributes?.find(a => a.name === key)?.value;
-  return send({ clientId: attr('_ga_client_id'), sessionId: attr('_ga_session_id') }, 'purchase', {
+  return send({ clientId: attr('_ga_client_id'), sessionId: attr('_ga_session_id'), analyticsConsent: attr('_ga_consent') === 'granted' }, 'purchase', {
     currency: event.currency || 'INR', value: Number(event.current_total_price ?? event.total_price) || 0,
     transaction_id: String(event.id), shipping: Number(event.total_shipping_price_set?.shop_money?.amount) || 0,
     tax: Number(event.current_total_tax ?? event.total_tax) || 0,

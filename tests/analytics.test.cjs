@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const analytics = require('../server/analytics.cjs');
 
 const record = {
-  depositPaise: 39800, balancePaise: 220000, ga: { clientId: '123456.1760000000', sessionId: '1760000001' },
+  depositPaise: 39800, balancePaise: 220000, ga: { clientId: '123456.1760000000', sessionId: '1760000001', analyticsConsent: true },
   items: [{ productId: 'face-card', name: 'Face Card', colour: 'Blue', size: 'M', quantity: 2, pricePaise: 129900, depositPaise: 19900 }],
 };
 
@@ -46,5 +46,12 @@ test('balance purchase is the remaining amount, priced per tee', async () => {
 
 test('ids that are not GA cookie values are dropped', () => {
   assert.equal(analytics.cleanIds({ clientId: 'abc' }), null);
-  assert.deepEqual(analytics.cleanIds({ clientId: '1.2', sessionId: 'x' }), { clientId: '1.2', sessionId: null });
+  assert.deepEqual(analytics.cleanIds({ clientId: '1.2', sessionId: 'x', analyticsConsent: true }), { clientId: '1.2', sessionId: null, analyticsConsent: true });
+});
+
+test('payment tracking sends nothing without an explicit analytics opt-in', async () => {
+  process.env.GA_API_SECRET = 'test';
+  for (const ga of [null, {clientId:'1.2'}, {clientId:'1.2',analyticsConsent:false}]) {
+    const sent = await capture(() => analytics.depositPaid({...record,ga},88));assert.equal(sent.length,0);
+  }
 });

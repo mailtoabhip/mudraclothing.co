@@ -492,6 +492,14 @@ a.atc{display:block;text-align:center}
  .hero__arrow{width:36px;height:36px;font-size:20px}
 }
 /* phones: a square crop from the left, where the headline sits, so it reads about 1.7x larger */
+.analytics-choice{position:fixed;z-index:1200;left:var(--gut);bottom:16px;width:min(480px,calc(100% - 2 * var(--gut)));padding:20px;background:var(--paper);color:var(--fg);border:1px solid var(--line-strong)}
+.analytics-choice[hidden]{display:none}
+.analytics-choice p{margin:0 0 16px;font-size:14px;line-height:1.5}
+.analytics-choice a{text-decoration:underline;text-underline-offset:3px}
+.analytics-choice>div{display:flex;gap:8px}
+.analytics-choice button{flex:1;min-height:44px;padding:10px;font:11px var(--mono);border:1px solid var(--line-strong)}
+.analytics-choice button:hover,.analytics-choice button:focus-visible{background:var(--blue);color:var(--on-blue)}
+.analytics-preferences{display:block;margin:20px var(--gut);font:11px var(--mono);text-decoration:underline;text-underline-offset:3px}
 @media(max-width:600px){
  .hero__slide .hero__campaign img,.hero__photo img{aspect-ratio:1/1;object-position:left center}
 }

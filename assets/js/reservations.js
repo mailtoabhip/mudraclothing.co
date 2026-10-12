@@ -36,18 +36,31 @@
   function renderRecord(record) {
     const card = document.createElement('article'); card.className = 'reservation';
     card.innerHTML = `<h2>Pre-ordered tees</h2><ul>${record.items.map(item => `<li>${M.esc(item.name)} · ${M.esc(item.colour)} · ${M.esc(item.size)} × ${item.quantity} <span>${M.money(item.pricePaise / 100)} each</span></li>`).join('')}</ul>
-      <dl><div><dt>${['paid','settled'].includes(record.status) ? 'Locked total' : 'Tee total'}</dt><dd>${M.money(record.totalPaise / 100)}</dd></div><div><dt>Deposit ${['paid','settled'].includes(record.status) ? 'paid' : 'due'}</dt><dd>${M.money(record.depositPaise / 100)}</dd></div>
-      <div><dt>Balance ${record.balancePaid ? 'paid' : 'remaining'}</dt><dd>${M.money(record.balancePaise / 100)}</dd></div></dl>
-      <p>${record.status === 'review' ? 'Payment or cancellation needs review. Please contact us.' : record.balancePaid ? 'Fully paid. Your shirts are pre-ordered.' : record.status === 'paid' ? 'Deposit confirmed. Your sizes, quantities and price are locked.' : 'Your pre-order is confirmed only after the deposit is paid.'}</p>`;
+      <dl>${record.creditStatus === 'credited' ? `<div><dt>Store credit</dt><dd>${M.money(record.depositPaise / 100)}</dd></div>` : `<div><dt>${['paid','settled'].includes(record.status) ? 'Locked total' : 'Tee total'}</dt><dd>${M.money(record.totalPaise / 100)}</dd></div><div><dt>Deposit ${['paid','settled'].includes(record.status) ? 'paid' : 'due'}</dt><dd>${M.money(record.depositPaise / 100)}</dd></div><div><dt>Balance ${record.balancePaid ? 'paid' : 'remaining'}</dt><dd>${M.money(record.balancePaise / 100)}</dd></div>`}</dl>
+      <p>${record.creditStatus === 'credited' ? 'Your deposit is now store credit. It has no expiry. Sign in to your Shopify account at checkout to use it. These tees are no longer held.' : record.creditStatus ? 'Your store credit needs a check. Please contact Mudra.' : record.status === 'review' ? 'Payment or cancellation needs review. Please contact us.' : record.balancePaid ? 'Fully paid. Your shirts are pre-ordered.' : record.status === 'paid' ? 'Deposit confirmed. Your sizes, quantities and price are locked.' : 'Your pre-order is confirmed only after the deposit is paid.'}</p>`;
     if (record.status === 'pending' && record.checkoutUrl) {
       const link = document.createElement('a'); link.className = 'btn'; link.href = record.checkoutUrl; link.textContent = 'Pay deposit'; card.append(link);
     }
-    if (record.status === 'paid' && !record.balancePaid && !record.balanceAvailable) {
+    if (record.status === 'paid' && !record.creditStatus && !record.balancePaid && !record.balanceAvailable) {
       const note = document.createElement('p'); note.textContent = `Orders open ${M.dropDates().launchShort}. Pay your saved balance from launch, before dispatch.`; card.append(note);
     }
-    if (record.status === 'paid' && !record.balancePaid && record.balanceAvailable) {
+    if (record.status === 'paid' && !record.creditStatus && !record.balancePaid && record.balanceAvailable) {
       const button = document.createElement('button'); button.className = 'btn'; button.type = 'button'; button.textContent = `Pay balance · ${M.money(record.balancePaise / 100)}`;
       button.addEventListener('click', () => pay({ action: 'balance', id: record.id }, button)); card.append(button);
+    }
+    if (record.creditAvailable) {
+      const button = document.createElement('button'); button.className = 'btn'; button.type = 'button'; button.textContent = 'Use deposit as store credit';
+      button.addEventListener('click', async () => {
+        if (!window.confirm(`Convert ${M.money(record.depositPaise / 100)} to store credit? These tees and their saved prices will no longer be held. Your credit has no expiry.`)) return;
+        button.disabled = true;
+        try {
+          const response = await fetch('/api/reservations', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Mudra-CSRF': account.csrf }, body: JSON.stringify({ action: 'credit', id: record.id }) });
+          const result = await response.json();
+          if (!response.ok) throw new Error(result.error || 'Could not prepare store credit.');
+          location.reload();
+        } catch (error) { status.textContent = error.message; button.disabled = false; }
+      });
+      card.append(button);
     }
     if (record.status === 'creating') {
       const button = document.createElement('button'); button.className = 'btn'; button.type = 'button'; button.textContent = 'Retry unfinished checkout';

@@ -65,7 +65,15 @@ module.exports = async (req, res) => {
         if (claim) r[flag] = new Date().toISOString();
       });
     } catch { claim = null; }
-    if (claim) await (kind === 'deposit' ? analytics.depositPaid(claim, event.id) : analytics.balancePaid(claim, event.id));
+    if (claim) {
+      const sent = await (kind === 'deposit' ? analytics.depositPaid(claim, event.id) : analytics.balancePaid(claim, event.id));
+      // Missing configuration or a failed analytics request must remain retryable.
+      // Only release this delivery's claim, not a newer concurrent one.
+      if (!sent) await update(customerId, records => {
+        const r = records.find(x => x.id === id);
+        if (r?.[flag] === claim[flag]) delete r[flag];
+      });
+    }
     return res.status(200).end();
   } catch { return res.status(503).end(); }
 };

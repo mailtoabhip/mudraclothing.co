@@ -80,3 +80,11 @@ test('Face Card colours stay distinct and use matching pre-order photos', () => 
   assert.match(q.items[0].image, /maroon/);
   assert.match(q.items[1].image, /blue/);
 });
+
+test('an invoice issued before the launch change follows the extended cutoff without repricing', () => {
+  const { reservation, order } = paid();
+  reservation.closes = '2026-10-31T23:59:59.999+05:30';
+  const duringExtension = { ...order, paidAt: '2026-11-20T12:00:00+05:30' };
+  assert.equal(quoteBalance(reservation, duringExtension, 'customer-1').amountPaise, 330000);
+  assert.throws(() => quoteBalance(reservation, { ...order, paidAt: '2026-12-01T00:00:00+05:30' }, 'customer-1'), { code: 'LATE_PAYMENT' });
+});

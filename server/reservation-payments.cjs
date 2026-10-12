@@ -144,7 +144,7 @@ async function applyPayment(customerId, id, kind, order) {
     record[`${kind}OrderId`] = order.id; record[`${kind}Payment`] = order;
     // Cancellation/refund flags are sticky even if an older paid webhook is replayed.
     if (order.cancelled || order.refundedPaise > 0) { record.cancelled = true; record.status = 'review'; return; }
-    if (record.cancelled) return;
+    if (record.cancelled || record.creditStatus) return;
     if (kind === 'deposit') {
       try { verifyDeposit(record, order, customerId); record.status = 'paid'; }
       catch (error) { record.status = error.code === 'UNPAID' ? 'pending' : 'review'; }
@@ -167,7 +167,10 @@ async function createBalance(customerId, id, now = Date.now()) {
     const saved = records.find(r => r.id === id);
     if (!saved) throw new Error('Pre-order was not found.');
     quoteBalance(saved, saved.depositPayment, customerId);
-    if (now < Date.parse(drop.launch)) throw new Error('Orders open on 1 December. Your paid deposit keeps your pre-order price locked.');
+    if (now < Date.parse(drop.launch)) {
+      const launch = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'long', timeZone: 'Asia/Kolkata' }).format(new Date(drop.launch));
+      throw new Error(`Orders open on ${launch}. Your paid deposit keeps your pre-order price locked.`);
+    }
     if (!saved.balanceCreating && !saved.balanceDraftId) { saved.balanceCreating = true; claimed = true; }
     return saved;
   });
@@ -192,10 +195,12 @@ async function createBalance(customerId, id, now = Date.now()) {
   await store.update(customerId, records => { const saved = records.find(r => r.id === id); saved.balanceDraftId = draft.id; saved.balanceCheckoutUrl = draft.invoiceUrl; });
   return { checkoutUrl: draft.invoiceUrl, balancePaise: record.balancePaise };
 }
-function publicRecord(record) {
+function publicRecord(record, creditReady = false) {
   return { id: record.id, items: record.items, totalPaise: record.totalPaise, depositPaise: record.depositPaise, balancePaise: record.balancePaise,
-    status: record.status, shipsBy: record.shipsBy, closes: record.closes, balancePaid: !!record.balancePaid, balanceAvailable: Date.now() >= Date.parse(drop.launch),
-    checkoutUrl: record.status === 'pending' && Date.now() <= Math.min(Date.parse(record.closes), Date.parse(drop.closes)) ? record.depositCheckoutUrl : null };
+    status: record.status, creditStatus: record.creditStatus || null,
+    creditAvailable: creditReady === true && record.status === 'paid' && !record.creditStatus && !record.balanceCreating && !record.balanceDraftId && !record.balancePaid && !record.cancelled,
+    shipsBy: record.shipsBy, closes: drop.closes, balancePaid: !!record.balancePaid, balanceAvailable: Date.now() >= Date.parse(drop.launch),
+    checkoutUrl: record.status === 'pending' && Date.now() <= Date.parse(drop.closes) ? record.depositCheckoutUrl : null };
 }
 async function retryUnpaid(customerId, id) {
   const record = (await store.read(customerId)).records.find(r => r.id === id);

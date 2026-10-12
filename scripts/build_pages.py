@@ -98,15 +98,7 @@ def ga_tag():
     gid = GA_MEASUREMENT_ID
     return (
         "<!-- ga:start -->\n"
-        "<!-- Google tag (gtag.js) -->\n"
-        f'<script async src="https://www.googletagmanager.com/gtag/js?id={gid}"></script>\n'
-        "<script>\n"
-        "  window.dataLayer = window.dataLayer || [];\n"
-        "  function gtag(){dataLayer.push(arguments);}\n"
-        "  gtag('js', new Date());\n"
-        "\n"
-        f"  gtag('config', '{gid}');\n"
-        "</script>\n"
+        f'<script defer src="/assets/js/consent.js?v=1" data-ga-id="{gid}"></script>\n'
         "<!-- ga:end -->\n"
     )
 

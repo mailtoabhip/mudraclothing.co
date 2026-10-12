@@ -48,14 +48,15 @@ function verifyDeposit(reservation, order, customerId) {
   if (order.currency !== 'INR' || order.paidPaise !== reservation.depositPaise) fail('INVALID_PAYMENT', 'The paid deposit does not match this pre-order.');
   if (order.cancelled || order.refundedPaise > 0) fail('CANCELLED', 'This pre-order needs review after cancellation or refund.');
   if (order.status !== 'PAID' || !order.paidAt || !Number.isFinite(Date.parse(order.paidAt))) fail('UNPAID', 'The deposit has not been confirmed as paid.');
-  const cutoff = Math.min(Date.parse(reservation.closes), Date.parse(require('../data/drop.json').closes));
+  // Existing deposit invoices follow the current, founder-approved launch window.
+  const cutoff = Date.parse(require('../data/drop.json').closes);
   if (Date.parse(order.paidAt) > cutoff) fail('LATE_PAYMENT', 'This deposit was paid after the pre-order window closed. Contact us for a refund.');
   return true;
 }
 
 function quoteBalance(reservation, order, customerId) {
   verifyDeposit(reservation, order, customerId);
-  if (reservation.balancePaid || reservation.cancelled) fail('ALREADY_SETTLED', 'This pre-order is already settled or cancelled.');
+  if (reservation.balancePaid || reservation.cancelled || reservation.creditStatus) fail('ALREADY_SETTLED', 'This pre-order is already settled, cancelled or converted to store credit.');
   // Use the saved per-unit prices, not today's catalogue or customer-submitted totals.
   const items = reservation.items.map(item => ({ ...item, balanceUnitPaise: item.pricePaise - item.depositPaise }));
   const amountPaise = items.reduce((n, x) => n + x.balanceUnitPaise * x.quantity, 0);

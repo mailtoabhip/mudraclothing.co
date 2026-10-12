@@ -20,7 +20,22 @@ Status: the storefront routes pre-orders to signed-in INR 199-per-tee deposit in
 - Show locked pricing as reservation information alongside public pricing, not as an unlimited customer discount.
 - A reservation cannot be used to buy extra quantities at the old price, claimed by another customer, or charged a second balance after payment.
 - Proposed balance deadline: before dispatch, with a clearly disclosed payment request. The exact due date and treatment of unpaid balances still need a business decision.
-- Proposed refund rule: the deposit is refundable before dispatch, matching the current cancellation promise. Refund and cancellation changes must update the reservation and disable its balance payment link.
+- Deposits paid before 12 October 2026 retain refundable-before-dispatch terms. Under the current policy, an unused deposit can become Shopify store credit with no expiry. Refund and cancellation changes disable the balance payment link.
+
+## Deposit conversion to store credit
+
+- A signed-in customer chooses “Use deposit as store credit” in the existing bag's saved pre-orders. Confirmation releases those tees and their saved price, then issues the verified paid deposit as INR Shopify credit, without an expiry or notification email.
+- Activation requires `MUDRA_STORE_CREDIT_ENABLED=true`, the app's `write_store_credit_account_transactions` scope, and Shopify's customer-account store-credit setting. The site checks the installed scope before showing the control or attempting a credit.
+- Unpaid/refunded/cancelled deposits, settled balances and any pre-order with an outstanding balance checkout are ineligible. Contact Mudra for cases requiring review.
+- A registry claim prevents parallel requests and future balance invoices. Shopify credit mutations have no idempotency key; an ambiguous failure stays locked for manual review, rather than issuing a second credit.
+- `/api/customer/capabilities` reports only feature availability to authenticated customers. Credentials stay in Vercel.
+
+## Optional analytics
+
+- The Google tag loads only after the visitor allows analytics. Decline works equally; a footer control lets the visitor withdraw. Choices expire after six months. Shopping and payment remain available without analytics.
+- Browser and payment events require an explicit opt-in; normal checkout carries a consent attribute, while deposit/balance records save consent with the visitor IDs. No fallback visitor ID is generated for unconsented payments.
+- Withdrawal stops tracking on that browser. For signed-in customers it also removes saved pre-order visitor IDs. Payment-tracking failures release the delivery claim so a later confirmed webhook can retry.
+- `GA_API_SECRET` is required in production. Do not accept Google's User Data Collection Acknowledgement on the founder's behalf without explicit approval, or invent paid purchases for a tracking test.
 
 ## Required implementation
 

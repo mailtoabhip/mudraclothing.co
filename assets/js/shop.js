@@ -28,7 +28,7 @@ const API_URL = `https://${SHOPIFY.domain}/api/${SHOPIFY.apiVersion}/graphql.jso
 
 const SIZES = ['S', 'M', 'L', 'XL', 'XXL'];
 
-const SPRITE_URL = '/assets/svg/sprite.svg?v=3ffb4f08';
+const SPRITE_URL = '/assets/svg/sprite.svg?v=2f8b0426';
 
 /* ---------- urls ------------------------------------------------------ */
 
@@ -392,8 +392,8 @@ function baseOrderAttributes() {
 // Hidden at checkout (leading underscore). The order webhook reads them so the purchase joins this visit in GA4.
 function gaAttributes() {
   const ga = gaIds();
-  if (!ga) return [];
-  return [{ key: '_ga_client_id', value: ga.clientId }, ...(ga.sessionId ? [{ key: '_ga_session_id', value: ga.sessionId }] : [])];
+  if (!ga) return [{ key: '_ga_consent', value: 'denied' }, { key: '_ga_client_id', value: '' }, { key: '_ga_session_id', value: '' }];
+  return [{ key: '_ga_client_id', value: ga.clientId }, { key: '_ga_consent', value: 'granted' }, ...(ga.sessionId ? [{ key: '_ga_session_id', value: ga.sessionId }] : [])];
 }
 
 const cart = {
@@ -406,7 +406,9 @@ const cart = {
     if (!id) return setCart(null);
     try {
       const d = await sf(Q.get, { id });
-      return setCart(d.cart || null);
+      if (!d.cart) return setCart(null);
+      const updated = await sf(Q.attrs, { id, attributes: orderAttributes() });
+      return setCart(unwrap(updated.cartAttributesUpdate));
     } catch (err) {
       renderBag();
       throw err;
@@ -715,12 +717,13 @@ document.addEventListener('click', e => {
 // GA4's client and session ids, read from its _ga cookies, so payment events sent later by
 // the server join this visit. Null until gtag has set the cookie.
 function gaIds() {
+  if (!window.MudraAnalytics?.allowed()) return null;
   const jar = Object.fromEntries(document.cookie.split('; ').map(x => { const i = x.indexOf('='); return [x.slice(0, i), x.slice(i + 1)]; }));
   const clientId = (jar._ga || '').split('.').slice(-2).join('.');
   if (!/^\d+\.\d+$/.test(clientId)) return null;
   const s = jar[Object.keys(jar).find(k => k.startsWith('_ga_')) || ''] || '';
   const sessionId = (s.match(/^GS2\.\d\.s(\d+)/) || s.match(/^GS1\.\d\.(\d+)/) || [])[1] || '';
-  return { clientId, sessionId };
+  return { clientId, sessionId, analyticsConsent: true };
 }
 
 // item_id is our product id (the Shopify handle), the same one the server sends with payments
@@ -730,7 +733,7 @@ function gaItem(id, name, price, quantity = 1, colour, size) {
 }
 
 function track(name, items, extra = {}) {
-  if (typeof window.gtag !== 'function' || !items.length) return;
+  if (!window.MudraAnalytics?.allowed() || typeof window.gtag !== 'function' || !items.length) return;
   const value = items.reduce((n, x) => n + x.price * x.quantity, 0);
   window.gtag('event', name, { currency: 'INR', value: Math.round(value * 100) / 100, items, ...extra });
 }
