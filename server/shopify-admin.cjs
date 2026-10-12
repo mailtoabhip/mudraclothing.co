@@ -20,14 +20,26 @@ async function accessToken() {
   return credential.value;
 }
 
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+// Shopify limits how fast the store can be queried. In a launch rush it answers "throttled"
+// (HTTP 429, or a THROTTLED error); wait and try again instead of failing the customer.
 async function admin(query, variables = {}) {
-  const response = await fetch(`https://${SHOP}/admin/api/${VERSION}/graphql.json`, {
-    method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Shopify-Access-Token': await accessToken() },
-    body: JSON.stringify({ query, variables }), signal: AbortSignal.timeout(20000)
-  });
-  const result = await response.json();
-  if (!response.ok || result.errors?.length) throw new Error('Shopify request could not be completed.');
-  return result.data;
+  for (let attempt = 0; ; attempt++) {
+    const response = await fetch(`https://${SHOP}/admin/api/${VERSION}/graphql.json`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Shopify-Access-Token': await accessToken() },
+      body: JSON.stringify({ query, variables }), signal: AbortSignal.timeout(20000)
+    });
+    const result = await response.json().catch(() => ({}));
+    const throttled = response.status === 429 || result.errors?.some?.(e => e.extensions?.code === 'THROTTLED');
+    if (throttled && attempt < 5) {
+      // back off 0.5s, 1s, 2s, 4s, 8s, plus a little jitter so retries don't arrive together
+      await sleep(500 * 2 ** attempt + Math.random() * 250);
+      continue;
+    }
+    if (!response.ok || result.errors?.length) throw new Error('Shopify request could not be completed.');
+    return result.data;
+  }
 }
 
 module.exports = { admin, SHOP, VERSION };
