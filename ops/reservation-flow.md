@@ -6,7 +6,7 @@ Status: the storefront routes pre-orders to signed-in INR 199-per-tee deposit in
 
 ## Founder-confirmed rules
 
-- Collect INR 199 per tee until orders open on 1 November 2026, midnight IST. Read the exact cutoff and launch from data/drop.json; do not maintain a second closing date.
+- Collect INR 199 per tee until orders open on 1 December 2026, midnight IST. Read the exact cutoff and launch from data/drop.json; do not maintain a second closing date.
 - The lower total price applies only to the exact shirts and quantities reserved with a successfully paid deposit. Additional purchases use the price applicable when they are bought.
 - Save the price applicable when the reservation is created and its per-unit deposit. A later catalogue price change must not change the reservation total or balance.
 - A browser bag, an email supplied by a visitor, or a checkout redirect alone is not proof of a paid reservation or customer identity.

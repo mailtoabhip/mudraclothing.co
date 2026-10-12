@@ -167,7 +167,7 @@ async function createBalance(customerId, id, now = Date.now()) {
     const saved = records.find(r => r.id === id);
     if (!saved) throw new Error('Pre-order was not found.');
     quoteBalance(saved, saved.depositPayment, customerId);
-    if (now < Date.parse(drop.launch)) throw new Error('Orders open on 1 November. Your paid deposit keeps your pre-order price locked.');
+    if (now < Date.parse(drop.launch)) throw new Error('Orders open on 1 December. Your paid deposit keeps your pre-order price locked.');
     if (!saved.balanceCreating && !saved.balanceDraftId) { saved.balanceCreating = true; claimed = true; }
     return saved;
   });

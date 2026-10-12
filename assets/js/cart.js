@@ -82,7 +82,7 @@ function render(c) {
     </aside>`;
 }
 
-// launch day written out ("1 November"), IST, from data/drop.json
+// launch day written out ("1 December"), IST, from data/drop.json
 function launchLong() {
   const l = M.drop && M.drop.launch;
   return l ? new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'long', timeZone: 'Asia/Kolkata' }).format(new Date(l))
