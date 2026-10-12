@@ -482,11 +482,16 @@ a.atc{display:block;text-align:center}
 .hero__slide .hero__campaign img,.hero__photo img{width:100%;aspect-ratio:1672/941;height:auto;display:block;object-fit:cover}
 .hero__photo,.hero__photo picture{display:block}
 .hero__slide--fluoro{background:#CCFF00}
-.hero__controls{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 12px;pointer-events:none}
+/* both arrows in the bottom-right corner, clear of the headline baked into the left of each banner */
+.hero__controls{position:absolute;right:12px;bottom:12px;display:flex;gap:6px;pointer-events:none}
 .hero__arrow{width:44px;height:44px;display:grid;place-items:center;font-size:26px;line-height:1;color:var(--fg);background:var(--paper);border:1px solid var(--line-strong);pointer-events:auto}
 .hero__arrow:hover,.hero__arrow:focus-visible{background:var(--blue);color:var(--on-blue)}
 #shop{scroll-margin-top:calc(var(--navh) + 16px)}
 @media(max-width:760px){
- .hero__controls{padding:0 8px}
- .hero__arrow{width:32px;height:44px;font-size:22px}
+ .hero__controls{right:8px;bottom:8px}
+ .hero__arrow{width:36px;height:36px;font-size:20px}
+}
+/* phones: a square crop from the left, where the headline sits, so it reads about 1.7x larger */
+@media(max-width:600px){
+ .hero__slide .hero__campaign img,.hero__photo img{aspect-ratio:1/1;object-position:left center}
 }
