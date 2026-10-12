@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
       const records = await reconcile(saved.customerId);
       let creditReady = false;
       try { creditReady = await require('../server/reservation-capabilities.cjs').storeCreditReady(); } catch {}
-      return res.status(200).json({ reservations: records.map(r => publicRecord(r, creditReady)) });
+      return res.status(200).json({ creditReady, reservations: records.map(r => publicRecord(r, creditReady)) });
     }
     requireCsrf(req, saved);
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;

@@ -87,6 +87,7 @@
     const result = await fetch('/api/reservations', { cache: 'no-store' });
     const saved = await result.json();
     if (!result.ok) throw new Error(saved.error || 'Could not load your pre-orders.');
+    content.setAttribute?.('data-store-credit-ready', String(saved.creditReady === true));
     await clearPaidBag(saved.reservations);
     status.textContent = '';
     document.getElementById('savedPreorders').hidden = !saved.reservations.length;
