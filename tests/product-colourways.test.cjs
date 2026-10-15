@@ -24,7 +24,7 @@ test('all four Overthinker colourways remain distinct through reservation pricin
     }
     for (const media of gallery) assert.ok(fs.existsSync(media.src));
   }
-  assert.deepEqual(product.colours.map(c => c.name), ['Black / Blue', 'Black / Oxblood Red', 'Bone / Blue', 'Bone / Oxblood Red']);
+  assert.deepEqual(product.colours.map(c => c.name), ['Bone / Blue', 'Black / Blue', 'Black / Oxblood Red', 'Bone / Oxblood Red']);
   assert.ok(product.colours.every(c => !c.key.includes('white')));
 });
 
@@ -33,7 +33,7 @@ test('split swatches place garment above print while ordinary colour swatches st
     document: { querySelector: () => null, addEventListener() {} }, addEventListener() {}, URLSearchParams, Intl, Date, console };
   vm.runInNewContext(fs.readFileSync('assets/js/shop.js', 'utf8'), context);
   const M = context.window.Mudra;
-  assert.equal(M.swatchFill(product.colours[1]), 'linear-gradient(135deg, #1A1A1A 0% 50%, #982D3E 50% 100%)');
+  assert.equal(M.swatchFill(product.colours.find(c => c.key === 'black-red')), 'linear-gradient(135deg, #1A1A1A 0% 50%, #982D3E 50% 100%)');
   assert.equal(M.swatchFill(product.colours[3]), 'linear-gradient(135deg, #E8E4DA 0% 50%, #982D3E 50% 100%)');
   assert.equal(M.swatchFill({ hex: '#650C17' }), '#650C17');
 });

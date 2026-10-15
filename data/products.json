@@ -493,6 +493,84 @@
       "media": [
         {
           "type": "img",
+          "src": "assets/img/products/the-overthinker-bone-blue-refined-v2-library-hanger.jpg",
+          "alt": "The Overthinker, Bone / Blue, library hanger",
+          "w": 1000,
+          "h": 1250,
+          "colour": "bone-blue",
+          "webpQuality": 93,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/the-overthinker-bone-blue-refined-v2-library-pair.jpg",
+          "alt": "The Overthinker, Bone / Blue, library pair",
+          "w": 1000,
+          "h": 1250,
+          "colour": "bone-blue",
+          "webpQuality": 93,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/the-overthinker-bone-blue-refined-v2-floor-sit.jpg",
+          "alt": "The Overthinker, Bone / Blue, floor sit",
+          "w": 1000,
+          "h": 1250,
+          "colour": "bone-blue",
+          "webpQuality": 93,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/the-overthinker-bone-blue-refined-v2-ladder.jpg",
+          "alt": "The Overthinker, Bone / Blue, ladder",
+          "w": 1000,
+          "h": 1250,
+          "colour": "bone-blue",
+          "webpQuality": 93,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/the-overthinker-bone-blue-refined-v2-desk-study.jpg",
+          "alt": "The Overthinker, Bone / Blue, desk study",
+          "w": 1000,
+          "h": 1250,
+          "colour": "bone-blue",
+          "webpQuality": 93,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/the-overthinker-bone-blue-refined-v2-window-seat.jpg",
+          "alt": "The Overthinker, Bone / Blue, window seat",
+          "w": 1000,
+          "h": 1250,
+          "colour": "bone-blue",
+          "webpQuality": 93,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
           "src": "assets/img/products/the-overthinker-black-blue-refined-v2-library-hanger.jpg",
           "alt": "The Overthinker, Black / Blue, library hanger",
           "w": 1000,
@@ -649,84 +727,6 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/the-overthinker-bone-blue-refined-v2-library-hanger.jpg",
-          "alt": "The Overthinker, Bone / Blue, library hanger",
-          "w": 1000,
-          "h": 1250,
-          "colour": "bone-blue",
-          "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/the-overthinker-bone-blue-refined-v2-library-pair.jpg",
-          "alt": "The Overthinker, Bone / Blue, library pair",
-          "w": 1000,
-          "h": 1250,
-          "colour": "bone-blue",
-          "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/the-overthinker-bone-blue-refined-v2-floor-sit.jpg",
-          "alt": "The Overthinker, Bone / Blue, floor sit",
-          "w": 1000,
-          "h": 1250,
-          "colour": "bone-blue",
-          "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/the-overthinker-bone-blue-refined-v2-ladder.jpg",
-          "alt": "The Overthinker, Bone / Blue, ladder",
-          "w": 1000,
-          "h": 1250,
-          "colour": "bone-blue",
-          "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/the-overthinker-bone-blue-refined-v2-desk-study.jpg",
-          "alt": "The Overthinker, Bone / Blue, desk study",
-          "w": 1000,
-          "h": 1250,
-          "colour": "bone-blue",
-          "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/the-overthinker-bone-blue-refined-v2-window-seat.jpg",
-          "alt": "The Overthinker, Bone / Blue, window seat",
-          "w": 1000,
-          "h": 1250,
-          "colour": "bone-blue",
-          "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
           "src": "assets/img/products/the-overthinker-bone-red-refined-v2-library-hanger.jpg",
           "alt": "The Overthinker, Bone / Oxblood Red, library hanger",
           "w": 1000,
@@ -806,6 +806,14 @@
       ],
       "colours": [
         {
+          "key": "bone-blue",
+          "name": "Bone / Blue",
+          "hex": "#E8E4DA",
+          "shirtHex": "#E8E4DA",
+          "printHex": "#2B3AFF",
+          "sellable": true
+        },
+        {
           "key": "black-blue",
           "name": "Black / Blue",
           "hex": "#1A1A1A",
@@ -819,14 +827,6 @@
           "hex": "#1A1A1A",
           "shirtHex": "#1A1A1A",
           "printHex": "#982D3E",
-          "sellable": true
-        },
-        {
-          "key": "bone-blue",
-          "name": "Bone / Blue",
-          "hex": "#E8E4DA",
-          "shirtHex": "#E8E4DA",
-          "printHex": "#2B3AFF",
           "sellable": true
         },
         {
