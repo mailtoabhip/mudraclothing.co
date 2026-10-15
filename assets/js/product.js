@@ -227,7 +227,7 @@ function renderBuy(p) {
     </div>`).join('');
   const swatches = view.colours.map(c => `
     <button class="cswatch${view.colour && c.key === view.colour.key ? ' on' : ''}" data-colour="${c.key}"
-            style="--sw:${c.hex}" aria-label="${esc(c.name)}" title="${esc(c.name)}"
+            style="--sw:${M.swatchFill(c)}" aria-label="${esc(c.name)}" title="${esc(c.name)}"
             aria-pressed="${view.colour && c.key === view.colour.key}"></button>`).join('');
   const anyStock = p.sizes.some(s => s.available);
 
@@ -252,6 +252,7 @@ function renderBuy(p) {
     <div class="opt">
       <div class="opt__head"><span class="mono">Colour</span><span class="mono opt__val" id="colourName">${esc(view.colour?.name || '')}</span></div>
       <div class="cswatches" id="swatches">${swatches}</div>
+      ${view.colours.some(c => c.printHex) ? '<p class="opt__hint">Upper triangle: shirt colour. Lower triangle: print colour.</p>' : ''}
     </div>` : ''}
 
     <div class="opt" id="sizeOpt">

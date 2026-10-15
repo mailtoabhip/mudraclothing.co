@@ -557,7 +557,7 @@ def card_html(p):
     sw = [c for c in p.get("colours", []) if c.get("sellable")] if CARD_SWATCHES else []
     swatches = "".join(
         f'<button class="pswatch{" on" if i == 0 else ""}" data-colour="{c["key"]}" '
-        f'style="--sw:{c["hex"]}" title="{e(c["name"])}" aria-label="{e(c["name"])}"></button>'
+        f'style="--sw:{e("linear-gradient(135deg, " + c.get("shirtHex", c["hex"]) + " 0% 50%, " + c["printHex"] + " 50% 100%)" if c.get("printHex") else c["hex"])}" title="{e(c["name"])}" aria-label="{e(c["name"])}"></button>'
         for i, c in enumerate(sw))
     tag, atc = card_cta(p, href, bool(avail))
     return (f'<article class="pcard" data-id="{p["id"]}" data-media-order="{p.get("mediaOrder", "random")}" data-series="{p["series"]}" '
@@ -610,7 +610,7 @@ def build_home(products):
                               "name": product_title(p)} for i, p in enumerate(products)]},
     ]}
     # The campaign image is the first big paint on the home page.
-    preload = '<link rel="preload" as="image" href="/assets/img/campaigns/mudra-people-hero-v3.webp" type="image/webp" fetchpriority="high">'
+    preload = '<link rel="preload" as="image" href="/assets/img/campaigns/mudra-people-hero-v3-white-ink-v1.webp" type="image/webp" fetchpriority="high">'
     s = put_head(s, head_tags(HOME_TITLE, home_desc(), "/", OG_IMAGE, extra=preload + "\n" + jsonld(graph),
                               img_size=OG_SIZE, img_alt=OG_ALT))
     # ticker + hero tag for the phase at build time (main.js re-renders them live)

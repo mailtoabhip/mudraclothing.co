@@ -92,7 +92,7 @@ function cardHTML(p) {
   const slides = p.media.map(mediaHTML).join('');
   const swatches = !CARD_SWATCHES ? '' : sellableColours(p).map((c, i) =>
     `<button class="pswatch${i === 0 ? ' on' : ''}" data-colour="${c.key}"
-       style="--sw:${c.hex}" title="${esc(c.name)}" aria-label="${esc(c.name)}"></button>`).join('');
+       style="--sw:${window.Mudra.swatchFill(c)}" title="${esc(c.name)}" aria-label="${esc(c.name)}"></button>`).join('');
 
   return `
   <article class="pcard" data-id="${p.id}" data-media-order="${p.mediaOrder || 'random'}" data-series="${p.series}" data-colour="${p.colour}"

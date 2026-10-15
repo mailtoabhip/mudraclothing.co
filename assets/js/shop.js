@@ -272,6 +272,9 @@ const esc = s => String(s ?? '').replace(/[&<>"']/g, c =>
 
 // only colours we can actually print right now
 const sellableColours = p => (p.colours || []).filter(c => c.sellable);
+const swatchFill = c => c.printHex
+  ? `linear-gradient(135deg, ${c.shirtHex || c.hex} 0% 50%, ${c.printHex} 50% 100%)`
+  : c.hex;
 
 /* ---------- storefront api -------------------------------------------- */
 
@@ -744,7 +747,7 @@ window.Mudra = {
   SHOPIFY, SIZES, ACCOUNT_URL, CART_URL, ShopError, ORDERING, isPreorder, arrivalRange,
   loadDrop, dropPhase, dropDates, saleState, canBuy, inDrop, closesIn, checkoutBlock, downloadIcs,
   tickerItems, heroTag, codNow, lineNote, get drop() { return DROP; },
-  productUrl, productIdFromUrl, loadCatalogue, loadSprite, sellableColours,
+  productUrl, productIdFromUrl, loadCatalogue, loadSprite, sellableColours, swatchFill,
   money, priceView, esc, pictureHTML, CARD_SIZES, wireHeader, renderBag, initBag, addToBag, flash,
   liveProduct, cart, sf, sizeTableHTML, openDrawer,
 };

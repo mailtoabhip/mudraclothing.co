@@ -47,7 +47,7 @@ def build():
                     img = im.convert("RGB")
                     if tw != w:
                         img = img.resize((tw, round(h * tw / w)), Image.LANCZOS)
-                    img.save(out, "WEBP", quality=QUALITY, method=6)
+                    img.save(out, "WEBP", quality=m.get("webpQuality", QUALITY), method=6)
                     made += 1
             m["w"], m["h"], m["webp"] = w, h, widths
     pf.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
