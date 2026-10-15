@@ -145,7 +145,7 @@ RELATED_SIZES = "(max-width: 1000px) 50vw, 25vw"
 
 # content pages that belong in the sitemap (404, cart and the bare template don't)
 SITEMAP_PAGES = ["about", "contact", "shipping", "returns", "payment-help", "size-guide",
-                 "track", "terms", "privacy"]
+                 "track", "terms", "privacy", "wholesale"]
 
 e = lambda s: html.escape(str(s), quote=True)
 HIGH = ' fetchpriority="high"'
@@ -876,8 +876,17 @@ def build():
         products = [dict(p, price=p.get('regularPrice', p['price'])) for p in products]
     check_prices(products)
     offers = offers_live()
-    # the one public setting product.js needs from site_config (Instagram link)
-    (ROOT / "data/site.json").write_text(json.dumps({"instagram": INSTAGRAM_URL}) + "\n", encoding="utf-8")
+    # public settings for the browser. "instagram" comes from site_config; every other key
+    # (whatsappBusiness, wholesaleEmail) is edited by hand in data/site.json and kept as is.
+    sj = ROOT / "data/site.json"
+    try:
+        site = json.loads(sj.read_text(encoding="utf-8"))
+    except (FileNotFoundError, ValueError):
+        site = {}
+    site = {"instagram": INSTAGRAM_URL, "whatsappBusiness": site.get("whatsappBusiness", ""),
+            "wholesaleEmail": site.get("wholesaleEmail", ""),
+            **{k: v for k, v in site.items() if k not in ("instagram", "whatsappBusiness", "wholesaleEmail")}}
+    sj.write_text(json.dumps(site, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     make_og_image()
     make_hero_poster()
     build_home(products)

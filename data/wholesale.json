@@ -1,0 +1,61 @@
+{
+  "_note": "Wholesale page (/wholesale) copy and terms. Edit freely, no code changes needed. NO prices, costs, margins or supplier names here: this file is public. gstInvoice: set true only once a GSTIN is registered.",
+  "sub": "Oversized graphic tees, designed in India, released in small numbered drops. If your store would look better with them on the rack, talk to us.",
+  "why": [
+    {
+      "title": "Original artwork.",
+      "text": "Clean front, loud back. Nothing on your rack looks like it."
+    },
+    {
+      "title": "Small numbered drops.",
+      "text": "Stock that doesn't sit for a season."
+    },
+    {
+      "title": "We do the work.",
+      "text": "Display, restocks, and we send our Instagram audience to your store."
+    }
+  ],
+  "terms": [
+    {
+      "label": "Minimum order",
+      "value": "12 pieces per design, in a size pack (S–XXL)."
+    },
+    {
+      "label": "Pricing",
+      "value": "Per tee, tiered by pieces per design. Price list on request."
+    },
+    {
+      "label": "MRP",
+      "value": "MRP is printed on every tee. Stores sell at MRP."
+    },
+    {
+      "label": "Payment",
+      "value": "50% to confirm, 50% before dispatch."
+    },
+    {
+      "label": "Lead time",
+      "value": "10–14 days from confirmed payment."
+    },
+    {
+      "label": "Defects",
+      "value": "Report within 48 hours with photos; we replace them."
+    },
+    {
+      "label": "Price validity",
+      "value": "Prices are valid for 90 days from the date of the price list."
+    },
+    {
+      "label": "First order",
+      "value": "First-time stores: ask us about a trial order."
+    }
+  ],
+  "storeTypes": [
+    "Streetwear",
+    "Multi-brand",
+    "Concept",
+    "Other"
+  ],
+  "smallPrint": "Mudra Clothing Company.",
+  "gstLine": "GST invoice provided on every order.",
+  "gstInvoice": false
+}

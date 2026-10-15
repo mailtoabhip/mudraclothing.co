@@ -9,8 +9,8 @@ import hashlib, pathlib, re
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 ASSETS = [
-    "assets/css/styles.css", "assets/css/product.css", "assets/css/pages.css", "assets/css/cart.css", "assets/css/story.css", "assets/css/reservations.css",
-    "assets/js/shop.js", "assets/js/main.js", "assets/js/product.js", "assets/js/pages.js", "assets/js/cart.js", "assets/js/story.js", "assets/js/reservations.js",
+    "assets/css/styles.css", "assets/css/product.css", "assets/css/pages.css", "assets/css/cart.css", "assets/css/story.css", "assets/css/reservations.css", "assets/css/wholesale.css",
+    "assets/js/shop.js", "assets/js/main.js", "assets/js/product.js", "assets/js/pages.js", "assets/js/cart.js", "assets/js/story.js", "assets/js/reservations.js", "assets/js/wholesale.js",
     "assets/svg/sprite.svg", "assets/js/consent.js",
 ]
 PAGES = sorted(p.name for p in ROOT.glob("*.html")) + sorted(f"p/{p.name}" for p in ROOT.glob("p/*.html")) + ["assets/js/shop.js"]

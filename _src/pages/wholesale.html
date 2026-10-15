@@ -1,0 +1,68 @@
+<!--
+title: Stock Mudra.
+pagetitle: Wholesale · Stock Mudra in your store
+kicker: For stores · Wholesale
+accent: ink
+layout: plain
+css: wholesale
+js: wholesale
+description: Stock Mudra oversized graphic tees in your store. Small numbered drops, tiered wholesale pricing, MRP printed on every tee.
+-->
+<!--
+  WHOLESALE. Copy and terms live in data/wholesale.json (no prices, ever: it's public).
+  Contact buttons read whatsappBusiness and wholesaleEmail from data/site.json and hide
+  themselves when a value is empty. wholesale.js fills the [data-ws] slots.
+-->
+  <div class="wrap ws">
+
+    <section class="ws-hero" aria-label="Wholesale">
+      <p class="ws-hero__sub" data-ws="sub">Oversized graphic tees, designed in India, released in small numbered drops.</p>
+      <div class="ws-cta" data-ws="cta" hidden>
+        <a class="btn btn--solid ws-wa" data-ws-method="whatsapp" href="#" target="_blank" rel="noopener" hidden>Message us on WhatsApp</a>
+        <a class="btn ws-mail" data-ws-method="email" href="#" hidden>Email us</a>
+      </div>
+    </section>
+
+    <section class="ws-block" aria-labelledby="ws-why">
+      <h2 class="ws-h mono" id="ws-why">Why stores stock Mudra</h2>
+      <ol class="ws-why" data-ws="why"></ol>
+    </section>
+
+    <section class="ws-block" aria-labelledby="ws-how">
+      <h2 class="ws-h mono" id="ws-how">How it works</h2>
+      <dl class="ws-terms" data-ws="terms"></dl>
+    </section>
+
+    <section class="ws-enquire" aria-labelledby="ws-form-title">
+      <div class="ws-enquire__head">
+        <h2 class="ws-title" id="ws-form-title">Get the price list.</h2>
+        <p>Tell us about your store. The form opens a message to us with everything filled in; nothing is sent until you press send there.</p>
+      </div>
+      <form class="ws-form" id="wsForm" novalidate>
+        <label class="ws-f"><span class="mono">Store name</span><input name="store" required autocomplete="organization"></label>
+        <label class="ws-f"><span class="mono">City / area</span><input name="city" required autocomplete="address-level2"></label>
+        <label class="ws-f"><span class="mono">Your name</span><input name="name" required autocomplete="name"></label>
+        <label class="ws-f"><span class="mono">Phone / WhatsApp</span><input name="phone" type="tel" required autocomplete="tel" inputmode="tel" pattern="[0-9+ ()-]{8,}"></label>
+        <label class="ws-f"><span class="mono">Email</span><input name="email" type="email" required autocomplete="email"></label>
+        <label class="ws-f"><span class="mono">Store Instagram or website</span><input name="link" required placeholder="@yourstore or yourstore.in"></label>
+        <fieldset class="ws-f ws-f--wide">
+          <legend class="mono">Store type</legend>
+          <div class="ws-chips" data-ws="storeTypes"></div>
+        </fieldset>
+        <fieldset class="ws-f ws-f--wide">
+          <legend class="mono">Designs you're interested in <em>optional</em></legend>
+          <div class="ws-chips" data-ws="designs"></div>
+        </fieldset>
+        <label class="ws-f ws-f--wide"><span class="mono">Message <em>optional</em></span><textarea name="message" rows="4"></textarea></label>
+        <p class="ws-err mono" id="wsErr" role="alert" hidden></p>
+        <div class="ws-send ws-f--wide" data-ws="send" hidden>
+          <button type="submit" class="btn btn--solid" data-ws-method="whatsapp" hidden>Send on WhatsApp</button>
+          <button type="submit" class="btn" data-ws-method="email" hidden>Send by email</button>
+        </div>
+        <p class="ws-off ws-f--wide" data-ws="off" hidden>Enquiries open soon. Check back in a few days.</p>
+      </form>
+    </section>
+
+    <p class="ws-small mono" data-ws="small">Mudra Clothing Company.</p>
+    <noscript><p class="ws-small">This page needs JavaScript for the terms and the enquiry form.</p></noscript>
+  </div>

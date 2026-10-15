@@ -230,3 +230,11 @@ JPEGs live in `assets/img/story/` with these exact names:
 `01-fan.jpg` (portrait, ~1600×2000) · `02-seal.jpg` (landscape, ~2400×1500) ·
 `03-chai.jpg` (4:5) · `04a-balcony.jpg` and `04b-airport.jpg` (4:5 each) ·
 `05-mirror.jpg` (3:4.4 portrait). `/about?review=1` labels each empty frame.
+
+## Wholesale (/wholesale)
+
+Linked only from the footer ("For stores"). Copy and terms: `data/wholesale.json`. It is
+public, so never put prices, costs, margins or supplier names in it. Contact buttons read
+`whatsappBusiness` (digits with country code, e.g. 9198xxxxxxxx) and `wholesaleEmail` from
+`data/site.json`; an empty value hides its buttons. The form opens WhatsApp or the mail app
+prefilled; nothing is stored. GA4 event: `wholesale_enquiry` with `method`.

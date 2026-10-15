@@ -1,82 +1,86 @@
 {
  "/": {
-  "hash": "ff4d5f7d9eacf156",
-  "lastmod": "2026-10-12"
+  "hash": "9f2448b34ce27875",
+  "lastmod": "2026-10-15"
  },
  "/about": {
-  "hash": "c8c4e2fc429ae56b",
-  "lastmod": "2026-10-12"
+  "hash": "8a03267825ad61b6",
+  "lastmod": "2026-10-15"
  },
  "/contact": {
-  "hash": "ace4d927f6dca346",
-  "lastmod": "2026-10-12"
+  "hash": "c42f1c0d7755112d",
+  "lastmod": "2026-10-15"
  },
  "/p/atlas": {
-  "hash": "79afd3479fa8fba2",
-  "lastmod": "2026-10-12"
+  "hash": "f9fc7289e0d90f71",
+  "lastmod": "2026-10-15"
  },
  "/p/bengaluru-ka01": {
-  "hash": "ae8b6c2330ab6f29",
-  "lastmod": "2026-10-12"
+  "hash": "4cbdb2f8fb40c80c",
+  "lastmod": "2026-10-15"
  },
  "/p/calcutta-wb02": {
-  "hash": "af7367d6b74beb55",
-  "lastmod": "2026-10-12"
+  "hash": "dcaee96ccc0d614a",
+  "lastmod": "2026-10-15"
  },
  "/p/delhi-dl01": {
-  "hash": "162c0519c14a42f0",
-  "lastmod": "2026-10-12"
+  "hash": "4092bd9620fc3174",
+  "lastmod": "2026-10-15"
  },
  "/p/face-card": {
-  "hash": "c12b6bf2b2bb91e6",
-  "lastmod": "2026-10-12"
+  "hash": "c698bb803a5d3852",
+  "lastmod": "2026-10-15"
  },
  "/p/neo-bombay": {
-  "hash": "bf752c5c42cfcd5a",
-  "lastmod": "2026-10-12"
+  "hash": "a3bb01baa11237b1",
+  "lastmod": "2026-10-15"
  },
  "/p/not-responding": {
-  "hash": "33f411d5b3bd9f57",
-  "lastmod": "2026-10-12"
+  "hash": "d940d02b4aa7ac64",
+  "lastmod": "2026-10-15"
  },
  "/p/one-way": {
-  "hash": "5b5def7749b23f2f",
-  "lastmod": "2026-10-12"
+  "hash": "cb326dfce5c6f5f4",
+  "lastmod": "2026-10-15"
  },
  "/p/out-of-office": {
-  "hash": "5714fce661de67a3",
-  "lastmod": "2026-10-12"
+  "hash": "6ec35b734fdf523f",
+  "lastmod": "2026-10-15"
  },
  "/p/the-overthinker": {
-  "hash": "3223ddd70eba17ab",
-  "lastmod": "2026-10-12"
+  "hash": "a3b6ab3c31f91d0e",
+  "lastmod": "2026-10-15"
  },
  "/payment-help": {
-  "hash": "4710d446ddb447aa",
-  "lastmod": "2026-10-12"
+  "hash": "cd9aa1a7d4391f8b",
+  "lastmod": "2026-10-15"
  },
  "/privacy": {
-  "hash": "699928dbde738516",
-  "lastmod": "2026-10-12"
+  "hash": "08090d61cae0e9df",
+  "lastmod": "2026-10-15"
  },
  "/returns": {
-  "hash": "4a681e071a7fa42f",
-  "lastmod": "2026-10-12"
+  "hash": "d1ae42278a67ca33",
+  "lastmod": "2026-10-15"
  },
  "/shipping": {
-  "hash": "0cd9361514625f9d",
-  "lastmod": "2026-10-12"
+  "hash": "6ceca65e90bfc244",
+  "lastmod": "2026-10-15"
  },
  "/size-guide": {
-  "hash": "44f4591d82641cf4",
-  "lastmod": "2026-10-12"
+  "hash": "0dea3037693ba385",
+  "lastmod": "2026-10-15"
  },
  "/terms": {
-  "hash": "4f6dfb22773b8f35",
-  "lastmod": "2026-10-12"
+  "hash": "11af71db7d3f603a",
+  "lastmod": "2026-10-15"
  },
  "/track": {
-  "hash": "2a1761e75d664259",
-  "lastmod": "2026-10-12"
+  "hash": "c406ffa62b0bf680",
+  "lastmod": "2026-10-15"
+ },
+ "/wholesale": {
+  "hash": "dbe276563b3537f9",
+  "lastmod": "2026-10-15"
  }
 }
