@@ -41,9 +41,15 @@ async function init() {
   if (!p) return renderMissing(id);
 
   view.product = p;
-  const wanted = new URLSearchParams(location.search).get('c');
+  const requested = new URLSearchParams(location.search).get('c');
+  const wanted = p.colourAliases?.[requested] || requested;
   view.colours = M.sellableColours(p);
   view.colour = view.colours.find(c => c.key === wanted) || view.colours[0] || null;
+  if (wanted !== requested && view.colour?.key === wanted) {
+    const url = new URL(location.href);
+    url.searchParams.set('c', wanted);
+    history.replaceState(null, '', url);
+  }
   selectColourMedia();
   view.price = p.price;
   view.variants = null;   // live Shopify variants by size, once loaded
