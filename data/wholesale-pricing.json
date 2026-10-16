@@ -1,0 +1,12 @@
+{
+  "_note": "Wholesale prices on /wholesale. Single source of truth for the price tables. Public file: never add costs, margins or the manufacturer's name. Each band's designs come from the \"tier\" of each tee in data/products.json (set by scripts/pricing.py from data/pricing.json). null price = \"On quote\".",
+  "validFrom": "2026-10-16",
+  "validDays": 90,
+  "gstNote": "All prices are exclusive of GST. 5% GST is charged extra on a GST invoice.",
+  "tiers": ["12–20", "21–50", "51–100", "101–200"],
+  "bands": [
+    { "tier": "hero",  "mrp": 1299, "label": "Tees with MRP ₹1,299", "prices": [805, 755, 715, 675] },
+    { "tier": "core",  "mrp": 1199, "label": "Tees with MRP ₹1,199", "prices": [745, 695, 660, 625] },
+    { "tier": "entry", "mrp": 1099, "label": "Tees with MRP ₹1,099", "prices": [690, 650, 620, null] }
+  ]
+}
