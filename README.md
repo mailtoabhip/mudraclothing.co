@@ -234,7 +234,8 @@ JPEGs live in `assets/img/story/` with these exact names:
 ## Wholesale (/wholesale)
 
 Linked only from the footer ("For stores"). Copy and terms: `data/wholesale.json`. Price
-tables: `data/wholesale-pricing.json` (validity date, GST note, piece tiers, one band per MRP;
+tables: `data/wholesale-pricing.json` (GST note, piece tiers, one band per design tier; an optional
+`validFrom` + `validDays` adds a "Valid for N days from" line;
 `null` shows "On quote"). Each band lists the designs whose `tier` in `data/products.json`
 matches the band's `tier`. Both files are public: never put costs, margins or the
 manufacturer's name in them. Contact buttons read
