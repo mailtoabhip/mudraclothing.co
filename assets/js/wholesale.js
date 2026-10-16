@@ -47,6 +47,18 @@ function dateLong(iso) {
     : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Kolkata' });
 }
 
+// one tile per design: its first photo in its default colour, linked to the product page
+function designHTML(p) {
+  const colour = M?.sellableColours?.(p)?.[0]?.key;
+  const m = (p.media || []).find(x => x.type === 'img' && (!colour || x.colour === colour))
+    || (p.media || []).find(x => x.type === 'img');
+  const url = M ? M.productUrl(p.id) : `/p/${encodeURIComponent(p.id)}`;
+  const pic = !m ? '' : M?.pictureHTML
+    ? M.pictureHTML(m, { sizes: '(max-width: 600px) 30vw, 140px' })
+    : `<img src="/${esc(m.src)}" alt="${esc(m.alt)}" width="${m.w || 800}" height="${m.h || 1000}" loading="lazy" decoding="async">`;
+  return `<li><a class="ws-design" href="${url}">${pic ? `<span class="ws-design__img">${pic}</span>` : ''}<span class="ws-design__name">${esc(p.name)}</span></a></li>`;
+}
+
 function renderPrices(wp, products) {
   const box = $('[data-ws="bands"]');
   if (!wp.bands?.length) { box.closest('section').hidden = true; return; }
@@ -55,7 +67,7 @@ function renderPrices(wp, products) {
       `Per tee, exclusive of GST. Valid for ${wp.validDays || 90} days from ${dateLong(wp.validFrom)}.`;
   }
   box.innerHTML = wp.bands.map((b, i) => {
-    const names = products.filter(p => p.tier === b.tier).map(p => p.name);
+    const designs = products.filter(p => p.tier === b.tier);
     const rows = (wp.tiers || []).map((t, j) => {
       const v = b.prices?.[j];
       return `<tr><th scope="row">${esc(t)}</th><td>${v == null ? 'On quote' : rupees(v)}</td></tr>`;
@@ -68,7 +80,8 @@ function renderPrices(wp, products) {
         <tbody>${rows}</tbody>
       </table>
       <p class="ws-band__note mono" id="ws-band-${i}-note">Exclusive of GST. 5% GST extra.</p>
-      ${names.length ? `<p class="ws-band__designs"><span class="mono">Designs</span>${names.map(esc).join(', ')}</p>` : ''}
+      ${designs.length ? `<div class="ws-band__designs"><span class="mono">Designs</span>
+        <ul class="ws-designs">${designs.map(designHTML).join('')}</ul></div>` : ''}
     </div>`;
   }).join('');
 }

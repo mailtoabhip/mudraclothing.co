@@ -34,8 +34,18 @@
 .ws-ptable tbody th{font-family:var(--mono);font-weight:400;font-size:13px}
 .ws-ptable td{font-family:var(--mono);font-size:15px;font-weight:700;white-space:nowrap}
 .ws-band__note{margin:0;color:var(--ash);font-size:10px}
-.ws-band__designs{margin:2px 0 0;font-size:14px;line-height:1.5}
-.ws-band__designs .mono{display:block;color:var(--blue);font-size:10px;margin-bottom:2px}
+.ws-band__designs{margin:6px 0 0}
+.ws-band__designs>.mono{display:block;color:var(--blue);font-size:10px;margin-bottom:10px}
+/* design tiles: product photo + name, three across in every band */
+.ws-designs{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 10px}
+.ws-design{display:grid;gap:7px;color:var(--fg)}
+.ws-design__img{display:block;aspect-ratio:4/5;background:var(--paper-2);overflow:hidden;border:1px solid var(--line)}
+.ws-design__img picture{display:block;width:100%;height:100%}
+.ws-design__img img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .3s ease-out}
+.ws-design:hover .ws-design__img img{transform:scale(1.03)}
+.ws-design__name{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;line-height:1.35}
+.ws-design:hover .ws-design__name{color:var(--blue)}
+@media (prefers-reduced-motion:reduce){.ws-design__img img{transition:none}}
 
 .ws-enquire{border:1px solid var(--fg);padding:clamp(20px,4vw,48px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:clamp(24px,4vw,56px)}
 .ws-title{font-family:var(--display);font-weight:400;text-transform:uppercase;letter-spacing:.01em;font-size:clamp(34px,5vw,64px);line-height:.92;margin:0 0 16px}
