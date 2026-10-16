@@ -9,7 +9,8 @@ js: wholesale
 description: Stock Mudra oversized graphic tees in your store. Small numbered drops, tiered wholesale pricing, MRP printed on every tee.
 -->
 <!--
-  WHOLESALE. Copy and terms live in data/wholesale.json (no prices, ever: it's public).
+  WHOLESALE. Copy and terms live in data/wholesale.json; the price tables in
+  data/wholesale-pricing.json (public: never costs, margins or the manufacturer's name).
   Contact buttons read whatsappBusiness and wholesaleEmail from data/site.json and hide
   themselves when a value is empty. wholesale.js fills the [data-ws] slots.
 -->
@@ -33,9 +34,15 @@ description: Stock Mudra oversized graphic tees in your store. Small numbered dr
       <dl class="ws-terms" data-ws="terms"></dl>
     </section>
 
+    <section class="ws-block" aria-labelledby="ws-prices">
+      <h2 class="ws-title" id="ws-prices">Wholesale prices.</h2>
+      <p class="ws-prices__sub" data-ws="priceSub">Per tee, exclusive of GST.</p>
+      <div class="ws-bands" data-ws="bands"></div>
+    </section>
+
     <section class="ws-enquire" aria-labelledby="ws-form-title">
       <div class="ws-enquire__head">
-        <h2 class="ws-title" id="ws-form-title">Get the price list.</h2>
+        <h2 class="ws-title" id="ws-form-title">Place an order.</h2>
         <p>Tell us about your store. The form opens a message to us with everything filled in; nothing is sent until you press send there.</p>
       </div>
       <form class="ws-form" id="wsForm" novalidate>
@@ -64,5 +71,5 @@ description: Stock Mudra oversized graphic tees in your store. Small numbered dr
     </section>
 
     <p class="ws-small mono" data-ws="small">Mudra Clothing Company.</p>
-    <noscript><p class="ws-small">This page needs JavaScript for the terms and the enquiry form.</p></noscript>
+    <noscript><p class="ws-small">This page needs JavaScript for the terms, the prices and the enquiry form.</p></noscript>
   </div>

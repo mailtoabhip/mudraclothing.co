@@ -1,5 +1,5 @@
 {
-  "_note": "Wholesale page (/wholesale) copy and terms. Edit freely, no code changes needed. NO prices, costs, margins or supplier names here: this file is public. gstInvoice: set true only once a GSTIN is registered.",
+  "_note": "Wholesale page (/wholesale) copy and terms. Edit freely, no code changes needed. Prices live in data/wholesale-pricing.json. This file is public: never add costs, margins or supplier names. gstInvoice: set true only once a GSTIN is registered.",
   "sub": "Oversized graphic tees, designed in India, released in small numbered drops. If your store would look better with them on the rack, talk to us.",
   "why": [
     {
@@ -18,35 +18,51 @@
   "terms": [
     {
       "label": "Minimum order",
-      "value": "12 pieces per design, in a size pack (S–XXL)."
+      "value": "12 pieces per design (same colour), in a size pack: S 1 / M 3 / L 4 / XL 3 / XXL 1. You can adjust the size split, keeping the same total."
     },
     {
-      "label": "Pricing",
-      "value": "Per tee, tiered by pieces per design. Price list on request."
+      "label": "How tiers work",
+      "value": "Counted per design and colour, across all sizes. Different designs don't add together."
     },
     {
-      "label": "MRP",
-      "value": "MRP is printed on every tee. Stores sell at MRP."
+      "label": "GST",
+      "value": "All prices are exclusive of GST. 5% GST is charged extra on a GST invoice."
     },
     {
       "label": "Payment",
-      "value": "50% to confirm, 50% before dispatch."
+      "value": "50% to confirm the order, 50% before dispatch."
     },
     {
       "label": "Lead time",
       "value": "10–14 days from confirmed payment."
     },
     {
+      "label": "Freight",
+      "value": "Free on orders above ₹25,000 (excl. GST). Below that, charged at actuals."
+    },
+    {
+      "label": "MRP",
+      "value": "Printed on every tee. Stores sell at MRP."
+    },
+    {
       "label": "Defects",
-      "value": "Report within 48 hours with photos; we replace them."
+      "value": "Report within 48 hours of delivery with photos. Misprints and damaged pieces are replaced."
     },
     {
-      "label": "Price validity",
-      "value": "Prices are valid for 90 days from the date of the price list."
+      "label": "Returns",
+      "value": "No returns on outright orders. Exchanges for size or defect only."
     },
     {
-      "label": "First order",
-      "value": "First-time stores: ask us about a trial order."
+      "label": "Trial order",
+      "value": "First-time stores: one 12-piece trial per design at the 12–20 price. Pay-when-sold trials (30 days, up to 24 pieces) for selected stores, by agreement."
+    },
+    {
+      "label": "Validity",
+      "value": "Prices valid for 90 days from the date above. They may be revised if garment costs change."
+    },
+    {
+      "label": "Exclusives",
+      "value": "Area-exclusive designs by written agreement, on 21+ pieces per design."
     }
   ],
   "storeTypes": [

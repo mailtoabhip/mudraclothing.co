@@ -233,8 +233,11 @@ JPEGs live in `assets/img/story/` with these exact names:
 
 ## Wholesale (/wholesale)
 
-Linked only from the footer ("For stores"). Copy and terms: `data/wholesale.json`. It is
-public, so never put prices, costs, margins or supplier names in it. Contact buttons read
+Linked only from the footer ("For stores"). Copy and terms: `data/wholesale.json`. Price
+tables: `data/wholesale-pricing.json` (validity date, GST note, piece tiers, one band per MRP;
+`null` shows "On quote"). Each band lists the designs whose `tier` in `data/products.json`
+matches the band's `tier`. Both files are public: never put costs, margins or the
+manufacturer's name in them. Contact buttons read
 `whatsappBusiness` (digits with country code, e.g. 9198xxxxxxxx) and `wholesaleEmail` from
 `data/site.json`; an empty value hides its buttons. The form opens WhatsApp or the mail app
 prefilled; nothing is stored. GA4 event: `wholesale_enquiry` with `method`.

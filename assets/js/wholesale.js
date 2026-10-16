@@ -1,6 +1,8 @@
 /* ==========================================================================
    Mudra: wholesale page (/wholesale)
-   Copy and terms from data/wholesale.json; contact targets from data/site.json
+   Copy and terms from data/wholesale.json, price tables from
+   data/wholesale-pricing.json (designs per band from each tee's "tier" in
+   data/products.json); contact targets from data/site.json
    (whatsappBusiness, wholesaleEmail). A missing value hides its buttons.
    Submitting opens WhatsApp or the mail app with the form prefilled: there is
    no backend and no third-party form service.
@@ -35,6 +37,40 @@ function render(w, designs) {
     <label class="ws-chip"><input type="checkbox" name="designs" value="${esc(n)}"><span>${esc(n)}</span></label>`).join('');
   const small = [w.smallPrint, w.gstInvoice ? w.gstLine : ''].filter(Boolean).join(' ');
   if (small) $('[data-ws="small"]').textContent = small;
+}
+
+// price tables: one per MRP band, the designs in it listed underneath
+const rupees = n => `₹${Number(n).toLocaleString('en-IN')}`;
+function dateLong(iso) {
+  const d = new Date(`${iso}T00:00:00+05:30`);
+  return Number.isNaN(d.getTime()) ? iso
+    : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Kolkata' });
+}
+
+function renderPrices(wp, products) {
+  const box = $('[data-ws="bands"]');
+  if (!wp.bands?.length) { box.closest('section').hidden = true; return; }
+  if (wp.validFrom) {
+    $('[data-ws="priceSub"]').textContent =
+      `Per tee, exclusive of GST. Valid for ${wp.validDays || 90} days from ${dateLong(wp.validFrom)}.`;
+  }
+  box.innerHTML = wp.bands.map((b, i) => {
+    const names = products.filter(p => p.tier === b.tier).map(p => p.name);
+    const rows = (wp.tiers || []).map((t, j) => {
+      const v = b.prices?.[j];
+      return `<tr><th scope="row">${esc(t)}</th><td>${v == null ? 'On quote' : rupees(v)}</td></tr>`;
+    }).join('');
+    return `
+    <div class="ws-band">
+      <table class="ws-ptable" aria-describedby="ws-band-${i}-note">
+        <caption class="mono">${esc(b.label)}</caption>
+        <thead><tr><th scope="col" class="mono">Pieces per design</th><th scope="col" class="mono">Price per tee (excl. GST)</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <p class="ws-band__note mono" id="ws-band-${i}-note">Exclusive of GST. 5% GST extra.</p>
+      ${names.length ? `<p class="ws-band__designs"><span class="mono">Designs</span>${names.map(esc).join(', ')}</p>` : ''}
+    </div>`;
+  }).join('');
 }
 
 function wireContact() {
@@ -92,11 +128,13 @@ function wireForm() {
 }
 
 async function init() {
-  const [w, site, cat] = await Promise.all([get('/data/wholesale.json'), get('/data/site.json'), get('/data/products.json')]);
+  const [w, site, cat, wp] = await Promise.all([get('/data/wholesale.json'), get('/data/site.json'), get('/data/products.json'),
+    get('/data/wholesale-pricing.json')]);
   wa = String(site.whatsappBusiness || '').replace(/\D/g, '');
   mail = String(site.wholesaleEmail || '').trim();
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(mail)) mail = '';
   render(w || {}, (cat.products || []).map(p => p.name));
+  renderPrices(wp || {}, cat.products || []);
   wireContact();
   wireForm();
 }

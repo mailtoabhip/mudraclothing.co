@@ -26,9 +26,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Saira:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Saira:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap"></noscript>
-<link rel="stylesheet" href="/assets/css/styles.css?v=bff7bb74">
+<link rel="stylesheet" href="/assets/css/styles.css?v=e9cd5ba4">
 <link rel="stylesheet" href="/assets/css/pages.css?v=001841f6">
-<link rel="stylesheet" href="/assets/css/wholesale.css?v=4258ee3a">
+<link rel="stylesheet" href="/assets/css/wholesale.css?v=b7b036f8">
 </head>
 <body class="is-page page-wholesale">
 
@@ -51,7 +51,8 @@
   </section>
 
 <!--
-  WHOLESALE. Copy and terms live in data/wholesale.json (no prices, ever: it's public).
+  WHOLESALE. Copy and terms live in data/wholesale.json; the price tables in
+  data/wholesale-pricing.json (public: never costs, margins or the manufacturer's name).
   Contact buttons read whatsappBusiness and wholesaleEmail from data/site.json and hide
   themselves when a value is empty. wholesale.js fills the [data-ws] slots.
 -->
@@ -75,9 +76,15 @@
       <dl class="ws-terms" data-ws="terms"></dl>
     </section>
 
+    <section class="ws-block" aria-labelledby="ws-prices">
+      <h2 class="ws-title" id="ws-prices">Wholesale prices.</h2>
+      <p class="ws-prices__sub" data-ws="priceSub">Per tee, exclusive of GST.</p>
+      <div class="ws-bands" data-ws="bands"></div>
+    </section>
+
     <section class="ws-enquire" aria-labelledby="ws-form-title">
       <div class="ws-enquire__head">
-        <h2 class="ws-title" id="ws-form-title">Get the price list.</h2>
+        <h2 class="ws-title" id="ws-form-title">Place an order.</h2>
         <p>Tell us about your store. The form opens a message to us with everything filled in; nothing is sent until you press send there.</p>
       </div>
       <form class="ws-form" id="wsForm" novalidate>
@@ -106,7 +113,7 @@
     </section>
 
     <p class="ws-small mono" data-ws="small">Mudra Clothing Company.</p>
-    <noscript><p class="ws-small">This page needs JavaScript for the terms and the enquiry form.</p></noscript>
+    <noscript><p class="ws-small">This page needs JavaScript for the terms, the prices and the enquiry form.</p></noscript>
   </div>
 </main>
 
@@ -140,8 +147,8 @@
 </footer>
 <!-- footer:end -->
 
-<script src="/assets/js/shop.js?v=ca767c92" defer></script>
-<script src="/assets/js/pages.js?v=01670d3e" defer></script>
-<script src="/assets/js/wholesale.js?v=7b6a4d56" defer></script>
+<script src="/assets/js/shop.js?v=2805bab0" defer></script>
+<script src="/assets/js/pages.js?v=86c966b0" defer></script>
+<script src="/assets/js/wholesale.js?v=5a21ee16" defer></script>
 </body>
 </html>
