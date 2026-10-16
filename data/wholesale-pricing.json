@@ -5,8 +5,8 @@
   "gstNote": "All prices are exclusive of GST. 5% GST is charged extra on a GST invoice.",
   "tiers": ["12–20", "21–50", "51–100", "101–200"],
   "bands": [
-    { "tier": "hero",  "mrp": 1299, "label": "Tees with MRP ₹1,299", "prices": [805, 755, 715, 675] },
-    { "tier": "core",  "mrp": 1199, "label": "Tees with MRP ₹1,199", "prices": [745, 695, 660, 625] },
-    { "tier": "entry", "mrp": 1099, "label": "Tees with MRP ₹1,099", "prices": [690, 650, 620, null] }
+    { "tier": "hero",  "label": "Hero designs", "prices": [805, 755, 715, 675] },
+    { "tier": "core",  "label": "Core designs", "prices": [745, 695, 660, 625] },
+    { "tier": "entry", "label": "Entry designs", "prices": [690, 650, 620, null] }
   ]
 }
