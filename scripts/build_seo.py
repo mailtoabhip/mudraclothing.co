@@ -610,7 +610,7 @@ def build_home(products):
                               "name": product_title(p)} for i, p in enumerate(products)]},
     ]}
     # The campaign image is the first big paint on the home page.
-    preload = '<link rel="preload" as="image" href="/assets/img/campaigns/mudra-people-hero-v3-bone-match-v2.webp" type="image/webp" fetchpriority="high">'
+    preload = '<link rel="preload" as="image" href="/assets/img/campaigns/mudra-people-hero-v3-bone-match-v2-final-art-v3.webp" type="image/webp" fetchpriority="high">'
     s = put_head(s, head_tags(HOME_TITLE, home_desc(), "/", OG_IMAGE, extra=preload + "\n" + jsonld(graph),
                               img_size=OG_SIZE, img_alt=OG_ALT))
     # ticker + hero tag for the phase at build time (main.js re-renders them live)

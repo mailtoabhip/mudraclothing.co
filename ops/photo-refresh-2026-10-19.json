@@ -1,0 +1,1328 @@
+{
+  "date": "2026-10-19",
+  "products": [
+    "face-card",
+    "the-overthinker"
+  ],
+  "photos": 42,
+  "frontWidthInches": 3,
+  "backWidthInches": 12,
+  "method": "Exact supplied art, zero artwork rotation; natural garment perspective and subtle fabric displacement/lighting.",
+  "faceCardBackSha256": "3feadb6fe67c26130c60b36f8aeab120dd5a84430616fd7cb9b8d1ee25e39ca2",
+  "media": [
+    {
+      "src": "assets/img/products/face-card-maroon-v4-mirror-front-white-ink-v1-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "front",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Face Card White Artwork - 2026-10-18\\Face Card - Front - Clean Solid White v2.png",
+          "physicalWidthInches": 3,
+          "targetQuad": [
+            [
+              482.51666259765625,
+              489.0
+            ],
+            [
+              557.4833374023438,
+              489.0
+            ],
+            [
+              557.4833374023438,
+              604.9891967773438
+            ],
+            [
+              482.51666259765625,
+              604.9891967773438
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/face-card-maroon-v2-doorway-back-upright-k-v1-white-ink-v1-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "back",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Photoshoot Refresh - 2026-10-19\\Face Card - Uploaded Back Master.png",
+          "physicalWidthInches": 12,
+          "targetQuad": [
+            [
+              480.0,
+              286.0
+            ],
+            [
+              643.0,
+              312.0
+            ],
+            [
+              659.0,
+              608.0
+            ],
+            [
+              479.0,
+              594.0
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/face-card-maroon-v2-hanger-back-upright-k-v1-white-ink-v1-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "back",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Photoshoot Refresh - 2026-10-19\\Face Card - Uploaded Back Master.png",
+          "physicalWidthInches": 12,
+          "targetQuad": [
+            [
+              388.0,
+              362.0
+            ],
+            [
+              667.0,
+              348.0
+            ],
+            [
+              673.0,
+              784.0
+            ],
+            [
+              397.0,
+              795.0
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/face-card-maroon-v3-mirror-back-upright-k-v1-white-ink-v1-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "back",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Photoshoot Refresh - 2026-10-19\\Face Card - Uploaded Back Master.png",
+          "physicalWidthInches": 12,
+          "targetQuad": [
+            [
+              334.0,
+              460.0
+            ],
+            [
+              631.0,
+              435.0
+            ],
+            [
+              656.0,
+              889.0
+            ],
+            [
+              363.0,
+              903.0
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/face-card-maroon-v4-walking-front-white-ink-v1-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "front",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Face Card White Artwork - 2026-10-18\\Face Card - Front - Clean Solid White v2.png",
+          "physicalWidthInches": 3,
+          "targetQuad": [
+            [
+              468.805419921875,
+              401.0
+            ],
+            [
+              502.194580078125,
+              401.0
+            ],
+            [
+              502.194580078125,
+              452.6600036621094
+            ],
+            [
+              468.805419921875,
+              452.6600036621094
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/face-card-maroon-v4-seated-front-white-ink-v1-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "front",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Face Card White Artwork - 2026-10-18\\Face Card - Front - Clean Solid White v2.png",
+          "physicalWidthInches": 3,
+          "targetQuad": [
+            [
+              460.16912841796875,
+              541.5
+            ],
+            [
+              528.8308715820312,
+              541.5
+            ],
+            [
+              528.8308715820312,
+              647.734130859375
+            ],
+            [
+              460.16912841796875,
+              647.734130859375
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/face-card-blue-v2-mirror-front-white-ink-v1-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "front",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Face Card White Artwork - 2026-10-18\\Face Card - Front - Clean Solid White v2.png",
+          "physicalWidthInches": 3,
+          "targetQuad": [
+            [
+              482.9717712402344,
+              488.5
+            ],
+            [
+              557.5282592773438,
+              488.5
+            ],
+            [
+              557.5282592773438,
+              603.8545532226562
+            ],
+            [
+              482.9717712402344,
+              603.8545532226562
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/face-card-blue-v1-doorway-back-upright-k-v1-white-ink-v1-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "back",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Photoshoot Refresh - 2026-10-19\\Face Card - Uploaded Back Master.png",
+          "physicalWidthInches": 12,
+          "targetQuad": [
+            [
+              479.0,
+              287.0
+            ],
+            [
+              642.0,
+              313.0
+            ],
+            [
+              656.0,
+              612.0
+            ],
+            [
+              478.0,
+              594.0
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/face-card-blue-v1-hanger-back-upright-k-v1-white-ink-v1-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "back",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Photoshoot Refresh - 2026-10-19\\Face Card - Uploaded Back Master.png",
+          "physicalWidthInches": 12,
+          "targetQuad": [
+            [
+              389.0,
+              360.0
+            ],
+            [
+              668.0,
+              348.0
+            ],
+            [
+              673.0,
+              784.0
+            ],
+            [
+              397.0,
+              795.0
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/face-card-blue-v1-mirror-back-upright-k-v1-white-ink-v1-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "back",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Photoshoot Refresh - 2026-10-19\\Face Card - Uploaded Back Master.png",
+          "physicalWidthInches": 12,
+          "targetQuad": [
+            [
+              335.0,
+              463.0
+            ],
+            [
+              632.0,
+              438.0
+            ],
+            [
+              656.0,
+              892.0
+            ],
+            [
+              362.0,
+              904.0
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/face-card-blue-v2-walking-front-white-ink-v1-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "front",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Face Card White Artwork - 2026-10-18\\Face Card - Front - Clean Solid White v2.png",
+          "physicalWidthInches": 3,
+          "targetQuad": [
+            [
+              466.8386535644531,
+              400.5
+            ],
+            [
+              501.6613464355469,
+              400.5
+            ],
+            [
+              501.6613464355469,
+              454.37799072265625
+            ],
+            [
+              466.8386535644531,
+              454.37799072265625
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/face-card-blue-v2-seated-front-white-ink-v1-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "front",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Face Card White Artwork - 2026-10-18\\Face Card - Front - Clean Solid White v2.png",
+          "physicalWidthInches": 3,
+          "targetQuad": [
+            [
+              460.107421875,
+              540.5
+            ],
+            [
+              528.392578125,
+              540.5
+            ],
+            [
+              528.392578125,
+              646.1514892578125
+            ],
+            [
+              460.107421875,
+              646.1514892578125
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/face-card-brown-v1-mirror-front-white-ink-v1-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "front",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Face Card White Artwork - 2026-10-18\\Face Card - Front - Clean Solid White v2.png",
+          "physicalWidthInches": 3,
+          "targetQuad": [
+            [
+              481.4371032714844,
+              487.5
+            ],
+            [
+              557.0628662109375,
+              487.5
+            ],
+            [
+              557.0628662109375,
+              604.5089721679688
+            ],
+            [
+              481.4371032714844,
+              604.5089721679688
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/face-card-brown-v1-doorway-back-upright-k-v1-white-ink-v1-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "back",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Photoshoot Refresh - 2026-10-19\\Face Card - Uploaded Back Master.png",
+          "physicalWidthInches": 12,
+          "targetQuad": [
+            [
+              477.0,
+              288.0
+            ],
+            [
+              643.0,
+              313.0
+            ],
+            [
+              657.0,
+              609.0
+            ],
+            [
+              478.0,
+              593.0
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/face-card-brown-v1-hanger-back-upright-k-v1-white-ink-v1-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "back",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Photoshoot Refresh - 2026-10-19\\Face Card - Uploaded Back Master.png",
+          "physicalWidthInches": 12,
+          "targetQuad": [
+            [
+              389.0,
+              359.0
+            ],
+            [
+              669.0,
+              349.0
+            ],
+            [
+              673.0,
+              784.0
+            ],
+            [
+              395.0,
+              794.0
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/face-card-brown-v1-mirror-back-upright-k-v1-white-ink-v1-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "back",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Photoshoot Refresh - 2026-10-19\\Face Card - Uploaded Back Master.png",
+          "physicalWidthInches": 12,
+          "targetQuad": [
+            [
+              335.0,
+              461.0
+            ],
+            [
+              640.0,
+              437.0
+            ],
+            [
+              662.0,
+              885.0
+            ],
+            [
+              365.0,
+              899.0
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/face-card-brown-v1-walking-front-white-ink-v1-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "front",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Face Card White Artwork - 2026-10-18\\Face Card - Front - Clean Solid White v2.png",
+          "physicalWidthInches": 3,
+          "targetQuad": [
+            [
+              470.3089904785156,
+              401.47955322265625
+            ],
+            [
+              507.7792053222656,
+              401.47955322265625
+            ],
+            [
+              507.7792053222656,
+              459.453857421875
+            ],
+            [
+              470.3089904785156,
+              459.453857421875
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/face-card-brown-v1-seated-front-white-ink-v1-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "front",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Face Card White Artwork - 2026-10-18\\Face Card - Front - Clean Solid White v2.png",
+          "physicalWidthInches": 3,
+          "targetQuad": [
+            [
+              463.2813720703125,
+              545.0
+            ],
+            [
+              532.2186279296875,
+              545.0
+            ],
+            [
+              532.2186279296875,
+              651.660400390625
+            ],
+            [
+              463.2813720703125,
+              651.660400390625
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/the-overthinker-bone-blue-refined-v2-library-hanger-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "back",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Blue - Back - Transparent.png",
+          "physicalWidthInches": 12,
+          "targetQuad": [
+            [
+              422.0,
+              353.0
+            ],
+            [
+              730.0,
+              344.0
+            ],
+            [
+              730.0,
+              874.0
+            ],
+            [
+              423.0,
+              874.0
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/the-overthinker-bone-blue-refined-v2-library-pair-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "back",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Blue - Back - Transparent.png",
+          "physicalWidthInches": 12,
+          "targetQuad": [
+            [
+              656.0,
+              410.0
+            ],
+            [
+              906.0,
+              425.0
+            ],
+            [
+              887.0,
+              895.0
+            ],
+            [
+              634.0,
+              881.0
+            ]
+          ],
+          "rotationDegrees": 0
+        },
+        {
+          "side": "front",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Blue - Front - Transparent.png",
+          "physicalWidthInches": 3,
+          "targetQuad": [
+            [
+              281.69439697265625,
+              567.0
+            ],
+            [
+              341.30560302734375,
+              567.0
+            ],
+            [
+              341.30560302734375,
+              662.9652709960938
+            ],
+            [
+              281.69439697265625,
+              662.9652709960938
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/the-overthinker-bone-blue-refined-v2-floor-sit-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "front",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Blue - Front - Transparent.png",
+          "physicalWidthInches": 3,
+          "targetQuad": [
+            [
+              430.8411560058594,
+              496.0
+            ],
+            [
+              487.6588439941406,
+              496.0
+            ],
+            [
+              487.6588439941406,
+              587.4682006835938
+            ],
+            [
+              430.8411560058594,
+              587.4682006835938
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/the-overthinker-bone-blue-refined-v2-ladder-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "back",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Blue - Back - Transparent.png",
+          "physicalWidthInches": 12,
+          "targetQuad": [
+            [
+              284.0,
+              498.0
+            ],
+            [
+              551.0,
+              439.0
+            ],
+            [
+              622.0,
+              934.0
+            ],
+            [
+              341.0,
+              979.0
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/the-overthinker-bone-blue-refined-v2-desk-study-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "front",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Blue - Front - Transparent.png",
+          "physicalWidthInches": 3,
+          "targetQuad": [
+            [
+              475.870849609375,
+              728.0
+            ],
+            [
+              558.129150390625,
+              728.0
+            ],
+            [
+              558.129150390625,
+              860.4237670898438
+            ],
+            [
+              475.870849609375,
+              860.4237670898438
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/the-overthinker-bone-blue-refined-v2-window-seat-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "back",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Blue - Back - Transparent.png",
+          "physicalWidthInches": 12,
+          "targetQuad": [
+            [
+              373.0,
+              497.0
+            ],
+            [
+              622.0,
+              501.0
+            ],
+            [
+              619.0,
+              924.0
+            ],
+            [
+              371.0,
+              917.0
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/the-overthinker-black-blue-refined-v2-library-hanger-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "back",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Blue - Back - Transparent.png",
+          "physicalWidthInches": 12,
+          "targetQuad": [
+            [
+              421.0,
+              353.0
+            ],
+            [
+              729.0,
+              343.0
+            ],
+            [
+              730.0,
+              874.0
+            ],
+            [
+              421.0,
+              873.0
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/the-overthinker-black-blue-refined-v2-library-pair-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "back",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Blue - Back - Transparent.png",
+          "physicalWidthInches": 12,
+          "targetQuad": [
+            [
+              658.0,
+              409.0
+            ],
+            [
+              906.0,
+              426.0
+            ],
+            [
+              885.0,
+              893.0
+            ],
+            [
+              634.0,
+              879.0
+            ]
+          ],
+          "rotationDegrees": 0
+        },
+        {
+          "side": "front",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Blue - Front - Transparent.png",
+          "physicalWidthInches": 3,
+          "targetQuad": [
+            [
+              282.6050109863281,
+              568.5
+            ],
+            [
+              340.3949890136719,
+              568.5
+            ],
+            [
+              340.3949890136719,
+              661.533447265625
+            ],
+            [
+              282.6050109863281,
+              661.533447265625
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/the-overthinker-black-blue-refined-v2-floor-sit-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "front",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Blue - Front - Transparent.png",
+          "physicalWidthInches": 3,
+          "targetQuad": [
+            [
+              430.3411560058594,
+              497.0
+            ],
+            [
+              487.1588439941406,
+              497.0
+            ],
+            [
+              487.1588439941406,
+              588.4682006835938
+            ],
+            [
+              430.3411560058594,
+              588.4682006835938
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/the-overthinker-black-blue-refined-v2-ladder-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "back",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Blue - Back - Transparent.png",
+          "physicalWidthInches": 12,
+          "targetQuad": [
+            [
+              285.0,
+              496.0
+            ],
+            [
+              551.0,
+              438.0
+            ],
+            [
+              621.0,
+              932.0
+            ],
+            [
+              341.0,
+              978.0
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/the-overthinker-black-blue-refined-v2-desk-study-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "front",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Blue - Front - Transparent.png",
+          "physicalWidthInches": 3,
+          "targetQuad": [
+            [
+              476.2725524902344,
+              727.5
+            ],
+            [
+              557.7274169921875,
+              727.5
+            ],
+            [
+              557.7274169921875,
+              858.6304321289062
+            ],
+            [
+              476.2725524902344,
+              858.6304321289062
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/the-overthinker-black-blue-refined-v2-window-seat-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "back",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Blue - Back - Transparent.png",
+          "physicalWidthInches": 12,
+          "targetQuad": [
+            [
+              374.0,
+              497.0
+            ],
+            [
+              623.0,
+              503.0
+            ],
+            [
+              617.0,
+              923.0
+            ],
+            [
+              370.0,
+              915.0
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/the-overthinker-black-red-refined-v2-library-hanger-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "back",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Red - Back - Transparent.png",
+          "physicalWidthInches": 12,
+          "targetQuad": [
+            [
+              421.0,
+              353.0
+            ],
+            [
+              729.0,
+              343.0
+            ],
+            [
+              730.0,
+              874.0
+            ],
+            [
+              421.0,
+              873.0
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/the-overthinker-black-red-refined-v2-library-pair-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "back",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Red - Back - Transparent.png",
+          "physicalWidthInches": 12,
+          "targetQuad": [
+            [
+              658.0,
+              409.0
+            ],
+            [
+              906.0,
+              426.0
+            ],
+            [
+              885.0,
+              893.0
+            ],
+            [
+              634.0,
+              879.0
+            ]
+          ],
+          "rotationDegrees": 0
+        },
+        {
+          "side": "front",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Red - Front - Transparent.png",
+          "physicalWidthInches": 3,
+          "targetQuad": [
+            [
+              282.6050109863281,
+              568.5
+            ],
+            [
+              340.3949890136719,
+              568.5
+            ],
+            [
+              340.3949890136719,
+              661.533447265625
+            ],
+            [
+              282.6050109863281,
+              661.533447265625
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/the-overthinker-black-red-refined-v2-floor-sit-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "front",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Red - Front - Transparent.png",
+          "physicalWidthInches": 3,
+          "targetQuad": [
+            [
+              430.3411560058594,
+              497.0
+            ],
+            [
+              487.1588439941406,
+              497.0
+            ],
+            [
+              487.1588439941406,
+              588.4682006835938
+            ],
+            [
+              430.3411560058594,
+              588.4682006835938
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/the-overthinker-black-red-refined-v2-ladder-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "back",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Red - Back - Transparent.png",
+          "physicalWidthInches": 12,
+          "targetQuad": [
+            [
+              285.0,
+              496.0
+            ],
+            [
+              551.0,
+              438.0
+            ],
+            [
+              621.0,
+              932.0
+            ],
+            [
+              341.0,
+              978.0
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/the-overthinker-black-red-refined-v2-desk-study-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "front",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Red - Front - Transparent.png",
+          "physicalWidthInches": 3,
+          "targetQuad": [
+            [
+              476.2725524902344,
+              727.5
+            ],
+            [
+              557.7274169921875,
+              727.5
+            ],
+            [
+              557.7274169921875,
+              858.6304321289062
+            ],
+            [
+              476.2725524902344,
+              858.6304321289062
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/the-overthinker-black-red-refined-v2-window-seat-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "back",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Red - Back - Transparent.png",
+          "physicalWidthInches": 12,
+          "targetQuad": [
+            [
+              374.0,
+              497.0
+            ],
+            [
+              623.0,
+              503.0
+            ],
+            [
+              617.0,
+              923.0
+            ],
+            [
+              370.0,
+              915.0
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/the-overthinker-bone-red-refined-v2-library-hanger-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "back",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Red - Back - Transparent.png",
+          "physicalWidthInches": 12,
+          "targetQuad": [
+            [
+              422.0,
+              353.0
+            ],
+            [
+              730.0,
+              344.0
+            ],
+            [
+              730.0,
+              874.0
+            ],
+            [
+              423.0,
+              874.0
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/the-overthinker-bone-red-refined-v2-library-pair-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "back",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Red - Back - Transparent.png",
+          "physicalWidthInches": 12,
+          "targetQuad": [
+            [
+              656.0,
+              410.0
+            ],
+            [
+              906.0,
+              425.0
+            ],
+            [
+              887.0,
+              895.0
+            ],
+            [
+              634.0,
+              881.0
+            ]
+          ],
+          "rotationDegrees": 0
+        },
+        {
+          "side": "front",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Red - Front - Transparent.png",
+          "physicalWidthInches": 3,
+          "targetQuad": [
+            [
+              281.69439697265625,
+              567.0
+            ],
+            [
+              341.30560302734375,
+              567.0
+            ],
+            [
+              341.30560302734375,
+              662.9652709960938
+            ],
+            [
+              281.69439697265625,
+              662.9652709960938
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/the-overthinker-bone-red-refined-v2-floor-sit-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "front",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Red - Front - Transparent.png",
+          "physicalWidthInches": 3,
+          "targetQuad": [
+            [
+              430.8411560058594,
+              496.0
+            ],
+            [
+              487.6588439941406,
+              496.0
+            ],
+            [
+              487.6588439941406,
+              587.4682006835938
+            ],
+            [
+              430.8411560058594,
+              587.4682006835938
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/the-overthinker-bone-red-refined-v2-ladder-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "back",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Red - Back - Transparent.png",
+          "physicalWidthInches": 12,
+          "targetQuad": [
+            [
+              284.0,
+              498.0
+            ],
+            [
+              551.0,
+              439.0
+            ],
+            [
+              622.0,
+              934.0
+            ],
+            [
+              341.0,
+              979.0
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/the-overthinker-bone-red-refined-v2-desk-study-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "front",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Red - Front - Transparent.png",
+          "physicalWidthInches": 3,
+          "targetQuad": [
+            [
+              475.870849609375,
+              728.0
+            ],
+            [
+              558.129150390625,
+              728.0
+            ],
+            [
+              558.129150390625,
+              860.4237670898438
+            ],
+            [
+              475.870849609375,
+              860.4237670898438
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    },
+    {
+      "src": "assets/img/products/the-overthinker-bone-red-refined-v2-window-seat-final-art-upright-v3.jpg",
+      "placements": [
+        {
+          "side": "back",
+          "artwork": "C:\\Users\\hp\\Downloads\\Mudra Overthinker Artwork - 2026-10-18\\Overthinker - Red - Back - Transparent.png",
+          "physicalWidthInches": 12,
+          "targetQuad": [
+            [
+              373.0,
+              497.0
+            ],
+            [
+              622.0,
+              501.0
+            ],
+            [
+              619.0,
+              924.0
+            ],
+            [
+              371.0,
+              917.0
+            ]
+          ],
+          "rotationDegrees": 0
+        }
+      ]
+    }
+  ]
+}
