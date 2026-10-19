@@ -101,9 +101,10 @@ header.solid{position:sticky;background:rgba(237,233,224,.96)}
 .coupon__entry button{background:var(--blue);color:var(--on-blue);padding:12px 16px;font-size:11px;letter-spacing:.08em}
 .coupon input:focus-visible,.coupon button:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
 .coupon button:disabled,.coupon input:disabled{opacity:.55;cursor:wait}
-.coupon__applied,.coupon__total{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.coupon__applied,.coupon__rejected,.coupon__total{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.coupon__rejected{padding:10px;border:1px solid var(--line-strong);font-size:11px;overflow-wrap:anywhere}
 .coupon__applied{padding:10px;background:#CCFF00;color:#111;font-size:11px}
-.coupon__applied button{font-size:10px;text-decoration:underline;text-underline-offset:3px}
+.coupon__applied button,.coupon__rejected button{font-size:10px;text-decoration:underline;text-underline-offset:3px}
 .coupon__status{margin:0;font-size:13px;line-height:1.45;color:var(--fg)}
 .coupon__status:empty{display:none}
 .coupon__status.is-error{color:#8b1e42}

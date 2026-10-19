@@ -98,6 +98,7 @@ function couponHTML(c) {
       <button class="mono" type="submit" ${couponBusy ? 'disabled' : ''}>${couponBusy ? 'Checking…' : 'Apply'}</button></div>
     </form>
     ${applied.map(x => `<div class="coupon__applied"><span class="mono">${esc(x.code)} · Applied</span><button type="button" class="mono" data-coupon-remove="${esc(x.code)}" aria-label="Remove coupon ${esc(x.code)}" ${couponBusy ? 'disabled' : ''}>Remove</button></div>`).join('')}
+    ${inactive.map(x => `<div class="coupon__rejected"><span class="mono">${esc(x.code)} · Not applied</span><button type="button" class="mono" data-coupon-remove="${esc(x.code)}" aria-label="Remove coupon ${esc(x.code)}" ${couponBusy ? 'disabled' : ''}>Remove</button></div>`).join('')}
     <p id="couponStatus" class="coupon__status${couponError || inactive.length ? ' is-error' : ''}" role="status" aria-live="polite">${esc(message)}</p>
     ${applied.length && c.cost.totalAmount ? `<div class="coupon__total"><span class="mono">Estimated total</span><strong class="mono">${money(c.cost.totalAmount.amount)}</strong></div>` : ''}
   </div>`;
