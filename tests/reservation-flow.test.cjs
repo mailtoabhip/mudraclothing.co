@@ -3,6 +3,7 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 // Exercise the ordinary INR 199 lifecycle independently of temporary live-test rates.
 require('../data/reservations.json').temporaryOverrides = {};
+require('../data/reservations.json').enabled = true;
 const adminModule = require('../server/shopify-admin.cjs');
 const fields = new Map(); const drafts = new Map(); let draftCount = 0;
 const inputs = [];
@@ -32,7 +33,8 @@ const store = require('../server/reservation-store.cjs');
 const customerId = 'gid://shopify/Customer/123';
 const lines = [{ productId: 'face-card', size: 'S', colour: 'Maroon', quantity: 2 }, { productId: 'face-card', size: 'M', colour: 'Maroon', quantity: 1 }];
 
-test('payment flow protects price locks, concurrent checkout requests and refunds', async () => {
+test('payment flow protects price locks, concurrent checkout requests and refunds', async (t) => {
+  t.mock.method(Date, 'now', () => Date.parse('2026-10-09T22:00:00+05:30'));
   const attempts = await Promise.allSettled([payments.createDeposit(customerId, lines, 'test-request-123456789'), payments.createDeposit(customerId, lines, 'test-request-123456789')]);
   const checkout = attempts.find(r => r.status === 'fulfilled').value;
   assert.equal(draftCount, 1, 'concurrent calls must create at most one payable invoice');
@@ -44,7 +46,7 @@ test('payment flow protects price locks, concurrent checkout requests and refund
   assert.equal((await payments.createDeposit(customerId, lines, 'different-request-123456')).checkoutUrl, checkout.checkoutUrl, 'the same unpaid bag reuses its invoice across request keys');
   await assert.rejects(() => payments.createBalance(customerId, checkout.id), /not been confirmed as paid/);
   assert.equal((await store.read('gid://shopify/Customer/999')).records.length, 0);
-  const paid = { id: 'order-1', customerId, status: 'PAID', currency: 'INR', paidPaise: 59700, refundedPaise: 0, paidAt: new Date().toISOString() };
+  const paid = { id: 'order-1', customerId, status: 'PAID', currency: 'INR', paidPaise: 59700, refundedPaise: 0, paidAt: new Date(Date.now()).toISOString() };
   await assert.rejects(() => payments.applyPayment(customerId, checkout.id, 'deposit', { ...paid, customerId: 'other' }), /identity mismatch/);
   await payments.applyPayment(customerId, checkout.id, 'deposit', paid);
   await payments.applyPayment(customerId, checkout.id, 'deposit', paid);

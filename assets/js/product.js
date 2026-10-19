@@ -273,6 +273,7 @@ function renderBuy(p) {
 
     ${explainerHTML(p)}
     <button class="buy__atc" id="atc" ${anyStock ? '' : 'disabled'}>${anyStock ? 'Pick a size' : 'Sold out'}</button>
+    ${trustHTML()}
     ${teaserActionsHTML(p)}
     ${infoBoxHTML(p)}
     <p class="buy__err mono" id="atcErr" role="alert" hidden></p>
@@ -428,6 +429,18 @@ function shippingText(p) {
     return `Pre-orders run ${d.opensShort} to ${d.closesShort}. Orders open ${d.launchShort}. From then, at your door in ${M.ORDERING.minDays}–${M.ORDERING.maxDays} days in most of India; remote pin codes can take longer. Free shipping across India.`;
   }
   return view.garment.shipping || '';
+}
+
+// Trust row directly under the main button. COD appears only while checkout
+// actually offers it (SHOPIFY.cod), so the promise can't outlive the payment method.
+function trustHTML() {
+  const items = [
+    ...(M.SHOPIFY.cod ? ['COD available'] : []),
+    'Free size exchange within 7 days',
+    `Ships in ${M.ORDERING.minDays}–${M.ORDERING.maxDays} days`,
+    'Free shipping across India',
+  ];
+  return `<ul class="buy__trust mono" aria-label="What you get with this order">${items.map(i => `<li>${esc(i)}</li>`).join('')}</ul>`;
 }
 
 // The pre-order terms, directly above the main button while deposits are taken.

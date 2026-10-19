@@ -38,7 +38,7 @@ PREORDER_MAX_DAYS = 7
 
 # Cash on delivery switched on at Shopify checkout? Keep False until it is: the site
 # only promises COD when this (and SHOPIFY.cod in assets/js/shop.js) is True.
-COD_LIVE = False
+COD_LIVE = True
 
 # Google Merchant feed (feeds/google-merchant.xml): who the tees are for.
 FEED_GENDER = "unisex"      # male | female | unisex

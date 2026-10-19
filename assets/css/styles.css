@@ -503,3 +503,10 @@ a.atc{display:block;text-align:center}
 @media(max-width:600px){
  .hero__slide .hero__campaign img,.hero__photo img{aspect-ratio:1/1;object-position:left center}
 }
+
+/* floating WhatsApp button (hidden when data/site.json whatsappBusiness is empty) */
+.wafab{position:fixed;right:16px;bottom:16px;z-index:60;display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--line-strong);border-radius:999px;background:var(--paper);color:var(--fg);font-family:var(--mono);font-size:11px;text-decoration:none;box-shadow:0 2px 10px rgba(26,26,26,.14)}
+.wafab:hover,.wafab:focus-visible{background:var(--paper-2)}
+.wafab__icon{width:16px;height:16px;flex:0 0 16px}
+@media (max-width:420px){.wafab__label{display:none}.wafab{padding:12px;border-radius:50%}}
+@media print{.wafab{display:none}}

@@ -13,14 +13,14 @@ const SHOPIFY = {
   storefrontAccessToken: 'f2b9739c85384e64300f6b3c806ae959',
   apiVersion: '2026-07',
   shopId: '73593618511',
-  cod: false,       // cash on delivery switched on at Shopify checkout? Keep false until it is (scripts/site_config.py COD_LIVE too)
+  cod: true,        // cash on delivery switched on at Shopify checkout? Keep false until it is (scripts/site_config.py COD_LIVE too)
   enabled: true,    // false: the bag is a local counter and checkout stays closed
 };
 
 // How tees are sold. 'preorder': arrives in minDays–maxDays after the order
 // calendar days. 'instock': plain "Add to bag", no arrival promise.
 // minDays/maxDays MUST match PREORDER_MIN_DAYS/PREORDER_MAX_DAYS in scripts/site_config.py.
-const ORDERING = { mode: 'preorder', minDays: 5, maxDays: 7 };
+const ORDERING = { mode: 'instock', minDays: 5, maxDays: 7 };
 const isPreorder = () => ORDERING.mode === 'preorder';
 
 const ACCOUNT_URL = `https://shopify.com/${SHOPIFY.shopId}/account`;
@@ -216,7 +216,7 @@ const beforeLaunch = (now = Date.now()) => !!(DROP && DROP.launch) && now < Date
 function tickerItems() {
   if (depositWindow()) return [`Pre-order @ ${money(RESERVATIONS.depositRupees)}`, `Orders open ${dropDates().launchShort}`, 'Free shipping across India'];
   const ph = dropPhase(), d = dropDates();
-  if (!d || ph === 'launched') return [`At your door in ${ORDERING.minDays}–${ORDERING.maxDays} days`, 'Designed in-house', 'Free shipping across India'];
+  if (!d || ph === 'launched') return [`Ships in ${ORDERING.minDays}–${ORDERING.maxDays} days`, 'COD available', 'Free shipping across India'];
   if (ph === 'teaser') return [`Pre-orders open ${d.opensShort}`, 'Designed in-house', 'Free shipping across India'];
   if (ph === 'open') {
     return beforeLaunch()
@@ -230,11 +230,11 @@ function tickerItems() {
 function heroTag() {
   if (depositWindow()) return `Pre-order @ ${money(RESERVATIONS.depositRupees)} · Orders open ${dropDates().launchShort}`;
   const ph = dropPhase(), d = dropDates();
-  if (!d) return `At your door in ${ORDERING.minDays}–${ORDERING.maxDays} days`;
+  if (!d) return `Ships in ${ORDERING.minDays}–${ORDERING.maxDays} days · COD available · Free shipping across India`;
   if (ph === 'teaser') return `Pre-orders open ${d.opensShort}`;
   if (ph === 'open') return beforeLaunch() ? 'Early pre-orders open' : 'Pre-orders are now live';
   if (ph === 'closed') return `Orders open ${d.launchShort}`;
-  return `At your door in ${ORDERING.minDays}–${ORDERING.maxDays} days`;   // after launch: nothing drop-specific
+  return `Ships in ${ORDERING.minDays}–${ORDERING.maxDays} days · COD available · Free shipping across India`;   // after launch: nothing drop-specific
 }
 
 // COD: only once it's switched on at checkout (SHOPIFY.cod). The deposit itself is always paid online.
@@ -741,6 +741,26 @@ function track(name, items, extra = {}) {
   window.gtag('event', name, { currency: 'INR', value: Math.round(value * 100) / 100, items, ...extra });
 }
 
+/* ---------- floating WhatsApp button -------------------------------- */
+// Number comes from data/site.json whatsappBusiness (digits with country code,
+// e.g. 9198xxxxxxxx), the same field the wholesale page uses. Empty = no button.
+async function initWhatsApp() {
+  if (document.querySelector('.wafab')) return;
+  const site = await fetch('/data/site.json', { cache: 'no-cache' })
+    .then(r => (r.ok ? r.json() : {})).catch(() => ({}));
+  const number = String(site.whatsappBusiness || '').replace(/\D/g, '');
+  if (!number) return;
+  const a = document.createElement('a');
+  a.className = 'wafab';
+  a.href = `https://wa.me/${number}?text=${encodeURIComponent('Hi Mudra, I have a question.')}`;
+  a.target = '_blank';
+  a.rel = 'noopener';
+  a.setAttribute('aria-label', 'Questions? Message us on WhatsApp');
+  a.innerHTML = '<svg class="wafab__icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12.04 2a9.9 9.9 0 0 0-8.5 14.95L2 22l5.2-1.5A9.9 9.9 0 1 0 12.04 2Zm0 1.8a8.1 8.1 0 1 1-4.1 15.08l-.3-.17-3.08.89.9-3-.2-.31A8.1 8.1 0 0 1 12.05 3.8Zm4.64 10.3c-.25-.13-1.47-.73-1.7-.81-.23-.09-.4-.13-.56.12s-.64.8-.79.97c-.14.17-.29.19-.54.06a6.6 6.6 0 0 1-1.95-1.2 7.3 7.3 0 0 1-1.35-1.68c-.14-.25-.01-.38.11-.5.11-.12.25-.29.37-.44.12-.15.16-.25.25-.42.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.48-.4-.42-.56-.43h-.47a.9.9 0 0 0-.65.3 2.74 2.74 0 0 0-.85 2.03 4.76 4.76 0 0 0 1 2.52c.12.17 1.73 2.65 4.2 3.72.59.25 1.05.4 1.4.52.59.18 1.13.16 1.55.1.47-.07 1.47-.6 1.68-1.18.2-.58.2-1.07.15-1.18-.06-.1-.23-.17-.48-.29Z"/></svg><span class="wafab__label">Questions? Message us</span>';
+  document.body.appendChild(a);
+}
+document.addEventListener('DOMContentLoaded', initWhatsApp);
+
 window.Mudra = {
   gaIds, gaItem, track,
   loadReservations, depositWindow, depositFor, get depositRupees() { return RESERVATIONS.depositRupees; },
@@ -749,7 +769,7 @@ window.Mudra = {
   tickerItems, heroTag, codNow, lineNote, get drop() { return DROP; },
   productUrl, productIdFromUrl, loadCatalogue, loadSprite, sellableColours, swatchFill,
   money, priceView, esc, pictureHTML, CARD_SIZES, wireHeader, renderBag, initBag, addToBag, flash,
-  liveProduct, cart, sf, sizeTableHTML, openDrawer,
+  liveProduct, cart, sf, sizeTableHTML, openDrawer, initWhatsApp,
 };
 
 })();

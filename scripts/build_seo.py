@@ -108,7 +108,7 @@ def ticker_items():
         return [f"Pre-order @ {money(RESERVATIONS['depositRupees'])}", f"Orders open {drop_dates()['launch_short']}", 'Free shipping across India']
     ph, d = drop_phase(), drop_dates()
     if not d or ph == "launched":
-        return [f"At your door in {PREORDER_MIN_DAYS}–{PREORDER_MAX_DAYS} days", "Designed in-house", "Free shipping across India"]
+        return [f"Ships in {PREORDER_MIN_DAYS}–{PREORDER_MAX_DAYS} days", "COD available", "Free shipping across India"]
     if ph == "teaser":
         return [f"Pre-orders open {d['opens_short']}", "Designed in-house", "Free shipping across India"]
     if ph == "open":
@@ -124,7 +124,7 @@ def hero_tag():
     if deposit_window():
         return f"Pre-order @ {money(RESERVATIONS['depositRupees'])} · Orders open {drop_dates()['launch_short']}"
     ph, d = drop_phase(), drop_dates()
-    launched = f"At your door in {PREORDER_MIN_DAYS}–{PREORDER_MAX_DAYS} days"   # nothing drop-specific
+    launched = f"Ships in {PREORDER_MIN_DAYS}–{PREORDER_MAX_DAYS} days · COD available · Free shipping across India"   # nothing drop-specific
     if not d:
         return launched
     return {"teaser": f"Pre-orders open {d['opens_short']}",
@@ -643,7 +643,7 @@ def delivery_line(p):
         return f"Pre-orders closed, orders open {d['launch_short']}"
     if d and st == "teaser":
         return f"Pre-orders open {d['opens_short']}, orders open {d['launch_short']}"
-    return f"At your door in {DAYS}"
+    return f"Ships in {DAYS}"
 
 
 def pinfo_html(p):

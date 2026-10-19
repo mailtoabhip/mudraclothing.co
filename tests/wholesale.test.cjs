@@ -8,7 +8,7 @@ async function page(site, allowed = false) {
   function node(selector) {
     if (!nodes.has(selector)) nodes.set(selector, {hidden: true, dataset: {}, handlers: {},
       addEventListener(name, fn) { this.handlers[name] = fn; },
-      classList: {add() {}}, focus() {}, querySelector() { return node('invalid'); }});
+      closest() { return node('section'); }, classList: {add() {}}, focus() {}, querySelector() { return node('invalid'); }});
     return nodes.get(selector);
   }
   const wa = node('.ws-hero [data-ws-method="whatsapp"]'); wa.dataset.wsMethod = 'whatsapp';

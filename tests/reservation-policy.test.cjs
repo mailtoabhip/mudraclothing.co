@@ -44,7 +44,7 @@ test('duplicate selections merge without bypassing quantity limits', () => {
 test('IST cutoff is shared with the website, including exact boundary', () => {
   quoteReservation(selected, catalogue.products, drop, Date.parse(drop.closes));
   assert.throws(() => quoteReservation(selected, catalogue.products, drop, Date.parse(drop.closes) + 1), { code: 'WINDOW_CLOSED' });
-  assert.equal(publicPrice(face, drop, Date.parse(drop.closes) + 1), 1499);
+  assert.equal(publicPrice(face, drop, Date.parse(drop.closes) + 1), face.price);
 });
 test('unknown products, unavailable options and invalid quantities are rejected', () => {
   for (const replacement of [{ productId: 'made-up' }, { size: 'XS' }, { colour: 'Unlisted' }, { quantity: 0 }, { quantity: 1.5 }, { quantity: 21 }]) {
@@ -54,7 +54,7 @@ test('unknown products, unavailable options and invalid quantities are rejected'
 test('reserved balance survives public price increases', () => {
   const { reservation, order } = paid();
   assert.equal(quoteBalance(reservation, order, 'customer-1').amountPaise, 330000);
-  assert.equal(publicPrice(face, drop, Date.parse(drop.closes) + 1), 1499);
+  assert.equal(publicPrice({ ...face, regularPrice: 1499 }, drop, Date.parse(drop.closes) + 1), 1499);
 });
 test('another account cannot claim a price lock', () => {
   const { reservation, order } = paid();
@@ -83,8 +83,12 @@ test('Face Card colours stay distinct and use matching pre-order photos', () => 
 
 test('an invoice issued before the launch change follows the extended cutoff without repricing', () => {
   const { reservation, order } = paid();
-  reservation.closes = '2026-10-31T23:59:59.999+05:30';
+  reservation.closes = '2026-11-30T23:59:59.999+05:30';
   const duringExtension = { ...order, paidAt: '2026-11-20T12:00:00+05:30' };
   assert.equal(quoteBalance(reservation, duringExtension, 'customer-1').amountPaise, 330000);
   assert.throws(() => quoteBalance(reservation, { ...order, paidAt: '2026-12-01T00:00:00+05:30' }, 'customer-1'), { code: 'LATE_PAYMENT' });
+});
+
+test('disabled deposits stay closed even inside the historical date window', () => {
+  assert.throws(() => configuredQuote(selected, catalogue.products, drop, now, { enabled: false, depositRupees: 199 }), { code: 'WINDOW_CLOSED' });
 });

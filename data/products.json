@@ -140,7 +140,7 @@
     ],
     "careNote": "Do all that and the print lasts. Skip it and it’s between you and your washing machine.",
     "colourNote": "Colours on screens are approximate. The real tee and print may look slightly different depending on your display, the light, and small differences between fabric batches.",
-    "shipping": "Pre-order. At your door in 7–10 days. Free shipping across India. Cash on delivery available.",
+    "shipping": "At your door in 5–7 days. Free shipping across India. Cash on delivery available.",
     "returns": "The full returns policy goes up before checkout opens. It'll be short and readable."
   },
   "products": [
@@ -160,8 +160,6 @@
       "tier": "hero",
       "mrp": 1600,
       "price": 1299,
-      "regularPrice": 1499,
-      "preorderEnds": "2026-11-30T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -471,8 +469,6 @@
       "tier": "hero",
       "mrp": 1600,
       "price": 1299,
-      "regularPrice": 1499,
-      "preorderEnds": "2026-11-30T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -873,8 +869,6 @@
       "tier": "hero",
       "mrp": 1600,
       "price": 1299,
-      "regularPrice": 1499,
-      "preorderEnds": "2026-11-30T23:59:59.999+05:30",
       "badge": {
         "type": "new",
         "label": "New"
@@ -1040,8 +1034,6 @@
       "tier": "core",
       "mrp": 1600,
       "price": 1199,
-      "regularPrice": 1399,
-      "preorderEnds": "2026-11-30T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -1191,8 +1183,6 @@
       "tier": "core",
       "mrp": 1600,
       "price": 1199,
-      "regularPrice": 1399,
-      "preorderEnds": "2026-11-30T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -1339,8 +1329,6 @@
       "tier": "entry",
       "mrp": 1600,
       "price": 1099,
-      "regularPrice": 1299,
-      "preorderEnds": "2026-11-30T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -1493,8 +1481,6 @@
       "tier": "entry",
       "mrp": 1600,
       "price": 1099,
-      "regularPrice": 1299,
-      "preorderEnds": "2026-11-30T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -1630,8 +1616,6 @@
       "tier": "entry",
       "mrp": 1600,
       "price": 1099,
-      "regularPrice": 1299,
-      "preorderEnds": "2026-11-30T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -1844,8 +1828,6 @@
       "tier": "entry",
       "mrp": 1600,
       "price": 1099,
-      "regularPrice": 1299,
-      "preorderEnds": "2026-11-30T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -2058,8 +2040,6 @@
       "tier": "entry",
       "mrp": 1600,
       "price": 1099,
-      "regularPrice": 1299,
-      "preorderEnds": "2026-11-30T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -2274,8 +2254,6 @@
       "tier": "core",
       "mrp": 1600,
       "price": 1199,
-      "regularPrice": 1399,
-      "preorderEnds": "2026-11-30T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -2374,8 +2352,6 @@
       "tier": "core",
       "mrp": 1600,
       "price": 1199,
-      "regularPrice": 1399,
-      "preorderEnds": "2026-11-30T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -2469,8 +2445,6 @@
       "tier": "core",
       "mrp": 1600,
       "price": 1199,
-      "regularPrice": 1399,
-      "preorderEnds": "2026-11-30T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -2569,8 +2543,6 @@
       "tier": "core",
       "mrp": 1600,
       "price": 1199,
-      "regularPrice": 1399,
-      "preorderEnds": "2026-11-30T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -2669,8 +2641,6 @@
       "tier": "core",
       "mrp": 1600,
       "price": 1199,
-      "regularPrice": 1399,
-      "preorderEnds": "2026-11-30T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {
@@ -2744,8 +2714,6 @@
       "tier": "entry",
       "mrp": 1600,
       "price": 1099,
-      "regularPrice": 1299,
-      "preorderEnds": "2026-11-30T23:59:59.999+05:30",
       "badge": null,
       "sizes": [
         {

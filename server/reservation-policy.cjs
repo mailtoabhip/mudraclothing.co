@@ -10,7 +10,7 @@ function fail(code, message) { throw new ReservationError(code, message); }
 
 function quoteReservation(lines, products, drop, now = Date.now(), settings = depositSettings) {
   const time = Number(now);
-  if (!Number.isFinite(time) || time < Date.parse(drop.opens) || time > Date.parse(drop.closes)) {
+  if (settings.enabled === false || !Number.isFinite(time) || time < Date.parse(drop.opens) || time > Date.parse(drop.closes)) {
     fail('WINDOW_CLOSED', 'The pre-order deposit window is closed.');
   }
   if (!Array.isArray(lines) || !lines.length || lines.length > 35) fail('INVALID_LINES', 'Choose at least one tee.');
@@ -48,8 +48,10 @@ function verifyDeposit(reservation, order, customerId) {
   if (order.currency !== 'INR' || order.paidPaise !== reservation.depositPaise) fail('INVALID_PAYMENT', 'The paid deposit does not match this pre-order.');
   if (order.cancelled || order.refundedPaise > 0) fail('CANCELLED', 'This pre-order needs review after cancellation or refund.');
   if (order.status !== 'PAID' || !order.paidAt || !Number.isFinite(Date.parse(order.paidAt))) fail('UNPAID', 'The deposit has not been confirmed as paid.');
-  // Existing deposit invoices follow the current, founder-approved launch window.
-  const cutoff = Date.parse(require('../data/drop.json').closes);
+  // Honour the cutoff saved on existing invoices when the public window closes early.
+  const currentCutoff = Date.parse(require('../data/drop.json').closes);
+  const savedCutoff = Date.parse(reservation.closes);
+  const cutoff = Math.max(currentCutoff, Number.isFinite(savedCutoff) ? savedCutoff : currentCutoff);
   if (Date.parse(order.paidAt) > cutoff) fail('LATE_PAYMENT', 'This deposit was paid after the pre-order window closed. Contact us for a refund.');
   return true;
 }
@@ -65,7 +67,7 @@ function quoteBalance(reservation, order, customerId) {
 }
 
 function publicPrice(product, drop, now = Date.now()) {
-  return Number(now) > Date.parse(drop.closes) ? product.regularPrice : product.price;
+  return Number(now) > Date.parse(drop.closes) ? (product.regularPrice ?? product.price) : product.price;
 }
 
 module.exports = { DEPOSIT_PAISE, ReservationError, quoteReservation, verifyDeposit, quoteBalance, publicPrice };
