@@ -10,6 +10,9 @@ const $ = s => document.querySelector(s);
 
 let catalogue = {};
 let names = {};   // handle → our product name, from products.json
+let couponMessage = '';
+let couponError = false;
+let couponBusy = false;
 
 async function init() {
   M.wireHeader({ solid: true });
@@ -72,6 +75,7 @@ function render(c) {
         <div><dt class="mono">Shipping</dt><dd class="mono">Free</dd></div>
         ${M.codNow() ? `<div><dt class="mono">Cash on delivery</dt><dd class="mono">Available</dd></div>` : ''}
       </dl>
+      ${!deposit ? couponHTML(c) : ''}
       ${summaryNote() ? `<p class="bsum__po">${esc(summaryNote())}</p>` : ''}
       <p class="mono bsum__note">${deposit ? 'A paid deposit holds only these tees, sizes and quantities. Not refundable as cash: if you don\'t buy, it stays as store credit. Sign-in may be required to save your pre-order.' : 'Taxes included. Final total at checkout.'}</p>
       ${block
@@ -80,6 +84,43 @@ function render(c) {
         : `<a class="bsum__checkout mono" href="${esc(c.checkoutUrl)}">Checkout</a>`}
       <p class="bsum__help">Payment failed, or money gone and no order? <a href="/payment-help">Read this first</a>.</p>
     </aside>`;
+}
+
+function couponHTML(c) {
+  const codes = c.discountCodes || [];
+  const applied = codes.filter(x => x.applicable);
+  const inactive = codes.filter(x => !x.applicable);
+  const message = inactive.length && !couponError ? 'This code is not valid for the items in your bag.' : couponMessage;
+  return `<div class="coupon">
+    <form data-coupon-form>
+      <label class="mono" for="couponCode">Have a coupon?</label>
+      <div class="coupon__entry"><input id="couponCode" name="code" type="text" maxlength="255" placeholder="Enter code" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="couponStatus" ${couponBusy ? 'disabled' : ''}>
+      <button class="mono" type="submit" ${couponBusy ? 'disabled' : ''}>${couponBusy ? 'Checking…' : 'Apply'}</button></div>
+    </form>
+    ${applied.map(x => `<div class="coupon__applied"><span class="mono">${esc(x.code)} · Applied</span><button type="button" class="mono" data-coupon-remove="${esc(x.code)}" aria-label="Remove coupon ${esc(x.code)}" ${couponBusy ? 'disabled' : ''}>Remove</button></div>`).join('')}
+    <p id="couponStatus" class="coupon__status${couponError || inactive.length ? ' is-error' : ''}" role="status" aria-live="polite">${esc(message)}</p>
+    ${applied.length && c.cost.totalAmount ? `<div class="coupon__total"><span class="mono">Estimated total</span><strong class="mono">${money(c.cost.totalAmount.amount)}</strong></div>` : ''}
+  </div>`;
+}
+
+async function updateCoupon(codes, attempted) {
+  if (couponBusy || $('#bagBody').getAttribute('aria-busy') === 'true') return;
+  couponBusy = true;
+  couponMessage = ''; couponError = false;
+  render(M.cart.state); setBusy(true);
+  try {
+    const updated = await M.cart.setDiscountCodes(codes);
+    const accepted = !attempted || updated.discountCodes?.some(x => x.applicable && x.code.toLowerCase() === attempted.toLowerCase());
+    couponError = !accepted;
+    couponMessage = accepted ? (attempted ? 'Coupon applied. Your discount carries through to checkout.' : 'Coupon removed.') : 'This code is invalid, expired, or does not apply to your bag.';
+  } catch (err) {
+    couponError = true;
+    couponMessage = err.message || 'Could not check that code. Please try again.';
+  } finally {
+    couponBusy = false;
+    render(M.cart.state);
+    $('#couponCode')?.focus();
+  }
 }
 
 // launch day written out ("1 December"), IST, from data/drop.json
@@ -143,7 +184,24 @@ function trackCheckout(deposit) {
 }
 
 function wire() {
+  $('#bagBody').addEventListener('submit', async e => {
+    if (!e.target.matches('[data-coupon-form]')) return;
+    e.preventDefault();
+    const code = $('#couponCode').value.trim();
+    if (!code) {
+      couponError = true; couponMessage = 'Enter a coupon code first.';
+      render(M.cart.state); $('#couponCode')?.focus(); return;
+    }
+    const existing = (M.cart.state.discountCodes || []).filter(x => x.applicable).map(x => x.code);
+    await updateCoupon([...new Set([...existing, code])], code);
+  });
   $('#bagBody').addEventListener('click', async e => {
+    if (couponBusy) { e.preventDefault(); return; }
+    const removeCoupon = e.target.closest('[data-coupon-remove]');
+    if (removeCoupon) {
+      const codes = (M.cart.state.discountCodes || []).filter(x => x.code !== removeCoupon.dataset.couponRemove).map(x => x.code);
+      await updateCoupon(codes); return;
+    }
     const go = e.target.closest('.bsum__checkout');
     if (go && !go.disabled) trackCheckout(go.matches('[data-preorder-pay]'));
     const checkout = e.target.closest('[data-preorder-pay]');
@@ -174,6 +232,7 @@ function wire() {
 function setBusy(on, li) {
   $('#bagBody').setAttribute('aria-busy', String(on));
   document.querySelectorAll('.bline [data-act]').forEach(b => { b.disabled = on; });
+  document.querySelectorAll('.coupon input,.coupon button').forEach(b => { b.disabled = on || couponBusy; });
   li?.classList.toggle('is-busy', on);
 }
 

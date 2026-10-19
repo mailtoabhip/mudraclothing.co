@@ -331,8 +331,9 @@ function liveProduct(handle) {
 
 const CART_FIELDS = `
   id checkoutUrl totalQuantity
+  discountCodes { code applicable }
   attributes { key value }
-  cost { subtotalAmount { amount currencyCode } }
+  cost { subtotalAmount { amount currencyCode } totalAmount { amount currencyCode } }
   lines(first: 50) { nodes {
     id quantity
     attributes { key value }
@@ -346,6 +347,7 @@ const CART_FIELDS = `
   } }`;
 
 const Q = {
+  discounts: `mutation C($id: ID!, $codes: [String!]!) { cartDiscountCodesUpdate(cartId: $id, discountCodes: $codes) { cart { ${CART_FIELDS} } userErrors { message } } }`,
   get: `query C($id: ID!) { cart(id: $id) { ${CART_FIELDS} } }`,
   create: `mutation C($lines: [CartLineInput!], $attributes: [AttributeInput!]) { cartCreate(input: { lines: $lines, attributes: $attributes }) { cart { ${CART_FIELDS} } userErrors { message } } }`,
   attrs: `mutation C($id: ID!, $attributes: [AttributeInput!]!) { cartAttributesUpdate(cartId: $id, attributes: $attributes) { cart { ${CART_FIELDS} } userErrors { message } } }`,
@@ -465,6 +467,14 @@ const cart = {
   async remove(lineId) {
     const d = await sf(Q.remove, { id: cartState.id, ids: [lineId] });
     return setCart(unwrap(d.cartLinesRemove));
+  },
+
+  async setDiscountCodes(codes) {
+    if (!cartState?.id) throw new ShopError('Add a tee to your bag first.');
+    const d = await sf(Q.discounts, { id: cartState.id, codes });
+    const updated = unwrap(d.cartDiscountCodesUpdate);
+    if (!updated) throw new ShopError('Your bag expired. Refresh and try again.');
+    return setCart(updated);
   },
 };
 
