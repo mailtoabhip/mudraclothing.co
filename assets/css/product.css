@@ -47,8 +47,8 @@ body.is-pdp{padding-bottom:0}
 /* price first visually, MRP after it; DOM keeps MRP first for screen readers */
 .buy__pricerow{display:flex;align-items:baseline;gap:4px 12px;flex-wrap:wrap}
 .buy__price .price{order:-1;font-family:var(--mono);font-size:30px;font-weight:700;line-height:1.1;color:var(--fg);letter-spacing:0}
-/* pre-order price: lime marker under the lower half of the numerals, the one loud thing in the column */
-.buy__price .price.is-pre .price__num{background:linear-gradient(transparent 55%,#CCFF00 55%);padding:0 4px;
+/* Selling price stays prominent for normal orders as well as historical previews. */
+.buy__price .price .price__num{display:inline-block;background:#CCFF00;color:#111;padding:5px 10px;border-radius:2px;
   -webkit-box-decoration-break:clone;box-decoration-break:clone}
 .buy__mrp{font-size:12px;color:var(--ash);text-decoration:line-through;text-decoration-color:var(--ash)}
 .buy__tax{margin:6px 0 0;font-size:10px;color:var(--ash)}
