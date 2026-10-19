@@ -471,6 +471,9 @@ const cart = {
 
   async setDiscountCodes(codes) {
     if (!cartState?.id) throw new ShopError('Add a tee to your bag first.');
+    if (!Array.isArray(codes) || codes.some(code => typeof code !== 'string' || !/^[A-Za-z0-9]{6}$/.test(code))) {
+      throw new ShopError('Coupon codes must contain exactly 6 letters or numbers.');
+    }
     const d = await sf(Q.discounts, { id: cartState.id, codes });
     const updated = unwrap(d.cartDiscountCodesUpdate);
     if (!updated) throw new ShopError('Your bag expired. Refresh and try again.');

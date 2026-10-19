@@ -107,6 +107,7 @@ header.solid{position:sticky;background:rgba(237,233,224,.96)}
 .coupon__applied button,.coupon__rejected button{font-size:10px;text-decoration:underline;text-underline-offset:3px}
 .coupon__status{margin:0;font-size:13px;line-height:1.45;color:var(--fg)}
 .coupon__status:empty{display:none}
+.coupon__hint{margin:0;color:var(--ash);font-size:11px;line-height:1.45}
 .coupon__status.is-error{color:#8b1e42}
 .coupon__total{padding-top:6px;font-size:12px}
 .coupon__total strong{font-size:20px}

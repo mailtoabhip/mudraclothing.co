@@ -94,9 +94,10 @@ function couponHTML(c) {
   return `<div class="coupon">
     <form data-coupon-form>
       <label class="mono" for="couponCode">Have a coupon?</label>
-      <div class="coupon__entry"><input id="couponCode" name="code" type="text" maxlength="255" placeholder="Enter code" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="couponStatus" ${couponBusy ? 'disabled' : ''}>
+      <div class="coupon__entry"><input id="couponCode" name="code" type="text" minlength="6" maxlength="6" pattern="[A-Za-z0-9]{6}" title="6 letters or numbers" placeholder="6-character code" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="couponHint couponStatus" ${couponBusy ? 'disabled' : ''}>
       <button class="mono" type="submit" ${couponBusy ? 'disabled' : ''}>${couponBusy ? 'Checking…' : 'Apply'}</button></div>
     </form>
+    <p id="couponHint" class="coupon__hint">6 letters or numbers. Codes are not case-sensitive.</p>
     ${applied.map(x => `<div class="coupon__applied"><span class="mono">${esc(x.code)} · Applied</span><button type="button" class="mono" data-coupon-remove="${esc(x.code)}" aria-label="Remove coupon ${esc(x.code)}" ${couponBusy ? 'disabled' : ''}>Remove</button></div>`).join('')}
     ${inactive.map(x => `<div class="coupon__rejected"><span class="mono">${esc(x.code)} · Not applied</span><button type="button" class="mono" data-coupon-remove="${esc(x.code)}" aria-label="Remove coupon ${esc(x.code)}" ${couponBusy ? 'disabled' : ''}>Remove</button></div>`).join('')}
     <p id="couponStatus" class="coupon__status${couponError || inactive.length ? ' is-error' : ''}" role="status" aria-live="polite">${esc(message)}</p>
@@ -188,9 +189,13 @@ function wire() {
   $('#bagBody').addEventListener('submit', async e => {
     if (!e.target.matches('[data-coupon-form]')) return;
     e.preventDefault();
-    const code = $('#couponCode').value.trim();
+    const code = $('#couponCode').value.trim().toUpperCase();
     if (!code) {
       couponError = true; couponMessage = 'Enter a coupon code first.';
+      render(M.cart.state); $('#couponCode')?.focus(); return;
+    }
+    if (!/^[A-Z0-9]{6}$/.test(code)) {
+      couponError = true; couponMessage = 'Use exactly 6 letters or numbers, without spaces or symbols.';
       render(M.cart.state); $('#couponCode')?.focus(); return;
     }
     const existing = (M.cart.state.discountCodes || []).filter(x => x.applicable).map(x => x.code);

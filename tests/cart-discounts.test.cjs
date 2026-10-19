@@ -26,8 +26,8 @@ async function page() {
     cart: { state, onChange(fn) { changed = fn; }, async load() { changed(state); },
       async setDiscountCodes(codes) {
         calls.push(codes);
-        if (codes.includes('OFFLINE')) throw new Error('No connection to the shop.');
-        state.discountCodes = codes.map(code => ({ code, applicable: code.toLowerCase() === 'valid10' }));
+        if (codes.includes('OFFLIN')) throw new Error('No connection to the shop.');
+        state.discountCodes = codes.map(code => ({ code, applicable: code.toLowerCase() === 'mudr10' }));
         state.cost.totalAmount.amount = state.discountCodes.some(x => x.applicable) ? '1169.10' : '1299';
         changed(state); return state;
       } } };
@@ -43,14 +43,14 @@ async function page() {
 
 test('accepted Shopify code updates total, survives re-render and can be removed', async () => {
   const p = await page();
-  await p.submit('  VALID10  ');
-  assert.equal(p.calls[0][0], 'VALID10');
-  assert.match(p.html(), /VALID10 · Applied/);
+  await p.submit('  MUDR10  ');
+  assert.equal(p.calls[0][0], 'MUDR10');
+  assert.match(p.html(), /MUDR10 · Applied/);
   assert.match(p.html(), /INR 1169.10/);
   assert.match(p.html(), /https:\/\/checkout.example\/bag/);
-  await p.remove('VALID10');
+  await p.remove('MUDR10');
   assert.equal(p.calls[1].length, 0);
-  assert.doesNotMatch(p.html(), /VALID10 · Applied/);
+  assert.doesNotMatch(p.html(), /MUDR10 · Applied/);
   assert.match(p.html(), /Coupon removed/);
 });
 
@@ -58,10 +58,23 @@ test('invalid, empty and connection failures never claim a discount was applied'
   const p = await page();
   await p.submit(''); assert.equal(p.calls.length, 0);
   assert.match(p.html(), /Enter a coupon code first/);
-  await p.submit('EXPIRED');
+  await p.submit('BAD123');
   assert.match(p.html(), /invalid, expired/);
   assert.doesNotMatch(p.html(), /· Applied|INR 1169.10/);
-  await p.submit('OFFLINE');
+  await p.submit('OFFLIN');
   assert.match(p.html(), /No connection/);
   assert.doesNotMatch(p.html(), /· Applied/);
+});
+
+
+test('only six alphanumeric characters are sent to Shopify, normalized to uppercase', async () => {
+  const p = await page();
+  for (const code of ['A1', 'TOOLONG', 'AB-CD1', 'ABC 12']) {
+    await p.submit(code);
+    assert.match(p.html(), /exactly 6 letters or numbers/);
+  }
+  assert.equal(p.calls.length, 0);
+  await p.submit('  mudr10  ');
+  assert.equal(p.calls[0][0], 'MUDR10');
+  assert.match(p.html(), /MUDR10 · Applied/);
 });
