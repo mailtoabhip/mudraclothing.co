@@ -447,7 +447,13 @@
           "sellable": true
         }
       ],
-      "mediaOrder": "ordered"
+      "mediaOrder": "ordered",
+      "printPlacement": {
+        "frontWidthInches": 3,
+        "backWidthInches": 12,
+        "alignment": "centred",
+        "orientation": "upright"
+      }
     },
     {
       "id": "the-overthinker",
@@ -843,6 +849,12 @@
         "white-red": "bone-red",
         "bone": "bone-blue",
         "black": "black-blue"
+      },
+      "printPlacement": {
+        "frontWidthInches": 3,
+        "backWidthInches": 12,
+        "alignment": "centred",
+        "orientation": "upright"
       }
     },
     {

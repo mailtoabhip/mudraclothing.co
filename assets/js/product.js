@@ -278,8 +278,8 @@ function renderBuy(p) {
     <p class="buy__err mono" id="atcErr" role="alert" hidden></p>
 
     <div class="twoside">
-      <div><span class="mono">Front</span><p>Small stamp, left chest.</p></div>
-      <div><span class="mono">Back</span><p>${p.print === 'back' ? 'The full graphic.' : 'Nothing. On purpose.'}</p></div>
+      <div><span class="mono">Front</span><p>${p.printPlacement ? '3-inch print, centred chest.' : 'Small stamp, left chest.'}</p></div>
+      <div><span class="mono">Back</span><p>${p.printPlacement ? '12-inch print, centred and upright.' : p.print === 'back' ? 'The full graphic.' : 'Nothing. On purpose.'}</p></div>
     </div>
 
     <div class="acc">
