@@ -30,7 +30,7 @@ test('all four Overthinker colourways remain distinct through reservation pricin
 
 test('split swatches place garment above print while ordinary colour swatches stay solid', () => {
   const context = { window: {}, location: { protocol: 'https:', hostname: 'www.wearmudra.shop', search: '' },
-    document: { querySelector: () => null, addEventListener() {} }, addEventListener() {}, URLSearchParams, Intl, Date, console };
+    document: { querySelector: () => null, querySelectorAll: () => [], addEventListener() {} }, addEventListener() {}, URLSearchParams, Intl, Date, console };
   vm.runInNewContext(fs.readFileSync('assets/js/shop.js', 'utf8'), context);
   const M = context.window.Mudra;
   assert.equal(M.swatchFill(product.colours.find(c => c.key === 'black-red')), 'linear-gradient(135deg, #1A1A1A 0% 50%, #982D3E 50% 100%)');

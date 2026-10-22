@@ -186,11 +186,11 @@
       "media": [
         {
           "type": "img",
-          "src": "assets/img/products/face-card-maroon-v4-mirror-front-white-ink-v1-final-art-upright-v3.jpg",
-          "alt": "Face Card oversized tee in deep maroon, heart card chest print, mirror selfie in a lamp-lit bedroom",
-          "w": 1000,
-          "h": 1320,
+          "src": "assets/img/products/face-card-maroon-studio-back-20261023-v2.jpg",
+          "alt": "Face Card maroon oversized tee, same curly-haired model in a warm-grey studio, upright white king-card back graphic and natural cotton folds",
           "colour": "maroon",
+          "w": 1000,
+          "h": 1250,
           "webpQuality": 93,
           "webp": [
             800,
@@ -199,8 +199,8 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-maroon-v2-doorway-back-upright-k-v1-white-ink-v1-final-art-upright-v3.jpg",
-          "alt": "Face Card oversized tee in deep maroon, full king card back print, standing in an old stone doorway",
+          "src": "assets/img/products/face-card-maroon-studio-front-3inch-20261023-v2.jpg",
+          "alt": "Face Card maroon oversized tee, matching front studio portrait, centred upright 3-inch white heart-card print and natural cotton folds",
           "colour": "maroon",
           "w": 1000,
           "h": 1250,
