@@ -212,19 +212,6 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-maroon-v2-hanger-back-upright-k-v1-white-ink-v1-final-art-upright-v3.jpg",
-          "alt": "Face Card oversized tee in deep maroon on a wooden hanger, full king card back print against a sunlit wall",
-          "colour": "maroon",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
           "src": "assets/img/products/face-card-maroon-v3-mirror-back-upright-k-v1-white-ink-v1-final-art-upright-v3.jpg",
           "alt": "Face Card oversized tee in deep maroon, full king card back print, mirror selfie in a lamp-lit bedroom",
           "colour": "maroon",
@@ -264,22 +251,9 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-blue-v2-mirror-front-white-ink-v1-final-art-upright-v3.jpg",
-          "alt": "Face Card oversized tee in deep blue, heart card chest print, mirror selfie in a lamp-lit bedroom",
-          "colour": "blue",
-          "w": 1000,
-          "h": 1320,
-          "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/face-card-blue-v1-doorway-back-upright-k-v1-white-ink-v1-final-art-upright-v3.jpg",
-          "alt": "Face Card oversized tee in deep blue, full king card back print, standing in an old stone doorway",
-          "colour": "blue",
+          "src": "assets/img/products/face-card-maroon-v2-hanger-back-upright-k-v1-white-ink-v1-final-art-upright-v3.jpg",
+          "alt": "Face Card oversized tee in deep maroon on a wooden hanger, full king card back print against a sunlit wall",
+          "colour": "maroon",
           "w": 1000,
           "h": 1250,
           "webpQuality": 93,
@@ -290,12 +264,25 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-blue-v1-hanger-back-upright-k-v1-white-ink-v1-final-art-upright-v3.jpg",
-          "alt": "Face Card oversized tee in deep blue on a wooden hanger, full king card back print against a sunlit wall",
-          "colour": "blue",
+          "src": "assets/img/products/face-card-blue-studio-back-20261023-v3.jpg",
+          "alt": "Face Card - blue men's studio back; natural cotton folds and shirt-focused crop",
           "w": 1000,
           "h": 1250,
           "webpQuality": 93,
+          "colour": "blue",
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/face-card-blue-studio-front-20261023-v3.jpg",
+          "alt": "Face Card - blue men's studio front; natural cotton folds and shirt-focused crop",
+          "w": 1000,
+          "h": 1250,
+          "webpQuality": 93,
+          "colour": "blue",
           "webp": [
             800,
             1000
@@ -342,22 +329,9 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-brown-v1-mirror-front-white-ink-v1-final-art-upright-v3.jpg",
-          "alt": "Face Card oversized tee in deep brown, heart card chest print, mirror selfie in a lamp-lit bedroom",
-          "w": 1000,
-          "h": 1321,
-          "colour": "brown",
-          "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/face-card-brown-v1-doorway-back-upright-k-v1-white-ink-v1-final-art-upright-v3.jpg",
-          "alt": "Face Card oversized tee in deep brown, full king card back print, standing in an old stone doorway",
-          "colour": "brown",
+          "src": "assets/img/products/face-card-blue-v1-hanger-back-upright-k-v1-white-ink-v1-final-art-upright-v3.jpg",
+          "alt": "Face Card oversized tee in deep blue on a wooden hanger, full king card back print against a sunlit wall",
+          "colour": "blue",
           "w": 1000,
           "h": 1250,
           "webpQuality": 93,
@@ -368,12 +342,25 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/face-card-brown-v1-hanger-back-upright-k-v1-white-ink-v1-final-art-upright-v3.jpg",
-          "alt": "Face Card oversized tee in deep brown on a wooden hanger, full king card back print against a sunlit wall",
-          "colour": "brown",
+          "src": "assets/img/products/face-card-brown-studio-back-20261023-v3.jpg",
+          "alt": "Face Card - brown men's studio back; natural cotton folds and shirt-focused crop",
           "w": 1000,
           "h": 1250,
           "webpQuality": 93,
+          "colour": "brown",
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/face-card-brown-studio-front-20261023-v3.jpg",
+          "alt": "Face Card - brown men's studio front; natural cotton folds and shirt-focused crop",
+          "w": 1000,
+          "h": 1250,
+          "webpQuality": 93,
+          "colour": "brown",
           "webp": [
             800,
             1000
@@ -412,6 +399,19 @@
           "w": 1000,
           "h": 1599,
           "colour": "brown",
+          "webpQuality": 93,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/face-card-brown-v1-hanger-back-upright-k-v1-white-ink-v1-final-art-upright-v3.jpg",
+          "alt": "Face Card oversized tee in deep brown on a wooden hanger, full king card back print against a sunlit wall",
+          "colour": "brown",
+          "w": 1000,
+          "h": 1250,
           "webpQuality": 93,
           "webp": [
             800,
@@ -495,12 +495,12 @@
       "media": [
         {
           "type": "img",
-          "src": "assets/img/products/the-overthinker-bone-blue-studio-back-20261023-v1.jpg",
-          "alt": "The Overthinker Bone / Blue tee, same braided model in a cool-grey studio, upright full tarot back print and natural cotton folds",
-          "colour": "bone-blue",
+          "src": "assets/img/products/the-overthinker-bone-blue-studio-back-20261023-v3.jpg",
+          "alt": "The Overthinker - bone blue men's studio back; natural cotton folds and shirt-focused crop",
           "w": 1000,
           "h": 1250,
           "webpQuality": 93,
+          "colour": "bone-blue",
           "webp": [
             800,
             1000
@@ -508,12 +508,12 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/the-overthinker-bone-blue-studio-front-3inch-20261023-v1.jpg",
-          "alt": "The Overthinker Bone / Blue tee, matching front studio portrait, centred upright 3-inch blue palm-and-eye chest card",
-          "colour": "bone-blue",
+          "src": "assets/img/products/the-overthinker-bone-blue-studio-front-20261023-v3.jpg",
+          "alt": "The Overthinker - bone blue men's studio front; natural cotton folds and shirt-focused crop",
           "w": 1000,
           "h": 1250,
           "webpQuality": 93,
+          "colour": "bone-blue",
           "webp": [
             800,
             1000
@@ -523,6 +523,19 @@
           "type": "img",
           "src": "assets/img/products/the-overthinker-bone-blue-refined-v2-floor-sit-final-art-upright-v3.jpg",
           "alt": "The Overthinker, Bone / Blue, floor sit",
+          "w": 1000,
+          "h": 1250,
+          "colour": "bone-blue",
+          "webpQuality": 93,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/the-overthinker-bone-blue-refined-v2-window-seat-final-art-upright-v3.jpg",
+          "alt": "The Overthinker, Bone / Blue, window seat",
           "w": 1000,
           "h": 1250,
           "colour": "bone-blue",
@@ -560,12 +573,12 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/the-overthinker-bone-blue-refined-v2-window-seat-final-art-upright-v3.jpg",
-          "alt": "The Overthinker, Bone / Blue, window seat",
+          "src": "assets/img/products/the-overthinker-black-blue-studio-back-20261023-v3.jpg",
+          "alt": "The Overthinker - black blue men's studio back; natural cotton folds and shirt-focused crop",
           "w": 1000,
           "h": 1250,
-          "colour": "bone-blue",
           "webpQuality": 93,
+          "colour": "black-blue",
           "webp": [
             800,
             1000
@@ -573,25 +586,12 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/the-overthinker-black-blue-refined-v2-library-hanger-final-art-upright-v3.jpg",
-          "alt": "The Overthinker, Black / Blue, library hanger",
+          "src": "assets/img/products/the-overthinker-black-blue-studio-front-20261023-v3.jpg",
+          "alt": "The Overthinker - black blue men's studio front; natural cotton folds and shirt-focused crop",
           "w": 1000,
           "h": 1250,
-          "colour": "black-blue",
           "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/the-overthinker-black-blue-refined-v2-library-pair-final-art-upright-v3.jpg",
-          "alt": "The Overthinker, Black / Blue, library pair",
-          "w": 1000,
-          "h": 1250,
           "colour": "black-blue",
-          "webpQuality": 93,
           "webp": [
             800,
             1000
@@ -601,6 +601,19 @@
           "type": "img",
           "src": "assets/img/products/the-overthinker-black-blue-refined-v2-floor-sit-final-art-upright-v3.jpg",
           "alt": "The Overthinker, Black / Blue, floor sit",
+          "w": 1000,
+          "h": 1250,
+          "colour": "black-blue",
+          "webpQuality": 93,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/the-overthinker-black-blue-refined-v2-window-seat-final-art-upright-v3.jpg",
+          "alt": "The Overthinker, Black / Blue, window seat",
           "w": 1000,
           "h": 1250,
           "colour": "black-blue",
@@ -638,12 +651,12 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/the-overthinker-black-blue-refined-v2-window-seat-final-art-upright-v3.jpg",
-          "alt": "The Overthinker, Black / Blue, window seat",
+          "src": "assets/img/products/the-overthinker-black-red-studio-back-20261023-v3.jpg",
+          "alt": "The Overthinker - black red men's studio back; natural cotton folds and shirt-focused crop",
           "w": 1000,
           "h": 1250,
-          "colour": "black-blue",
           "webpQuality": 93,
+          "colour": "black-red",
           "webp": [
             800,
             1000
@@ -651,25 +664,12 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/the-overthinker-black-red-refined-v2-library-hanger-final-art-upright-v3.jpg",
-          "alt": "The Overthinker, Black / Oxblood Red, library hanger",
+          "src": "assets/img/products/the-overthinker-black-red-studio-front-20261023-v3.jpg",
+          "alt": "The Overthinker - black red men's studio front; natural cotton folds and shirt-focused crop",
           "w": 1000,
           "h": 1250,
-          "colour": "black-red",
           "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/the-overthinker-black-red-refined-v2-library-pair-final-art-upright-v3.jpg",
-          "alt": "The Overthinker, Black / Oxblood Red, library pair",
-          "w": 1000,
-          "h": 1250,
           "colour": "black-red",
-          "webpQuality": 93,
           "webp": [
             800,
             1000
@@ -679,6 +679,19 @@
           "type": "img",
           "src": "assets/img/products/the-overthinker-black-red-refined-v2-floor-sit-final-art-upright-v3.jpg",
           "alt": "The Overthinker, Black / Oxblood Red, floor sit",
+          "w": 1000,
+          "h": 1250,
+          "colour": "black-red",
+          "webpQuality": 93,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/the-overthinker-black-red-refined-v2-window-seat-final-art-upright-v3.jpg",
+          "alt": "The Overthinker, Black / Oxblood Red, window seat",
           "w": 1000,
           "h": 1250,
           "colour": "black-red",
@@ -716,12 +729,12 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/the-overthinker-black-red-refined-v2-window-seat-final-art-upright-v3.jpg",
-          "alt": "The Overthinker, Black / Oxblood Red, window seat",
+          "src": "assets/img/products/the-overthinker-bone-red-studio-back-20261023-v3.jpg",
+          "alt": "The Overthinker - bone red men's studio back; natural cotton folds and shirt-focused crop",
           "w": 1000,
           "h": 1250,
-          "colour": "black-red",
           "webpQuality": 93,
+          "colour": "bone-red",
           "webp": [
             800,
             1000
@@ -729,25 +742,12 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/the-overthinker-bone-red-refined-v2-library-hanger-final-art-upright-v3.jpg",
-          "alt": "The Overthinker, Bone / Oxblood Red, library hanger",
+          "src": "assets/img/products/the-overthinker-bone-red-studio-front-20261023-v3.jpg",
+          "alt": "The Overthinker - bone red men's studio front; natural cotton folds and shirt-focused crop",
           "w": 1000,
           "h": 1250,
-          "colour": "bone-red",
           "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/the-overthinker-bone-red-refined-v2-library-pair-final-art-upright-v3.jpg",
-          "alt": "The Overthinker, Bone / Oxblood Red, library pair",
-          "w": 1000,
-          "h": 1250,
           "colour": "bone-red",
-          "webpQuality": 93,
           "webp": [
             800,
             1000
@@ -757,6 +757,19 @@
           "type": "img",
           "src": "assets/img/products/the-overthinker-bone-red-refined-v2-floor-sit-final-art-upright-v3.jpg",
           "alt": "The Overthinker, Bone / Oxblood Red, floor sit",
+          "w": 1000,
+          "h": 1250,
+          "colour": "bone-red",
+          "webpQuality": 93,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/the-overthinker-bone-red-refined-v2-window-seat-final-art-upright-v3.jpg",
+          "alt": "The Overthinker, Bone / Oxblood Red, window seat",
           "w": 1000,
           "h": 1250,
           "colour": "bone-red",
@@ -783,19 +796,6 @@
           "type": "img",
           "src": "assets/img/products/the-overthinker-bone-red-refined-v2-desk-study-final-art-upright-v3.jpg",
           "alt": "The Overthinker, Bone / Oxblood Red, desk study",
-          "w": 1000,
-          "h": 1250,
-          "colour": "bone-red",
-          "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/the-overthinker-bone-red-refined-v2-window-seat-final-art-upright-v3.jpg",
-          "alt": "The Overthinker, Bone / Oxblood Red, window seat",
           "w": 1000,
           "h": 1250,
           "colour": "bone-red",
@@ -899,18 +899,6 @@
       "media": [
         {
           "type": "img",
-          "src": "assets/img/products/neo-hanger-white-ink-v1.jpg",
-          "alt": "Neo Bombay tee on a hanger on a rooftop, back print, city towers behind",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 90,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
           "src": "assets/img/products/neo-lane-walk-white-ink-v1.jpg",
           "alt": "Neo Bombay tee, full back print, walking down a tree-lined lane",
           "w": 1000,
@@ -923,8 +911,8 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/neo-seawall-sit-white-ink-v1.jpg",
-          "alt": "Neo Bombay tee, three-star chest print, seated on the sea wall",
+          "src": "assets/img/products/neo-balcony-chest-white-ink-v1.jpg",
+          "alt": "Neo Bombay tee, three-star chest print, standing below art deco balconies",
           "w": 1000,
           "h": 1250,
           "webpQuality": 90,
@@ -935,8 +923,42 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/neo-balcony-chest-white-ink-v1.jpg",
-          "alt": "Neo Bombay tee, three-star chest print, standing below art deco balconies",
+          "src": "assets/img/products/neo-back-white-ink-v1.jpg",
+          "alt": "Neo Bombay tee, full back print at Marine Drive",
+          "w": 760,
+          "h": 950,
+          "webpQuality": 90,
+          "webp": [
+            760
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/neo-seated-white-ink-v1.jpg",
+          "alt": "Neo Bombay tee worn seated by the sea wall",
+          "w": 760,
+          "h": 950,
+          "webpQuality": 90,
+          "webp": [
+            760
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/neo-hanger-white-ink-v1.jpg",
+          "alt": "Neo Bombay tee on a hanger on a rooftop, back print, city towers behind",
+          "w": 1000,
+          "h": 1250,
+          "webpQuality": 90,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/neo-seawall-sit-white-ink-v1.jpg",
+          "alt": "Neo Bombay tee, three-star chest print, seated on the sea wall",
           "w": 1000,
           "h": 1250,
           "webpQuality": 90,
@@ -968,28 +990,6 @@
             800,
             1000
           ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/neo-back-white-ink-v1.jpg",
-          "alt": "Neo Bombay tee, full back print at Marine Drive",
-          "w": 760,
-          "h": 950,
-          "webpQuality": 90,
-          "webp": [
-            760
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/neo-seated-white-ink-v1.jpg",
-          "alt": "Neo Bombay tee worn seated by the sea wall",
-          "w": 760,
-          "h": 950,
-          "webpQuality": 90,
-          "webp": [
-            760
-          ]
         }
       ],
       "colours": [
@@ -1017,7 +1017,8 @@
           "hex": "#BBD4E8",
           "sellable": false
         }
-      ]
+      ],
+      "mediaOrder": "ordered"
     },
     {
       "id": "not-responding",
@@ -1059,18 +1060,6 @@
         }
       ],
       "media": [
-        {
-          "type": "img",
-          "src": "assets/img/products/not-responding-hanger-white-ink-v1.jpg",
-          "alt": "Not Responding tee on a hanger in a neon-lit gaming room, back print",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 90,
-          "webp": [
-            800,
-            1000
-          ]
-        },
         {
           "type": "img",
           "src": "assets/img/products/not-responding-chair-white-ink-v1.jpg",
@@ -1139,6 +1128,18 @@
           "webp": [
             800
           ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/not-responding-hanger-white-ink-v1.jpg",
+          "alt": "Not Responding tee on a hanger in a neon-lit gaming room, back print",
+          "w": 1000,
+          "h": 1250,
+          "webpQuality": 90,
+          "webp": [
+            800,
+            1000
+          ]
         }
       ],
       "colours": [
@@ -1166,7 +1167,8 @@
           "hex": "#C5CAE9",
           "sellable": false
         }
-      ]
+      ],
+      "mediaOrder": "ordered"
     },
     {
       "id": "atlas",
@@ -1210,6 +1212,18 @@
       "media": [
         {
           "type": "img",
+          "src": "assets/img/products/atlas-plate-carry-white-ink-v1.jpg",
+          "alt": "Atlas tee, checklist chest print, carrying a weight plate across the gym",
+          "w": 1000,
+          "h": 1250,
+          "webpQuality": 90,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
           "src": "assets/img/products/atlas-gym-hanger-white-ink-v1.jpg",
           "alt": "Atlas tee on a hanger on a squat rack in a sunlit gym, back print",
           "w": 1000,
@@ -1224,18 +1238,6 @@
           "type": "img",
           "src": "assets/img/products/atlas-squat-rack-white-ink-v1.jpg",
           "alt": "Atlas tee, full back print, at the squat rack with a training partner",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 90,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/atlas-plate-carry-white-ink-v1.jpg",
-          "alt": "Atlas tee, checklist chest print, carrying a weight plate across the gym",
           "w": 1000,
           "h": 1250,
           "webpQuality": 90,
@@ -1312,7 +1314,8 @@
           "hex": "#C3D3C0",
           "sellable": false
         }
-      ]
+      ],
+      "mediaOrder": "ordered"
     },
     {
       "id": "one-way",
@@ -1356,6 +1359,30 @@
       "media": [
         {
           "type": "img",
+          "src": "assets/img/products/one-way-window-white-ink-v1.jpg",
+          "alt": "One Way tee, boarding pass back print, by the terminal windows",
+          "w": 1000,
+          "h": 1250,
+          "webpQuality": 90,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/one-way-duffel-white-ink-v1.jpg",
+          "alt": "One Way tee, Seat 00A chest print, with a duffel bag in the terminal",
+          "w": 1000,
+          "h": 1250,
+          "webpQuality": 90,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
           "src": "assets/img/products/one-way-airport-hanger-white-ink-v1.jpg",
           "alt": "One Way tee on a hanger at a sunlit airport window, back print",
           "w": 1000,
@@ -1392,32 +1419,8 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/one-way-window-white-ink-v1.jpg",
-          "alt": "One Way tee, boarding pass back print, by the terminal windows",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 90,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
           "src": "assets/img/products/one-way-suitcase-white-ink-v1.jpg",
           "alt": "One Way tee, boarding pass back print, with a yellow suitcase at the window",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 90,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/one-way-duffel-white-ink-v1.jpg",
-          "alt": "One Way tee, Seat 00A chest print, with a duffel bag in the terminal",
           "w": 1000,
           "h": 1250,
           "webpQuality": 90,
@@ -1464,7 +1467,8 @@
           "hex": "#BBD4E8",
           "sellable": false
         }
-      ]
+      ],
+      "mediaOrder": "ordered"
     },
     {
       "id": "out-of-office",
@@ -1506,6 +1510,30 @@
         }
       ],
       "media": [
+        {
+          "type": "img",
+          "src": "assets/img/products/out-of-office-steps-white-ink-v1.jpg",
+          "alt": "Out of Office tee, AWAY tag chest print, sitting on yellow steps",
+          "w": 1000,
+          "h": 1250,
+          "webpQuality": 90,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/out-of-office-scooter-cheer-white-ink-v1.jpg",
+          "alt": "Out of Office tee, luggage tag back print, arm raised on a scooter by the sea",
+          "w": 1000,
+          "h": 1250,
+          "webpQuality": 90,
+          "webp": [
+            800,
+            1000
+          ]
+        },
         {
           "type": "img",
           "src": "assets/img/products/out-of-office-shutter-hanger-white-ink-v1.jpg",
@@ -1553,30 +1581,6 @@
             800,
             1000
           ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/out-of-office-steps-white-ink-v1.jpg",
-          "alt": "Out of Office tee, AWAY tag chest print, sitting on yellow steps",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 90,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/out-of-office-scooter-cheer-white-ink-v1.jpg",
-          "alt": "Out of Office tee, luggage tag back print, arm raised on a scooter by the sea",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 90,
-          "webp": [
-            800,
-            1000
-          ]
         }
       ],
       "colours": [
@@ -1604,7 +1608,8 @@
           "hex": "#BCE3E0",
           "sellable": false
         }
-      ]
+      ],
+      "mediaOrder": "ordered"
     },
     {
       "id": "calcutta-wb02",
@@ -1643,34 +1648,8 @@
       "media": [
         {
           "type": "img",
-          "src": "assets/img/products/calcutta-wb02-off-white-v1-hanger-bone-artwork-v2.jpg",
-          "alt": "Calcutta WB 02, Off White tee on a wooden hanger, full back graphic",
-          "colour": "off-white",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
           "src": "assets/img/products/calcutta-wb02-off-white-v1-back-walk-bone-artwork-v2.jpg",
           "alt": "Calcutta WB 02, Off White tee worn outdoors, back graphic and oversized fit",
-          "colour": "off-white",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/calcutta-wb02-off-white-v1-front-walk-bone-artwork-v2.jpg",
-          "alt": "Calcutta WB 02, Off White tee worn walking outdoors, small left chest plate",
           "colour": "off-white",
           "w": 1000,
           "h": 1250,
@@ -1695,19 +1674,6 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/calcutta-wb02-off-white-v1-back-candid-bone-artwork-v2.jpg",
-          "alt": "Calcutta WB 02, Off White tee in a candid conversation, full back graphic",
-          "colour": "off-white",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
           "src": "assets/img/products/calcutta-wb02-off-white-v1-front-balcony-bone-artwork-v2.jpg",
           "alt": "Calcutta WB 02, Off White tee on a home balcony, small left chest plate",
           "colour": "off-white",
@@ -1721,12 +1687,38 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/calcutta-wb02-white-v1-hanger-white-ink-v1.jpg",
-          "alt": "Calcutta WB 02, White tee on a wooden hanger, full back graphic",
-          "colour": "white",
+          "src": "assets/img/products/calcutta-wb02-off-white-v1-hanger-bone-artwork-v2.jpg",
+          "alt": "Calcutta WB 02, Off White tee on a wooden hanger, full back graphic",
+          "colour": "off-white",
           "w": 1000,
           "h": 1250,
-          "webpQuality": 90,
+          "webpQuality": 93,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/calcutta-wb02-off-white-v1-front-walk-bone-artwork-v2.jpg",
+          "alt": "Calcutta WB 02, Off White tee worn walking outdoors, small left chest plate",
+          "colour": "off-white",
+          "w": 1000,
+          "h": 1250,
+          "webpQuality": 93,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/calcutta-wb02-off-white-v1-back-candid-bone-artwork-v2.jpg",
+          "alt": "Calcutta WB 02, Off White tee in a candid conversation, full back graphic",
+          "colour": "off-white",
+          "w": 1000,
+          "h": 1250,
+          "webpQuality": 93,
           "webp": [
             800,
             1000
@@ -1736,19 +1728,6 @@
           "type": "img",
           "src": "assets/img/products/calcutta-wb02-white-v1-back-walk-white-ink-v1.jpg",
           "alt": "Calcutta WB 02, White tee worn outdoors, back graphic and oversized fit",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 90,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/calcutta-wb02-white-v1-front-walk-white-ink-v1.jpg",
-          "alt": "Calcutta WB 02, White tee worn walking outdoors, small left chest plate",
           "colour": "white",
           "w": 1000,
           "h": 1250,
@@ -1773,8 +1752,8 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/calcutta-wb02-white-v1-back-candid-white-ink-v1.jpg",
-          "alt": "Calcutta WB 02, White tee in a candid conversation, full back graphic",
+          "src": "assets/img/products/calcutta-wb02-white-v1-front-balcony-white-ink-v1.jpg",
+          "alt": "Calcutta WB 02, White tee on a home balcony, small left chest plate",
           "colour": "white",
           "w": 1000,
           "h": 1250,
@@ -1786,8 +1765,34 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/calcutta-wb02-white-v1-front-balcony-white-ink-v1.jpg",
-          "alt": "Calcutta WB 02, White tee on a home balcony, small left chest plate",
+          "src": "assets/img/products/calcutta-wb02-white-v1-hanger-white-ink-v1.jpg",
+          "alt": "Calcutta WB 02, White tee on a wooden hanger, full back graphic",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webpQuality": 90,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/calcutta-wb02-white-v1-front-walk-white-ink-v1.jpg",
+          "alt": "Calcutta WB 02, White tee worn walking outdoors, small left chest plate",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webpQuality": 90,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/calcutta-wb02-white-v1-back-candid-white-ink-v1.jpg",
+          "alt": "Calcutta WB 02, White tee in a candid conversation, full back graphic",
           "colour": "white",
           "w": 1000,
           "h": 1250,
@@ -1816,7 +1821,8 @@
       "seo": {
         "keyword": "Kolkata t-shirt",
         "description": "Calcutta WB 02, an oversized Kolkata t-shirt in White or Off White. Small chest plate, full back graphic. {price}, free shipping across India."
-      }
+      },
+      "mediaOrder": "ordered"
     },
     {
       "id": "delhi-dl01",
@@ -1855,34 +1861,8 @@
       "media": [
         {
           "type": "img",
-          "src": "assets/img/products/delhi-dl01-off-white-v1-hanger-bone-artwork-v2.jpg",
-          "alt": "Delhi DL 01, Off White tee on a wooden hanger, full back graphic",
-          "colour": "off-white",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
           "src": "assets/img/products/delhi-dl01-off-white-v1-back-walk-bone-artwork-v2.jpg",
           "alt": "Delhi DL 01, Off White tee worn outdoors, back graphic and oversized fit",
-          "colour": "off-white",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/delhi-dl01-off-white-v1-front-walk-bone-artwork-v2.jpg",
-          "alt": "Delhi DL 01, Off White tee worn walking outdoors, small left chest plate",
           "colour": "off-white",
           "w": 1000,
           "h": 1250,
@@ -1907,19 +1887,6 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/delhi-dl01-off-white-v1-back-candid-bone-artwork-v2.jpg",
-          "alt": "Delhi DL 01, Off White tee in a candid conversation, full back graphic",
-          "colour": "off-white",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
           "src": "assets/img/products/delhi-dl01-off-white-v1-front-balcony-bone-artwork-v2.jpg",
           "alt": "Delhi DL 01, Off White tee on a home balcony, small left chest plate",
           "colour": "off-white",
@@ -1933,12 +1900,38 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/delhi-dl01-white-v1-hanger-white-ink-v1.jpg",
-          "alt": "Delhi DL 01, White tee on a wooden hanger, full back graphic",
-          "colour": "white",
+          "src": "assets/img/products/delhi-dl01-off-white-v1-hanger-bone-artwork-v2.jpg",
+          "alt": "Delhi DL 01, Off White tee on a wooden hanger, full back graphic",
+          "colour": "off-white",
           "w": 1000,
           "h": 1250,
-          "webpQuality": 90,
+          "webpQuality": 93,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/delhi-dl01-off-white-v1-front-walk-bone-artwork-v2.jpg",
+          "alt": "Delhi DL 01, Off White tee worn walking outdoors, small left chest plate",
+          "colour": "off-white",
+          "w": 1000,
+          "h": 1250,
+          "webpQuality": 93,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/delhi-dl01-off-white-v1-back-candid-bone-artwork-v2.jpg",
+          "alt": "Delhi DL 01, Off White tee in a candid conversation, full back graphic",
+          "colour": "off-white",
+          "w": 1000,
+          "h": 1250,
+          "webpQuality": 93,
           "webp": [
             800,
             1000
@@ -1948,19 +1941,6 @@
           "type": "img",
           "src": "assets/img/products/delhi-dl01-white-v1-back-walk-white-ink-v1.jpg",
           "alt": "Delhi DL 01, White tee worn outdoors, back graphic and oversized fit",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 90,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/delhi-dl01-white-v1-front-walk-white-ink-v1.jpg",
-          "alt": "Delhi DL 01, White tee worn walking outdoors, small left chest plate",
           "colour": "white",
           "w": 1000,
           "h": 1250,
@@ -1985,8 +1965,8 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/delhi-dl01-white-v1-back-candid-white-ink-v1.jpg",
-          "alt": "Delhi DL 01, White tee in a candid conversation, full back graphic",
+          "src": "assets/img/products/delhi-dl01-white-v1-front-balcony-white-ink-v1.jpg",
+          "alt": "Delhi DL 01, White tee on a home balcony, small left chest plate",
           "colour": "white",
           "w": 1000,
           "h": 1250,
@@ -1998,8 +1978,34 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/delhi-dl01-white-v1-front-balcony-white-ink-v1.jpg",
-          "alt": "Delhi DL 01, White tee on a home balcony, small left chest plate",
+          "src": "assets/img/products/delhi-dl01-white-v1-hanger-white-ink-v1.jpg",
+          "alt": "Delhi DL 01, White tee on a wooden hanger, full back graphic",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webpQuality": 90,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/delhi-dl01-white-v1-front-walk-white-ink-v1.jpg",
+          "alt": "Delhi DL 01, White tee worn walking outdoors, small left chest plate",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webpQuality": 90,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/delhi-dl01-white-v1-back-candid-white-ink-v1.jpg",
+          "alt": "Delhi DL 01, White tee in a candid conversation, full back graphic",
           "colour": "white",
           "w": 1000,
           "h": 1250,
@@ -2028,7 +2034,8 @@
       "seo": {
         "keyword": "Delhi t-shirt",
         "description": "Delhi DL 01, an oversized Delhi t-shirt in White or Off White. Small chest plate, full back graphic. {price}, free shipping across India."
-      }
+      },
+      "mediaOrder": "ordered"
     },
     {
       "id": "bengaluru-ka01",
@@ -2067,34 +2074,8 @@
       "media": [
         {
           "type": "img",
-          "src": "assets/img/products/bengaluru-ka01-off-white-v1-hanger-bone-artwork-v2.jpg",
-          "alt": "Bengaluru KA 01, Off White tee on a wooden hanger, full back graphic",
-          "colour": "off-white",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
           "src": "assets/img/products/bengaluru-ka01-off-white-v1-back-walk-bone-artwork-v2.jpg",
           "alt": "Bengaluru KA 01, Off White tee worn outdoors, back graphic and oversized fit",
-          "colour": "off-white",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/bengaluru-ka01-off-white-v1-front-walk-bone-artwork-v2.jpg",
-          "alt": "Bengaluru KA 01, Off White tee worn walking outdoors, small left chest plate",
           "colour": "off-white",
           "w": 1000,
           "h": 1250,
@@ -2119,19 +2100,6 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/bengaluru-ka01-off-white-v1-back-candid-bone-artwork-v2.jpg",
-          "alt": "Bengaluru KA 01, Off White tee in a candid conversation, full back graphic",
-          "colour": "off-white",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
           "src": "assets/img/products/bengaluru-ka01-off-white-v1-front-balcony-bone-artwork-v2.jpg",
           "alt": "Bengaluru KA 01, Off White tee on a home balcony, small left chest plate",
           "colour": "off-white",
@@ -2145,12 +2113,38 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/bengaluru-ka01-white-v1-hanger-white-ink-v1.jpg",
-          "alt": "Bengaluru KA 01, White tee on a wooden hanger, full back graphic",
-          "colour": "white",
+          "src": "assets/img/products/bengaluru-ka01-off-white-v1-hanger-bone-artwork-v2.jpg",
+          "alt": "Bengaluru KA 01, Off White tee on a wooden hanger, full back graphic",
+          "colour": "off-white",
           "w": 1000,
           "h": 1250,
-          "webpQuality": 90,
+          "webpQuality": 93,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/bengaluru-ka01-off-white-v1-front-walk-bone-artwork-v2.jpg",
+          "alt": "Bengaluru KA 01, Off White tee worn walking outdoors, small left chest plate",
+          "colour": "off-white",
+          "w": 1000,
+          "h": 1250,
+          "webpQuality": 93,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/bengaluru-ka01-off-white-v1-back-candid-bone-artwork-v2.jpg",
+          "alt": "Bengaluru KA 01, Off White tee in a candid conversation, full back graphic",
+          "colour": "off-white",
+          "w": 1000,
+          "h": 1250,
+          "webpQuality": 93,
           "webp": [
             800,
             1000
@@ -2160,19 +2154,6 @@
           "type": "img",
           "src": "assets/img/products/bengaluru-ka01-white-v1-back-walk-white-ink-v1.jpg",
           "alt": "Bengaluru KA 01, White tee worn outdoors, back graphic and oversized fit",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 90,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/bengaluru-ka01-white-v1-front-walk-white-ink-v1.jpg",
-          "alt": "Bengaluru KA 01, White tee worn walking outdoors, small left chest plate",
           "colour": "white",
           "w": 1000,
           "h": 1250,
@@ -2197,8 +2178,8 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/bengaluru-ka01-white-v1-back-candid-white-ink-v1.jpg",
-          "alt": "Bengaluru KA 01, White tee in a candid conversation, full back graphic",
+          "src": "assets/img/products/bengaluru-ka01-white-v1-front-balcony-white-ink-v1.jpg",
+          "alt": "Bengaluru KA 01, White tee on a home balcony, small left chest plate",
           "colour": "white",
           "w": 1000,
           "h": 1250,
@@ -2210,8 +2191,34 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/bengaluru-ka01-white-v1-front-balcony-white-ink-v1.jpg",
-          "alt": "Bengaluru KA 01, White tee on a home balcony, small left chest plate",
+          "src": "assets/img/products/bengaluru-ka01-white-v1-hanger-white-ink-v1.jpg",
+          "alt": "Bengaluru KA 01, White tee on a wooden hanger, full back graphic",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webpQuality": 90,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/bengaluru-ka01-white-v1-front-walk-white-ink-v1.jpg",
+          "alt": "Bengaluru KA 01, White tee worn walking outdoors, small left chest plate",
+          "colour": "white",
+          "w": 1000,
+          "h": 1250,
+          "webpQuality": 90,
+          "webp": [
+            800,
+            1000
+          ]
+        },
+        {
+          "type": "img",
+          "src": "assets/img/products/bengaluru-ka01-white-v1-back-candid-white-ink-v1.jpg",
+          "alt": "Bengaluru KA 01, White tee in a candid conversation, full back graphic",
           "colour": "white",
           "w": 1000,
           "h": 1250,
@@ -2240,7 +2247,8 @@
       "seo": {
         "keyword": "Bengaluru t-shirt",
         "description": "Bengaluru KA 01, an oversized Bengaluru t-shirt in White or Off White. Small chest plate, full back graphic. {price}, free shipping across India."
-      }
+      },
+      "mediaOrder": "ordered"
     }
   ],
   "archived": [
