@@ -495,11 +495,11 @@
       "media": [
         {
           "type": "img",
-          "src": "assets/img/products/the-overthinker-bone-blue-refined-v2-library-hanger-final-art-upright-v3.jpg",
-          "alt": "The Overthinker, Bone / Blue, library hanger",
+          "src": "assets/img/products/the-overthinker-bone-blue-studio-back-20261023-v1.jpg",
+          "alt": "The Overthinker Bone / Blue tee, same braided model in a cool-grey studio, upright full tarot back print and natural cotton folds",
+          "colour": "bone-blue",
           "w": 1000,
           "h": 1250,
-          "colour": "bone-blue",
           "webpQuality": 93,
           "webp": [
             800,
@@ -508,11 +508,11 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/the-overthinker-bone-blue-refined-v2-library-pair-final-art-upright-v3.jpg",
-          "alt": "The Overthinker, Bone / Blue, library pair",
+          "src": "assets/img/products/the-overthinker-bone-blue-studio-front-3inch-20261023-v1.jpg",
+          "alt": "The Overthinker Bone / Blue tee, matching front studio portrait, centred upright 3-inch blue palm-and-eye chest card",
+          "colour": "bone-blue",
           "w": 1000,
           "h": 1250,
-          "colour": "bone-blue",
           "webpQuality": 93,
           "webp": [
             800,
@@ -851,7 +851,8 @@
         "backWidthInches": 12,
         "alignment": "centred",
         "orientation": "upright"
-      }
+      },
+      "mediaOrder": "ordered"
     },
     {
       "id": "neo-bombay",
