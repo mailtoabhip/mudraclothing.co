@@ -28,7 +28,7 @@ const API_URL = `https://${SHOPIFY.domain}/api/${SHOPIFY.apiVersion}/graphql.jso
 
 const SIZES = ['S', 'M', 'L', 'XL', 'XXL'];
 
-const SPRITE_URL = '/assets/svg/sprite.svg?v=2f8b0426';
+const SPRITE_URL = '/assets/svg/sprite.svg?v=3ffb4f08';
 
 /* ---------- urls ------------------------------------------------------ */
 
@@ -554,6 +554,32 @@ function wireShopFor() {
   });
 }
 wireShopFor();   // shop.js is deferred on every page, so the header is already parsed
+
+/* ---------- "Worn by": real customer photos (data/wornby.json) --------
+   Every [data-wornby] section stays hidden until the file has entries. On a
+   product page ([data-wornby-product]) only that tee's photos show. */
+async function initWornBy() {
+  const boxes = [...document.querySelectorAll('[data-wornby]')];
+  if (!boxes.length) return;
+  let items = [];
+  try { items = (await fetch('/data/wornby.json', { cache: 'no-cache' }).then(r => r.json())).items || []; } catch { return; }
+  const names = {};
+  try { (await loadCatalogue()).products.forEach(p => { names[p.id] = p.name; }); } catch { /* names are optional */ }
+  for (const box of boxes) {
+    const pid = box.hasAttribute('data-wornby-product') ? productIdFromUrl() : null;
+    const list = items.filter(x => x && x.image && x.name && (!pid || x.product === pid)).slice(0, 8);
+    if (!list.length) continue;
+    box.querySelector('[data-wornby-grid]').innerHTML = list.map(x => {
+      const tee = names[x.product] ? `<a class="mono" href="${productUrl(x.product)}">${esc(names[x.product])}</a>` : '';
+      return `<figure class="wornby__card">
+        <div class="wornby__img"><img src="/${esc(x.image.replace(/^\//, ''))}" alt="${esc(x.alt || `${x.name} wearing ${names[x.product] || 'a Mudra tee'}`)}" loading="lazy" decoding="async" width="800" height="1000"></div>
+        <figcaption>${x.quote ? `<p>${esc(x.quote)}</p>` : ''}<span class="mono">${esc(x.name)}${x.city ? `, ${esc(x.city)}` : ''}</span>${pid ? '' : tee}</figcaption>
+      </figure>`;
+    }).join('');
+    box.hidden = false;
+  }
+}
+initWornBy();
 
 /* ---------- bag count ------------------------------------------------- */
 

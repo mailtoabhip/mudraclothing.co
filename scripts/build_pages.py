@@ -35,8 +35,8 @@ SRC = ROOT / "_src" / "pages"
 
 ACCOUNT = "/account"
 
-# header nav: the "Shop for" dropdown (same markup as index/product/cart.html), then plain links
-SHOP_FOR = ('<div class="shopfor"><button type="button" class="shopfor__btn" id="shopforBtn" aria-haspopup="true" aria-expanded="false" aria-controls="shopforMenu">Shop for<i class="shopfor__chev" aria-hidden="true"></i></button><div class="shopfor__pop" id="shopforMenu"><div class="shopfor__panel"><a class="shopfor__item shopfor__item--go" href="/#shop">Oversized t-shirts</a><span class="shopfor__item shopfor__item--soon" aria-disabled="true">T-shirts<em class="shopfor__badge">Coming soon</em></span></div></div></div>')
+# header nav: "Shop" (same markup as index/product/cart.html), then plain links
+SHOP_FOR = '<a href="/#shop">Shop</a>'   # was a "Shop for" dropdown with a "Coming soon" row; removed 23 Oct (read as "shop not open")
 NAV = [("/size-guide", "Size guide"), ("/about", "About")]
 
 FOOTER_COLS = [

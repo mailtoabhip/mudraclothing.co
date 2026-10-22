@@ -510,3 +510,18 @@ a.atc{display:block;text-align:center}
 .wafab__icon{width:16px;height:16px;flex:0 0 16px}
 @media (max-width:420px){.wafab__label{display:none}.wafab{padding:12px;border-radius:50%}}
 @media print{.wafab{display:none}}
+
+/* "Worn by": real customer photos (home + product pages), hidden while empty */
+.wornby{padding-block:clamp(56px,8vw,110px)}
+.wornby__head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;padding-bottom:14px;margin-bottom:clamp(18px,3vw,28px);border-bottom:1px solid var(--fg)}
+.wornby__title{font-family:var(--display);font-weight:400;text-transform:uppercase;letter-spacing:.01em;font-size:clamp(32px,4.4vw,56px);line-height:.92;margin:0}
+.wornby__head .mono{color:var(--ash)}
+.wornby__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,1.6vw,20px)}
+.wornby__card{margin:0;display:flex;flex-direction:column;gap:10px}
+.wornby__img{aspect-ratio:4/5;background:var(--paper-2);overflow:hidden}
+.wornby__img img{width:100%;height:100%;object-fit:cover;display:block}
+.wornby__card figcaption{display:flex;flex-direction:column;gap:5px}
+.wornby__card p{margin:0;font-size:15px;line-height:1.45}
+.wornby__card .mono{color:var(--ash)}
+.wornby__card a.mono{color:var(--blue);text-decoration:underline;text-underline-offset:3px}
+@media(max-width:900px){.wornby__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}

@@ -108,7 +108,7 @@ async function loadLive(p) {
   // "Sold out" only when Shopify itself reports no size available
   if (!any) atc.textContent = 'Sold out';
   else if (view.size) atc.innerHTML = ctaHTML();
-  else atc.textContent = 'Pick a size';
+  else atc.textContent = 'Add to bag';
   syncSticky();
 }
 
@@ -272,7 +272,7 @@ function renderBuy(p) {
     </div>
 
     ${explainerHTML(p)}
-    <button class="buy__atc" id="atc" ${anyStock ? '' : 'disabled'}>${anyStock ? 'Pick a size' : 'Sold out'}</button>
+    <button class="buy__atc" id="atc" ${anyStock ? '' : 'disabled'}>${anyStock ? 'Add to bag' : 'Sold out'}</button>
     ${trustHTML()}
     ${teaserActionsHTML(p)}
     ${infoBoxHTML(p)}
@@ -754,12 +754,12 @@ function syncSticky() {
   if (locked()) { btn.textContent = lockedLabel(); return; }
   if (main.disabled) { btn.textContent = main.textContent; return; }
   if (!main.classList.contains('done')) {
-    main.innerHTML = count || bagSelectionChanged() ? ctaHTML() : 'Pick a size';
+    main.innerHTML = count || bagSelectionChanged() ? ctaHTML() : 'Add to bag';
     main.classList.toggle('ready', !!count);
   }
   if (btn.classList.contains('done')) return;
   const verb = M.depositWindow() ? `Pre-order @ ${money(count * M.depositFor(view.product.id))}` : M.saleState(p.id) === 'open' ? 'Pre-order now' : M.isPreorder() ? 'Pre-order' : 'Add to bag';
-  btn.textContent = Object.keys(view.bagQuantities).length ? (bagSelectionChanged() ? 'Update bag' : 'View bag') : count ? verb : 'Choose sizes';
+  btn.textContent = Object.keys(view.bagQuantities).length ? (bagSelectionChanged() ? 'Update bag' : 'View bag') : count ? verb : 'Add to bag';
 }
 
 function positionPurchaseSizes() {

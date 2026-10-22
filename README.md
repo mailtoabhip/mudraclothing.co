@@ -242,3 +242,10 @@ manufacturer's name in them. Contact buttons read
 `whatsappBusiness` (digits with country code, e.g. 9198xxxxxxxx) and `wholesaleEmail` from
 `data/site.json`; an empty value hides its buttons. The form opens WhatsApp or the mail app
 prefilled; nothing is stored. GA4 event: `wholesale_enquiry` with `method`.
+
+## Worn by (real customer photos)
+
+`data/wornby.json` → `items`: `{"name": "Riya", "city": "Pune", "product": "atlas",
+"image": "assets/img/wornby/riya-atlas.jpg", "quote": "their own words (optional)"}`.
+Real customers only, with their written OK. The section shows on the home page and on the
+matching product page once the list has entries; empty means hidden.
