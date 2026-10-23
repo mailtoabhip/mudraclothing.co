@@ -40,7 +40,7 @@ NAV = [("/size-guide", "Size guide"), ("/about", "About")]
 FOOTER_COLS = [
     ("Shop", [("/#shop", "All tees"), ("/size-guide", "Size guide"), ("/track", "Track order"), (ACCOUNT, "Account")]),
     ("Help", [("/shipping", "Shipping"), ("/returns", "Returns &amp; refunds"), ("/payment-help", "Payment help"), ("/contact", "Contact")]),
-    ("Company", [("/about", "About"), ("/wholesale", "For stores"), ("/terms", "Terms"), ("/privacy", "Privacy")]),
+    ("Company", [("/about", "About"), ("/terms", "Terms"), ("/privacy", "Privacy")]),
 ]
 
 FOOTER = """<!-- footer:start -->
