@@ -297,7 +297,7 @@ async function sf(query, variables = {}) {
 const PRODUCT_Q = `query P($handle: String!) {
   product(handle: $handle) {
     handle title availableForSale
-    variants(first: 20) { nodes {
+    variants(first: 100) { nodes {
       id availableForSale price { amount currencyCode } compareAtPrice { amount }
       selectedOptions { name value }
     } }
@@ -306,25 +306,34 @@ const PRODUCT_Q = `query P($handle: String!) {
 
 const liveCache = new Map();
 // → { price, variants: { S: { id, available, price } } } or null if Shopify doesn't know the handle
-function liveProduct(handle) {
+function liveProduct(handle, colour) {
   if (!liveCache.has(handle)) {
     liveCache.set(handle, sf(PRODUCT_Q, { handle }).then(d => {
       const p = d.product;
       if (!p) return null;
-      const variants = {};
+      const variants = {}, colourVariants = {};
       p.variants.nodes.forEach(v => {
         const size = v.selectedOptions.find(o => o.name.toLowerCase() === 'size')?.value;
-        if (size) variants[size] = { id: v.id, available: v.availableForSale, price: Number(v.price.amount) };
+        const colour = v.selectedOptions.find(o => /^(colour|color)$/i.test(o.name))?.value;
+        if (!size) return;
+        const item = { id: v.id, available: v.availableForSale, price: Number(v.price.amount) };
+        if (colour) (colourVariants[colour.toLowerCase()] ||= {})[size] = item;
+        else variants[size] = item;
       });
       const first = p.variants.nodes[0];
       return {
         price: first ? Number(first.price.amount) : null,
         compareAt: first?.compareAtPrice ? Number(first.compareAtPrice.amount) : null,
         variants,
+        colourVariants,
       };
     }).catch(err => { liveCache.delete(handle); throw err; }));
   }
-  return liveCache.get(handle);
+  return liveCache.get(handle).then(p => {
+    if (!p || !Object.keys(p.colourVariants).length) return p;
+    // Never fall back to a different colour when a native colour is missing.
+    return { ...p, variants: p.colourVariants[(colour || '').toLowerCase()] || {} };
+  });
 }
 
 /* ---------- cart ------------------------------------------------------ */
@@ -412,6 +421,23 @@ const cart = {
     try {
       const d = await sf(Q.get, { id });
       if (!d.cart) return setCart(null);
+      // Older bags stored colour as a note on a size-only variant. Retarget
+      // those lines to the corresponding native colour, retaining quantities.
+      const replacements = [];
+      for (const line of d.cart.lines.nodes) {
+        const colour = line.attributes.find(a => a.key === 'Colour')?.value;
+        if (!colour) continue;
+        const size = line.merchandise.selectedOptions.find(o => o.name.toLowerCase() === 'size')?.value;
+        const product = await liveProduct(line.merchandise.product.handle, colour);
+        const match = product?.variants[size];
+        if (product && Object.keys(product.colourVariants).length && !match) {
+          throw new ShopError('A shirt colour in your bag needs review. Please reselect it before checkout.');
+        }
+        if (match && match.id !== line.merchandise.id) replacements.push({
+          id: line.id, merchandiseId: match.id, quantity: line.quantity, attributes: line.attributes,
+        });
+      }
+      if (replacements.length) unwrap((await sf(Q.update, { id, lines: replacements })).cartLinesUpdate);
       const updated = await sf(Q.attrs, { id, attributes: orderAttributes() });
       return setCart(unwrap(updated.cartAttributesUpdate));
     } catch (err) {

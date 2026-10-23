@@ -81,7 +81,9 @@ async function loadLive(p) {
   syncSticky();
   let live;
   try {
-    live = await M.liveProduct(p.id);
+    const selectedColour = view.colour?.name;
+    live = await M.liveProduct(p.id, selectedColour);
+    if (selectedColour !== view.colour?.name) return;
   } catch (err) {
     showError(err.message);
     atc.textContent = 'Unavailable';
@@ -345,6 +347,7 @@ function renderBuy(p) {
     b.classList.add('on');
     b.setAttribute('aria-pressed', 'true');
     view.colour = view.colours.find(c => c.key === b.dataset.colour);
+    view.variants = null;
     $('#colourName').textContent = view.colour.name;
     selectColourMedia();
     renderGallery(p);
@@ -354,6 +357,7 @@ function renderBuy(p) {
     history.replaceState(null, '', url);
     restoreBagSelection(true);
     syncSticky();
+    if (M.SHOPIFY.enabled) loadLive(p);
   });
 
   $('#atc').addEventListener('click', e => addCurrent(e.currentTarget));

@@ -183,7 +183,11 @@ async function createBalance(customerId, id, now = Date.now()) {
     for (const item of record.items) {
       const result = await admin(`query($query: String!) { products(first: 1, query: $query) { nodes { handle status variants(first: 100) { nodes { id selectedOptions { name value } } } } } }`, { query: `handle:${item.productId}` });
       const product = result.products.nodes.find(p => p.handle === item.productId && p.status === 'ACTIVE');
-      const variant = product?.variants.nodes.find(v => v.selectedOptions.some(o => o.name.toLowerCase() === 'size' && o.value === item.size));
+      const variant = product?.variants.nodes.find(v => {
+        const colour = v.selectedOptions.find(o => /^(colour|color)$/i.test(o.name));
+        return v.selectedOptions.some(o => o.name.toLowerCase() === 'size' && o.value === item.size) &&
+          (!colour || colour.value.toLowerCase() === item.colour.toLowerCase());
+      });
       if (!variant) throw new Error('That pre-ordered size needs review. Please contact us.');
       input.lineItems.push({ variantId: variant.id, quantity: item.quantity,
         priceOverride: { amount: rupees(item.pricePaise - item.depositPaise), currencyCode: 'INR' },

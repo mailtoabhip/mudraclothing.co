@@ -146,9 +146,10 @@ function lineHTML(l) {
   const handle = v.product?.handle;
   const name = names[handle] || v.product?.title || 'Tee';
   const size = v.selectedOptions?.find(o => o.name.toLowerCase() === 'size')?.value || v.title;
-  const colour = l.attributes?.find(a => a.key === 'Colour')?.value;
-  const url = handle ? M.productUrl(handle) : '/#shop';
-  const photo = catalogue[handle]?.media.find(m => m.type === 'img' && m.colour && m.colour === colour?.toLowerCase());
+  const colour = v.selectedOptions?.find(o => /^(colour|color)$/i.test(o.name))?.value || l.attributes?.find(a => a.key === 'Colour')?.value;
+  const colourKey = catalogue[handle]?.colours.find(c => c.name.toLowerCase() === colour?.toLowerCase())?.key;
+  const url = handle ? M.productUrl(handle) + (colourKey ? '?c=' + encodeURIComponent(colourKey) : '') : '/#shop';
+  const photo = catalogue[handle]?.media.find(m => m.type === 'img' && (m.colour === colourKey || (!m.colour && catalogue[handle]?.colours.filter(c => c.sellable).length === 1)));
   const img = photo ? '/' + photo.src : v.image?.url;
   return `
     <li class="bline" data-line="${esc(l.id)}">
