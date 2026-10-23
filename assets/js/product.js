@@ -311,6 +311,7 @@ function renderBuy(p) {
       <details>
         <summary class="mono">Returns</summary>
         <p class="acc__p">${esc(g.returns || '')}</p>
+        <p class="acc__p"><a href="/returns">Full returns policy</a></p>
       </details>
       ${g.colourNote ? `
       <details>
