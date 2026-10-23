@@ -20,6 +20,7 @@ Product/Offer price data is only emitted while checkout is switched on
 (SHOPIFY.enabled: true in assets/js/shop.js).
 """
 import datetime, hashlib, html, json, os, pathlib, re, subprocess
+from urllib.parse import urlencode
 
 from site_config import (SITE_URL, SITE_NAME, BRAND, LEGAL_NAME, CONTACT_EMAIL, INSTAGRAM_URL, INSTAGRAM_HANDLE, OG_IMAGE,
                          PREORDER_MIN_DAYS, PREORDER_MAX_DAYS, FEED_GENDER, FEED_AGE_GROUP, COD_LIVE)
@@ -108,7 +109,7 @@ def ticker_items():
         return [f"Pre-order @ {money(RESERVATIONS['depositRupees'])}", f"Orders open {drop_dates()['launch_short']}", 'Free shipping across India']
     ph, d = drop_phase(), drop_dates()
     if not d or ph == "launched":
-        return [f"Ships in {PREORDER_MIN_DAYS}–{PREORDER_MAX_DAYS} days", "COD available", "Free shipping across India"]
+        return [f"Delivers in {PREORDER_MIN_DAYS}–{PREORDER_MAX_DAYS} days", "COD available", "Free shipping across India"]
     if ph == "teaser":
         return [f"Pre-orders open {d['opens_short']}", "Designed in-house", "Free shipping across India"]
     if ph == "open":
@@ -124,7 +125,7 @@ def hero_tag():
     if deposit_window():
         return f"Pre-order @ {money(RESERVATIONS['depositRupees'])} · Orders open {drop_dates()['launch_short']}"
     ph, d = drop_phase(), drop_dates()
-    launched = f"Ships in {PREORDER_MIN_DAYS}–{PREORDER_MAX_DAYS} days · COD available · Free shipping across India"   # nothing drop-specific
+    launched = f"Delivers in {PREORDER_MIN_DAYS}–{PREORDER_MAX_DAYS} days · COD available · Free shipping across India"   # nothing drop-specific
     if not d:
         return launched
     return {"teaser": f"Pre-orders open {d['opens_short']}",
@@ -264,12 +265,9 @@ def make_hero_poster():
 
 RETURN_POLICY = {
     "@type": "MerchantReturnPolicy",
-    "applicableCountry": "IN",
-    "returnPolicyCountry": "IN",
-    "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-    "merchantReturnDays": 7,
-    "returnMethod": "https://schema.org/ReturnByMail",
-    "returnFees": "https://schema.org/FreeReturn",
+    # The published window is 7 working days, not 7 calendar days. Use Google's
+    # supported policy-link format rather than misrepresenting it as an integer.
+    "merchantReturnLink": url("/returns"),
 }
 
 
@@ -322,6 +320,25 @@ def colours(p):
     return [c["name"] for c in p.get("colours", []) if c.get("sellable")]
 
 
+def colour_variants(p):
+    """Each sellable colour has its own landing URL and matching gallery."""
+    for c in p.get("colours", []):
+        if not c.get("sellable"):
+            continue
+        pics = [url("/" + m["src"]) for m in images(p)
+                if not m.get("colour") or m["colour"] == c["key"]]
+        for size in p["sizes"]:
+            page = url(f"/p/{p['id']}") + "?" + urlencode({"c": c["key"], "size": size["size"]})
+            yield c, size, page, pics
+
+
+def variant_sku(p, colour, size):
+    # Keep the existing 50 default-colour feed IDs; add IDs for other colours.
+    default = next(c for c in p["colours"] if c.get("sellable"))
+    stem = p["id"] if colour["key"] == default["key"] else f"{p['id']}-{colour['key']}"
+    return f"{stem}-{size['size'].lower()}"
+
+
 def offer_ld(p, size):
     st = sale_state(p["id"])
     o = {
@@ -343,7 +360,6 @@ def offer_ld(p, size):
                 "transitTime": {"@type": "QuantitativeValue", "minValue": 4, "maxValue": 5, "unitCode": "DAY"},
             },
         },
-        "hasMerchantReturnPolicy": RETURN_POLICY,
     }
     if p.get("mrp") and float(p["mrp"]) > float(p["price"]):
         # the MRP shown struck through next to the price
@@ -366,7 +382,7 @@ def offer_ld(p, size):
 
 
 def product_ld(p, offers):
-    # ProductGroup (the design) with one Product per size; all sizes live on one page
+    # ProductGroup (the design), with a Product for each colour and size.
     shots = images(p)
     page = url(f"/p/{p['id']}")
     pics = [url("/" + m["src"]) for m in shots]
@@ -381,20 +397,19 @@ def product_ld(p, offers):
         "brand": {"@type": "Brand", "name": BRAND},
         "category": "Apparel & Accessories > Clothing > Shirts & Tops",
         "productGroupID": p["id"],
-        "variesBy": ["https://schema.org/size"],
+        "variesBy": ["https://schema.org/size", "https://schema.org/color"],
         "audience": {"@type": "PeopleAudience", "suggestedGender": "unisex"},
         "hasVariant": [],
     }
-    if cols:
-        ld["color"] = "/".join(cols)
     with_offers = offers and sale_state(p["id"]) != "teaser"
-    for s in p["sizes"]:
-        v = {"@type": "Product", "name": f"{product_title(p)}, {s['size']}", "sku": f"{p['id']}-{s['size'].lower()}",
-             "size": s["size"], "url": page, "image": pics[0] if pics else url(OG_IMAGE)}
-        if cols:
-            v["color"] = "/".join(cols)
+    for c, s, variant_page, variant_pics in colour_variants(p):
+        v = {"@type": "Product", "name": f"{product_title(p)}, {c['name']}, {s['size']}",
+             "sku": variant_sku(p, c, s),
+             "size": s["size"], "color": c["name"], "url": variant_page,
+             "image": variant_pics[0] if variant_pics else url(OG_IMAGE)}
         if with_offers:
             v["offers"] = offer_ld(p, s)
+            v["offers"]["url"] = variant_page
         ld["hasVariant"].append(v)
     return ld
 
@@ -643,7 +658,7 @@ def delivery_line(p):
         return f"Pre-orders closed, orders open {d['launch_short']}"
     if d and st == "teaser":
         return f"Pre-orders open {d['opens_short']}, orders open {d['launch_short']}"
-    return f"Ships in {DAYS}"
+    return f"Delivers in {DAYS}"
 
 
 def pinfo_html(p):
@@ -793,10 +808,8 @@ def build_feed(products):
     items = []
     for p in products:
         st = sale_state(p["id"])
-        pics = [url("/" + m["src"]) for m in images(p)]
-        cols = colours(p)
         price, mrp = float(p["price"]), float(p.get("mrp") or 0)
-        for s in p["sizes"]:
+        for c, s, variant_page, pics in colour_variants(p):
             if st == "open" and s.get("available"):
                 avail = "<g:availability>preorder</g:availability>" \
                         f"<g:availability_date>{DROP['launch']}</g:availability_date>"
@@ -812,11 +825,11 @@ def build_feed(products):
                 money_tags = f"<g:price>{price:.2f} INR</g:price>"
             items.append(
                 "<item>"
-                f"<g:id>{x(p['id'])}-{x(s['size'].lower())}</g:id>"
+                f"<g:id>{x(variant_sku(p, c, s))}</g:id>"
                 f"<g:item_group_id>{x(p['id'])}</g:item_group_id>"
-                f"<title>{x(product_title(p))}</title>"
+                f"<title>{x(product_title(p))} — {x(c['name'])} — {x(s['size'])}</title>"
                 f"<description>{x(product_desc(p))}</description>"
-                f"<link>{x(url('/p/' + p['id']))}</link>"
+                f"<link>{x(variant_page)}</link>"
                 + (f"<g:image_link>{x(pics[0])}</g:image_link>" if pics else "")
                 + "".join(f"<g:additional_image_link>{x(u)}</g:additional_image_link>" for u in pics[1:11])
                 + avail + money_tags
@@ -824,7 +837,7 @@ def build_feed(products):
                 "<g:google_product_category>212</g:google_product_category>"
                 "<g:identifier_exists>no</g:identifier_exists>"
                 f"<g:gender>{x(FEED_GENDER)}</g:gender><g:age_group>{x(FEED_AGE_GROUP)}</g:age_group>"
-                + (f"<g:color>{x('/'.join(cols))}</g:color>" if cols else "")
+                + f"<g:color>{x(c['name'])}</g:color>"
                 + f"<g:size>{x(s['size'])}</g:size><g:size_system>IN</g:size_system>"
                 "<g:shipping><g:country>IN</g:country><g:price>0.00 INR</g:price></g:shipping>"
                 "</item>")

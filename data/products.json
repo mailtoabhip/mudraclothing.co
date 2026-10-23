@@ -1,17 +1,17 @@
 {
   "currency": "INR",
   "garment": {
-    "_note": "Shared product-page copy (Marketing, 9 Oct). Fabric and weight are the SUPPLIER spec (Merch Factory), not yet checked on a physical sample: re-verify when samples arrive. sizeChart is the SUPPLIER chart (Merch Factory, unisex drop-shoulder oversized), inches, chest all the way round, ±1 in. Re-measure on our own samples and replace if it differs; never paste guessed numbers. 'icon' names a symbol in assets/svg/sprite.svg (i-<icon>).",
+    "_note": "Shared manufacturer specifications for current Mudra tees. Garment measurements are in inches; chest is the full circumference, with a ±1-inch tolerance. Icons reference symbols in assets/svg/sprite.svg.",
     "details": [
       {
         "icon": "fabric",
         "label": "Fabric",
-        "value": "240 GSM 100% cotton, French terry / loopknit (supplier spec; we confirm it on the first samples)"
+        "value": "240 GSM, 100% cotton French terry / loopknit (manufacturer specification)"
       },
       {
         "icon": "weight",
         "label": "Weight",
-        "value": "About 300 g per tee (supplier spec)"
+        "value": "About 300 g per tee (manufacturer specification)"
       },
       {
         "icon": "cut",
@@ -21,7 +21,7 @@
       {
         "icon": "fit",
         "label": "Fit",
-        "value": "Unisex. Size by your usual size for the oversized look, or one down if you like it closer"
+        "value": "Unisex, oversized fit. Compare the garment measurements in our size guide with a tee you like the fit of."
       },
       {
         "icon": "neck",
@@ -138,10 +138,11 @@
         "text": "Never iron on the print. Iron it inside out, or put a sheet of baking paper over the design."
       }
     ],
-    "careNote": "Do all that and the print lasts. Skip it and it’s between you and your washing machine.",
+    "careNote": "Follow these steps to help protect the print and fabric.",
     "colourNote": "Colours on screens are approximate. The real tee and print may look slightly different depending on your display, the light, and small differences between fabric batches.",
-    "shipping": "At your door in 5–7 days. Free shipping across India. Cash on delivery available.",
-    "returns": "Return unworn, unwashed tees within 7 working days of delivery, with free pickup. Free size exchanges within 7 days, subject to availability. Refunds within 5–7 working days of approval."
+    "shipping": "Delivers in 5–7 days. Free shipping across India. Cash on delivery available.",
+    "returns": "Return unworn, unwashed tees within 7 working days of delivery, with free pickup. Free size exchanges within 7 days, subject to availability. Refunds within 5–7 working days of approval.",
+    "photoNote": "Product images are digitally generated mockups. Actual colours and fabric drape may vary slightly."
   },
   "products": [
     {
@@ -150,7 +151,7 @@
       "no": 5,
       "series": "y2k",
       "seriesLabel": "Retro",
-      "colour": "maroon blue bone brown",
+      "colour": "maroon blue brown",
       "print": "back",
       "blurb": "A playing card for people who walk into a room and let their face do the talking. Face Card is a retro graphic t-shirt built around a king card, mirrored top and bottom the way real cards are, with the words “Face Card” across the middle. It’s the internet’s favourite compliment, printed where everyone behind you can read it. Wear it to the party, the wedding or the queue at the chai stall. The card does the rest.",
       "seo": {
@@ -459,7 +460,7 @@
       "no": 16,
       "series": "tarot",
       "seriesLabel": "Tarot",
-      "colour": "black bone blue red",
+      "colour": "bone blue black red",
       "print": "back",
       "blurb": "Card IX in a tarot deck is the Hermit, the one who goes quiet to think. We redrew it for the rest of us. The Overthinker is a tarot graphic t-shirt with a figure whose head is a tangle of scribbled thoughts, moons on either side and an open hand with an eye in the palm. It’s for 3 AM ceilings, unread replies and conversations you’re still replaying from last week. You’ve already thought about this enough. Wear it.",
       "seo": {
@@ -860,7 +861,7 @@
       "no": 8,
       "series": "y2k",
       "seriesLabel": "Retro",
-      "colour": "black bone magenta sky",
+      "colour": "black",
       "print": "back",
       "blurb": "Mumbai at night, if it were a video game. Neo Bombay is a retro graphic t-shirt with a full game screen on the back: a pink sunset, palm trees, a skyline, a sports car, a wanted level and a mission list that reads reach the airport, lose the tail, do not look back. A row of stars sits on the chest, three of them filled, so only the people who’ve played the game will get it. Press any key to continue.",
       "seo": {
@@ -1018,7 +1019,13 @@
           "sellable": false
         }
       ],
-      "mediaOrder": "ordered"
+      "mediaOrder": "ordered",
+      "printPlacement": {
+        "frontWidthInches": 3,
+        "backWidthInches": 12,
+        "alignment": "centred",
+        "orientation": "upright"
+      }
     },
     {
       "id": "not-responding",
@@ -1026,7 +1033,7 @@
       "no": 15,
       "series": "y2k",
       "seriesLabel": "Retro",
-      "colour": "black bone blue periwinkle",
+      "colour": "black",
       "print": "back",
       "blurb": "For the days your brain has too many tabs open. Not Responding is a retro graphic t-shirt with a stack of old computer error windows on the back, the kind that appeared just before everything froze. It’s for Monday mornings, group projects and the fifth reminder about a deadline you already knew about. No restart required. You’ll come back online eventually, probably after lunch.",
       "seo": {
@@ -1168,7 +1175,13 @@
           "sellable": false
         }
       ],
-      "mediaOrder": "ordered"
+      "mediaOrder": "ordered",
+      "printPlacement": {
+        "frontWidthInches": 3,
+        "backWidthInches": 12,
+        "alignment": "centred",
+        "orientation": "upright"
+      }
     },
     {
       "id": "atlas",
@@ -1176,7 +1189,7 @@
       "no": 7,
       "series": "gym",
       "seriesLabel": "Gym",
-      "colour": "black bone blue stone sage",
+      "colour": "black",
       "print": "back",
       "blurb": "Named after the Titan who held up the sky and never once skipped a day. Atlas is a gym graphic t-shirt for the ones who show up at six, load the bar and don’t post about it. It’s for leg day, back day and every day you thought about not going and went anyway. Wear it to the gym, or wear it to carry the group project. The weight is roughly the same.",
       "seo": {
@@ -1315,7 +1328,13 @@
           "sellable": false
         }
       ],
-      "mediaOrder": "ordered"
+      "mediaOrder": "ordered",
+      "printPlacement": {
+        "frontWidthInches": 3,
+        "backWidthInches": 12,
+        "alignment": "centred",
+        "orientation": "upright"
+      }
     },
     {
       "id": "one-way",
@@ -1323,7 +1342,7 @@
       "no": 12,
       "series": "travel",
       "seriesLabel": "Travel",
-      "colour": "black bone magenta sky",
+      "colour": "black",
       "print": "back",
       "blurb": "A boarding pass with no return date. One Way is a travel graphic t-shirt with a ticket printed on the back, from home to away, for the trip you keep planning in the group chat. It’s for airports, train stations, long bus rides and the moment you finally book the thing. Some people collect fridge magnets. Some people just keep going. Seat by the window, if you can get one.",
       "seo": {
@@ -1468,7 +1487,13 @@
           "sellable": false
         }
       ],
-      "mediaOrder": "ordered"
+      "mediaOrder": "ordered",
+      "printPlacement": {
+        "frontWidthInches": 3,
+        "backWidthInches": 12,
+        "alignment": "centred",
+        "orientation": "upright"
+      }
     },
     {
       "id": "out-of-office",
@@ -1476,7 +1501,7 @@
       "no": 14,
       "series": "travel",
       "seriesLabel": "Travel",
-      "colour": "black bone lime aqua",
+      "colour": "black",
       "print": "back",
       "blurb": "Your auto-reply, but wearable. Out of Office is a travel graphic t-shirt with a luggage tag on the back, for the version of you that has stopped checking email. It’s made for beach towns, hill stations and any holiday where your phone stays in the bag. Leave the laptop at home. Leave the meetings to someone else. You’ll respond to all messages on your return, maybe.",
       "seo": {
@@ -1609,7 +1634,13 @@
           "sellable": false
         }
       ],
-      "mediaOrder": "ordered"
+      "mediaOrder": "ordered",
+      "printPlacement": {
+        "frontWidthInches": 3,
+        "backWidthInches": 12,
+        "alignment": "centred",
+        "orientation": "upright"
+      }
     },
     {
       "id": "calcutta-wb02",
@@ -1674,34 +1705,8 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/calcutta-wb02-off-white-v1-front-balcony-bone-artwork-v2.jpg",
-          "alt": "Calcutta WB 02, Off White tee on a home balcony, small left chest plate",
-          "colour": "off-white",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
           "src": "assets/img/products/calcutta-wb02-off-white-v1-hanger-bone-artwork-v2.jpg",
           "alt": "Calcutta WB 02, Off White tee on a wooden hanger, full back graphic",
-          "colour": "off-white",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/calcutta-wb02-off-white-v1-front-walk-bone-artwork-v2.jpg",
-          "alt": "Calcutta WB 02, Off White tee worn walking outdoors, small left chest plate",
           "colour": "off-white",
           "w": 1000,
           "h": 1250,
@@ -1752,34 +1757,8 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/calcutta-wb02-white-v1-front-balcony-white-ink-v1.jpg",
-          "alt": "Calcutta WB 02, White tee on a home balcony, small left chest plate",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 90,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
           "src": "assets/img/products/calcutta-wb02-white-v1-hanger-white-ink-v1.jpg",
           "alt": "Calcutta WB 02, White tee on a wooden hanger, full back graphic",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 90,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/calcutta-wb02-white-v1-front-walk-white-ink-v1.jpg",
-          "alt": "Calcutta WB 02, White tee worn walking outdoors, small left chest plate",
           "colour": "white",
           "w": 1000,
           "h": 1250,
@@ -1822,7 +1801,13 @@
         "keyword": "Kolkata t-shirt",
         "description": "Calcutta WB 02, an oversized Kolkata t-shirt in White or Off White. Small chest plate, full back graphic. {price}, free shipping across India."
       },
-      "mediaOrder": "ordered"
+      "mediaOrder": "ordered",
+      "printPlacement": {
+        "frontWidthInches": 3,
+        "backWidthInches": 12,
+        "alignment": "centred",
+        "orientation": "upright"
+      }
     },
     {
       "id": "delhi-dl01",
@@ -1887,34 +1872,8 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/delhi-dl01-off-white-v1-front-balcony-bone-artwork-v2.jpg",
-          "alt": "Delhi DL 01, Off White tee on a home balcony, small left chest plate",
-          "colour": "off-white",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
           "src": "assets/img/products/delhi-dl01-off-white-v1-hanger-bone-artwork-v2.jpg",
           "alt": "Delhi DL 01, Off White tee on a wooden hanger, full back graphic",
-          "colour": "off-white",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/delhi-dl01-off-white-v1-front-walk-bone-artwork-v2.jpg",
-          "alt": "Delhi DL 01, Off White tee worn walking outdoors, small left chest plate",
           "colour": "off-white",
           "w": 1000,
           "h": 1250,
@@ -1965,34 +1924,8 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/delhi-dl01-white-v1-front-balcony-white-ink-v1.jpg",
-          "alt": "Delhi DL 01, White tee on a home balcony, small left chest plate",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 90,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
           "src": "assets/img/products/delhi-dl01-white-v1-hanger-white-ink-v1.jpg",
           "alt": "Delhi DL 01, White tee on a wooden hanger, full back graphic",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 90,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/delhi-dl01-white-v1-front-walk-white-ink-v1.jpg",
-          "alt": "Delhi DL 01, White tee worn walking outdoors, small left chest plate",
           "colour": "white",
           "w": 1000,
           "h": 1250,
@@ -2035,7 +1968,13 @@
         "keyword": "Delhi t-shirt",
         "description": "Delhi DL 01, an oversized Delhi t-shirt in White or Off White. Small chest plate, full back graphic. {price}, free shipping across India."
       },
-      "mediaOrder": "ordered"
+      "mediaOrder": "ordered",
+      "printPlacement": {
+        "frontWidthInches": 3,
+        "backWidthInches": 12,
+        "alignment": "centred",
+        "orientation": "upright"
+      }
     },
     {
       "id": "bengaluru-ka01",
@@ -2100,34 +2039,8 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/bengaluru-ka01-off-white-v1-front-balcony-bone-artwork-v2.jpg",
-          "alt": "Bengaluru KA 01, Off White tee on a home balcony, small left chest plate",
-          "colour": "off-white",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
           "src": "assets/img/products/bengaluru-ka01-off-white-v1-hanger-bone-artwork-v2.jpg",
           "alt": "Bengaluru KA 01, Off White tee on a wooden hanger, full back graphic",
-          "colour": "off-white",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 93,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/bengaluru-ka01-off-white-v1-front-walk-bone-artwork-v2.jpg",
-          "alt": "Bengaluru KA 01, Off White tee worn walking outdoors, small left chest plate",
           "colour": "off-white",
           "w": 1000,
           "h": 1250,
@@ -2178,34 +2091,8 @@
         },
         {
           "type": "img",
-          "src": "assets/img/products/bengaluru-ka01-white-v1-front-balcony-white-ink-v1.jpg",
-          "alt": "Bengaluru KA 01, White tee on a home balcony, small left chest plate",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 90,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
           "src": "assets/img/products/bengaluru-ka01-white-v1-hanger-white-ink-v1.jpg",
           "alt": "Bengaluru KA 01, White tee on a wooden hanger, full back graphic",
-          "colour": "white",
-          "w": 1000,
-          "h": 1250,
-          "webpQuality": 90,
-          "webp": [
-            800,
-            1000
-          ]
-        },
-        {
-          "type": "img",
-          "src": "assets/img/products/bengaluru-ka01-white-v1-front-walk-white-ink-v1.jpg",
-          "alt": "Bengaluru KA 01, White tee worn walking outdoors, small left chest plate",
           "colour": "white",
           "w": 1000,
           "h": 1250,
@@ -2248,7 +2135,13 @@
         "keyword": "Bengaluru t-shirt",
         "description": "Bengaluru KA 01, an oversized Bengaluru t-shirt in White or Off White. Small chest plate, full back graphic. {price}, free shipping across India."
       },
-      "mediaOrder": "ordered"
+      "mediaOrder": "ordered",
+      "printPlacement": {
+        "frontWidthInches": 3,
+        "backWidthInches": 12,
+        "alignment": "centred",
+        "orientation": "upright"
+      }
     }
   ],
   "archived": [

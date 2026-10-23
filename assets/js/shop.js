@@ -216,7 +216,7 @@ const beforeLaunch = (now = Date.now()) => !!(DROP && DROP.launch) && now < Date
 function tickerItems() {
   if (depositWindow()) return [`Pre-order @ ${money(RESERVATIONS.depositRupees)}`, `Orders open ${dropDates().launchShort}`, 'Free shipping across India'];
   const ph = dropPhase(), d = dropDates();
-  if (!d || ph === 'launched') return [`Ships in ${ORDERING.minDays}–${ORDERING.maxDays} days`, 'COD available', 'Free shipping across India'];
+  if (!d || ph === 'launched') return [`Delivers in ${ORDERING.minDays}–${ORDERING.maxDays} days`, 'COD available', 'Free shipping across India'];
   if (ph === 'teaser') return [`Pre-orders open ${d.opensShort}`, 'Designed in-house', 'Free shipping across India'];
   if (ph === 'open') {
     return beforeLaunch()
@@ -230,11 +230,11 @@ function tickerItems() {
 function heroTag() {
   if (depositWindow()) return `Pre-order @ ${money(RESERVATIONS.depositRupees)} · Orders open ${dropDates().launchShort}`;
   const ph = dropPhase(), d = dropDates();
-  if (!d) return `Ships in ${ORDERING.minDays}–${ORDERING.maxDays} days · COD available · Free shipping across India`;
+  if (!d) return `Delivers in ${ORDERING.minDays}–${ORDERING.maxDays} days · COD available · Free shipping across India`;
   if (ph === 'teaser') return `Pre-orders open ${d.opensShort}`;
   if (ph === 'open') return beforeLaunch() ? 'Early pre-orders open' : 'Pre-orders are now live';
   if (ph === 'closed') return `Orders open ${d.launchShort}`;
-  return `Ships in ${ORDERING.minDays}–${ORDERING.maxDays} days · COD available · Free shipping across India`;   // after launch: nothing drop-specific
+  return `Delivers in ${ORDERING.minDays}–${ORDERING.maxDays} days · COD available · Free shipping across India`;   // after launch: nothing drop-specific
 }
 
 // COD: only once it's switched on at checkout (SHOPIFY.cod). The deposit itself is always paid online.
@@ -763,7 +763,7 @@ function sizeTableHTML(g) {
         </div>
       </div>
       <div class="sct__scroll"><table class="sct__t"><thead><tr><th scope="col">Size</th>${head}</tr></thead><tbody>${rows}</tbody></table></div>
-      <p class="sct__note">${esc("Chest is measured all the way round. To compare with a tee you own, lay it flat, measure armpit to armpit and double it. Supplier measurements, \u00b11 in. We re-check them on our own samples.")}</p>
+      <p class="sct__note">${esc("Chest is measured all the way round. To compare with a tee you own, lay it flat, measure armpit to armpit and double it. Manufacturer measurements, \u00b11 in.")}</p>
     </div>`;
 }
 document.addEventListener('click', e => {

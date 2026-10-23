@@ -69,6 +69,13 @@ async function init() {
   });
   await bagReady;
   restoreBagSelection();
+  // Shopping links may specify a size. Select it without adding anything to
+  // the bag or replacing a customer's existing saved selection.
+  const requestedSize = new URLSearchParams(location.search).get('size');
+  if (requestedSize && !productBagLines().length && p.sizes.some(s => s.size === requestedSize && s.available)) {
+    view.quantities[requestedSize] = 1;
+    syncSticky();
+  }
   if (M.SHOPIFY.enabled) loadLive(p);
 }
 
@@ -269,7 +276,8 @@ function renderBuy(p) {
         <button class="mono linkish" data-size-guide>Size guide</button>
       </div>
       <div class="sizes5" id="sizes" role="group" aria-label="Size">${sizes}</div>
-      <p class="opt__hint mono" id="sizeHint">Cut oversized on purpose. Take your usual size.</p>
+      <p class="opt__hint mono" id="sizeHint">Oversized fit. Compare measurements in the size guide.</p>
+      <p class="opt__hint">Tap a size to add one. Tap again to increase the quantity.</p>
       <p class="opt__hint mono" id="productBagStatus" role="status" hidden></p>
     </div>
 
@@ -281,9 +289,10 @@ function renderBuy(p) {
     <p class="buy__err mono" id="atcErr" role="alert" hidden></p>
 
     <div class="twoside">
-      <div><span class="mono">Front</span><p>${p.printPlacement ? '3-inch print, centred chest.' : 'Small stamp, left chest.'}</p></div>
-      <div><span class="mono">Back</span><p>${p.printPlacement ? '12-inch print, centred and upright.' : p.print === 'back' ? 'The full graphic.' : 'Nothing. On purpose.'}</p></div>
+      <div><span class="mono">Front</span><p>${p.printPlacement ? `${esc(p.printPlacement.frontWidthInches)}-inch-wide print, centred chest.` : 'Small chest print.'}</p></div>
+      <div><span class="mono">Back</span><p>${p.print === 'back' ? p.printPlacement ? `${esc(p.printPlacement.backWidthInches)}-inch-wide print, centred and upright.` : 'The full graphic.' : 'No back print.'}</p></div>
     </div>
+    ${g.photoNote ? `<p class="opt__hint">${esc(g.photoNote)}</p>` : ''}
 
     <div class="acc">
       <details open>
@@ -307,10 +316,12 @@ function renderBuy(p) {
       <details>
         <summary class="mono">Shipping</summary>
         <p class="acc__p">${esc(shippingText(p))}</p>
+        <p class="acc__p"><a href="/shipping">Full shipping policy</a></p>
       </details>
       <details>
         <summary class="mono">Returns</summary>
         <p class="acc__p">${esc(g.returns || '')}</p>
+        <p class="acc__p">Cancel before dispatch for a full refund. For a damaged, misprinted or wrong item, contact us within 48 hours of delivery with a photo.</p>
         <p class="acc__p"><a href="/returns">Full returns policy</a></p>
       </details>
       ${g.colourNote ? `
@@ -320,7 +331,7 @@ function renderBuy(p) {
       </details>` : ''}
     </div>`;
 
-  // the "Take your usual size" hint is a fit claim; only show it once a chart exists
+  // Keep the fit hint factual even if the chart is temporarily unavailable.
   if (!g.sizeChart) $('#sizeHint').textContent = 'Cut oversized, drop shoulder.';
 
   document.querySelectorAll('[data-size-body]').forEach(el => { el.innerHTML = sizeGuideHTML(); });
@@ -442,7 +453,7 @@ function trustHTML() {
   const items = [
     ...(M.SHOPIFY.cod ? ['COD available'] : []),
     'Free size exchange within 7 days',
-    `Ships in ${M.ORDERING.minDays}–${M.ORDERING.maxDays} days`,
+    `Delivers in ${M.ORDERING.minDays}–${M.ORDERING.maxDays} days`,
     'Free shipping across India',
   ];
   return `<ul class="buy__trust mono" aria-label="What you get with this order">${items.map(i => `<li>${esc(i)}</li>`).join('')}</ul>`;
@@ -578,12 +589,11 @@ function sizeGuideHTML() {
   const g = view.garment;
   const chart = g.sizeChart;
   if (!chart || !chart.rows?.length) {
-    return `<p class="acc__p">We're measuring the samples ourselves before we publish a chart.
-      Guessing isn't a size guide.</p>
+    return `<p class="acc__p">Size measurements are temporarily unavailable. Please contact us for sizing help before ordering.</p>
       <p class="acc__p mono small">Cut: oversized · drop shoulder · boxy</p>`;
   }
   return `${M.sizeTableHTML(g)}
-    <p class="acc__p acc__p--tight">Oversized and boxy with a dropped shoulder. Take your usual size for the oversized look, or one down if you like it closer.</p>
+    <p class="acc__p acc__p--tight">Oversized and boxy with a dropped shoulder. Compare these garment measurements with a tee you like the fit of.</p>
     <a class="linkish mono sct__more" href="/size-guide">How to measure →</a>`;
 }
 

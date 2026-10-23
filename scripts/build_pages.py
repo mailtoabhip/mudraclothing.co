@@ -181,8 +181,8 @@ def size_chart_html():
     g = json.loads((ROOT / "data/products.json").read_text(encoding="utf-8")).get("garment", {})
     c = g.get("sizeChart")
     if not c or not c.get("rows"):
-        return ('<div class="sg__pending"><p>We\'re measuring the samples ourselves before we publish numbers. '
-                'Guessing isn\'t a size guide.</p></div>')
+        return ('<div class="sg__pending"><p>Size measurements are temporarily unavailable. '
+                'Please contact us for sizing help before ordering.</p></div>')
     fmt = lambda v: str(int(v)) if float(v).is_integer() else f"{v:.1f}"
     head = "".join(f'<th scope="col"><span class="sct__mk">{html.escape(col["mark"])}</span>{html.escape(col["label"])}'
                    + (f'<small>{html.escape(col["sub"])}</small>' if col.get("sub") else "") + "</th>" for col in c["columns"])
@@ -194,7 +194,7 @@ def size_chart_html():
           <div class="sct__units mono" role="group" aria-label="Units"><button type="button" data-unit-btn="in" aria-pressed="true">in</button><button type="button" data-unit-btn="cm" aria-pressed="false">cm</button></div>
         </div>
         <div class="sct__scroll"><table class="sct__t"><thead><tr><th scope="col">Size</th>{head}</tr></thead><tbody>{rows}</tbody></table></div>
-        <p class="sct__note">Chest is measured all the way round. To compare with a tee you own, lay it flat, measure armpit to armpit and double it. Supplier measurements, ±1 in. We re-check them on our own samples.</p>
+        <p class="sct__note">Chest is measured all the way round. To compare with a tee you own, lay it flat, measure armpit to armpit and double it. Manufacturer measurements, ±1 in.</p>
       </div>"""
 
 
