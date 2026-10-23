@@ -289,7 +289,7 @@ function renderBuy(p) {
     <p class="buy__err mono" id="atcErr" role="alert" hidden></p>
 
     <div class="twoside">
-      <div><span class="mono">Front</span><p>${p.printPlacement ? `${esc(p.printPlacement.frontWidthInches)}-inch-wide print, centred chest.` : 'Small chest print.'}</p></div>
+      <div><span class="mono">Front</span><p>${p.printPlacement ? `${esc(p.printPlacement.frontWidthInches)}-inch-wide print, ${esc(p.printPlacement.frontPosition || 'centred chest')}.` : 'Small chest print.'}</p></div>
       <div><span class="mono">Back</span><p>${p.print === 'back' ? p.printPlacement ? `${esc(p.printPlacement.backWidthInches)}-inch-wide print, centred and upright.` : 'The full graphic.' : 'No back print.'}</p></div>
     </div>
     ${g.photoNote ? `<p class="opt__hint">${esc(g.photoNote)}</p>` : ''}
