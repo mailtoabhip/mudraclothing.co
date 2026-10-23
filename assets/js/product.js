@@ -97,7 +97,7 @@ async function loadLive(p) {
     syncSticky();
     return;
   }
-  if (!live) return comingSoon();
+  if (!live) return productUnavailable();
   view.variants = live.variants;
   if (live.price != null) {
     view.price = live.price;
@@ -121,15 +121,16 @@ async function loadLive(p) {
   syncSticky();
 }
 
-// Shopify doesn't know this handle yet
-function comingSoon() {
+// A missing Shopify listing is an availability issue, not an upcoming launch.
+function productUnavailable() {
   view.variants = {};
   document.querySelectorAll('.szbtn').forEach(b => { b.disabled = true; b.setAttribute('aria-disabled', 'true'); });
   const atc = $('#atc');
   atc.disabled = true;
-  atc.textContent = 'Coming soon';
-  $('#sbBtn').textContent = 'Coming soon';
+  atc.textContent = 'Currently unavailable';
+  $('#sbBtn').textContent = 'Currently unavailable';
   $('#sbBtn').disabled = true;
+  showError('This tee is currently unavailable. Please contact us for help.');
   syncSticky();
 }
 
@@ -386,7 +387,7 @@ function lockedLabel() {
   const st = M.saleState(view.product.id), d = M.dropDates();
   if (st === 'teaser') return `Opens ${d.opensLong}`;
   if (st === 'closed') return 'Pre-orders closed';
-  if (st === 'notInDrop') return 'Not available yet';
+  if (st === 'notInDrop') return 'Currently unavailable';
   return '';
 }
 
@@ -431,8 +432,8 @@ function infoBoxHTML(p) {
     `Pre-orders close ${d.closesShort}. Orders open ${d.launchShort}.`, M.closesIn());
   if (st === 'closed') return box('Pre-orders closed', `Orders open ${d.launchLong}`,
     `Pre-orders are closed. Orders open ${d.launchShort}.`);
-  if (st === 'notInDrop') return box('Not available yet', '',
-    `This design isn't up for pre-order. It comes back after launch.`);
+  if (st === 'notInDrop') return box('Currently unavailable', '',
+    'This design is currently unavailable. Explore our other tees.');
   if (!M.isPreorder()) return '';
   return box('Pre-order', `Arrives ${M.arrivalRange().text}`,
     `At your door in ${M.ORDERING.minDays}–${M.ORDERING.maxDays} days in most of India, counted from the day you order. Remote pin codes can take longer. Free shipping across India.`);
@@ -840,9 +841,9 @@ function renderMissing(id) {
   document.title = 'Not found · Mudra';
   $('.pdp-grid').innerHTML = `
     <div class="missing">
-      <h1>THAT ONE DOESN'T EXIST.<em>YET.</em></h1>
-      <p class="mono">${id ? `No tee called “${esc(id)}”.` : 'No tee picked.'}</p>
-      <a class="btn" href="/#shop">See what does</a>
+      <h1>TEE NOT FOUND.</h1>
+      <p class="mono">This link does not match a current product.</p>
+      <a class="btn" href="/#shop">Shop the tees</a>
     </div>`;
 }
 

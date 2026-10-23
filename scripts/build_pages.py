@@ -19,8 +19,6 @@ Each source file starts with a comment block of `key: value` lines:
     out          optional output filename (default: <slug>.html)
 
 In `doc` layout every <h2> becomes a numbered, linkable section.
-Wrap anything not yet confirmed in <span class="tbd">…</span>: open any page
-with ?review=1 to see every placeholder highlighted.
 
 The shared footer is also written into index.html and product.html between
 <!-- footer:start --> and <!-- footer:end -->.

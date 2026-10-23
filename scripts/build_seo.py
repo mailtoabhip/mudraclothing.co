@@ -608,7 +608,7 @@ def product_desc(p):
     if st == "closed":
         return f"{lead} Orders open {d['launch_short']}. Free shipping across India."
     if st == "notInDrop":
-        return f"{lead} Back after launch. Free shipping across India."
+        return f"{lead} Currently unavailable. Free shipping across India."
     promise = f"Pre-order, arrives in {DAYS}. " if preorder() else ""
     return f"{lead} {promise}Free shipping across India" + (", cash on delivery." if COD_LIVE else ".")
 

@@ -196,7 +196,7 @@ function downloadIcs(productName) {
     `SUMMARY:Mudra: pre-orders open`,
     `DESCRIPTION:${productName ? productName + '. ' : ''}Pre-orders run ${d.opensShort} to ${d.closesShort}. Orders open ${d.launchShort}.`,
     `URL:${location.origin}${pid ? productUrl(pid) : '/'}`,
-    'BEGIN:VALARM', 'TRIGGER:-PT15M', 'ACTION:DISPLAY', 'DESCRIPTION:Mudra pre-orders open soon', 'END:VALARM',
+    'BEGIN:VALARM', 'TRIGGER:-PT15M', 'ACTION:DISPLAY', 'DESCRIPTION:Mudra pre-orders open', 'END:VALARM',
     'END:VEVENT', 'END:VCALENDAR',
   ];
   const blob = new Blob([lines.join('\r\n') + '\r\n'], { type: 'text/calendar;charset=utf-8' });
@@ -711,7 +711,7 @@ async function addToBag(item, btn) {
   }
   const lines = items.map(x => {
     if (x.id && !canBuy(x.id)) throw new ShopError(checkoutBlock() || 'Not available for pre-order.');
-    if (!x.variantId) throw new ShopError("That size isn't on sale yet.");
+    if (!x.variantId) throw new ShopError("That size is currently unavailable. Please choose another size.");
     return { merchandiseId: x.variantId, quantity: x.quantity || 1,
       attributes: x.colour ? [{ key: 'Colour', value: x.colour }] : [] };
   });

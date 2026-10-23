@@ -8,7 +8,6 @@ const { esc, money } = M;
 
 async function init() {
   M.wireHeader({ solid: true });
-  reviewMode();
   wireToc();
   const needsData = document.getElementById('sgChart') || document.getElementById('picks');
   const [, data] = await Promise.all([M.loadSprite(), needsData ? M.loadCatalogue() : null]);
@@ -16,17 +15,6 @@ async function init() {
   if (data) {
     renderPicks(data.products || []);
   }
-}
-
-/* ?review=1 highlights every unconfirmed placeholder (<span class="tbd">) */
-function reviewMode() {
-  if (!new URLSearchParams(location.search).has('review')) return;
-  document.body.classList.add('review');
-  const n = document.querySelectorAll('.tbd').length;
-  const flag = document.createElement('div');
-  flag.className = 'review-flag mono';
-  flag.textContent = `Review mode · ${n} placeholder${n === 1 ? '' : 's'}`;
-  document.body.appendChild(flag);
 }
 
 /* highlight the section you're reading in the contents rail */

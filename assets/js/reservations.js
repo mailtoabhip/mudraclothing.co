@@ -94,7 +94,7 @@
     if (!content) return;
     content.setAttribute('data-store-credit-ready', String(saved.creditReady === true));
     document.getElementById('savedPreorders').hidden = false;
-    if (!saved.reservations.length) content.textContent = 'No pre-orders yet.';
+    if (!saved.reservations.length) content.textContent = 'No saved pre-orders.';
     saved.reservations.forEach(renderRecord);
     const button = document.createElement('button'); button.type = 'button'; button.className = 'btn'; button.textContent = 'Sign out';
     button.addEventListener('click', async () => {

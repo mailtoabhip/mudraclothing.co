@@ -39,8 +39,8 @@ function renderClosed() {
   $('#bagCount').textContent = '';
   $('#bagBody').innerHTML = `
     <div class="bag__empty">
-      <p class="bag__emptytitle">Checkout isn't open yet.</p>
-      <p>The tees are ready. The till isn't. It opens with the drop.</p>
+      <p class="bag__emptytitle">Checkout is temporarily unavailable.</p>
+      <p>Please try again later or <a href="/contact">contact us</a> for help with your order.</p>
       <a class="btn" href="/#shop">Look at the tees</a>
     </div>`;
 }
